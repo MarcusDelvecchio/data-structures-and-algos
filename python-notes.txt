@@ -2,7 +2,9 @@ Python notes
 
 python function parameters are pass by assignment (similar to pass by reference)
 	- when you pass a variable into a function and change it's value, the inital variable will be changed (if it was pass-by-value, it would not, as only the variables *value* would be copied into the function)
-	- however pass by assignment is different than pass by
+	- however pass by assignment is different than pass by reference
+    
+    But we must understand python objects first so see below
 
 
 In Python, everything is an object (like JS) and there are three primary characteristics (properties) of every object:
@@ -18,3 +20,49 @@ In Python, everything is an object (like JS) and there are three primary charact
 	<class 'list'>      # the type of `obj`
 	>>> obj
 	[1, 2, 3]           # the contents of `obj`
+
+
+Immutability: (immutability == "unable to be changed)
+- The (im)mutability of an object depends on its type.
+    - In other words, (im)mutability is a characteristic of types, not of specific objects
+- A type is mutable if you can change the contents of its objects without changing its identity and its type.
+
+some types are immutable but don't seem like it:
+    - strings in python - although you can re-assign the value of a string variable, you are simply creating an entirely new string object rather than adjusting the initial one
+
+"A very good indicator that an object is immutable is when all its methods return something."
+- this is because it needs to return the updated version it seems like.
+- like doing List.append(0) returns nothing because it is assumed the original List will be updated (and you have access to it)
+    but doing "string".append("something") returns "stringsomething" becuase since strings are immutable, the new string must be returned from the method
+
+"Another great hint at the fact that strings are immutable is that you cannot assign to its indices"
+- trying to change a string char by index returns "'str' object does not support item assignment"
+
+Variables and Objects - Variable names are labels, and you can add more than one label to the object
+- the is() function compares to objects (or variables pointing to objects) and returns true if they point to the same object (same id property)
+
+Back to the "Pass-by-assignment" stuff
+- when we call a function, each of the parameters of the function is assigned to the object they were passed in. In essence, each parameter now becomes a new nickname to the objects that were given in.
+
+so when immutable objects/variables are passed into a function, their values are basically copied and passed in by value
+but if mutable objects/variables are passed into a function, their values are basically passed by reference
+
+examples:
+
+    def bar(foo):
+        foo = "bar"
+        return
+
+    string = "string"   
+    bar(string)
+    print(string) # prints "string" - since string is immutable the object passed in is not changed
+
+    but with mutable objects:
+
+    def bar(foo):
+        foo.append("meat")
+        return
+
+    val = []
+    bar(val)
+    print(val) # prints "["meat"]" - since List is mutable it is passed in by referenc
