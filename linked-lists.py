@@ -253,11 +253,30 @@ def isPalindrome(head):
         leftCurrent = leftCurrent.next
         k += 1
         
+# 2.7 intersection
+# given two linked lists, returns true if the two of them have an intersecting node
+def haveIntersection(head1, head2):
 
+    # convert first LL to an array of ids and compare with all items of the second list
+    ids = []
+    current = head1
+    while(True):
+        ids.append(id(current))
 
-        
+        if not current.next:
+            break
+        else:
+            current = current.next
 
-
+    # go through second LL and see if any nodes have the same id as those collected from the first
+    current = head2
+    while(True):
+        if ids.count(id(current)):
+            return True
+        elif not current.next:
+            return False
+        else:
+            current = current.next
 
 sixth = Node(7)
 fifth = Node(7, sixth)
@@ -268,13 +287,17 @@ first = Node(3, second)
 head3 = Node(5, first)
 head2 = Node(7, head3)
 head = Node(7, head2)
+
+# headSecondList = Node(5, second)
+# print(haveIntersection(headSecondList, head))
+
 # print(first.next.data)
 # removeByValue(head, 3)
 # removeDups(head)
 # kthLast = getKthLast(head, 2)
 # print(kthLast.data)
 
-print(isPalindrome(head))
+# print(isPalindrome(head))
 
 # 2.4 testing
 # printList(partitionOnVal(head, 1))

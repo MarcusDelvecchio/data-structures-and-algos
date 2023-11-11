@@ -40,6 +40,7 @@ some types are immutable but don't seem like it:
 
 Variables and Objects - Variable names are labels, and you can add more than one label to the object
 - the is() function compares to objects (or variables pointing to objects) and returns true if they point to the same object (same id property)
+- to access the id property of a Python object is id(obj) 
 
 Back to the "Pass-by-assignment" stuff
 - when we call a function, each of the parameters of the function is assigned to the object they were passed in. In essence, each parameter now becomes a new nickname to the objects that were given in.
