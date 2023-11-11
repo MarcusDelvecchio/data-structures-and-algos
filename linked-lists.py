@@ -3,6 +3,12 @@ class Node:
         self.data = data
         self.next = next
 
+# same LL node structure but different name / property naming (Leetcoded uses this)
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
 # prints the contents of the provided linked list
 def printList(head):
     res = ""
@@ -294,6 +300,36 @@ def detectLoop(head):
             return False # no loop
         else:
             current = current.next
+
+# Leetcode Merge In Between Linked Lists
+# takes a linked list, a start and end index, and a second LL and connects the start of the second LL to index a-1 and b+1
+def mergeInBetween(self, list1: ListNode, a: int, b: int, list2: ListNode) -> ListNode:
+    current = list1
+    currentl2 = list2
+
+    currentIndex = 0
+    tempCurrent = None
+    while(True):
+        if currentIndex == a - 1:
+            tempCurrent = current
+            current = current.next
+            tempCurrent.next = list2
+            currentIndex += 1
+            continue
+        elif currentIndex == b + 1:
+
+            # go all the way to the end of l1
+            while(True):
+                if currentl2.next:
+                    currentl2 = currentl2.next
+                else:
+                    break
+            currentl2.next = current
+            return list1
+
+        current = current.next
+        currentIndex += 1
+
 
 seventh = Node(9)
 sixth = Node(7, seventh)
