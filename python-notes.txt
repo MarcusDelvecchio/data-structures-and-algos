@@ -1,0 +1,20 @@
+Python notes
+
+python function parameters are pass by assignment (similar to pass by reference)
+	- when you pass a variable into a function and change it's value, the inital variable will be changed (if it was pass-by-value, it would not, as only the variables *value* would be copied into the function)
+	- however pass by assignment is different than pass by
+
+
+In Python, everything is an object (like JS) and there are three primary characteristics (properties) of every object:
+	- its id
+	- it's  type
+	- it's content'
+
+	ex.
+
+	>>> id(obj)
+	2698212637504       # the identity of `obj`
+	>>> type(obj)
+	<class 'list'>      # the type of `obj`
+	>>> obj
+	[1, 2, 3]           # the contents of `obj`
