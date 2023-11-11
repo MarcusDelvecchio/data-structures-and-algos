@@ -169,7 +169,41 @@ def addLinkedListNumbers(l1, l2):
         current1 = current1.next
         current2 = current2.next
 
+# 2.5b Sum Lists in Forward order
+# takes two linked lists that represents numbers, where the tails indicate the 1's digits and add the numbers, returning the sum as a linked list
+# does this by getting kth last of each list and then adding them every iteration
+def addLinkedListNumbersForwardOrder(l1, l2):
+    resHead = None
+    resCurrent = None
 
+    prev = None
+    carry = 0
+    currentDigit = 1 # start with "first last"
+    while(True):
+        if current1 and current2:
+            # get the kth last of each of the LLs and add them
+            value = getKthLast(l1, currentDigit) + getKthLast(l1, currentDigit) + carry
+            carry = (1 if value >= 10 else 0)
+
+            resCurrent = ListNode(value%10)
+            if prev:
+                prev.next = resCurrent
+            prev = resCurrent
+        elif not current1 and not current2:
+            if carry:
+                prev.next = ListNode(carry)
+            return resHead
+        elif not current1:
+            prev.next = addLinkedListNumbers(self, current2, ListNode(carry)) if carry else current2
+            return resHead
+        else: # not current2:
+            prev.next = addLinkedListNumbers(self, current1, ListNode(carry)) if carry else current1
+            return resHead
+        
+        if not resHead:
+            resHead = resCurrent
+
+        currentDigit += 1
 
 
 
