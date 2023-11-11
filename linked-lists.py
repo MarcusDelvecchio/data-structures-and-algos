@@ -278,11 +278,29 @@ def haveIntersection(head1, head2):
         else:
             current = current.next
 
-sixth = Node(7)
+# 2.8 Loop Detection
+# given a linked lists, determines if the list contains a loop and returns the item at the beginning of the loop
+def detectLoop(head):
+    ids = []
+
+    current = head
+    while(True):
+        if ids.count(id(current)):
+            return current
+        else:
+            ids.append(id(current))
+
+        if not current.next:
+            return False # no loop
+        else:
+            current = current.next
+
+seventh = Node(9)
+sixth = Node(7, seventh)
 fifth = Node(7, sixth)
 fourth = Node(5, fifth)
 third = Node(3, fourth)
-second = Node(3, third)
+second = Node(20, third)
 first = Node(3, second)
 head3 = Node(5, first)
 head2 = Node(7, head3)
@@ -290,6 +308,10 @@ head = Node(7, head2)
 
 # headSecondList = Node(5, second)
 # print(haveIntersection(headSecondList, head))
+
+# uncomment below two lined to test loop detection
+# seventh.next = second
+# print(detectLoop(head).data)
 
 # print(first.next.data)
 # removeByValue(head, 3)
