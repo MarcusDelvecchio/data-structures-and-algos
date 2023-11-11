@@ -173,6 +173,8 @@ def addLinkedListNumbers(l1, l2):
 # takes two linked lists that represents numbers, where the tails indicate the 1's digits and add the numbers, returning the sum as a linked list
 # does this by getting kth last of each list and then adding them every iteration
 def addLinkedListNumbersForwardOrder(l1, l2):
+    # note here ListNode was used instead of node
+    # and ListNode.val === Node.data
     resHead = None
     resCurrent = None
 
@@ -206,21 +208,73 @@ def addLinkedListNumbersForwardOrder(l1, l2):
         currentDigit += 1
 
 
+# 2.6 Palindrome
+# returns true if a given linked list is a Palindrome (symmetrical)
+# works by finding the mid point, splitting into left and right sub LLs, and comparing left and right LL values
+def isPalindrome(head):
+
+    #  if only one item return true
+    if head.data and not head.next:
+        return True
+
+    front = head
+    back = head
+
+    headRight = None
+    # headLeft = head
+    len = 0
+
+    # split the LL into two LLs
+    while(True):
+        if front.next and front.next.next:
+            len += 1
+            back = back.next
+            front = front.next.next
+        else: # front is at the end or one before the end (even)
+            if not front.next: # odd - easy
+                headRight = back.next
+            else: # even - not front.next.next but front.next exists
+                headRight = back.next
+                len += 1
+            break
+    
+    printList(head)
+    printList(headRight)
+    print(len)
+    # compare the left and right LLs. Compare the kth last element of the left with the 
+    k = 1
+    leftCurrent = head
+    while(True):
+        if not leftCurrent.data == getKthLast(headRight, k).data:
+            return False
+        if k == len:
+            return True
+
+        leftCurrent = leftCurrent.next
+        k += 1
+        
+
+
+        
 
 
 
-fifth = Node(2)
+sixth = Node(7)
+fifth = Node(7, sixth)
 fourth = Node(5, fifth)
 third = Node(3, fourth)
-second = Node(4, third)
+second = Node(3, third)
 first = Node(3, second)
-head2 = Node(5, first)
-head = Node(5, head2)
+head3 = Node(5, first)
+head2 = Node(7, head3)
+head = Node(7, head2)
 # print(first.next.data)
 # removeByValue(head, 3)
 # removeDups(head)
-# kthLast = getKthLast(head, 3)
+# kthLast = getKthLast(head, 2)
 # print(kthLast.data)
+
+print(isPalindrome(head))
 
 # 2.4 testing
 # printList(partitionOnVal(head, 1))
