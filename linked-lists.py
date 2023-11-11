@@ -132,30 +132,46 @@ def displaySolution_2_4(head):
 
 # 2.5 Sum Lists
 # takes two linked lists that represents numbers, where the heads indicate the 1's digits and add the numbers, returning the sum as a linked list
-def addLinkedListNumbers(head1, head2):
+# completed on Leetcode see https://leetcode.com/problems/add-two-numbers/submissions/
+def addLinkedListNumbers(l1, l2):
+    current1 = l1
+    current2 = l2
+
     resHead = None
-    resCurrent = resHead
-    resPrevious = None
+    resCurrent = None
 
-    current1 = head1
-    current2 = head2
-
-    isCarry = False
-
+    prev = None
+    carry = 0
     while(True):
-        if(not current1 and not current2):
+        if current1 and current2:
+            value = (current1.val + current2.val + carry)
+            carry = (1 if value >= 10 else 0)
+            print("value: ", value, ", carry: ", carry)
+
+            resCurrent = ListNode(value%10)
+            if prev:
+                prev.next = resCurrent
+            prev = resCurrent
+        elif not current1 and not current2:
+            if carry:
+                prev.next = ListNode(carry)
             return resHead
         elif not current1:
-            resCurrent.next = current2.next
+            prev.next = addLinkedListNumbers(self, current2, ListNode(carry)) if carry else current2
             return resHead
-        elif not current2:
-            resCurrent.next = current1.next
+        else: # not current2:
+            prev.next = addLinkedListNumbers(self, current1, ListNode(carry)) if carry else current1
             return resHead
-        else: # current1 and current2 exist
-            resCurrent.data = Node((current1.data + current2.data)%10, resPrevious)
-            resPrevious = resCurrent
-            current1 = current1.next
-            current2 = current2.next
+        
+        if not resHead:
+            resHead = resCurrent
+
+        current1 = current1.next
+        current2 = current2.next
+
+
+
+
 
 
 
