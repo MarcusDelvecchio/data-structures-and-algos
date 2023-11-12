@@ -415,7 +415,6 @@ def reverseLinkedListShort(head):
             next = next.next
 
     return current
-        
 
 
 seventh = Node(9)
