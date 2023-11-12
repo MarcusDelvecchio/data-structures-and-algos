@@ -330,6 +330,52 @@ def mergeInBetween(self, list1: ListNode, a: int, b: int, list2: ListNode) -> Li
         current = current.next
         currentIndex += 1
 
+# Leetcode Rotate List Medium Problem
+# Given the head of a linked list, rotate the list to the right by k places.
+# https://leetcode.com/problems/rotate-list/description/
+def RotateList(head, k):
+    if k == 0 or not head or not head.next:
+            return head
+
+    p1 = head
+    p2 = head
+
+    # mod k by length of the LL
+    current = head
+    len = 1
+    while(True):
+        if current.next:
+            current = current.next
+            len += 1
+        else:
+            break
+    
+    print(len)
+    k = k%len if k >= len else k
+
+    if k == 0:
+        return head
+
+    # move p2 k indices ahead of p1
+    for i in range(k):
+        p2 = p2.next
+
+    # now move p1 and p2 until p2 hits the end
+    while(True):
+        if p2.next:
+            p2 = p2.next
+            p1 = p1.next
+        else:
+            break
+
+    # p1 is the new end and p1.next is the new head
+    newHead = p1.next
+    p1.next = None
+
+    # set p2.next to the old head (move p2 to front)
+    p2.next = head
+
+    return newHead
 
 seventh = Node(9)
 sixth = Node(7, seventh)
