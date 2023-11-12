@@ -14,3 +14,13 @@ current = current.next # then if we increment current, saved will not increment 
 
 print(current.data) # 2
 print(saved.data) # 1
+
+
+# another test
+a = Node(3)
+head = Node(1, a)
+
+temp = head.next
+head.next.next = Node(4)
+
+print(temp.next)

@@ -2,6 +2,9 @@ class Node:
     def __init__(self, data, next=None):
         self.data = data
         self.next = next
+    
+    def copy(self):
+        return Node(self.data, self.next)
 
 # same LL node structure but different name / property naming (Leetcoded uses this)
 class ListNode:
@@ -377,6 +380,29 @@ def RotateList(head, k):
 
     return newHead
 
+# reverses a linked list given it's head
+def reverseLinkedList(head):
+    newHead = head
+    current = head
+
+    # remove next from head because it is the new end
+    # first check if there is even a second node but whatever
+        # if there isn't remove current.next and return
+    tempNext = current.next.copy()
+    # current.next = None
+    
+    while True:
+        if not current.next:
+            return newHead
+        tempNext = current.next.copy()
+        current.next.next = current
+        newHead = current.next
+        current.next = None
+        current = tempNext
+
+        
+
+
 seventh = Node(9)
 sixth = Node(7, seventh)
 fifth = Node(7, sixth)
@@ -385,8 +411,10 @@ third = Node(3, fourth)
 second = Node(20, third)
 first = Node(3, second)
 head3 = Node(5, first)
-head2 = Node(7, head3)
+head2 = Node(1, head3)
 head = Node(7, head2)
+
+printList(reverseLinkedList(head))
 
 # headSecondList = Node(5, second)
 # print(haveIntersection(headSecondList, head))
