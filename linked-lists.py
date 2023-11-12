@@ -382,24 +382,39 @@ def RotateList(head, k):
 
 # reverses a linked list given it's head
 def reverseLinkedList(head):
-    newHead = head
+    previous = None
+    next = None
     current = head
-
-    # remove next from head because it is the new end
-    # first check if there is even a second node but whatever
-        # if there isn't remove current.next and return
-    tempNext = current.next.copy()
-    # current.next = None
     
     while True:
-        if not current.next:
-            return newHead
-        tempNext = current.next.copy()
-        current.next.next = current
-        newHead = current.next
-        current.next = None
-        current = tempNext
+        if previous:
+            if not current.next:
+                current.next = previous
+                return current
+            else:
+                next = current.next
+                current.next = previous
+                previous = current
+                current = next
+        else:
+            previous = current
+            current = current.next
+            previous.next = None
 
+# cleaner way to reverse linked list
+def reverseLinkedListShort(head):
+    current = head
+    previous = None
+    next = head.next
+
+    while current:
+        current.next = previous
+        previous = current
+        current = next # current = current.next
+        if next:
+            next = next.next
+
+    return current
         
 
 
@@ -414,7 +429,7 @@ head3 = Node(5, first)
 head2 = Node(1, head3)
 head = Node(7, head2)
 
-printList(reverseLinkedList(head))
+printList(reverseLinkedListShort(head))
 
 # headSecondList = Node(5, second)
 # print(haveIntersection(headSecondList, head))
