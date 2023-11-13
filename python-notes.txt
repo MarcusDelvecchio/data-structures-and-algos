@@ -66,4 +66,21 @@ examples:
 
     val = []
     bar(val)
-    print(val) # prints "["meat"]" - since List is mutable it is passed in by referenc
+    print(val) # prints "["meat"]" - since List is mutable it is passed in by reference
+
+
+
+=============
+= On Python for-loop references - Python does not like you being able to modify the items being iterated over, so changing them based on the
+    loop value will not actually modify the item itself
+
+# if 'head' is a Linked List say [1,2,3,4]
+lists = [head]
+
+# and we loop through the lists in list (even though there is only one) and change it
+for list in lists:
+    list = list.next
+
+# the actual original list does not get changed
+for list in lists:
+    print(list.data)

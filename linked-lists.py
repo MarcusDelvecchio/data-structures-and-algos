@@ -458,6 +458,46 @@ def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) ->
 
     return newHead
 
+# Merge K Sorted Lists Leetcode problem
+# https://leetcode.com/problems/merge-k-sorted-lists/submissions/
+# Given a list of K ordered lists, merge them all into 1 list and return it's head
+# Took about 20/30 mins to setup the logic and spent 30 mins thinking I was having Python ref isssues but in reality it was my logic. Took exactly 1 hour
+def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+    newHead = None
+    current = None
+
+    while True:
+        # find the smallest node from all of the lists
+        smallest = None
+        index = 0
+        selectedIndex = 0 # index of list that the nex node is selected from
+        for list in lists:
+            if (not smallest) and list:
+                smallest = list
+                selectedIndex = index
+            elif list and list.val < smallest.val:
+                smallest = list
+                selectedIndex = index
+            index += 1
+
+        # if there is no smallest, then there must be no items left so we can break
+        if not smallest:
+            return newHead
+        
+        # add the smallest to the new array
+        if current:
+            current.next = smallest
+            current = smallest
+        else:
+            newHead = smallest
+            current = smallest
+        
+        # shift the list that the smallest was selected from
+        if lists[selectedIndex]:
+            lists[selectedIndex] = lists[selectedIndex].next
+    
+    return newHead
+
 seventh = Node(9)
 sixth = Node(7, seventh)
 fifth = Node(7, sixth)
