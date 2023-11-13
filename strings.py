@@ -64,14 +64,13 @@ def areOneAway_test():
 # this question is basically asking: can the strings be convertted so that they have the same number of each character? same number of a's same number of b's same number of c's etc
 # and if so then operation 2 (index swapping chars) can simply be applied to attain the same string
 def closeStrings(self, word1: str, word2: str) -> bool:
-
     # NOTE THAT THIS IMPLEMENTATION IS INEFFICIENT
     # although it works, this can easily be solved by doing the following:
         # 1. check that string lengths are the same
         # 2. check that the number of various different characters are the same
         # 3. check that neither string contains a 'frequency' of a character that the other doesn't
         # see here https://youtu.be/0Nt8t75dFl0?si=XVrqsbRKL1u9ucgo&t=128
-        
+
     if len(word1) != len(word2):
             return False
 

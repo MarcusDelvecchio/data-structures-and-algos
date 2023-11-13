@@ -416,6 +416,47 @@ def reverseLinkedListShort(head):
 
     return current
 
+# merge two sorted lists Leetcode problem
+# https://leetcode.com/problems/merge-two-sorted-lists/
+# given two sorted lists, merge the two sorted lists into one sorted list, returning ites head
+def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+
+    # note that these two pointers can be removed and simply replaced wiuth 'list1' and list2'
+    current1 = list1
+    current2 = list2
+
+    # check for empty list
+    if not list1 or not list2:
+        if not list1:
+            return list2
+        else:
+            return list1
+
+    currentNew = None
+    newHead = None
+    while current1 and current2:
+        # get lesser value
+        lesser = current1 if current1.val <= current2.val else current2
+
+        # move that lesser node to our new list (leave its pointer pointiung back at whatever list it is from though)
+        if newHead:
+            currentNew.next = lesser # change the previous items pointer to this new item
+        else:
+            newHead = lesser
+        currentNew = lesser
+
+        # increment the current in the list that we took it from
+        if current1.val <= current2.val:
+            current1 = current1.next
+        else:
+            current2 = current2.next
+    
+    if not current1 and current2:
+        currentNew.next = current2
+    else: #if not current2 and current1:
+        currentNew.next = current1
+
+    return newHead
 
 seventh = Node(9)
 sixth = Node(7, seventh)
