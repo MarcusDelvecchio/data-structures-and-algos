@@ -61,29 +61,55 @@ def areOneAway_test():
     
 # Leetcode Determine is two strings are close question
 # https://leetcode.com/problems/determine-if-two-strings-are-close/
+# this question is basically asking: can the strings be convertted so that they have the same number of each character? same number of a's same number of b's same number of c's etc
+# and if so then operation 2 (index swapping chars) can simply be applied to attain the same string
 def closeStrings(self, word1: str, word2: str) -> bool:
     if len(word1) != len(word2):
         return False
 
-    index = 0
-    remainingSingleSwaps = 1
-    swaps = {} # dictionary in the format 'word1Char':'word2Char' when two chars are incompatible
-    while index < len(word1):
-        if word1[index] != word2[index]:
-            keys = list(swap.keys())
-            if len(keys):
-                if keys[0] == word1[index] and swap[keys[0]] == word2[index]:
-                    continue
-                elif keys[0] == word2[index] and swap[keys[0]] == word1[index] and remainingSingleSwaps:
-                    remainingSingleSwaps -= 1
-                    continue
-                else:
-                    return False
-            # no keys added to swaps yet
-            else:
-                swaps[word1[index]] = word2[index]
-        else:
-            index += 1
+    # collect the occurances of each char in both strings
+    charsWord1 = {}
+    charsWord2 = {}
+    for i in range(len(word1)):
+        occurancesWord1 = charsWord1[word1[i]]
+        occurancesWord2 = charsWord2[word2[i]]
+        charsWord1[word1[i]] = occurancesWord1 += 1 if occurancesWord1 else 0
+        charsWord1[word2[i]] = occurancesWord2 += 1 if occurancesWord2 else 0
+
+    # loop through occurances
+    keysWord1 = list(charsWord1.keys())
+    keysWord2 = list(charsWord2.keys())
+
+    # verify same number of different chars
+    if len(keysWord1) != len(keysWord2):
+        return False
+
+    # determine which chars need to be swapped for which
+    word1Char, word2Char = None, None
+    inWord1notWord2, inWord2notWord1 = [], []
+    for i in keysWord1:
+        if not keysWord2.count(i):
+            inWord1notWord2.append(i)
+                
+    # find what char exists in word2 that doesn't exist in word1
+    for j in keysWord2:
+        if not keysWord1.count(j):
+            inWord2notWord1.append(j)
+
+    # do we even need this
+    if len(inWord2notWord1) != len(inWord1notWord2):
+        return False
+
+    for excessWord1 in inWord1notWord2:
+        found = False
+        for excessWord2 in inWord2notWord1:
+            if charsWord1[excessWord1] == charsWord2[excessWord2]:
+                word1 = word1.replace(word1Char, word2Char)
+                found = True
+                break
+        if not found:
+            return False
+    return True
 
 
 
