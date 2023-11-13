@@ -415,7 +415,22 @@ def reverseLinkedListShort(head):
             next = next.next
 
     return current
+# even SHORTER way to reverse a LL that I thought up later. I'm sure it's the most effective way
+# remember there are FOUR primary steps (inside that while loop)
+# consider the probelm from the 'perspective' of a single node at a time
+def reverseLinkedListShort_2(head):
+    current = head
+    prev = None
+    while current:
+        temp = current.next
+        current.next = prev
+        prev = current
+        current = temp
 
+        if not current:
+            return prev
+
+    return current
 
 # merge two sorted lists Leetcode problem
 # https://leetcode.com/problems/merge-two-sorted-lists/
