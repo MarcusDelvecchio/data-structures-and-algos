@@ -65,16 +65,14 @@ def areOneAway_test():
 # and if so then operation 2 (index swapping chars) can simply be applied to attain the same string
 def closeStrings(self, word1: str, word2: str) -> bool:
     if len(word1) != len(word2):
-        return False
+            return False
 
     # collect the occurances of each char in both strings
     charsWord1 = {}
     charsWord2 = {}
     for i in range(len(word1)):
-        occurancesWord1 = charsWord1[word1[i]]
-        occurancesWord2 = charsWord2[word2[i]]
-        charsWord1[word1[i]] = occurancesWord1 += 1 if occurancesWord1 else 0
-        charsWord1[word2[i]] = occurancesWord2 += 1 if occurancesWord2 else 0
+        charsWord1[word1[i]] = charsWord1[word1[i]] + 1 if word1[i] in charsWord1 else 0
+        charsWord2[word2[i]] = charsWord2[word2[i]] + 1 if word2[i] in charsWord2 else 0
 
     # loop through occurances
     keysWord1 = list(charsWord1.keys())
@@ -90,21 +88,44 @@ def closeStrings(self, word1: str, word2: str) -> bool:
     for i in keysWord1:
         if not keysWord2.count(i):
             inWord1notWord2.append(i)
-                
+
+        # else if it is in word2, check that the same amount are
+        elif charsWord1[i] != charsWord2[i]:
+            found = False
+            for key, value in charsWord2.items():
+                if charsWord2[key] == charsWord1[i]:
+                    found = True
+                    break
+            if not found:
+                return False
+        
     # find what char exists in word2 that doesn't exist in word1
     for j in keysWord2:
         if not keysWord1.count(j):
             inWord2notWord1.append(j)
 
+        # else if it is in word2, check that the same amount are
+        elif charsWord2[j] != charsWord1[j]:
+            found = False
+            for key, value in charsWord1.items():
+                if charsWord1[key] == charsWord2[j]:
+                    found = True
+                    break
+            if not found:
+                return False
+
     # do we even need this
-    if len(inWord2notWord1) != len(inWord1notWord2):
+    if len(inWord2notWord1) or len(inWord1notWord2):
         return False
 
-    for excessWord1 in inWord1notWord2:
+    index = 0
+    while index < len(keysWord1):
+        word1key = keysWord1[index]
         found = False
-        for excessWord2 in inWord2notWord1:
-            if charsWord1[excessWord1] == charsWord2[excessWord2]:
-                word1 = word1.replace(word1Char, word2Char)
+        for key in list(charsWord2.keys()):
+            if charsWord1[word1key] == charsWord2[key]:
+                charsWord2.pop(key)
+                index += 1
                 found = True
                 break
         if not found:
