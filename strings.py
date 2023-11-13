@@ -64,17 +64,24 @@ def areOneAway_test():
 # this question is basically asking: can the strings be convertted so that they have the same number of each character? same number of a's same number of b's same number of c's etc
 # and if so then operation 2 (index swapping chars) can simply be applied to attain the same string
 def closeStrings(self, word1: str, word2: str) -> bool:
+
+    # NOTE THAT THIS IMPLEMENTATION IS INEFFICIENT
+    # although it works, this can easily be solved by doing the following:
+        # 1. check that string lengths are the same
+        # 2. check that the number of various different characters are the same
+        # 3. check that neither string contains a 'frequency' of a character that the other doesn't
+        # see here https://youtu.be/0Nt8t75dFl0?si=XVrqsbRKL1u9ucgo&t=128
+        
     if len(word1) != len(word2):
             return False
 
-    # collect the occurances of each char in both strings
+    # collect the occurances of each char in both strings - creates dict with key: char, value: occurances of those chars
     charsWord1 = {}
     charsWord2 = {}
     for i in range(len(word1)):
         charsWord1[word1[i]] = charsWord1[word1[i]] + 1 if word1[i] in charsWord1 else 0
         charsWord2[word2[i]] = charsWord2[word2[i]] + 1 if word2[i] in charsWord2 else 0
 
-    # loop through occurances
     keysWord1 = list(charsWord1.keys())
     keysWord2 = list(charsWord2.keys())
 
@@ -87,7 +94,7 @@ def closeStrings(self, word1: str, word2: str) -> bool:
     inWord1notWord2, inWord2notWord1 = [], []
     for i in keysWord1:
         if not keysWord2.count(i):
-            inWord1notWord2.append(i)
+            return False
 
         # else if it is in word2, check that the same amount are
         elif charsWord1[i] != charsWord2[i]:
