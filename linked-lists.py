@@ -416,10 +416,11 @@ def reverseLinkedListShort(head):
 
     return current
 
+
 # merge two sorted lists Leetcode problem
 # https://leetcode.com/problems/merge-two-sorted-lists/
 # given two sorted lists, merge the two sorted lists into one sorted list, returning ites head
-def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:
+def mergeTwoLists(self, list1: [ListNode], list2: [ListNode]) -> [ListNode]:
 
     # note that these two pointers can be removed and simply replaced wiuth 'list1' and list2'
     current1 = list1
@@ -462,7 +463,7 @@ def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) ->
 # https://leetcode.com/problems/merge-k-sorted-lists/submissions/
 # Given a list of K ordered lists, merge them all into 1 list and return it's head
 # Took about 20/30 mins to setup the logic and spent 30 mins thinking I was having Python ref isssues but in reality it was my logic. Took exactly 1 hour
-def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+def mergeKLists(self, lists):
     newHead = None
     current = None
 
@@ -498,6 +499,64 @@ def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
     
     return newHead
 
+# Swap Pairs Leetcode Medium
+# given a LL, swap every adjuscent pair of nodes (sap 1&2, 3&4, 5&6)
+# https://leetcode.com/problems/swap-nodes-in-pairs/submissions/
+# also see this solution, which is exactly the same solution https://leetcode.com/problems/swap-nodes-in-pairs/solutions/1774318/python3-i-hate-linked-lists-not-explained/
+def swapPairs(self, head):
+    current = head
+
+    if not head or not head.next:
+        return head
+
+    newHead = head.next
+    prev = None
+    while current.next:
+        temp = current.next.next
+        current.next.next = current
+        if prev:
+            prev.next = current.next
+        current.next = temp
+        prev = current
+
+        # increment current
+        current = temp
+
+        if not current or not current.next:
+            return newHead
+    
+    return newHead
+
+# alternative solution to the Swap Pairs solution above
+# this seems to be twice as fast (see https://leetcode.com/problems/swap-nodes-in-pairs/submissions/)
+# made this solution because I realized that you are really pointing the first node of a pair FOUR nodes ahead (because that 4th node ahead will swap with its pair and become the 3rd node ahead)
+# so this solution solved the problem without using the 'prev' pointer, but deal with a lot of small edge case scenarios as well
+def swapPairs_alternative(self, head):
+        current = head
+
+        if not head or not head.next:
+            return head
+
+        newHead = head.next
+        while current.next:
+            temp = current.next.next
+            current.next.next = current
+
+            # point current 4 forward
+            if temp:
+                if temp.next:
+                    current.next = temp.next
+                else:
+                    current.next = temp
+            else:
+                current.next = None
+            current = temp
+
+            if not current or not current.next:
+                return newHead
+        
+        return newHead
+
 seventh = Node(9)
 sixth = Node(7, seventh)
 fifth = Node(7, sixth)
@@ -509,7 +568,7 @@ head3 = Node(5, first)
 head2 = Node(1, head3)
 head = Node(7, head2)
 
-printList(reverseLinkedListShort(head))
+printList(reverseLinkedListShort_2(head))
 
 # headSecondList = Node(5, second)
 # print(haveIntersection(headSecondList, head))
