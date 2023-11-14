@@ -734,6 +734,48 @@ def partition(self, head):
         currentLeft.next = right
     return left or right
 
+# 92. Reverse Linked List II
+# https://leetcode.com/problems/reverse-linked-list-ii/description/
+# Given the head of a singly linked list and two integers left and right where left <= right, reverse the nodes of the list from position left to position right, and return the reversed list.
+# completed in about 25. Spent a bit more time because I wanted to do it in O(n) with only one pass, but more variabels e
+def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
+    current = head
+    newHead = None
+
+    # prev variable used for reversing LL and storing the first (to be moved to last) item in the portion to be reversed
+    prev = None
+    end = None
+
+    # storing the nodes before and after the portions to be reversed
+    before = None
+
+    index = 1
+    while current:
+        # if not in range to flip, store current if one before and connect list if after, but continue
+        if index < left or index > right:
+            if index == left - 1:
+                before = current
+            elif index == right + 1:
+                end.next = current
+            current = current.next
+        else:
+            # reverse the LL but also connect to before and after and store as head if on the left or right
+            next = current.next
+            current.next = prev
+            
+            if index == left:
+                end = current
+
+            if index == right:
+                if before:
+                    before.next = current
+                else:
+                    newHead = current
+            prev = current
+            current = next
+        index += 1
+
+    return newHead or head
 
 seventh = Node(9)
 sixth = Node(7, seventh)
