@@ -572,6 +572,45 @@ def swapPairs_alternative(self, head):
         
         return newHead
 
+def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+    current = head  
+    newHead = None
+    prevOld = None
+    prevNew = None
+    count = 0
+    prev = None
+    next = None
+    while current:
+        print(count)
+        if count == 0:
+            # advance
+            prevNew = current
+            prev = current
+            current = current.next
+            count += 1
+        else:
+            next = current.next
+            current.next = prev
+            prev = current
+
+            if count == k - 1:
+                count = 0
+                if prevOld:
+                    prevOld.next = current
+                else:
+                    newHead = current
+                prevOld = prevNew
+                prevNew = None
+            else:
+                count += 1
+
+            current = next
+    
+    if prevNew:
+        prevNew.next = next
+    return newHead
+
+
 seventh = Node(9)
 sixth = Node(7, seventh)
 fifth = Node(7, sixth)
