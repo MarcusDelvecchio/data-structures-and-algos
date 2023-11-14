@@ -664,6 +664,31 @@ def reverseKGroup(self, head, k):
         
     return newHead
 
+def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
+    current = head
+    newHead = None
+    newHeadVal = 0 
+    prev = None
+
+    while current:
+        if prev and current.val <= prev.val:
+            # remove head if it was included in this 'group'
+            if newHead and newHead.val == current.val:
+                newHead = None
+            # remove current and next and next until greater
+            current = current.next
+        else:
+            if not newHead:
+                newHead = current
+                newHeadVal = current.val
+            else:
+                prev.next = current
+            prev = current
+            current = current.next
+
+
+
+
 seventh = Node(9)
 sixth = Node(7, seventh)
 fifth = Node(7, sixth)
