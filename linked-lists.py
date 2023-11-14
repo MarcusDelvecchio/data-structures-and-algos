@@ -430,7 +430,7 @@ def reverseLinkedListShort_2(head):
         if not current:
             return prev
 
-    return current
+    return prev #current - note this change - see https://leetcode.com/problems/reverse-linked-list/solutions/58338/python-solution-simple-iterative/
 
 # merge two sorted lists Leetcode problem
 # https://leetcode.com/problems/merge-two-sorted-lists/
@@ -610,6 +610,62 @@ def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
         prevNew.next = next
     return newHead
 
+# Reverse Nodes in k-Group Leetcode Hard
+# https://leetcode.com/problems/reverse-nodes-in-k-group/description/
+# given the head of a linked list, reverse the nodes of the list k at a time, and return the modified list.
+# k is a positive integer and is less than or equal to the length of the linked list. If the number of nodes is not a multiple of k then left-out nodes, in the end, should remain as it is.
+def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
+    
+    # function to reverse a linked list and return the new head
+    def reverseList(head):
+        current = head
+        prev = None
+        while current:
+            next = current.next
+            current.next = prev
+            prev = current
+            current = next
+
+        return prev
+
+    current = head
+    nextStart = None
+    tail = None
+    newHead = None
+    while current:
+
+        # start of current group
+        currentStart = current
+
+        # skip to last item in the group
+        for i in range(k - 1):
+            if current.next:
+                current = current.next
+            else:
+                tail.next = nextStart
+                return newHead
+
+        # item after last item in this group is start of next group
+        nextStart = current.next
+
+        # remove pointer from last item in this group to start of next group
+        next = current.next
+        current.next = None
+
+        # reverse the current group
+        revHead = reverseList(currentStart)
+
+        # save head if not yet saved and if tail of a previous group exists point it to the head of this group
+        if not newHead:
+            newHead = revHead
+        if tail:
+            tail.next = revHead
+
+        # set the tail to the start (now end) of this group and move to the next node (start of next group)
+        tail = currentStart
+        current = next
+        
+    return newHead
 
 seventh = Node(9)
 sixth = Node(7, seventh)
