@@ -664,27 +664,39 @@ def reverseKGroup(self, head, k):
         
     return newHead
 
-def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
+# Delete Duplicates from LL Leetcode Medium
+# https://leetcode.com/problems/remove-duplicates-from-sorted-list-ii/submissions/
+# Given a LL, remove all nodes that there are duplicates of. (Ex if there two 4s remove BOTH 4s)
+# question took me 30 mins exactly
+def deleteDuplicates(self, head):
     current = head
     newHead = None
     newHeadVal = 0 
     prev = None
+    skipVal = None
 
     while current:
-        if prev and current.val <= prev.val:
-            # remove head if it was included in this 'group'
-            if newHead and newHead.val == current.val:
+        # check if the current node value should be 'registered' for removal (assigned to skipVal) or *is* registered for removal already - and skip through it
+        if current.next and current.val == current.next.val or current.val == skipVal:
+            if newHeadVal == current.val:
                 newHead = None
-            # remove current and next and next until greater
-            current = current.next
-        else:
-            if not newHead:
-                newHead = current
-                newHeadVal = current.val
-            else:
-                prev.next = current
+            
+            skipVal = current.val
+        # if a unique node and a previous one exists, point it to this one and shift
+        elif prev:
+            prev.next = current
             prev = current
-            current = current.next
+        # if a unique node and a previous one doesn't exist, set this as the head and shift
+        else:
+            newHead = current
+            newHeadVal = current.val
+            prev = current
+        current = current.next
+    
+    # remove the .next from the trailing node in case it ends on a group of non unique nodes (ex 1,2,3,4,4,4) the 4s will be skipped but 3 will still point to them
+    if prev:
+        prev.next = None
+    return newHead
 
 
 
