@@ -699,6 +699,40 @@ def deleteDuplicates(self, head):
     return newHead
 
 
+# 86. Partition List Leetcode Medium
+# https://leetcode.com/problems/partition-list/description/
+# took 5 minutes. But also did this above (but couldn't really remember)
+# Given the head of a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
+def partition(self, head):
+    left = None
+    right = None
+    currentLeft = None
+    currentRight = None
+    current = head
+
+    while current:
+        if current.val < x:
+            if not left:
+                left = current
+                currentLeft = current
+            else:
+                currentLeft.next = current
+                currentLeft = current
+        else:
+            if not right:
+                right = current
+                currentRight = current
+            else:
+                currentRight.next = current
+                currentRight = current
+        current = current.next
+
+    # connect the two lists
+    if currentRight:
+        currentRight.next = None
+    if currentLeft:
+        currentLeft.next = right
+    return left or right
 
 
 seventh = Node(9)
