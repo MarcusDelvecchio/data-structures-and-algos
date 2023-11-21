@@ -115,3 +115,44 @@ def intToRoman(self, num: int) -> str:
         res.extend(["I"]*I)
     
         return ''.join(res)
+
+
+# Leetcode #36 Valid Sudoku
+# https://leetcode.com/problems/valid-sudoku/description/
+# Determine if a 9 x 9 Sudoku board is valid (see question)
+# this took me like 35 mins I was stuck losing my mind over the simplest issue with verifying the boxes
+# and idk why i used a defaultdict in the first place i feel like I could have just used lists
+from collections import defaultdict
+class Solution:
+    def isValidSudoku(self, board: List[List[str]]) -> bool:
+        cols = defaultdict(list)
+        row_boxes = [[], [], []] 
+
+        for i in range(9):
+            row = []
+            
+            for j in range(9):
+                if board[i][j] != ".":
+                    cols[j].append(board[i][j])
+                    row.append(board[i][j])
+                    row_boxes[floor(j/3)].append(board[i][j])
+
+                # if at the bottom rows we can validate the columns
+                if i == 8 and len(cols[j]) > len(set(cols[j])):
+                    print("column invalid returning false")
+                    return False
+
+                # if at the last column in a row we can validate the row
+                if j == 8 and len(row) > len(set(row)):
+                    print("row invalid returning false")
+                    return False
+                
+                # if at last column 
+                if j == 8 and i in [2,5,8]:
+                    for box in row_boxes:
+                        if len(box) > len(set(box)):
+                            print("box invalid returning false")
+                            return False
+                    row_boxes = [[], [], []] 
+            
+        return True
