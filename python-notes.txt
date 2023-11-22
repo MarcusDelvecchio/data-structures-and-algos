@@ -84,3 +84,54 @@ for list in lists:
 # the actual original list does not get changed
 for list in lists:
     print(list.data)
+
+
+
+======[ Python Zip Function ]=======
+- The zip() function takes iterables (can be zero or more), aggregates them in a tuple, and returns it.
+- the zip function is used for "parallel iteration"
+"The zip function in Python combines elements from multiple iterables by grouping them based on their
+respective positions (index), effectively transposing rows into columns when used with the * operator, 
+as seen in zip(*board)."0
+
+Example.py
+
+    languages = ['Java', 'Python', 'JavaScript']
+    versions = [14, 3, 6]
+
+    result = zip(languages, versions)
+    print(list(result))
+
+    # Output: [('Java', 14), ('Python', 3), ('JavaScript', 6)]
+
+=====[ Python Iterable Unpacking with * Opeator ]====
+"Allows you to specify a “catch-all” name which will be assigned a list of all items not assigned to a “regular” name."
+
+a, *b, c = range(5)
+>>> a
+0
+>>> c
+4
+>>> b
+[1, 2, 3]
+
+similar to javascript spread
+
+"Many algorithms require splitting a sequence in a “first, rest” pair. With the new syntax":
+first, rest = seq[0], seq[1:]
+"is replaced by the cleaner and probably more efficient:"
+first, *rest = seq
+
+another examples
+s=[*'abcde'] // s = [a,b,c,d,e]
+in the above case, the * operator 'unpacks' the entire array and save it to s
+
+resources:
+https://peps.python.org/pep-3132/
+
+========[ Python List Comprehension ]=====
+
+ex. 
+"Allows conditional construction of list literals using for and if clauses. 
+They would nest in the same way for loops and if statements nest now."
+sudoku_box_top_left = [board[x][y] for x in range(0, 3) for y in range(0, 3)]

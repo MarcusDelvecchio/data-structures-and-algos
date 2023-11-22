@@ -115,6 +115,19 @@ def intToRoman(self, num: int) -> str:
         res.extend(["I"]*I)
     
         return ''.join(res)
+# notes on the problem:
+# since the max sudoku length is 9, we can focus more on readability than performance, as we know our inputs
+# will become large enough to cause issues
+# this isn't to say performance and good code convention isn't important though
+# see this very simple, readable, and modula solution
+# rather than doing what I did and looping through the rows, verifying the rows at the end of each row, 
+# while collecting the columns and verifying the columns at the end of every column
+# while collecting the boxes and verifying them at the end of every box
+
+# this person simply passes the board into 3 separate functions, each that verify the 3 rules separately
+# https://leetcode.com/problems/valid-sudoku/solutions/15451/a-readable-python-solution/
+# and to explain the 
+
 
 
 # Leetcode #36 Valid Sudoku
@@ -156,3 +169,43 @@ class Solution:
                     row_boxes = [[], [], []] 
             
         return True
+
+# Sudoku Solver
+class Solution:
+    available = ['1','2', '3', '4', '5', '6', '7', '8', '9']
+    def get_box_availbilities(board, row, col):
+        box_row, box_col = 3*(floor(row/3)), 3*(floor(col/3))
+        
+        # get the items in the current box
+        box_vals = [board[x][y] for x in range(box_row, box_row + 3) for y in range(box_col, box_col + 3)]
+
+        # return list of available item
+        return [item for item in Solution.available if item not in box_vals]
+
+    def get_row_availabilities(board, row):
+        row_vals = [board[row][x] for x in range(9)]
+
+        # return list of available items
+        return [item for item in Solution.available if item not in row_vals]
+
+    def get_col_availabilities(board, col):
+        col_vals = [board[x][col] for x in range(9)]
+
+        # return list of available items
+        return [item for item in Solution.available if item not in col_vals]
+
+    def solveSudoku(self, board: List[List[str]]) -> None:
+
+        row = 0
+        col = 0
+        while True:
+            cell_box_availabilities = Solution.get_box_availbilities(board, row, col)
+            cell_row_availabilities = Solution.get_row_availabilities(board, row)
+            cell_col_availabilities = Solution.get_col_availabilities(board, col)
+            cell_availability = [item for item in cell_col_availabilities if item in cell_row_availabilities and item in cell_box_availabilities]
+
+            print(cell_col_availabilities)
+            break
+
+            row += 1
+            col += 1           
