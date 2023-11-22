@@ -171,6 +171,7 @@ class Solution:
         return True
 
 # Sudoku Solver
+from collections import defaultdict
 class Solution:
     available = ['1','2', '3', '4', '5', '6', '7', '8', '9']
     def get_box_availbilities(board, row, col):
@@ -195,17 +196,44 @@ class Solution:
         return [item for item in Solution.available if item not in col_vals]
 
     def solveSudoku(self, board: List[List[str]]) -> None:
+        # solutionDict = defaultdict(list)
 
-        row = 0
-        col = 0
+        restart = False
+        first = True
         while True:
-            cell_box_availabilities = Solution.get_box_availbilities(board, row, col)
-            cell_row_availabilities = Solution.get_row_availabilities(board, row)
-            cell_col_availabilities = Solution.get_col_availabilities(board, col)
-            cell_availability = [item for item in cell_col_availabilities if item in cell_row_availabilities and item in cell_box_availabilities]
+            continues = 0
+            for i in range(9):
+                for j in range(9):
+                    if board[i][j] != ".":
+                        continues += 1
+                        if continues == 81:
+                            return
+                        continue
 
-            print(cell_col_availabilities)
-            break
+                    cell_box_availabilities = Solution.get_box_availbilities(board, i, j)
+                    cell_row_availabilities = Solution.get_row_availabilities(board, i)
+                    cell_col_availabilities = Solution.get_col_availabilities(board, j)
+                    cell_availability = [item for item in cell_col_availabilities if item in cell_row_availabilities and item in cell_box_availabilities]
 
-            row += 1
-            col += 1           
+                    # print(cell_availability)
+                    if len(cell_availability) == 1:
+                        board[i][j] = cell_availability[0]
+                        print("CERTAIN FOUND RESTARTING")
+                        # reset 
+                        restart = True
+                        break
+
+                    # solutionDict[str(i).join(str(j))] = cell_availability
+                    # if i == 9 and j == 9:
+                    #     print("HERE")  
+
+
+                if restart:
+                    restart = False
+                    break
+
+        
+
+        
+
+                   
