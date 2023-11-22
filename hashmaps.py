@@ -172,7 +172,6 @@ class Solution:
 
 # Sudoku Solver
 # Sudoku Solver
-from collections import defaultdict
 class Solution:
     def get_box_availbilities(board, row, col):
         box_row, box_col = 3*(floor(row/3)), 3*(floor(col/3))
@@ -197,7 +196,7 @@ class Solution:
 
     def solveSudoku(self, board: List[List[str]]) -> None:
         cells = [str(i) + str(j) for i in range(1,9) for j in range(1,9)]
-        solutionDict = {key: [] for key in cells}
+        solutionDict = { key: [] for key in cells }
 
         restart = False
         first = True
@@ -205,20 +204,13 @@ class Solution:
             continues = 0
             for i in range(9):
                 for j in range(9):
-                    if i == 8 and j == 8:
-                        print(continues)
-                        print(board)
-                    print(i,j)
                     if board[i][j] != ".":
                         continues += 1
                         if continues == 81:
                             print("RETURNING")
                             return
-                        else:
-                            continue
                     else:
                         board, solutionDict = Solution.updateCellAvailabilities(i, j, board, solutionDict)
-                        print("SHMOWS")
 
     def updateCellAvailabilities(i, j, board, solutionDict):
         cell_box_availabilities = Solution.get_box_availbilities(board, i, j)
@@ -229,27 +221,25 @@ class Solution:
         # update solution dict with items
         solutionDict[str(i) + str(j)] = cell_availability
 
-        # print(cell_availability)
+        # if the cell only has 1 possible value apply it
         if len(cell_availability) == 1:
-            print("board updates")
             board[i][j] = cell_availability[0]
 
+            # clear the cell from the dict of potential cell values
             if str(i) + str(j) in solutionDict:
                 solutionDict[str(i) + str(j)] = []
 
-            # update related cols/rows
+            # update/recalculate related columns and rows 
             for ij in solutionDict.keys():
                 if int(ij[0]) == i and len(solutionDict[ij]) == 2:
-                    print('here meat1')
                     i = int(ij[0])
                     j = int(ij[1])
                     board, solutionDict = Solution.updateCellAvailabilities(i, j, board, solutionDict)
                 elif int(ij[1]) == j and len(solutionDict[ij]) == 2:
-                    print('here meat2')
                     i = int(ij[0])
                     j = int(ij[1])
                     board, solutionDict = Solution.updateCellAvailabilities(i, j, board, solutionDict)
-            
+                # could recalculate box as well
         return board, solutionDict
 
 
