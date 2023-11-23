@@ -171,7 +171,6 @@ class Solution:
         return True
 
 # Sudoku Solver
-# Sudoku Solver
 class Solution:
     def solveSudoku(self, board: List[List[str]]) -> None:
 
@@ -260,15 +259,30 @@ class Solution:
 # https://leetcode.com/problems/first-missing-positive
 # solved in 21:00 wasn't bad just has issues with edge cases and neg numbers  
 def firstMissingPositive(self, nums: List[int]) -> int:
-        found = {}
-        for num in nums:
-            found[num] = True
+    found = {}
+    for num in nums:
+        found[num] = True
+    
+    i = 0
+    for i in range(0, len(nums) + 1):
+        if i not in found and i != 0:
+            return i
         
-        i = 0
-        for i in range(0, len(nums) + 1):
-            if i not in found and i != 0:
-                return i
-            
-        return i + 1
+    return i + 1
 
                    
+# Leetcode Group Anagrams Leetcode Medium
+# https://leetcode.com/problems/group-anagrams/submissions/
+# completed in 4.5 minutes but saw video explaining it yesterday
+def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+    res = []
+    groups = defaultdict(list)
+    
+    for word in strs:
+        key = "".join(sorted(word))
+        groups[key].append(word)
+        
+    for group in groups.keys():
+        res.append(groups[group])
+        
+    return res
