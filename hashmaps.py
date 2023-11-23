@@ -286,3 +286,28 @@ def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         res.append(groups[group])
         
     return res
+
+# Set Matrix Zeros Leetcode Medium
+# https://leetcode.com/problems/set-matrix-zeroes/
+# complete in 15 mins just had a minor issue with inconsistint length/width of the matrix
+# be careful with that
+def setZeroes(self, matrix: List[List[int]]) -> None:
+    width = len(matrix)
+    height = len(matrix[0])
+    reset_rows = []
+    reset_cols = []
+    
+    # storing all of the rows and columns that need to be reset
+    for i in range(width):
+        for j in  range(height):
+            if matrix[i][j] == 0:
+                reset_rows.append(i)
+                reset_cols.append(j)
+                
+    # now reset all of the rows and columns that are to be reset    
+    reset_rows = set(reset_rows)
+    reset_cols = set(reset_cols)
+    for i in range(width):
+        for j in range(height):
+            if i in reset_rows or j in reset_cols:
+                matrix[i][j] = 0
