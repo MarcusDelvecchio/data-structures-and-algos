@@ -311,3 +311,96 @@ def setZeroes(self, matrix: List[List[int]]) -> None:
         for j in range(height):
             if i in reset_rows or j in reset_cols:
                 matrix[i][j] = 0
+
+
+# Minimum Window Substring LeetCode Hard
+# https://leetcode.com/problems/minimum-window-substring/
+# Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window
+# took 2:20 holy hell. Thought it would be easy at the beginning too. Used all hints but got through it
+from collections import defaultdict
+def minWindow(self, s, t):
+    back = 0
+    front = 0
+    
+    best_start = None
+    best_end = None
+    best = 0
+    
+    # create dict of values in t and their occurances
+    finds = {x: 0 for x in t}
+    for char in t:
+        finds[char] += 1
+    
+    # move front pointer forward until all items are inside the window
+    success = False
+    for front in range(len(s)):
+        char = s[front]
+        if char in t:
+            finds[char] -= 1
+            
+            # check if all found
+            all_found = True
+            for key in finds.keys():
+                if finds[key] > 0:
+                    all_found = False
+                    break
+            if all_found:
+                success = True
+                break
+                
+    # if no max distance then the string is not contained so return empty
+    if not success:
+        return ""
+    else:
+        best_start = back
+        best_end = front
+        best = front-back
+    
+    # if only one char just return it (won't get any better)
+    if front == back:
+        return s[front]
+    
+    # now move left pointer forward as much as possible while all items are in the window
+    while back + 1 < len(s) and back < front:
+        char = s[back]
+        
+        # if we can't move the back forward just break
+        if char in t and finds[char] + 1 > 0:
+            break
+            
+        # else move back forward
+        else:
+            if char in t:
+                finds[char] += 1
+            back += 1
+            best_start += 1
+            best -= 1
+            
+    # now move right pointer forward again
+    while front + 1 < len(s):
+        front += 1
+        char = s[front]
+        
+        # if we found the char that the back is stuck on then we can move back forward again
+        if char == s[back]:
+            
+            while back + 1 < len(s) and back < front:
+                back += 1
+                back_char = s[back]
+                
+                if front - back < best:
+                    best_start = back
+                    best_end = front
+                    best = front - back
+                    
+                if back_char == 'c':
+                    print(finds)
+
+                if back_char in t and finds[back_char] + 1 > 0:
+                    break
+                else:
+                    if back_char in t:
+                        finds[back_char] += 1
+        elif char in t:
+            finds[char] -= 1
+    return s[best_start:best_end+1]

@@ -135,3 +135,13 @@ ex.
 "Allows conditional construction of list literals using for and if clauses. 
 They would nest in the same way for loops and if statements nest now."
 sudoku_box_top_left = [board[x][y] for x in range(0, 3) for y in range(0, 3)]
+
+
+
+=====[ On Python vairbales being editable by loops ]=====
+a = 0
+
+for a in range(10, 20):
+    print("test")
+    
+print(a) // 19
