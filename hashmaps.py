@@ -404,3 +404,37 @@ def minWindow(self, s, t):
         elif char in t:
             finds[char] -= 1
     return s[best_start:best_end+1]
+
+# LeetCode Longest Consecutive Sequence Medium
+# https://leetcode.com/problems/longest-consecutive-sequence/
+# took 20 mins there is a minor gotcha to imporve efficiency
+def longestConsecutive(self, nums: List[int]) -> int:
+    if len(nums) == 0:
+        return 0
+
+    # sort the items from greatest to least so that we can implement logic to improve efficiency
+    nums.sort()
+
+    items = {}
+    for num in nums:
+        items[num] = ""
+    
+    bestStart = nums[0]
+    bestLen = 1
+    # loop through and find largest sequence
+    for num in nums:
+        current = 1
+        next = num+1
+        
+        # if the number is within bestLen of bestStart, then we can continue (because it will have alrerady been included in the sequence of bestStart)
+        if abs(bestStart - num) + 1 < bestLen:
+            continue
+        
+        while(next in items):
+            current += 1
+            if current > bestLen:
+                bestStart = num
+                bestLen = current
+            next += 1
+                    
+    return bestLen
