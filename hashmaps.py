@@ -438,3 +438,52 @@ def longestConsecutive(self, nums: List[int]) -> int:
             next += 1
                     
     return bestLen
+
+
+# LeetCode Max Points on a Line Hard
+# https://leetcode.com/problems/max-points-on-a-line/
+# Given an array of points where points[i] = [xi, yi] represents a point on the X-Y plane, return the maximum number of points that lie on the same straight line.
+# took me an hour an 50 mins
+def maxPoints(self, points: List[List[int]]) -> int:
+    lines = defaultdict(set[list])
+    
+    # draw lines from every point to every point
+    for point in points:
+        for secondPoint in points:
+            
+            # get the slope between two points
+            rise = point[1] - secondPoint[1]
+            run = point[0] - secondPoint[0]
+            
+            slope = 0
+            if not rise:
+                slope = 0
+            elif run and rise:
+                slope = rise/run
+            else: # rise and no run
+                slope = None
+            
+            # get the y-intercept
+            if slope == 0:
+                b = point[1]
+            elif not slope:
+                b = point[0]                  
+            elif not point[1]:
+                b = secondPoint[1] - (slope*secondPoint[0])
+            else:
+                b = point[1] - (slope*point[0])
+            
+            # add the points and z intercept to the lines dictionary
+            lines[tuple([slope, b])].add(tuple(point))
+            lines[tuple([slope, b])].add(tuple(secondPoint))
+    
+    # return the slope/b key (line) with the greatest number of items
+    greatest = 0
+    greatesttVal = []
+    greatestKey = None
+    for key, value in lines.items():
+        if len(value) > greatest:
+            greatest = len(value)
+            greatesttVal = value
+            greatestKey = key
+    return greatest
