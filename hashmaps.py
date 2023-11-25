@@ -479,11 +479,61 @@ def maxPoints(self, points: List[List[int]]) -> int:
     
     # return the slope/b key (line) with the greatest number of items
     greatest = 0
-    greatesttVal = []
-    greatestKey = None
     for key, value in lines.items():
         if len(value) > greatest:
             greatest = len(value)
-            greatesttVal = value
-            greatestKey = key
     return greatest
+
+# LeetCode 815. Bus Routes Hard
+# https://leetcode.com/problems/bus-routes/
+# took 55 mins hour. Wasn't bad, interesting question and solution. Had to add simple logic for performance by implementing hashmap for lookup rather than array
+def numBusesToDestination(self, routes: List[List[int]], source: int, target: int) -> int:
+    if source == target:
+        return 0
+    
+    # convert routes to hash maps so that traversing is much faster
+    hashedRoutes = []
+    for i in range(len(routes)):
+        routeAsHash = {}
+        for stop in routes[i]:
+            routeAsHash[stop] = True
+        hashedRoutes.append(routeAsHash)
+        
+    
+    busesAway = 0
+    nodesAway = defaultdict(set)
+    nodesAway[0] = set([target])
+    
+    addedNodes = {}
+    # find the nodes that are 1 away from the current set of nodes and add them to a new key being 1 more away
+    while busesAway in nodesAway:
+        for node in nodesAway[busesAway]:
+            for route in hashedRoutes:
+                # if the node in the current set appears in another set, add all of those items to nodesAway+1 (bc they are one more away)
+                if node in route:
+                    # add nodes that have not yet been added to other sets (if they are in other sets they are closer)
+                    # and if we are adding them, mark them as added
+                    for stop in route.keys():
+                        if stop not in addedNodes:
+                            addedNodes[stop] = True
+                            nodesAway[busesAway + 1].add(stop)
+        busesAway += 1
+        
+    # find the fastest route from the starting point
+    nodesConnectedToStart = set()
+    for route in routes:
+        if source in route:
+            nodesConnectedToStart.update(route)
+            
+    # now that we have all of the nodes connected to the start, we can determine which node is the least nodesAway
+    closest = None
+    for node in nodesConnectedToStart:
+        for key in nodesAway.keys():
+            if node in nodesAway[key]:
+                if closest == None or key < closest:
+                    closest = key
+                break
+            
+    if closest == None:
+            return -1
+    return closest + 1
