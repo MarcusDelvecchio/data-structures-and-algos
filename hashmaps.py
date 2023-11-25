@@ -1,7 +1,7 @@
 # Leetcode Roman to Integer Easy
 # https://leetcode.com/problems/roman-to-integer/description/
 # Given a roman numeral, convert it to an integer.
-def romanToInt(self, s: str) -> int:
+def romanToInt(self, s):
 
         def convert(c):
             if c == "I":
@@ -51,7 +51,7 @@ def romanToInt(self, s: str) -> int:
 # Given an integer convert it to a roman numeral.
 # took 19 mins
 # but there is a way simpler and hash map way to do it see https://leetcode.com/problems/integer-to-roman/solutions/6274/simple-solution/
-def intToRoman(self, num: int) -> str:
+def intToRoman(self, num):
         res = []
 
         # divide by 1000s to get number of Ms
@@ -137,7 +137,7 @@ def intToRoman(self, num: int) -> str:
 # and idk why i used a defaultdict in the first place i feel like I could have just used lists
 from collections import defaultdict
 class Solution:
-    def isValidSudoku(self, board: List[List[str]]) -> bool:
+    def isValidSudoku(self, board):
         cols = defaultdict(list)
         row_boxes = [[], [], []] 
 
@@ -171,8 +171,10 @@ class Solution:
         return True
 
 # Sudoku Solver
+# solution is being printed but because of recursive call for some readon, they reset the solution and time limit exceeded called
+# too lazy to resolve rescursive issue (took too long)
 class Solution:
-    def solveSudoku(self, board: List[List[str]]) -> None:
+    def solveSudoku(self, board):
 
         def get_box_availbilities(board, row, col):
             box_row, box_col = 3*(floor(row/3)), 3*(floor(col/3))
@@ -258,7 +260,7 @@ class Solution:
 # Leetcode First Missing Positive
 # https://leetcode.com/problems/first-missing-positive
 # solved in 21:00 wasn't bad just has issues with edge cases and neg numbers  
-def firstMissingPositive(self, nums: List[int]) -> int:
+def firstMissingPositive(self, nums):
     found = {}
     for num in nums:
         found[num] = True
@@ -274,7 +276,7 @@ def firstMissingPositive(self, nums: List[int]) -> int:
 # Leetcode Group Anagrams Leetcode Medium
 # https://leetcode.com/problems/group-anagrams/submissions/
 # completed in 4.5 minutes but saw video explaining it yesterday
-def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+def groupAnagrams(self, strs):
     res = []
     groups = defaultdict(list)
     
@@ -291,7 +293,7 @@ def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
 # https://leetcode.com/problems/set-matrix-zeroes/
 # complete in 15 mins just had a minor issue with inconsistint length/width of the matrix
 # be careful with that
-def setZeroes(self, matrix: List[List[int]]) -> None:
+def setZeroes(self, matrix):
     width = len(matrix)
     height = len(matrix[0])
     reset_rows = []
@@ -408,7 +410,7 @@ def minWindow(self, s, t):
 # LeetCode Longest Consecutive Sequence Medium
 # https://leetcode.com/problems/longest-consecutive-sequence/
 # took 20 mins there is a minor gotcha to imporve efficiency
-def longestConsecutive(self, nums: List[int]) -> int:
+def longestConsecutive(self, nums):
     if len(nums) == 0:
         return 0
 
@@ -444,7 +446,7 @@ def longestConsecutive(self, nums: List[int]) -> int:
 # https://leetcode.com/problems/max-points-on-a-line/
 # Given an array of points where points[i] = [xi, yi] represents a point on the X-Y plane, return the maximum number of points that lie on the same straight line.
 # took me an hour an 50 mins
-def maxPoints(self, points: List[List[int]]) -> int:
+def maxPoints(self, points):
     lines = defaultdict(set[list])
     
     # draw lines from every point to every point
@@ -487,7 +489,7 @@ def maxPoints(self, points: List[List[int]]) -> int:
 # LeetCode 815. Bus Routes Hard
 # https://leetcode.com/problems/bus-routes/
 # took 55 mins hour. Wasn't bad, interesting question and solution. Had to add simple logic for performance by implementing hashmap for lookup rather than array
-def numBusesToDestination(self, routes: List[List[int]], source: int, target: int) -> int:
+def numBusesToDestination(self, routes, source, target):
     if source == target:
         return 0
     
