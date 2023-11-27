@@ -47,3 +47,87 @@ Level-order traversal is to traverse the tree level by level. Breadth-First Sear
 graph. The algorithm starts with a root node and visit the node itself first. Then traverse its neighbors, traverse its second level neighbors, traverse its 
 third level neighbors, so on and so forth.
 **Typically, we use a queue to help us to do BFS. If you are not so familiar with the queue data structure**
+
+implementation in python to *return an array of arrays for each of the levels**
+
+ex 
+Input: root = [3,9,20,null,null,15,7]
+Output: [[3],[9,20],[15,7]]
+
+from collections import deque
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+def levelOrder(self, root):
+    if not root:
+        return []
+    
+    # create queue for current level and add root
+    level = deque()
+    level.append(root)
+    ans = []
+    
+    # loop through all the items in the level, append them to res and 
+    while len(level):
+        ans.append(node.val for node in level)
+        
+        # create temp so python doesn't wine about editing iterator inside loop
+        temp = deque()
+        for node in level:
+            if node.left:
+                temp.append(node.left)
+            if node.right:
+                temp.append(node.right)
+        level = temp
+    return ans
+
+
+
+    sudocode implementation:
+
+    def levelOrder(root):
+        if not root: return []
+
+        res = []
+        level = Queue()
+        level.append(root)
+
+        while len(level):
+            
+            # add all items from level into res
+
+            # create new_level = Queue()
+            # for items in level
+                # add left to new_level
+                # add right to new_level
+            level = new_level
+        
+        return res
+
+
+
+
+
+==== Solving Tree Problems with Bottom-up vs Top-down ===========
+Typically, we can solve a tree problem recursively using a top-down approach or using a bottom-up approach.
+
+"Top-down" means that in each recursive call, we will visit the node first to come up with some values, and pass these values to its children
+when calling the function recursively.
+    - top down is a kind of pre-order traversal
+
+"Bottom-up" is another recursive solution. In each recursive call, we will firstly call the function recursively for all the children nodes and 
+then come up with the answer according to the returned values and the value of the current node itself
+    - This process can be regarded as a kind of postorder traversal
+
+using bottom-up vs top-down:
+    When you meet a tree problem, ask yourself two questions: Can you determine some parameters to help the node know its answer? Can you use these parameters
+     and the value of the node itself to determine what should be the parameters passed to its children? If the answers are both yes, try to solve this 
+     problem using a "top-down" recursive solution.
+
+    Or, you can think of the problem in this way: for a node in a tree, if you know the answer of its children, can you calculate the answer of that node? If 
+    the answer is yes, solving the problem recursively using a bottom up approach might be a good idea.
+
