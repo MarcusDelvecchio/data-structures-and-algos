@@ -1,0 +1,49 @@
+
+- From graph view, a tree can also be defined as a directed acyclic graph which has N nodes and N-1 edges
+- linked list is a tree
+- important constarint of a tree is no two references to the same node
+- trees cannot contain cycles
+
+Binary trees
+A Binary Tree is one of the most typical tree structure. As the name suggests, a binary tree is a tree data structure in which each node has at most two 
+children, which are referred to as the left child and the right child.
+
+types of traversal orders for trees:
+- Pre-order Traversal
+- In-order Traversal
+- Post-order Traversal
+- Level order Traversal
+
+(implementation difference)
+Recursive or Iterative
+
+    1. Pre-order traversal:
+    - Pre-order traversal is to visit the root first. Then traverse the left subtree. Finally, traverse the right subtree.
+
+            pre-order logic goes:
+                "visit" this node, visit left, visit right
+
+    2. In-order traversal:
+    - In-order traversal is to traverse the left subtree first. Then visit the root. Finally, traverse the right subtree.
+
+            in-order logic goes:
+                "visit" left, visit this node, visit right
+    
+    **Typically, for binary search tree, we can retrieve all the data in sorted order using in-order traversal.**
+        - this is because in BST, left is less than current, right is more. So for correct order we use in-order
+
+    
+    3. Post-order Traversal:
+    - Post-order traversal is to traverse the left subtree first. Then traverse the right subtree. Finally, visit the root.
+
+            post-order logic goes:
+                "visit" this node, visit right, then visit this node
+
+    **Typically when you delete nodes in a tree, deletion process will be in post-order. That is to say, when 
+    you delete a node, you will delete its left child and its right child before you delete the node itself.**
+
+===== Level order Traversal ====
+Level-order traversal is to traverse the tree level by level. Breadth-First Search is an algorithm to traverse or search in data structures like a tree or a 
+graph. The algorithm starts with a root node and visit the node itself first. Then traverse its neighbors, traverse its second level neighbors, traverse its 
+third level neighbors, so on and so forth.
+**Typically, we use a queue to help us to do BFS. If you are not so familiar with the queue data structure**
