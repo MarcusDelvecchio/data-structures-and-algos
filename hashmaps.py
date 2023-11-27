@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 # Leetcode Roman to Integer Easy
 # https://leetcode.com/problems/roman-to-integer/description/
 # Given a roman numeral, convert it to an integer.
@@ -539,3 +541,49 @@ def numBusesToDestination(self, routes, source, target):
     if closest == None:
             return -1
     return closest + 1
+
+# LeetCode Recover Array Hard
+# https://leetcode.com/problems/recover-the-original-array/submissions/
+# took about 1:30:00. Thought I could do it in like 45 but then got stuck on issues and gotcha with finding a k but it being invalid
+def recoverArray(self, nums):
+    nums_sorted = sorted(nums)
+    
+    isAbove = {}
+    positives = 0
+    # create hasmap of distance from every item to every other item
+    map = defaultdict(set)
+    for num in nums:
+        for otherNum in nums:
+            if num != otherNum:
+                map[num].add(num - otherNum)
+    
+    # loop through all of the sets of distances between num and other nums and find the k value that exists in every set
+    k = None
+    for distance in map[list(map.keys())[0]]:
+        success = True
+        for num in map.keys():
+            if not +distance in map[num] and not -distance in map[num]:
+                success = False
+                break
+        if success and distance%2 == 0 and positives == 0:
+            k = abs(int(distance/2))
+    
+            # with this potential k try to compose the original array by continuously using the lowest value
+            res = []
+            newNums = nums_sorted.copy()
+            index = 0
+            is_valid = True
+            while index < len(newNums):
+                res.append(newNums[index] + k)
+                if newNums[index] + 2*k in newNums:
+                    newNums.remove(newNums[index] + 2*k)
+                    
+                # if the corresponding higher[i] cannot be found for a value then the k is invalid
+                else:
+                    is_valid = False
+                    break  
+                index += 1
+            
+            # if we make it all the way through the array then the solution is valid and we can return res
+            if is_valid:
+                return res   
