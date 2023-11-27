@@ -565,7 +565,7 @@ def recoverArray(self, nums):
             if not +distance in map[num] and not -distance in map[num]:
                 success = False
                 break
-        if success and distance%2 == 0 and positives == 0:
+        if success and distance%2 == 0:
             k = abs(int(distance/2))
     
             # with this potential k try to compose the original array by continuously using the lowest value
@@ -586,4 +586,11 @@ def recoverArray(self, nums):
             
             # if we make it all the way through the array then the solution is valid and we can return res
             if is_valid:
-                return res   
+                return res
+
+# similar and simpler solution here
+# https://leetcode.com/problems/recover-the-original-array/discuss/1647452/Python-Short-solution-explained
+# rather than checking if a potential k value exists from every element to some other element he just checks every possible k value from the lowest value to every other val
+# and instead of duplicating the sorted(nums) array and removing items as we move up (as we select those items as a higher[i] to some lower[i]), he uses a Counter
+# because we only care about the number of items remaining not the order so why use an array and array.remove this is inefficient
+# and as soon as a single solution works the guy returns it (because there are multiplereco)

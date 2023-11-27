@@ -145,3 +145,36 @@ for a in range(10, 20):
     print("test")
     
 print(a) // 19
+
+
+======[ Python Counter Class ]=======
+- replaces dictionaries / dictionary alternative
+"from collections import Counter"
+
+A Counter is a dict that has {item: count} key-value [airs, where the 'count' value represents the count or frequency of the key
+ex.
+
+x = Counter("geeksforgeeks")
+ 
+# printing the elements of counter object
+for i in x.elements():
+    print ( i, end = " ")
+
+# prints "g g e e e e k k s s f o r "
+
+"It's a dictionary that stores objects as keys and counts as values. To count with Counter , you typically 
+provide a sequence or iterable of hashable objects as an argument to the class's constructor."
+
+see here:
+https://stackoverflow.com/questions/19883015/python-collections-counter-vs-defaultdictint
+
+
+========[ Python Floor "//" Operator (aka integer division)]=======
+-we can perform floor division (also sometimes known as integer division) using the // operator. This operator will divide the first argument
+by the second and round the result down to the nearest whole number.
+
+- I saw a leetcode solution (here https://leetcode.com/problems/recover-the-original-array/discuss/1647452/Python-Short-solution-explained)
+where the guy does something + k//2 EVEN THOUGH he knows k is even anyways
+but the reason he did this is to cast the result to an int regardless
+
+- so this "//" operator can also be used to perform division and ensure the result is an integer as well
