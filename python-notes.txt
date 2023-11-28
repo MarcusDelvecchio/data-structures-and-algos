@@ -169,7 +169,7 @@ see here:
 https://stackoverflow.com/questions/19883015/python-collections-counter-vs-defaultdictint
 
 
-========[ Python Floor "//" Operator (aka integer division)]=======
+========[ Python Floor "//" Operator (aka integer division) ]=======
 -we can perform floor division (also sometimes known as integer division) using the // operator. This operator will divide the first argument
 by the second and round the result down to the nearest whole number.
 

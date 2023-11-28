@@ -220,3 +220,23 @@ def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
 
     con(root)
     return root
+
+# alternative solution to connect solution
+# using DFS like mine, but instead of going all the way to thte bottom is just one node at a time depth first
+# utilizes the fact that if node.next we can set node.left.next = node.next.left which I didn't even realize
+def connect_2(self, root: 'Optional[Node]') -> 'Optional[Node]':
+    if not root: return
+    
+    def con(n):
+        if not n: return
+        next_l = n.left
+        next_r = n.right
+        while next_l:
+            next_l.next = next_r
+            next_l = next_l.right
+            next_r = next_r.left
+        con(n.left)
+        con(n.right)
+
+    con(root)
+    return root
