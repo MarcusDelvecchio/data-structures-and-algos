@@ -64,3 +64,68 @@ def isSymmetric(self, root: Optional[TreeNode]) -> bool:
         level = next_level
     
     return True
+
+# Path Sum Tree Question
+# Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum.
+# A leaf is a node with no children.
+# https://leetcode.com/explore/learn/card/data-structure-tree/17/solve-problems-recursively/537/
+def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+    if not root: return False
+    
+    if not root.left and not root.right:
+        return root.val == targetSum
+    else:
+        newTargetSum = targetSum - root.val
+        return Solution.hasPathSum(self, root.left, newTargetSum) or Solution.hasPathSum(self, root.right, newTargetSum)
+
+# produce inorder array
+# given a binary tree return the in-order traversal in an array
+def inorder(root):
+    if not root: return []
+
+    return inorder(root.left) + [root.val] + inorder(root.right)
+
+# produce inorder array
+# given a binary tree return the in-order traversal in an array
+def postorder(root):
+    if not root: return []
+
+    return inorder(root.left) + inorder(root.right) + [root.val]
+
+# simple example tree
+third_left = TreeNode(15)
+third_right = TreeNode(7)
+second_right = TreeNode(20, third_left, third_right)
+second_left = TreeNode(9)
+root = TreeNode(3, second_left, second_right)
+
+# Construct Binary Tree from Inorder and Postorder Traversal
+# Given two integer arrays inorder and postorder where inorder is the inorder traversal of a binary tree and postorder 
+# is the postorder traversal of the same tree, construct and return the binary tree.
+# https://leetcode.com/explore/learn/card/data-structure-tree/133/conclusion/942/
+def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+    root = postorder[len(postorder) -1]
+    right, left = None, None
+    
+    # if the root has items to the right of it, recursively handle that tree
+    inorder_root_index = inorder.index(root)
+    if inorder_root_index < len(inorder) - 1:
+        postorder_cut = postorder[:len(postorder)-1]
+        inorder_right = inorder[inorder_root_index + 1:]
+        right = Solution.buildTree(self, inorder_right, postorder_cut)
+        
+    # check for left
+    if inorder_root_index > 0:
+        inorder_left = inorder[:inorder_root_index]
+        postorder_left = postorder.copy()
+        while postorder_left[-1] not in inorder_left:
+            postorder_left.pop()
+    
+        left = Solution.buildTree(self, inorder_left, postorder_left)
+        
+    return TreeNode(root, left, right)
+
+# using a few properties of inorder and postorder
+# 1. the last node of the postorder list is the root
+# 2. everything to the left of a node in the inorder list will be to its left, and everything after will be in it's right tree
+
