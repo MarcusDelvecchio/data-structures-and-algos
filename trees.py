@@ -344,3 +344,21 @@ def addOneRow(self, root, val, depth):
             insert(root.right, dep+1)
     insert(root, 1)
     return root
+
+# Find Duplicate Subtrees LeetCode Medium
+# https://leetcode.com/problems/find-duplicate-subtrees/description/
+# did in 23 mins noice
+# weirdest issue where swtiching the order of nodes returned makes the answer incorrect - see the comment
+def findDuplicateSubtrees(self, root):
+    trees, res = Counter(), []
+
+    def dfs(root):
+        if not root: return [None]
+        tree = [root.val] + dfs(root.left) + dfs(root.right)
+        # tree = dfs(root.left) + [root.val] + dfs(root.right) is incorrect - why?
+        if tuple(tree) and trees[tuple(tree)] == 1:
+            res.append(root)
+        trees[tuple(tree)] += 1
+        return tree
+    dfs(root)
+    return res
