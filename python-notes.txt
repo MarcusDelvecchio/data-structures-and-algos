@@ -178,3 +178,20 @@ where the guy does something + k//2 EVEN THOUGH he knows k is even anyways
 but the reason he did this is to cast the result to an int regardless
 
 - so this "//" operator can also be used to perform division and ensure the result is an integer as well
+
+
+========[ Python deque (pronouncd "deck") data structure ]========
+*is a double-ended queue ("de"-"que" like "deck") data structure*
+see https://docs.python.org/3/library/collections.html#deque-objects
+
+from collections import deque
+my_queue = deque([1,2,3]) # creates deque with initial values of given list (not my_deque = deque(10) throws error - inital value must be iterable)
+
+the my_queue variable is truthy while there are items in the queue, so I can do:
+
+while my_queue:
+    # do something
+
+I can add motify the deque with:
+    my_queue.append(1)
+    my_queue.pop()
