@@ -154,4 +154,48 @@ def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNo
     left = Solution.buildTree(self, inorder[:inorder_root_index], postorder)
         
     return TreeNode(root, left, right)
-            
+
+# Path Sum 2 LeetCode Medium
+# https://leetcode.com/problems/path-sum-ii/submissions/
+# took almost 40 but still picking up the tree ideas
+# this one was just weird bc needing to pass data back up the tree
+def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
+    if not root:
+        return []
+    
+    # check if a leaf node and if value is correct value to finish path 
+    if not root.left and not root.right:
+        if root.val == targetSum:
+            return [[root.val]]
+        else:
+            return []
+        
+    left_solutions = Solution.pathSum(self, root.left, targetSum - root.val)
+    right_solutions = Solution.pathSum(self, root.right, targetSum - root.val)
+    
+    res = []
+    # if there are solutions from the left branch add our value to them and return upwards
+    for solution in left_solutions:
+        sol = [root.val] + solution
+        res.append(sol)
+        
+    # if there are solutions from the right branch add our value to them and return upwards
+    for solution in right_solutions:
+        sol = [root.val] + solution
+        res.append(sol) 
+    return res
+
+# Binary Tree Sum Root to Leaf Numbers
+# https://leetcode.com/problems/sum-root-to-leaf-numbers/description/
+# took 11 mins
+res = 0 # defining outside because if we do definition inside nested func we will get 'variable res referneced before assignment' - also can workarounf by doing res[0] but this is fine
+def sumNumbers(self, root: Optional[TreeNode]) -> int:
+    def get_sum(root, num):
+        if not root: return num
+        if root.left: get_sum(root.left, num + str(root.val))
+        if root.right: get_sum(root.right, num + str(root.val))
+        if not root.left and not root.right:
+            self.res += int(num + str(root.val))
+    
+    get_sum(root, "")
+    return self.res
