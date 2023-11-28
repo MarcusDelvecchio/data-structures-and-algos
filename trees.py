@@ -128,4 +128,19 @@ def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNo
 # using a few properties of inorder and postorder
 # 1. the last node of the postorder list is the root
 # 2. everything to the left of a node in the inorder list will be to its left, and everything after will be in it's right tree
-
+# much simpler solution below
+def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:
+    if not inorder:
+        return None
+    
+    root = postorder.pop()
+    
+    # if the root has items to the right of it, recursively handle that tree
+    inorder_root_index = inorder.index(root)
+    right = Solution.buildTree(self, inorder[inorder_root_index+1:], postorder)
+        
+    # check for left    
+    left = Solution.buildTree(self, inorder[:inorder_root_index], postorder)
+        
+    return TreeNode(root, left, right)
+            
