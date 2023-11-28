@@ -199,3 +199,24 @@ def sumNumbers(self, root: Optional[TreeNode]) -> int:
     
     get_sum(root, "")
     return self.res
+
+# Populating Next Right Pointers in Each Node
+# https://leetcode.com/problems/populating-next-right-pointers-in-each-node/description/
+# took 28 but I call it 25 becuase of stupid issues
+# combination of both iterative and recursive approach I guess?
+def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
+    if not root: return
+    
+    def con(n):
+        if not n: return
+        next_l = n.left
+        next_r = n.right
+        while next_l:
+            next_l.next = next_r
+            next_l = next_l.right
+            next_r = next_r.left
+        con(n.left)
+        con(n.right)
+
+    con(root)
+    return root
