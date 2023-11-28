@@ -283,30 +283,27 @@ def lowestCommonAncestor(self, root, p, q):
     return l or r
 
 # Add One Row to Tree LeetCode Medium
-# took 33 mins
+# took 33 mins and 12 mins to shorten
 # https://leetcode.com/problems/add-one-row-to-tree/description/
+# Given the root of a binary tree and two integers val and depth, add a row of nodes with value val at the given depth depth.
+# (see full explanation, a bit complicated)
 def addOneRow(self, root: Optional[TreeNode], val: int, depth: int) -> Optional[TreeNode]:
     if not root: return None
     q, d = deque([root]), 1
 
     if d == depth:
-        new_root = TreeNode(val, root)
-        return new_root
+        return TreeNode(val, root)
 
-    while d <= depth:
+    while d < depth:
         next_row = deque()
-        for node in q:
-            if node.left:
-                next_row.append(node.left)
-            if node.right:
-                next_row.append(node.right)
-        d += 1
-        if d == depth:
+        if d + 1 == depth:
             for n in q:
-                if not n: continue
                 n.left = TreeNode(val, n.left)
                 n.right = TreeNode(val, None, n.right)
         else:
+            for node in q:
+                if node.left: next_row.append(node.left)
+                if node.right: next_row.append(node.right)
             q = next_row
-
-    return root 
+        d += 1
+    return root
