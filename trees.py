@@ -288,10 +288,9 @@ def lowestCommonAncestor(self, root, p, q):
 # Given the root of a binary tree and two integers val and depth, add a row of nodes with value val at the given depth depth.
 # (see full explanation, a bit complicated)
 def addOneRow(self, root, val, depth):
-    if not root: return None
     q, d = deque([root]), 1
 
-    if d == depth:
+    if depth == 1:
         return TreeNode(val, root)
 
     while d < depth:
@@ -306,6 +305,27 @@ def addOneRow(self, root, val, depth):
                 if node.right: next_row.append(node.right)
             q = next_row
         d += 1
+    return root
+
+# sombody else's BFS solution for Add One Row. Adding here because I it makes a lot of sense
+# also follows that pattern of filling queue level-by-level with nested loop
+# https://leetcode.com/problems/add-one-row-to-tree/solutions/2664284/python-two-solutions-using-dfs-and-bfs/
+def addOneRow(self, root, val, depth):
+    if depth == 1: return TreeNode(val, root)
+    
+    queue = deque([root])
+    while depth - 1 != 1:
+        for _ in range(len(queue)):
+            node = queue.popleft()
+            if node.left:  queue.append(node.left)
+            if node.right: queue.append(node.right)
+        depth -= 1
+            
+    while queue:
+        node = queue.popleft()
+        node.left  = TreeNode(val, left  = node.left)
+        node.right = TreeNode(val, right = node.right)
+        
     return root
 
 # recursive solution (depth first rather then breadth first) for above
