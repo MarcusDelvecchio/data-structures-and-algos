@@ -245,7 +245,7 @@ def connect_2(self, root: 'Optional[Node]') -> 'Optional[Node]':
 # Lowest Common Ancestor of a Binary Tree Medium
 # https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/description/
 # took 50 mins but did for 30 and got stuck on issues with testcases (seemingly) merging but they weren't
-def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+def lowestCommonAncestor(self, root, p, q):
     if p is q: return p
     res, P = [], []
     
@@ -267,3 +267,17 @@ def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -
         if res[0][i] is res[1][i]:
             recent = res[0][i]
     return recent
+
+# Lowest Common Ancestor of a Binary Tree Medium alternative solution
+# wow so short so simple
+# explanation here https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/solutions/3231708/236-solution-with-step-by-step-explanation/
+def lowestCommonAncestor(self, root, p, q):
+    if not root or root == p or root == q:
+      return root
+
+    l = lowestCommonAncestor(root.left, p, q)
+    r = lowestCommonAncestor(root.right, p, q)
+
+    if l and r:
+      return root
+    return l or r
