@@ -195,3 +195,5 @@ while my_queue:
 I can add motify the deque with:
     my_queue.append(1)
     my_queue.pop()
+
+we can also get the length with len(my_queue)

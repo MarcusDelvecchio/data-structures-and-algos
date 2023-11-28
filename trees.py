@@ -224,19 +224,46 @@ def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':
 # alternative solution to connect solution
 # using DFS like mine, but instead of going all the way to thte bottom is just one node at a time depth first
 # utilizes the fact that if node.next we can set node.left.next = node.next.left which I didn't even realize
+# here https://leetcode.com/problems/populating-next-right-pointers-in-each-node/solutions/379177/python3-bfs-and-dfs/
 def connect_2(self, root: 'Optional[Node]') -> 'Optional[Node]':
     if not root: return
     
-    def con(n):
-        if not n: return
-        next_l = n.left
-        next_r = n.right
-        while next_l:
-            next_l.next = next_r
-            next_l = next_l.right
-            next_r = next_r.left
-        con(n.left)
-        con(n.right)
+    ## (1). left child -> right child
+    ## (2). right child -> next.left child
+    def dfs(self,root):
+        if root == None or root.left == None:
+            return
+        root.left.next = root.right
+        if root.next != None: 
+            root.right.next = root.next.left
+        self.dfs(root.left)
+        self.dfs(root.right)
 
-    con(root)
+    dfs(root)
     return root
+
+# Lowest Common Ancestor of a Binary Tree Medium
+# https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/description/
+# took 50 mins but did for 30 and got stuck on issues with testcases (seemingly) merging but they weren't
+def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+    if p is q: return p
+    res, P = [], []
+    
+    def dfs(root):
+        if not root: return
+        P.append(root)
+        if root is p or root is q:
+            res.append(list(P))
+            if len(res) == 2:
+                return True
+        if dfs(root.left) or dfs(root.right):
+            return True
+        P.pop()
+
+    dfs(root)
+    for i in range(len(res[0])):
+        if i == len(res[0]) or i == len(res[1]):
+            return recent
+        if res[0][i] is res[1][i]:
+            recent = res[0][i]
+    return recent
