@@ -78,6 +78,17 @@ def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
         newTargetSum = targetSum - root.val
         return Solution.hasPathSum(self, root.left, newTargetSum) or Solution.hasPathSum(self, root.right, newTargetSum)
 
+# Same Tree LeetCode Easy
+# Given the roots of two binary trees p and q, write a function to check if they are the same or not.
+# https://leetcode.com/problems/same-tree/
+def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+    if not p or not q:
+        if not p and not q:
+            return True
+        return False
+    
+    return q.val == p.val and Solution.isSameTree(self, p.left, q.left) and Solution.isSameTree(self, p.right, q.right)
+
 # produce inorder array
 # given a binary tree return the in-order traversal in an array
 def inorder(root):
