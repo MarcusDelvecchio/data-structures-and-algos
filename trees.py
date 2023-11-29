@@ -349,6 +349,7 @@ def addOneRow(self, root, val, depth):
 # https://leetcode.com/problems/find-duplicate-subtrees/description/
 # did in 23 mins noice
 # weirdest issue where swtiching the order of nodes returned makes the answer incorrect - see the comment
+# very nice solution one of the top Python solutions is the EXACT same https://leetcode.com/problems/find-duplicate-subtrees/solutions/1178526/easy-clean-straightforward-python-recursive/
 def findDuplicateSubtrees(self, root):
     trees, res = Counter(), []
 
@@ -362,3 +363,26 @@ def findDuplicateSubtrees(self, root):
         return tree
     dfs(root)
     return res
+
+# Construct Binary Tree from Preorder and Inorder Traversal
+# https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description/
+# took 35 mins because of small issues but could have done in like 25-30 if ideal
+# still have a hard time wrapping my head around this problem and dealing with the small edge cases with the recusvie calls and poping items from the queue
+def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+    if len(preorder) == 0:
+        return None
+    
+    preorder_glo = deque(preorder)
+    def construct(preorder, inorder):
+        if len(inorder) == 0: return None
+        if len(inorder) == 1:
+            return TreeNode(preorder_glo.popleft())
+
+        root_index = inorder.index(preorder[0])
+        current = preorder_glo.popleft()
+
+        left = construct(preorder_glo, inorder[:root_index])
+        right = construct(preorder_glo, inorder[root_index + 1:])
+        return TreeNode(current, left, right)
+
+    return construct(preorder_glo, inorder)
