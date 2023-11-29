@@ -391,6 +391,7 @@ def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNod
 # yet again, another vastly simpler solution done in 6 lines from some other guy
 # study this. Its so simple
 # https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/solutions/401124/python-easy-solution-with-comments/
+# note that also here list.index(n) is O(n) for every input in n so it inefficient, so a hashmap could have simply been used to improve effeciency but good otherwise
 def buildTree(self, preorder, inorder):
         # Recursive solution
         if inorder:
@@ -406,3 +407,18 @@ def buildTree(self, preorder, inorder):
             # next of root index till last index
             root.right = self.buildTree(preorder, inorder[index+1:])
             return root
+
+# Binary Tree Right Side View LeetCode Medium
+# https://leetcode.com/problems/binary-tree-right-side-view/description/
+# this took 8:41 seconds new record for medium noice  
+def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+    if not root: return []
+    nodes = defaultdict(TreeNode)
+
+    def dfs(root, d):
+        if not root: return
+        nodes[d] = root
+        dfs(root.left, d+1)
+        dfs(root.right, d+1)
+    dfs(root, 0)
+    return [nodes[d].val for d in nodes.keys()]

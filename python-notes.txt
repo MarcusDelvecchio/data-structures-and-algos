@@ -1,5 +1,8 @@
 Python notes
 
+simple things:
+- empty lists are falsy in python
+
 python function parameters are pass by assignment (similar to pass by reference)
 	- when you pass a variable into a function and change it's value, the inital variable will be changed (if it was pass-by-value, it would not, as only the variables *value* would be copied into the function)
 	- however pass by assignment is different than pass by reference
