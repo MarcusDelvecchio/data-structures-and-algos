@@ -490,3 +490,28 @@ class Solution:
                 freq = sums[sum]
         
         return res
+
+# Binary Tree Maximum Path Sum Hard
+# https://leetcode.com/problems/binary-tree-maximum-path-sum/description/
+# did in 13 minutes say word
+def maxPathSum(self, root: Optional[TreeNode]) -> int:
+    if not root: return 0
+    m = [root.val]
+
+    def find_paths(root):
+        if not root: return 0
+
+        # 1. find max sub in right and left subtrees 
+        right = max(find_paths(root.right), 0)
+        left = max(find_paths(root.left), 0)
+
+        # 2. update max if entire subtree (left, root, right) is greater or right subtree is greater or left subtree is greater
+        if right + left + root.val > m[0]:
+            m[0] = right + left + root.val
+
+        # 3. return the max from the side of the tree that has the larger sum (or the node itself if both children are negative)
+        return max(left, right) + root.val
+
+
+    find_paths(root)
+    return m[0]
