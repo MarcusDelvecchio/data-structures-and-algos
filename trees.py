@@ -463,3 +463,30 @@ def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
     return self.res
 
 # note that at 4. targets.copy() is no longer needed to be used because the targets array is duplicated/copied in the above line anyways
+
+# Most Frequent Subtree Sum LeetCode Medium
+# https://leetcode.com/problems/most-frequent-subtree-sum/submissions/
+# took 12 mins
+from collections import Counter
+class Solution:
+    def findFrequentTreeSum(self, root: Optional[TreeNode]) -> List[int]:
+        sums = Counter()
+
+        def dfs(root):
+            if not root: return 0
+            val = root.val + dfs(root.right) + dfs(root.left)
+            sums[val] += 1
+            return val
+        
+        dfs(root)
+        
+        # return largest vals in res
+        freq, res = 0, []
+        for sum in sums.keys():
+            if sums[sum] == freq:
+                res.append(sum)
+            if sums[sum] > freq:
+                res = [sum]
+                freq = sums[sum]
+        
+        return res
