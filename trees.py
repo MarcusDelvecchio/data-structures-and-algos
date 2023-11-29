@@ -386,3 +386,23 @@ def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNod
         return TreeNode(current, left, right)
 
     return construct(preorder_glo, inorder)
+
+
+# yet again, another vastly simpler solution done in 6 lines from some other guy
+# study this. Its so simple
+# https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/solutions/401124/python-easy-solution-with-comments/
+def buildTree(self, preorder, inorder):
+        # Recursive solution
+        if inorder:
+            # Find index of root node within in-order traversal
+            index = inorder.index(preorder.pop(0))
+            root = TreeNode(inorder[index])
+            
+            # Recursively generate left subtree starting from 
+            # 0th index to root index within in-order traversal
+            root.left = self.buildTree(preorder, inorder[:index])
+            
+            # Recursively generate right subtree starting from 
+            # next of root index till last index
+            root.right = self.buildTree(preorder, inorder[index+1:])
+            return root
