@@ -422,3 +422,44 @@ def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
         dfs(root.right, d+1)
     dfs(root, 0)
     return [nodes[d].val for d in nodes.keys()]
+
+# Path Sum III LeetCode Medium
+# https://leetcode.com/problems/path-sum-iii/submissions/
+# took about 40 mins but could have had it in like 20 but was having issues with 1 off error
+def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
+    if not root: return 0
+
+    res = [0]
+    def find_paths(root, targets):
+        if not root: return
+        
+        res[0] += targets.count(root.val)
+        for i in range(len(targets)):
+            targets[i] -= root.val
+        targets.append(targetSum)
+        
+        find_paths(root.left, targets.copy())
+        find_paths(root.right, targets.copy())
+    find_paths(root, [targetSum])
+    return res[0]
+
+# my cleaner solution with comments
+res = 0
+def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
+    def find_paths(root, targets):
+        if not root: return
+
+        # 1. increment res if root is equal to any of the values in targets ("completes" any of the paths in targets)
+        self.res += targets.count(root.val)
+        
+        # 2. subtract root.val from every target in targets and add target to targets again ("update" the paths in targets)
+        targets = [targets[i] - root.val for i in range(len(targets))] + [targetSum]
+
+        # 4. call function on left and right
+        find_paths(root.left, targets)
+        find_paths(root.right, targets)
+        
+    find_paths(root, [targetSum])
+    return self.res
+
+# note that at 4. targets.copy() is no longer needed to be used because the targets array is duplicated/copied in the above line anyways
