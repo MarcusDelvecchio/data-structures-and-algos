@@ -554,3 +554,28 @@ def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
             col_vals.append(node[0])
         vals.append(col_vals)
     return vals
+
+# Binary Tree Cameras LeetCode Hard
+# https://leetcode.com/problems/binary-tree-cameras/description/
+# took 43 mins but was pretty ugly
+cams = 0
+def minCameraCover(self, root: Optional[TreeNode]) -> int:
+    if not root: return 0
+    if not root.left and not root.right:
+        return 1
+
+    def calc_cams(root, has_parent):
+        if not root: return False, False
+        if root.left or root.right:
+            left_needs, left_is = calc_cams(root.left, True)
+            right_needs, right_is = calc_cams(root.right, True)
+            if left_needs or right_needs:
+                self.cams += 1
+                return False, True
+            elif left_is or right_is:
+                return False, False
+        if not has_parent:
+            self.cams += 1
+        return True, False
+    calc_cams(root, False)
+    return self.cams
