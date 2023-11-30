@@ -580,66 +580,43 @@ def minCameraCover(self, root: Optional[TreeNode]) -> int:
     calc_cams(root, False)
     return self.cams
 
-# attempt Height of Binary Tree After Subtree Removal Queries Hard
-# incorrect and not working
+longest = []
+longest_len = 0
 def treeQueries(self, root: Optional[TreeNode], queries: List[int]) -> List[int]:
-    i, node_depths, max_depth = 0, Counter(), [0]
-
-    # number of nodes at each depth level
-    nodes_at_depths = defaultdict(int)
-
-    # the layer all nodes appear in
-    depth_of_nodes = defaultdict(int)
-
-    # node_depths aka nodes_under_nodes
-    node_depth_vals = Counter()
-
+    paths_with_lengths = defaultdict(list)
     
-
-    def get_depths(root, d):
+    def dfs(root, d, p):
         if not root: return 0
 
-        depth_of_nodes[root.val] = d
-        nodes_at_depths[d] += 1
-        if d > max_depth[0]:
-            max_depth[0] = d
+        if d > 4500:
+            print(d)
+        new = p.copy()
+        new[root.val] = True
+        paths_with_lengths[d].append(new)
 
-        max_depth_under = 0
-        if root.right or root.left:
-            max_depth_under = max(get_depths(root.left, d+1) + 1, get_depths(root.right, d+1) + 1)
-        node_depths[root.val] = max_depth_under
-        node_depth_vals[max_depth_under] += 1
-        return max_depth_under
+        if d > self.longest_len:
+            self.longest_len = d
+            self.longest = new
 
-    removed = None
-    def get_max_depth(root, d):
-        if not root: return 0
-        max_depth_under, left, right = 0, 0, 0
-        if root.right and root.right.val != removed:
-            right = get_max_depth(root.right, d+1) + 1
-        if root.left and root.left.val != removed:
-            left = get_max_depth(root.left, d+1) + 1
-        max_depth_under = max(right, left)
-        if d > 16:
-            print("meat")
-        return max_depth_under
-    
+        dfs(root.left, d+1, new)
+        dfs(root.right, d+1, new)
+
+    dfs(root, 0, dict({root.val: True}))
     res = []
-    get_depths(root, 0)
-    for query in queries:
-        d = depth_of_nodes[query]
-
-        if max_depth[0] > node_depths[query] + d:
-            res.append(max_depth[0])
+    for q in queries:
+        if q in self.longest:
+            i = self.longest_len
+            found = False
+            while i > 0 and not found:
+                if i in paths_with_lengths:
+                    for path in paths_with_lengths[i]:
+                        if q not in path:
+                            res.append(i)
+                            found = True
+                            break
+                i -= 1
+            if not found:
+                res.append(0)
         else:
-            depth = max_depth[0] - 1
-            print('here')
-            print(depth)
-            print(node_depth_vals)
-            while depth > 0:
-                print(depth)
-                if node_depth_vals[depth] > 1:
-                    res.append(depth)
-                    break
-                depth -= 1
+            res.append(self.longest_len)
     return res
