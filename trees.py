@@ -579,3 +579,67 @@ def minCameraCover(self, root: Optional[TreeNode]) -> int:
         return True, False
     calc_cams(root, False)
     return self.cams
+
+# attempt Height of Binary Tree After Subtree Removal Queries Hard
+# incorrect and not working
+def treeQueries(self, root: Optional[TreeNode], queries: List[int]) -> List[int]:
+    i, node_depths, max_depth = 0, Counter(), [0]
+
+    # number of nodes at each depth level
+    nodes_at_depths = defaultdict(int)
+
+    # the layer all nodes appear in
+    depth_of_nodes = defaultdict(int)
+
+    # node_depths aka nodes_under_nodes
+    node_depth_vals = Counter()
+
+    
+
+    def get_depths(root, d):
+        if not root: return 0
+
+        depth_of_nodes[root.val] = d
+        nodes_at_depths[d] += 1
+        if d > max_depth[0]:
+            max_depth[0] = d
+
+        max_depth_under = 0
+        if root.right or root.left:
+            max_depth_under = max(get_depths(root.left, d+1) + 1, get_depths(root.right, d+1) + 1)
+        node_depths[root.val] = max_depth_under
+        node_depth_vals[max_depth_under] += 1
+        return max_depth_under
+
+    removed = None
+    def get_max_depth(root, d):
+        if not root: return 0
+        max_depth_under, left, right = 0, 0, 0
+        if root.right and root.right.val != removed:
+            right = get_max_depth(root.right, d+1) + 1
+        if root.left and root.left.val != removed:
+            left = get_max_depth(root.left, d+1) + 1
+        max_depth_under = max(right, left)
+        if d > 16:
+            print("meat")
+        return max_depth_under
+    
+    res = []
+    get_depths(root, 0)
+    for query in queries:
+        d = depth_of_nodes[query]
+
+        if max_depth[0] > node_depths[query] + d:
+            res.append(max_depth[0])
+        else:
+            depth = max_depth[0] - 1
+            print('here')
+            print(depth)
+            print(node_depth_vals)
+            while depth > 0:
+                print(depth)
+                if node_depth_vals[depth] > 1:
+                    res.append(depth)
+                    break
+                depth -= 1
+    return res
