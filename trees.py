@@ -580,43 +580,78 @@ def minCameraCover(self, root: Optional[TreeNode]) -> int:
     calc_cams(root, False)
     return self.cams
 
-longest = []
-longest_len = 0
+# Height of Binary Tree After Subtree Removal Queries LeetCode Hard
+# https://leetcode.com/problems/height-of-binary-tree-after-subtree-removal-queries/
+# this shit took me 6:15:00 ...
+# I tried every method but kept gettings issues with edge case scnaraios where the tree was as wide or as tall as possible
+# the solution is to use bfs and store the 'nodes under' for all nodes along each depth
+# then when you remove the specified node you can simply get sibling node to that node with the largest number of nodes under it
+# about 2 or 3 hours into this problem I tried the bfs solution exactly like this, but ran into memory problems when I tried to store
+# the number of nodes under EVERY node in every layer. So I moved on to try different solutions
+# a day later I cam  back after hints and realized that I could have reduced the memory issue by only storing the top TWO nodes
+# with the most number of nodes under them in each layer and this worked.
+# need to try to think of these edge case scaarios more where the tree is as large or is as wide as possible
 def treeQueries(self, root: Optional[TreeNode], queries: List[int]) -> List[int]:
-    paths_with_lengths = defaultdict(list)
-    
-    def dfs(root, d, p):
+    # aka "nodes under this node". Map of { node.val: number of nodes under said node } hash table
+    node_depths = Counter()
+
+    # map containing the two nodes in each depth with the most nodes under it
+    nodes_at_depths = defaultdict(list)
+
+    # map for node to it's depth (distance from top)
+    depth_of_nodes = defaultdict(int)
+
+    def get_depths(root, d):
         if not root: return 0
+        depth_of_nodes[root.val] = d                  
 
-        if d > 4500:
-            print(d)
-        new = p.copy()
-        new[root.val] = True
-        paths_with_lengths[d].append(new)
-
-        if d > self.longest_len:
-            self.longest_len = d
-            self.longest = new
-
-        dfs(root.left, d+1, new)
-        dfs(root.right, d+1, new)
-
-    dfs(root, 0, dict({root.val: True}))
-    res = []
-    for q in queries:
-        if q in self.longest:
-            i = self.longest_len
-            found = False
-            while i > 0 and not found:
-                if i in paths_with_lengths:
-                    for path in paths_with_lengths[i]:
-                        if q not in path:
-                            res.append(i)
-                            found = True
-                            break
-                i -= 1
-            if not found:
-                res.append(0)
+        max_depth_under = 0
+        if root.right or root.left:
+            max_depth_under = max(get_depths(root.left, d+1) + 1, get_depths(root.right, d+1) + 1)
+        node_depths[root.val] = max_depth_under
+    
+        # keep the two largest 'nodes under' values at each depth
+        if len(nodes_at_depths[d]) < 2:
+            nodes_at_depths[d].append(root.val)
         else:
-            res.append(self.longest_len)
+            if node_depths[root.val] > node_depths[nodes_at_depths[d][0]] or node_depths[root.val] > node_depths[nodes_at_depths[d][1]]:
+                index_to_replace = 0 if node_depths[nodes_at_depths[d][1]] > node_depths[nodes_at_depths[d][0]] else 1
+                nodes_at_depths[d][index_to_replace] = root.val
+        return max_depth_under
+
+    res = []
+    get_depths(root, 0)
+    for query in queries:
+        # get the depth of the node
+        d = depth_of_nodes[query]
+
+        # get the other nodes at the same depth
+        layer = nodes_at_depths[d]
+
+        # return the sibling value
+        if len(layer) == 1:
+            d_new = d
+            d_new -= 1
+            added = False
+            while d_new > 0 and not added:
+                layer = nodes_at_depths[d_new]
+                largest = 0
+                for node in layer:
+                    if node_depths[node] != node_depths[query] + d - d_new:
+                        if not largest:
+                            largest = node_depths[node]
+                        elif node_depths[node] > largest:
+                            largest = node_depths[node]
+                        added = True
+                        res.append(max(largest + d_new, d - 1))
+                d_new -= 1
+            else:
+                res.append(d - 1)
+        else:
+            index = None
+            if query in layer:
+                index = 0 if layer[1] == query else 1
+            else:
+                index = 0 if node_depths[layer[0]] > node_depths[layer[1]] else 1
+            res.append(node_depths[layer[index]] + d)
     return res
