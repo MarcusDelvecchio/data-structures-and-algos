@@ -515,3 +515,42 @@ def maxPathSum(self, root: Optional[TreeNode]) -> int:
 
     find_paths(root)
     return m[0]
+
+# Vertical Order Traversal of a Binary Tree Hard
+# https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/description/
+# took 40 flippin minutes because of the issue with nodes being able to have the same damn coordinates
+# but definitely could have figured out the sorting better and faster, realized it was top-to-bottom for column values 2 mins before at the end as well so dfs needed dict logic to support that
+# will definitely do a BFS implementation soon for practice and bc I think it can be much cleaner
+def verticalTraversal(self, root: Optional[TreeNode]) -> List[List[int]]:
+    if not root: return []
+    cols = defaultdict(list)
+
+    def traverse(root, row, col):
+        if not root: return
+
+        # add value to column
+        col_vals = [item for item in cols[col] if item[1] == row]
+        new_col = []
+        for node in cols[col]:
+            if node[1] < row:
+                new_col.append(node)
+            else:
+                break
+        new_col.extend(sorted(col_vals + [(root.val, row)]))
+        for node in cols[col]:
+            if node[1] > row:
+                new_col.append(node)
+        cols[col] = new_col
+
+        # traverse children
+        traverse(root.left, row + 1, col - 1)
+        traverse(root.right, row + 1, col + 1)
+    
+    traverse(root, 0, 0)
+    vals = []
+    for col in sorted(cols.keys()):
+        col_vals = []
+        for node in cols[col]:
+            col_vals.append(node[0])
+        vals.append(col_vals)
+    return vals
