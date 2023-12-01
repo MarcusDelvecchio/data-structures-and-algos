@@ -655,3 +655,49 @@ def treeQueries(self, root: Optional[TreeNode], queries: List[int]) -> List[int]
                 index = 0 if node_depths[layer[0]] > node_depths[layer[1]] else 1
             res.append(node_depths[layer[index]] + d)
     return res
+
+# Recover a Tree From Preorder Traversal LeetCode Hard
+# https://leetcode.com/problems/recover-a-tree-from-preorder-traversal/description/
+# took 58 mins
+# wasn't bad. I tried fiddling with the string logic and wasn't sure whether to do it iteratively or recursively for a while
+# but figured it out after a bit. Also just converted the string bs to a queue of (node_val, node_depth) tuples
+# which made the problem a lot easier to grasp
+def recoverFromPreorder(self, traversal: str) -> Optional[TreeNode]:
+    if not traversal: return None
+
+    # convert the string traversal into a queue
+    q, depth, num = deque(), 0, ""
+    for i in range(len(traversal)):
+        if traversal[i] == '-':
+            depth += 1
+        else:
+            num += traversal[i]
+
+            if i+1 == len(traversal) or traversal[i+1] == '-':
+                q.append((int(num), depth))
+                num, depth = "", 0
+
+    def build_tree(nodes):
+        if not nodes: return None
+
+        root = nodes.popleft()
+
+        # collect nodes in left and right trees
+        nodes_left = deque()
+        nodes_right = deque()
+        i = 0
+
+        # loop through tuples until you find a second node with depth d+1 from root. When you find this you know you have hit the right sub tree (nodes on the right)
+        for node in nodes:
+            if node[1] == root[1] + 1:
+                i += 1
+            
+            if i < 2:
+                nodes_left.append(node)
+            else:
+                nodes_right.append(node)
+        
+        # create node and recursively build left and right trees
+        return TreeNode(int(root[0]), build_tree(nodes_left), build_tree(nodes_right))
+
+    return build_tree(q)
