@@ -587,33 +587,3 @@ def recoverArray(self, nums):
             # if we make it all the way through the array then the solution is valid and we can return res
             if is_valid:
                 return res
-
-# similar and simpler solution here
-# https://leetcode.com/problems/recover-the-original-array/discuss/1647452/Python-Short-solution-explained
-# rather than checking if a potential k value exists from every element to some other element he just checks every possible k value from the lowest value to every other val
-# and instead of duplicating the sorted(nums) array and removing items as we move up (as we select those items as a higher[i] to some lower[i]), he uses a Counter
-# because we only care about the number of items remaining not the order so why use an array and array.remove this is inefficient
-# and as soon as a single solution works the guy returns it (because there are multiplereco)
-
-# Cycle Length Queries in a Tree LeetCode Hard
-# https://leetcode.com/problems/cycle-length-queries-in-a-tree/description/
-# took 13 mins but was reading for like 8 and complete in 5
-# Given the properties of the tree in question, node with value n has parent value floor(n/2). This can be used to traverse upwards in the tree from both nodes 
-# (while keeping track of distance traveled) until a common ancestor is found. This distance will represent the length of the cycle less the single edge connecting the two nodes.
-def cycleLengthQueries(self, n: int, queries: List[List[int]]) -> List[int]:
-    # given the properties of the tree, any node n has parent value floor(n/2)
-    res = []
-    for q in queries:
-        a = q[0]
-        b = q[1]
-
-        # find common parent between a and b counting distance
-        d = 0
-        while a != b:
-            if a > b:
-                a = floor(a/2)
-            else:
-                b = floor(b/2)
-            d += 1
-        res.append(d + 1)
-    return res
