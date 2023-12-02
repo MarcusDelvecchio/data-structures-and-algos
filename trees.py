@@ -757,3 +757,86 @@ def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         left_first = not left_first
         q = next_level
     return res
+
+# Serialize and Deserialize Binary Tree Hard
+# https://leetcode.com/problems/serialize-and-deserialize-binary-tree/description/
+# took 1:01:00
+# was getting sticky with the deserialize logic but fgiured it out
+# solution isn't clean and was too lazy to set out time to find a clever way to make it clean
+def serialize(self, root):
+    """Encodes a tree to a single string.
+    
+    :type root: TreeNode
+    :rtype: str
+    """
+    res = []
+    q = deque([root])
+    while q:
+        next_level = deque()
+        for node in q:
+            if not node: continue
+            next_level.append(node.left)
+            next_level.append(node.right)
+        res.append([node.val if node else None for node in q])
+        q = next_level
+
+    # convert res to a string
+    string = ""
+    for level in res:
+        string += ("[")
+        for node in level:
+            string += str(node)
+            string += (" ")
+        string += ("]")
+    return string
+
+def deserialize(self, data):
+    """Decodes your encoded data to tree.
+    
+    :type data: str
+    :rtype: TreeNode
+    """
+    # convert string to list
+    val = []
+    levels = data.split("[")
+    for level in levels:
+        inside = level.split("]")
+        for character in inside:
+            val.append(character.split(" "))
+    new = []
+    for value in val:
+        items = []
+        for i in value:
+            if i != "":
+                items.append(None if i == "None" else int(i))
+        if items:
+            new.append(items)
+    val = new
+    tree = deque(val)
+
+    root = TreeNode(tree.popleft()[0])
+    if root.val == None:
+        return None
+
+    previous = [root]
+    while tree:
+        level = tree.popleft()
+        i = 0
+        for node in previous:
+            if not node:
+                i += 2
+            else:
+                break
+        new_previous = []
+        for node in level:
+            node = TreeNode(node) if node != None else None
+            while previous[floor(i/2)] == None:
+                i+=1
+            if i%2 == 0:
+                previous[floor(i/2)].left = node
+            else:
+                previous[floor(i/2)].right = node
+            i+=1
+            new_previous.append(node)
+        previous = new_previous
+    return root
