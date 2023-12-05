@@ -23,19 +23,21 @@ def binaryTreePaths(self, root: Optional[TreeNode]) -> List[str]:
 def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
     solutions = {}
     
-    def get_combos(target, combination):
-        for i in range(len(candidates)):
+    def get_combos(target, combination, idx):
+        for i in range(idx, len(candidates)):
             if target - candidates[i] > 0:
                 target -= candidates[i]
                 combination.append(candidates[i])
-                get_combos(target, combination)
+                get_combos(target, combination, i)
+
+                # reset values after returning
                 target += candidates[i]
                 combination.pop()
             elif target - candidates[i] == 0:
                 solutions[tuple(sorted(combination + [candidates[i]]))] = True
+        # if have gone through all possible solutions and no more to be explored: backtrack
         return
-    get_combos(target, [])
-    res = []
-    for combination in solutions.keys():
-        res.append(list(combination))
-    return res
+    get_combos(target, [], 0)
+    return [list(combination) for combination in solutions.keys()]
+
+# time complexity is 
