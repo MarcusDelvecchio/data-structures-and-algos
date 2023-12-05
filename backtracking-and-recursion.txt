@@ -1,0 +1,18 @@
+Backtracking (and recursion)
+
+3 keys of backtracking:
+- you make choices
+- you constraints on those choices
+- at the end you converge towards a goal
+
+choice: decision space to choose from
+constraints: your decisions are restricted somehow
+goal: your goal is to od something
+
+
+
+related problems:
+N-Queens
+
+resources:
+https://www.youtube.com/watch?v=Zq4upTEaQyM
