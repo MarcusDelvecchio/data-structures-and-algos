@@ -15,3 +15,27 @@ def binaryTreePaths(self, root: Optional[TreeNode]) -> List[str]:
             dfs(root.right, p)
     dfs(root, "")
     return paths
+
+# Combination Sum LeetCode Medium 
+# https://leetcode.com/problems/combination-sum/solutions/429538/general-backtracking-questions-solutions-in-python-for-reference/
+# took like 13 mins
+# still not sure where or what makes it specifically backtracking
+def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
+    solutions = {}
+    
+    def get_combos(target, combination):
+        for i in range(len(candidates)):
+            if target - candidates[i] > 0:
+                target -= candidates[i]
+                combination.append(candidates[i])
+                get_combos(target, combination)
+                target += candidates[i]
+                combination.pop()
+            elif target - candidates[i] == 0:
+                solutions[tuple(sorted(combination + [candidates[i]]))] = True
+        return
+    get_combos(target, [])
+    res = []
+    for combination in solutions.keys():
+        res.append(list(combination))
+    return res
