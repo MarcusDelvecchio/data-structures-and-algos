@@ -40,4 +40,25 @@ def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
     get_combos(target, [], 0)
     return [list(combination) for combination in solutions.keys()]
 
-# time complexity is 
+# time complexity is ??
+
+# Combinations LeetCode Medium
+# https://leetcode.com/problems/combinations/description/
+# took 18 mins bc took a bit to think about the solution
+def combine(self, n: int, k: int) -> List[List[int]]:
+    res = {}
+
+    def combos(l, curr, idx):
+        # backtrack if we get a solution
+        if l == k:
+            print(curr)
+            res[tuple(sorted(curr.keys()))] = True
+            return
+            
+        for i in range(idx, n + 1):
+            if i not in curr:
+                curr[i] = True
+                combos(l + 1, curr, i)
+                del curr[i]
+    combos(0, {}, 1)
+    return [list(key) for key in res.keys()]

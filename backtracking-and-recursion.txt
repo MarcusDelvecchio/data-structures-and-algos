@@ -1,5 +1,13 @@
 Backtracking (and recursion)
 
+
+from general backtracking explanation here: 
+https://leetcode.com/problems/combinations/solutions/844096/backtracking-cheatsheet-simple-solution/
+
+"Backtracking is a general algorithm for finding all (or some) solutions to some computational problems which incrementally builds candidates
+to the solution and abandons a candidate ("backtracks") as soon as it determines that the candidate cannot lead to a valid solution."
+"It is due to this backtracking behaviour, the backtracking algorithms are often much faster than the brute-force search algorithm, since it eliminates many unnecessary exploration."
+
 3 keys of backtracking:
 - you make choices
 - you constraints on those choices
