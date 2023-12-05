@@ -2,6 +2,10 @@ Python notes
 
 simple things:
 - empty lists are falsy in python
+- the *amortized* time complexity for appending to an array is O(1).
+    "It runs in constant time as long as an re-allocation isn't required (when python list reaches max size). In the worst case, (when this does happen) it's O(n), but that worst case isn't frequent."
+    - so it is amortized to being O(1)
+    - see here for explanations https://www.reddit.com/r/learnpython/comments/yeahqq/what_is_pythons_listappend_method_worst_time/
 
 python function parameters are pass by assignment (similar to pass by reference)
 	- when you pass a variable into a function and change it's value, the inital variable will be changed (if it was pass-by-value, it would not, as only the variables *value* would be copied into the function)

@@ -1,3 +1,6 @@
+# backtracking interview prep notes here https://leetcode.com/problems/letter-combinations-of-a-phone-number/solutions/780232/Backtracking-Python-problems+-solutions-interview-prep/
+
+
 #  Binary Tree Paths
 # https://leetcode.com/problems/binary-tree-paths/description/
 # took like 4 mins idk how it's backtracking though
@@ -64,3 +67,41 @@ def combine(self, n: int, k: int) -> List[List[int]]:
             curr.pop()
     combos(0, [], 1)
     return res
+
+# Subsets LeetCode Medium
+# https://leetcode.com/problems/subsets/submissions/
+# took 13 mins nice. Ran second try. I just forgot a 'def' beside the function definition
+# interesting problem. Was just having issues thinking about the most efficient way to handle items being unique etc. and preventing duplicates
+# and after reviewing the solutions realized that again, the idx prop prevents duplicates etc so see better and new solution below this one. But left here for reference
+def subsets(self, nums: List[int]) -> List[List[int]]:
+    res = {(): True}
+
+    def sets(l, idx, curr, curr_hash):
+        if l > len(nums):
+            return
+        
+        for i in range(idx, len(nums)):
+            if nums[i] not in curr_hash:
+                curr.append(nums[i])
+                res[tuple(curr)] = True
+                curr_hash[nums[i]] = True
+                sets(l+1, i+1, curr, curr_hash)
+                del curr_hash[nums[i]]
+                curr.pop()
+    sets(0, 0, [], {})
+    return list(res.keys())
+
+# much cleaner, simpler. Don't need has maps because indx prevents duplicates
+def subsets(self, nums: List[int]) -> List[List[int]]:
+    res = []
+
+    def sets(idx, curr):
+        res.append(curr)
+        for i in range(idx, len(nums)):
+            sets(i+1, curr + [nums[i]])
+    sets(0, [])
+    return res
+
+# and again I found a better solution - one that is more backtrack like
+# is O(2^n+1) it seems 
+# https://leetcode.com/problems/subsets/solutions/360873/python-backtracking/

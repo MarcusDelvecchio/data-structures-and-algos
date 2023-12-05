@@ -18,7 +18,10 @@ choice: decision space to choose from
 constraints: your decisions are restricted somehow
 goal: your goal is to od something
 
-
+There is also a good explanation for backtracking for the subsets algorithm here:
+https://leetcode.com/problems/subsets/solutions/360873/python-backtracking/
+where the time complexity might be better than my 'subsets' problem solution and it more accurately models the backtracking solution model where the writer goes
+1. choose 2. explore 3. unchoose (similar to the other 3 keys above)
 
 related problems:
 N-Queens
