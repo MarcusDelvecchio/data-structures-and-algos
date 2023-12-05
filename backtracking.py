@@ -105,3 +105,28 @@ def subsets(self, nums: List[int]) -> List[List[int]]:
 # and again I found a better solution - one that is more backtrack like
 # is O(2^n+1) it seems 
 # https://leetcode.com/problems/subsets/solutions/360873/python-backtracking/
+# but unsure of how the creator would come up with that method of solving the problem
+# specifically, how they said "At every level, the decision is whether to include the first element from the remaining set into the chosen set"
+# which makes perfect sense and results in a perfectly generated tree
+# but where is the theory on coming up with such solutions?
+
+# Permutations LeetCode Medium
+# took 7:30
+# this one was easier than the ones above becuase due to the nature of permuations, you know that the solution will (can) simpy be O(n^2)
+# because all the permuations should have the same length as the nums input and any num in nums can appear anywhere, so we have to consider all cases
+# (no need to account for same-combo-different-order as we do in permutations)
+def permute(self, nums: List[int]) -> List[List[int]]:
+    res, used = [], {num: False for num in nums}
+
+    def explore(path):
+        if len(path) == len(nums):
+            res.append(path)
+            return
+        
+        for num in nums:
+            if not used[num]:
+                used[num] = True
+                explore(path + [num])
+                used[num] = False
+    explore([])
+    return res
