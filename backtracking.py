@@ -114,7 +114,7 @@ def subsets(self, nums: List[int]) -> List[List[int]]:
 # took 7:30
 # this one was easier than the ones above becuase due to the nature of permuations, you know that the solution will (can) simpy be O(n^2)
 # because all the permuations should have the same length as the nums input and any num in nums can appear anywhere, so we have to consider all cases
-# (no need to account for same-combo-different-order as we do in permutations)
+# (no need to account for same-combo-different-order as we do in combinations)
 def permute(self, nums: List[int]) -> List[List[int]]:
     res, used = [], {num: False for num in nums}
 
@@ -130,3 +130,42 @@ def permute(self, nums: List[int]) -> List[List[int]]:
                 used[num] = False
     explore([])
     return res
+
+# Sudoku Solver LeetCode Hard
+# https://leetcode.com/problems/sudoku-solver/description/
+# took 37 mins nice nice nice
+# using backtracking cool
+def solveSudoku(self, board: List[List[str]]) -> None:
+    def decisions(row, col):
+        available = {str(num): True for num in range(10)}
+        for num in board[row]:
+            if num != ".":
+                available[num] = False
+
+        for r in board:
+            if r[col] != ".":
+                available[r[col]] = False
+                
+        for r in range(floor(row/3)*3, floor(row/3)*3+3):
+            for c in range(floor(col/3)*3, floor(col/3)*3+3):
+                if board[r][c] != ".":
+                    available[board[r][c]] = False
+        return available
+        
+    def solve(row, col):
+        if col == 9:
+            if row == 8:
+                return True
+            return solve(row+1, 0)
+        if board[row][col] != ".":
+            return solve(row, col + 1)
+        available = decisions(row, col)
+        for i in range(1, 10):
+            if available[str(i)]:
+                board[row][col] = str(i)
+                if solve(row, col+1):
+                    return True
+        board[row][col] = "."
+        return False
+    
+    solve(0,0)
