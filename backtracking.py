@@ -45,20 +45,22 @@ def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
 # Combinations LeetCode Medium
 # https://leetcode.com/problems/combinations/description/
 # took 18 mins bc took a bit to think about the solution
+# after looking into other solutions I updated the solution with the following:
+# 1. at first I thought I would have to use a hash map for the res and curr values. When I would find a solution to the backtracking problem I would then sort the array of values and insert
+# it into the res hash map. But I relaized there is no need to do this as all of the solutions will automatically be unique and sorted, since the indx value prevents duplicate values from being selected anyways
+# see that solution here https://leetcode.com/problems/combinations/submissions/1112553976/ - but this one still uses hashmap for curr, which is also unnecessary
 def combine(self, n: int, k: int) -> List[List[int]]:
-    res = {}
+    res = []
 
     def combos(l, curr, idx):
         # backtrack if we get a solution
         if l == k:
-            print(curr)
-            res[tuple(sorted(curr.keys()))] = True
+            res.append(curr.copy())
             return
             
         for i in range(idx, n + 1):
-            if i not in curr:
-                curr[i] = True
-                combos(l + 1, curr, i)
-                del curr[i]
-    combos(0, {}, 1)
-    return [list(key) for key in res.keys()]
+            curr.append(i)
+            combos(l + 1, curr, i + 1)
+            curr.pop()
+    combos(0, [], 1)
+    return res
