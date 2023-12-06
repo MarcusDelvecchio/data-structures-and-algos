@@ -1,7 +1,7 @@
 # backtracking interview prep notes here https://leetcode.com/problems/letter-combinations-of-a-phone-number/solutions/780232/Backtracking-Python-problems+-solutions-interview-prep/
 
 
-#  Binary Tree Paths
+# Binary Tree Paths
 # https://leetcode.com/problems/binary-tree-paths/description/
 # took like 4 mins idk how it's backtracking though
 def binaryTreePaths(self, root: Optional[TreeNode]) -> List[str]:
@@ -133,7 +133,7 @@ def permute(self, nums: List[int]) -> List[List[int]]:
 
 # Sudoku Solver LeetCode Hard
 # https://leetcode.com/problems/sudoku-solver/description/
-# took 37 mins nice nice nice
+# took 37 mins nice nice nice couldn't figure it out for like 3 hours last time
 # using backtracking cool
 def solveSudoku(self, board: List[List[str]]) -> None:
     def decisions(row, col):
@@ -169,3 +169,54 @@ def solveSudoku(self, board: List[List[str]]) -> None:
         return False
     
     solve(0,0)
+
+# N-Queens LeetCode Hard
+# https://leetcode.com/problems/n-queens/solutions/4367712/n-queens-python-recursive-backtracking-o-2-n/
+# took 40 mins, just had to think through a method of validating diagonals that took a sec
+class Solution:
+    placed = 0
+    def solveNQueens(self, n: int) -> List[List[str]]:
+        res = []
+        b = ["." * n]*n
+        av_cols = {col: True for col in range(0, n)}
+        av_rows = {row: True for row in range(0, n)}
+        av_diags_neg = {row-col: True for row in range(0,n) for col in range(0, n)}
+        av_diags_pos = {row+col: True for row in range(0,n) for col in range(0, n)}
+
+        def explore(row, col):
+            # if at the end of a col go to the next row
+            if col == n:
+                if row == n - 1:
+                    if self.placed == n:
+                        res.append(b)
+                    return
+                return explore(row + 1, 0)
+
+            # if we can add a queen here, add a queen and explore
+            if av_cols[col] and av_rows[row] and av_diags_neg[row-col] and av_diags_pos[row+col]:
+                av_cols[col] = False
+                av_rows[row] = False
+                av_diags_neg[row-col] = False
+                av_diags_pos[row+col] = False
+
+                # skip the entire row and go to the next col
+                self.placed += 1
+                b[row] = b[row][:col] + "Q" + b[row][col + 1:]
+
+                if self.placed == n:
+                    res.append(b.copy())
+                elif row < n - 1:
+                    explore(row + 1, 0)
+
+                # remove the queen
+                self.placed -= 1
+                b[row] = b[row][:col] + "." + b[row][col + 1:]
+                av_cols[col] = True
+                av_rows[row] = True
+                av_diags_neg[row-col] = True
+                av_diags_pos[row+col] = True
+
+            # explore without adding a queen
+            explore(row, col + 1)
+        explore(0,0)
+        return res
