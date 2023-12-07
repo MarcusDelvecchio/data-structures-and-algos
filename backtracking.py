@@ -220,3 +220,55 @@ class Solution:
             explore(row, col + 1)
         explore(0,0)
         return res
+
+# Word Ladder II LeetCode Hard
+# https://leetcode.com/problems/word-ladder-ii/
+# INVALID SOLUTION
+# I tried this for 4 hours using backtracking and dfs. I did not realize that BFS if the more correct, and efficient method of solving the problem.
+def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+        if endWord not in wordList:
+            return []
+        res, words, letters, shortest = [], {}, defaultdict(set), [500]
+        distances = defaultdict(list, { endWord: [[endWord]]})
+        
+        # put words and letters into dicts so that they can be accessed in O(1) time
+        for i in range(len(wordList)):
+            words[wordList[i]] = True
+            for j in range(len(beginWord)):
+                letters[j].add(wordList[i][j])
+
+        def solve(word, visited):
+            # if we have already explore the shortest possible distance from this word to endWord simply return those distances
+            if word in distances and distances[word]:
+                return distances[word]
+
+            for i in range(len(beginWord)):
+                for letter in letters[i]:
+                    if letter != word[i]:
+                        new = word[:i] + letter + word[i+1:]
+                        if new in words and new not in visited:
+                            # add new word to visited
+                            visited[new] = True
+
+                            # solve for the shortest dsiatcnce from this new word to endWord
+                            shortest_paths = solve(new, visited)
+
+                            # remove new word from visited
+                            del visited[new]
+
+                            # update distance of current word if new word distance is shorter
+                            if not shortest_paths:
+                                continue
+                            elif word not in distances or len(distances[word][0]) > len(shortest_paths[0]) + 1:
+                                distances[word] = [[word] + p for p in shortest_paths]
+                            elif word in distances and len(distances[word][0]) == len(shortest_paths[0]) + 1:
+                                distances[word].extend([[word] + p for p in shortest_paths])
+            
+            # after trying all possible next words from this word, return the shortest distance we found from this word to the endWord
+            if word in distances:
+                return distances[word]
+            else:
+                return []
+
+        solve(beginWord, {beginWord: True})
+        return distances[beginWord]
