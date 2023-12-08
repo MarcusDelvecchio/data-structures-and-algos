@@ -326,3 +326,64 @@ def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List
         return res
 
     return find_paths(beginWord, endWord)
+
+# Unique Paths III LeetCode Hard
+# https://leetcode.com/problems/unique-paths-iii/submissions/
+# took 23 mins damn
+# recursive backtracking brute force solution
+def uniquePathsIII(self, grid):
+    res, curr_r, curr_c, goal_r, goal_c, h, w = [0], 0, 0, 0, 0, 0, 0
+
+    # get the current cell and the goal cell
+    for r in range(len(grid)):
+        h += 1
+        for c in range(len(grid[r])):
+            if h == 1:
+                w += 1
+            if grid[r][c] == 1:
+                curr_r = r
+                curr_c = c
+            if grid[r][c] == 2:
+                goal_r = r
+                goal_c = c
+
+    def is_fully_explored(grid):
+        for row in grid:
+            for cell in row:
+                if cell != -1 and cell != 2:
+                    return False
+        return True
+    
+    def explore(row, col):
+        # if we are at a goal node and the board is filled, add 1
+        if row == goal_r and col == goal_c:
+            if is_fully_explored(grid):
+                res[0] += 1
+            return
+        
+        # explore above
+        if row != 0 and grid[row-1][col] != -1:
+            grid[row][col] = -1
+            explore(row - 1, col)
+            grid[row][col] = 0
+        
+        # explore below
+        if row != h - 1 and grid[row+1][col] != -1:
+            grid[row][col] = -1
+            explore(row+1, col)
+            grid[row][col] = 0
+
+        # explore left
+        if col != 0 and grid[row][col-1] != -1:
+            grid[row][col] = -1
+            explore(row, col-1)
+            grid[row][col] = 0
+
+        # explore right
+        if col != w - 1 and grid[row][col+1] != -1:
+            grid[row][col] = -1
+            explore(row, col+1)
+            grid[row][col] = 0
+
+    explore(curr_r, curr_c)
+    return res[0]
