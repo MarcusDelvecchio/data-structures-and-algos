@@ -272,3 +272,57 @@ def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List
 
         solve(beginWord, {beginWord: True})
         return distances[beginWord]
+
+# Word Ladder II LeetCode Hard
+# not even backtracking but recursion and DFS
+# took about 10 hours new record lol
+# at first tried DFS for like 3 hours
+# then BFS for hours 4-6 but was trying to keep track of the paths
+# but you cannot do this the easier way to do this is simply return the parent before the endWord and then recursively try to 
+# find the path to that parent and then to the parent before that
+# so recursive DFS
+# don't make the same mistake again. Do not underestimate the problem/tree size; it needs to be throroughly thought out and encorporated in the solution
+# https://leetcode.com/problems/word-ladder-ii/description/
+# took 10 hours
+def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:
+    if endWord not in wordList:
+        return []
+    
+    def find_paths(start, end):
+        if start == end:
+            return [[start]]
+            
+        layer, words, letters = deque([start]), {word: True for word in wordList}, defaultdict(set)
+        visited = {beginWord: True}
+        parents = []
+        new_found = True
+
+        for w in wordList:
+            for i in range(len(w)):
+                letters[i].add(w[i])
+
+        while not parents and new_found:
+            next = set()
+            new_found = False
+            for word in layer:
+                visited[word] = True
+                for i in range(len(word)):
+                    for letter in letters[i]:
+                        new_word = word[:i] + letter + word[i+1:]
+                        if new_word in words and new_word != word and new_word not in visited:
+                            next.add(new_word)
+                            new_found = True
+
+                            if new_word == end:
+                                parents.append(word)
+            layer = list(next)
+            
+        # return the result
+        res = []
+        for item in parents:
+            parent_paths = find_paths(start, item)
+            for path in parent_paths:
+                res.append(path + [end])
+        return res
+
+    return find_paths(beginWord, endWord)
