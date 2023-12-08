@@ -457,3 +457,56 @@ def tilingRectangle(self, n: int, m: int) -> int:
 
         return minimum + 1
     return solve(n, m, 1000)
+
+# Stickers to Spell Word LeetCode Hard
+# https://leetcode.com/problems/stickers-to-spell-word/submissions/
+# took 1:10 becuase had to come up with heuristic
+def minStickers(self, stickers: List[str], target: str) -> int:
+    scores = defaultdict(int)
+    word_letters = defaultdict(dict)
+    target_map = {c: True for c in target}
+    used = {}
+
+    # O(s) time to get score of stickers but without the target_map is it O(t*s)
+    for sticker in stickers:
+        if sticker == target: return 1
+        used[sticker] = False
+        current = {}
+        letter_map = defaultdict(int)
+        for c in sticker:
+            letter_map[c] += 1
+            if c in target_map and c not in current:
+                scores[sticker] += 1
+                current[c] = True
+        word_letters[sticker] = letter_map
+
+    # sort the items based on score
+    stickers.sort(key=lambda sticker: scores[sticker], reverse=True)
+    
+    def bfs(start):
+        layer, depth = deque([start]), 0
+        visited = {start: True}
+
+        while layer:
+            print(depth)
+            print([item for item in layer])
+            size = len(layer)
+            for _ in range(size):
+                for s in stickers:
+                    if scores[s] < 1: break                         
+
+                    temp, new_word = word_letters[s].copy(), ""
+                    for c in layer[0]:
+                        if c in temp and temp[c]:
+                            temp[c] -= 1
+                        else:
+                            new_word += c
+                    if not new_word: 
+                        return depth + 1
+                    if len(new_word) != len(layer[0]) and new_word not in visited:
+                        visited[new_word] = True
+                        layer.append(new_word)
+                layer.popleft()
+            depth += 1
+
+    return bfs(target) or -1
