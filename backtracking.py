@@ -459,9 +459,13 @@ def tilingRectangle(self, n: int, m: int) -> int:
     return solve(n, m, 1000)
 
 # Stickers to Spell Word LeetCode Hard
+# think this is what is a called an "optimized" BFS
 # https://leetcode.com/problems/stickers-to-spell-word/submissions/
 # took 1:10 becuase had to come up with heuristic
-def minStickers(self, stickers: List[str], target: str) -> int:
+# I think some implementations in other solutions I saw (and I thought about as well but wasn't sure about efficiency) also re-calculated the score of each of the
+# stickies *at each level* and removed the ones that had no score
+# I didn't think too much about the implementaiton because my solution was accepted but that could definitely be something to consider for efficiency
+def minStickers(self, stickers, target):
     scores = defaultdict(int)
     word_letters = defaultdict(dict)
     target_map = {c: True for c in target}
@@ -510,3 +514,35 @@ def minStickers(self, stickers: List[str], target: str) -> int:
             depth += 1
 
     return bfs(target) or -1
+
+# Verbal Arithmetic Puzzle LeetCode Hard
+# https://leetcode.com/problems/verbal-arithmetic-puzzle/
+# bruyte force solution that gets TLE becuase no active heuristic to improve efficiency
+def isSolvable(self, words: List[str], result: str) -> bool:
+        used = {num: False for num in range(0, 10)}
+        
+        def dfs(words):
+            print(words)
+            incomplete = False
+            for w in range(len(words)):
+                for c in words[w]:
+                    if c not in "0123456789":
+                        incomplete = True
+                        for i in range(0, 10):
+                            if not used[i]:
+                                used[i] = True
+                                new_words = [word.replace(c, str(i)) for word in words]
+                                if dfs(new_words):
+                                    return True
+                                used[i] = False
+            
+            # once all of the words have values add up all of the values
+            if not incomplete:
+                t = 0
+                for i in range(len(words) - 1):
+                    t += int(words[i])
+                print(t, int(words[-1]))
+                return t == int(words[-1])
+            else:
+                return False
+        return dfs(words + [result]) or -1
