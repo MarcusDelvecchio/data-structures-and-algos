@@ -387,3 +387,36 @@ def uniquePathsIII(self, grid):
 
     explore(curr_r, curr_c)
     return res[0]
+
+# Maximum Score Words Formed by Letters LeetCode Hard
+# took 33 mins
+# had issues with the array copying and a minor issue with verifying there was enough letters to produce the word (using count rather than simply checking for 'c in letters')
+# but other than that it went smoothly
+def maxScoreWords(self, words, letters, score):
+    # trying to find the subset of words from words that uses the most letters
+    letters_map = defaultdict(int)
+    for letter in letters:
+        letters_map[letter] += 1
+
+    def get_score(words, letters):
+        max_score = 0
+        temp_words = words.copy() # create a temp words so that we are not editing the 'words' vareiable we are iterating through below
+        for word in words:
+            can_use = True
+            for c in word:
+                if letters[c] < word.count(c):
+                    can_use = False
+                    break
+            if can_use:
+                temp = 0
+                for c in word:
+                    temp += score[string.ascii_lowercase.index(c)]
+                    letters[c] -= 1
+                temp_words.remove(word)
+                max_score = max(get_score(temp_words, letters) + temp, max_score)
+                temp_words.append(word)
+                for c in word:
+                    letters[c] += 1
+        return max_score
+
+    return get_score(words, letters_map)
