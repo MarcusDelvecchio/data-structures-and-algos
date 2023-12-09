@@ -1,0 +1,7 @@
+Data Structures and algorithms
+
+All Data Structures:
+https://en.wikipedia.org/wiki/List_of_data_structures#Linear_data_structures
+
+Abstract Data Types:
+https://en.wikipedia.org/wiki/Abstract_data_type

@@ -9,3 +9,12 @@ are removed is called the head or front of the queue
 operations
 - adding an element to the rear of the queue is known as enqueue, and the operation of removing an element from the front is known as dequeue.
 - other operations may also be allowed, often including a peek or front operation that returns the value of the next element to be dequeued without dequeuing it
+
+notes
+- a queue is an example of a linear data structure ("A data structure is said to be linear if its elements form a sequence") more abstractly a sequential collection
+
+time complexity
+- just see here https://devopedia.org/images/article/406/7191.1647175386.jpg
+- insertion/enqueuing into a queue is O(1) amortized (O(n) worst case when resizing is required?)
+- peeking has O(1) worst-case time complexity. (how so?)
+- dequeuing has O(1) worst-case time complexity
