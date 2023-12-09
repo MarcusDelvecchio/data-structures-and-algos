@@ -517,32 +517,55 @@ def minStickers(self, stickers, target):
 
 # Verbal Arithmetic Puzzle LeetCode Hard
 # https://leetcode.com/problems/verbal-arithmetic-puzzle/
-# bruyte force solution that gets TLE becuase no active heuristic to improve efficiency
+# brute force solution that gets TLE becuase no active heuristic to improve efficiency
+# starts with the ones digit and moves forward if they all add up, cutting the digits off as they are compared
 def isSolvable(self, words: List[str], result: str) -> bool:
         used = {num: False for num in range(0, 10)}
+        remaining = {word: len(word) for word in words} # number of letters remaining in the words
+        nums = {str(n) for n in range(0,10)}
         
-        def dfs(words):
+        def dfs(words, carry):
             print(words)
-            incomplete = False
+            if len(max(words, key=len)) == 0:
+                return True
+
+            # add up numbers from right to left as we go along. If the ones columns don't add up, we shouldn't continue to do the tens, hundreds etc
+            left = 0
+            right = 0
+            temp = words.copy()
+            can_add = True
+            for i in range(len(words)):
+                if words[i] and words[i][-1] not in nums:
+                    words = temp
+                    left, right = 0, 0
+                    can_add = False
+                    break
+                if i != len(words) - 1 and words[i]:
+                    left += int(words[i][-1])
+                elif words[i]:
+                    right += int(words[i][-1])
+                
+                # remove the last digit from the words
+                words[i] = words[i][:-1]
+
+            if can_add:
+                carry_new = floor((left + carry)/10)
+                left = (left + carry)%10
+                if left != right:
+                    return False
+                else:
+                    res = dfs(words, carry_new)
+                    return res
+
             for w in range(len(words)):
-                for c in words[w]:
-                    if c not in "0123456789":
-                        incomplete = True
-                        for i in range(0, 10):
-                            if not used[i]:
-                                used[i] = True
-                                new_words = [word.replace(c, str(i)) for word in words]
-                                if dfs(new_words):
-                                    return True
-                                used[i] = False
-            
-            # once all of the words have values add up all of the values
-            if not incomplete:
-                t = 0
-                for i in range(len(words) - 1):
-                    t += int(words[i])
-                print(t, int(words[-1]))
-                return t == int(words[-1])
-            else:
-                return False
-        return dfs(words + [result]) or -1
+                if words[w] and words[w][-1] not in nums:
+                    for i in range(0, 10):
+                        if not used[i]:
+                            used[i] = True
+                            new_words = [word.replace(words[w][-1], str(i)) for word in words]
+                            res = dfs(new_words, carry)
+                            used[i] = False
+                            if res:
+                                return True
+            return False
+        return dfs(words + [result], 0, False)
