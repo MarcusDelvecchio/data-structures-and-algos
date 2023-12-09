@@ -274,6 +274,7 @@ def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List
         return distances[beginWord]
 
 # Word Ladder II LeetCode Hard
+# Given two words, beginWord and endWord, and a dictionary wordList, return all the shortest transformation sequences from beginWord to endWord, or an empty list if no such sequence exists. Each sequence should be returned as a list of the words [beginWord, s1, s2, ..., sk].
 # not even backtracking but recursion and DFS
 # took about 10 hours new record lol
 # at first tried DFS for like 3 hours
@@ -389,6 +390,11 @@ def uniquePathsIII(self, grid):
     return res[0]
 
 # Maximum Score Words Formed by Letters LeetCode Hard
+#   "
+#   Given a list of words, list of  single letters (might be repeating) and score of every character.
+#   Return the maximum score of any valid set of words formed by using the given letters (words[i] cannot be used two or more times).
+#   It is not necessary to use all characters in letters and each letter can only be used once. Score of letters 'a', 'b', 'c', ... ,'z' is given by score[0], score[1], ... , score[25] respectively.
+#   "
 # took 33 mins
 # had issues with the array copying and a minor issue with verifying there was enough letters to produce the word (using count rather than simply checking for 'c in letters')
 # but other than that it went smoothly
