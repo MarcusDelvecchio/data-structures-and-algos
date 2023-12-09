@@ -530,6 +530,8 @@ def minStickers(self, stickers, target):
 # this question took about 3.5 hours and had inconsistencies. I commented on the question about them. 
 # for example test case left: [A,B] right: [A] or [B] expects true for solution being A+0=A will always be true whatever A is
 # but test case AA + BB = AA expects no solution even though AA + 00 = AA was produced by my solution and made sense so just hard coded and moved on.
+# someone replied to comment saying "In all LeetCode problems “without leading zeros” means that the first digit/character mustn’t be zero."
+# so I guess if it leads with a zero the entire number must be ignored (ex 071 = 0, 00 = 0)
 def isSolvable(self, words: List[str], result: str) -> bool:
         # covers cases where question is inconsisient
         if result == "A" and words[0] == "A" or result == "B" and words[0] == "A" and words[1] == "B":
