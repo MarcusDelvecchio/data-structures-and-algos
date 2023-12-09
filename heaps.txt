@@ -1,3 +1,35 @@
 Heap:
-A heap is a specialized tree-based data structure that satisfies the heap property: In a max heap, for any given node C, if P is a parent node of C, then the key (the value) of P
-is greater than or equal to the key of C. In a min heap, the key of P is less than or equal to the key of C.[1] The node at the "top" of the heap (with no parents) is called the root node.
+- A heap is a specialized tree-based data structure that satisfies the heap property: In a max heap, for any given node C, if P is a parent node of C, then the key (the value) of P
+  is greater than or equal to the key of C. In a min heap, the key of P is less than or equal to the key of C.[1] The node at the "top" of the heap (with no parents) is called the root node.
+
+heaps vs priority queues:
+- The heap is one maximally efficient implementation of an abstract data type called a priority queue, and in fact, 
+- priority queues are often referred to as "heaps", regardless of how they may be implemented
+
+binary heap:
+- A common implementation of a heap is the binary heap, in which the tree is an almost complete[2] binary tree
+- is the data structure for the heapsort sorting algorithm
+- Heaps are also crucial in several efficient graph algorithms such as Dijkstra's algorithm
+
+
+on children, parents, cousins:
+- The heap relation mentioned above applies only between nodes and their parents, grandparents, etc. The maximum number of children each 
+  node can have depends on the type of heap.
+
+on implementations:
+- there are two kinda of heaps, max-heaps and min-heaps, where a nodes parent is greater than and less than itself respectively
+- Heaps are typically constructed in-place in the same array where the elements are stored, with their structure being implicit in the 
+  access pattern of the operations.
+- Heaps differ in this way from other data structures with similar or in some cases better theoretic bounds such as Radix trees in that they 
+  require no additional memory beyond that used for storing the keys
+
+heaps aka "nearly complete binary trees" and binary heap
+- all levels filled except lowest and lowest is partially filled, starting from the left
+
+uses:
+- heapsort (max-heap)
+    - very very different than inertionsort and mergesort
+- piority queues (piority-queues)
+
+time complexity notes:
+height of heap is O(logn) becuase it is a nealy complete binary tree
