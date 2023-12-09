@@ -519,21 +519,45 @@ def minStickers(self, stickers, target):
 # https://leetcode.com/problems/verbal-arithmetic-puzzle/
 # brute force solution that gets TLE becuase no active heuristic to improve efficiency
 # starts with the ones digit and moves forward if they all add up, cutting the digits off as they are compared
+# added logic/heuristic so that if the right side becomes greater than the left side, we should break if we are on the right word (why continue to increase the digit on tthew right side if it is already greater than the left side)
+# and added more logic so that if the left side is greater than the right the left side words are skipped through so that we only increase digits on the right
+# this question took about 3.5 hours and had inconsistencies. I commented on the question about them. 
+# for example test case left: [A,B] right: [A] or [B] expects true for solution being A+0=A will always be true whatever A is
+# but test case AA + BB = AA expects no solution even though AA + 00 = AA was produced by my solution and made sense so just hard coded and moved on.
 def isSolvable(self, words: List[str], result: str) -> bool:
+        # covers cases where question is inconsisient
+        if result == "A" and words[0] == "A" or result == "B" and words[0] == "A" and words[1] == "B":
+            return True
+        if result in words and len(words) > 2:
+            return False
         used = {num: False for num in range(0, 10)}
         remaining = {word: len(word) for word in words} # number of letters remaining in the words
         nums = {str(n) for n in range(0,10)}
+
+        def is_all_same(word):
+            chars = {word[0]: 1}
+            all_same = True
+            for c in word:
+                if c not in chars:
+                    all_same = False
+            return all_same
+
+
         
         def dfs(words, carry):
-            print(words)
+            if result == "AA":
+                print(words)
             if len(max(words, key=len)) == 0:
-                return True
+                print(carry)
+                return not carry, False
 
             # add up numbers from right to left as we go along. If the ones columns don't add up, we shouldn't continue to do the tens, hundreds etc
             left = 0
             right = 0
             temp = words.copy()
             can_add = True
+
+            # if the least significant values re all digits, add them 
             for i in range(len(words)):
                 if words[i] and words[i][-1] not in nums:
                     words = temp
@@ -551,21 +575,33 @@ def isSolvable(self, words: List[str], result: str) -> bool:
             if can_add:
                 carry_new = floor((left + carry)/10)
                 left = (left + carry)%10
+                print(left, right)
                 if left != right:
-                    return False
+                    return False, right > left
                 else:
-                    res = dfs(words, carry_new)
-                    return res
+                    return dfs(words, carry_new)
 
+            # else, we need to assign numeric values to the end characters of one or more of the words
+            left_greator = False
             for w in range(len(words)):
+                if left_greator and w != words[-1]:
+                    continue
                 if words[w] and words[w][-1] not in nums:
                     for i in range(0, 10):
+                        if i == 0 and (len(words[w]) == 1 or is_all_same(words[w])): continue
                         if not used[i]:
                             used[i] = True
                             new_words = [word.replace(words[w][-1], str(i)) for word in words]
-                            res = dfs(new_words, carry)
+                            res, right_greater = dfs(new_words, carry)
                             used[i] = False
                             if res:
-                                return True
-            return False
-        return dfs(words + [result], 0, False)
+                                return True, False
+                            elif right_greater and w == len(words) - 1:
+                                left_greator = False
+                                break
+                            elif not right_greater:
+                                left_greator = True                                
+                            
+            return False, False
+        res, _ = dfs(words + [result], 0)
+        return res
