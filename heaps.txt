@@ -2,9 +2,13 @@ Heap:
 - A heap is a specialized tree-based data structure that satisfies the heap property: In a max heap, for any given node C, if P is a parent node of C, then the key (the value) of P
   is greater than or equal to the key of C. In a min heap, the key of P is less than or equal to the key of C.[1] The node at the "top" of the heap (with no parents) is called the root node.
 
+Heap questions are one of the most common questions frequently asked in interviews.
+
 heaps vs priority queues:
 - The heap is one maximally efficient implementation of an abstract data type called a priority queue, and in fact, 
 - priority queues are often referred to as "heaps", regardless of how they may be implemented
+-   "Priority queue is an abstract data type similar to a regular queue or stack data structure in which each element additionally has a "priority" associated with it. 
+    In a priority queue, an element with high priority is served before an element with low priority"
 
 binary heap:
 - A common implementation of a heap is the binary heap, in which the tree is an almost complete[2] binary tree
@@ -78,5 +82,23 @@ that we could continually run extract_max() on it. And if you could build extrac
         accessing any element in an array is O(1) - we do not need to "traverse" through the array until we get to that index. The valule at each index is stored and access directly from memory in O(1) time.
 
 
+Usage: Understanding 4 patterns where HEAP data structure is used
+    In python, the heapq module provides the basic features for Heap data structure.
+    - minHeap are used in tasks related to scheduling or assignment. A more detailed explanation is under the Patterns section below.
+
+        basic operations in Python heapq are:
+        - heapify: this operation converts the iterable array heap into a tree structure w.r.t heap order.
+        - heappush: inserts an element into the heap. Post insertion the heap order is adjusted to maintain the heap properties
+        - heappop: This operation is to remove the element from the heap. By default it is minHeap, so this operation removes the min element from the minHeap. And for maxHeap, it is the maximum element. Post removal, heapify is called internally to maintain the heap order.
+
+    Based on my understanding, different questions where HEAP is common data structure to use can be categorized in following 4 categories:
+
+    1. Top K Pattern
+    2. Merge K Sorted Pattern
+    3. Two Heaps Pattern
+    4. Minimum Number Pattern
+
+
 sources
 https://www.youtube.com/watch?v=B7hVxCmfPtM
+https://leetcode.com/discuss/general-discussion/1127238/master-heap-by-solving-23-questions-in-4-patterns-category
