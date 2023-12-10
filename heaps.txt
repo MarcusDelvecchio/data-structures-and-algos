@@ -20,6 +20,9 @@ on implementations:
 - there are two kinda of heaps, max-heaps and min-heaps, where a nodes parent is greater than and less than itself respectively
 - Heaps are typically constructed in-place in the same array where the elements are stored, with their structure being implicit in the 
   access pattern of the operations.
+    - so it is a "tree based data structure" but is "are usually implemented with an array"
+    - "each element in the array represents a node of the heap, and. The parent / child relationship is defined implicitly by the elements' indices in the array"
+    - heap is an array where we visualize the nearly-complete binary tree -> no need to implement it with a tree, we can simply use an array
 - Heaps differ in this way from other data structures with similar or in some cases better theoretic bounds such as Radix trees in that they 
   require no additional memory beyond that used for storing the keys
 
@@ -32,4 +35,48 @@ uses:
 - piority queues (piority-queues)
 
 time complexity notes:
-height of heap is O(logn) becuase it is a nealy complete binary tree
+height of heap is BOUND by logn (sometimes you will see people saying the height is O(logn)) becuase it is a nearly complete binary tree, so the height always depends on n, in fact it is always logn
+
+
+properties of heap as array: (*if the arrtay is 1 indexed - because it makes things eaiser*)
+- root of the tree is always the firts element
+- parent(i) = floor(i/2)
+- left(i) = 2i 
+- right(i) = 2i + 1 
+left and right children^
+- there are also max-heap and min-heap properties which we defined above (parent always greater than child and vice-versa for min)
+
+
+- simple questions
+    - checking if an array is a max or min heap: write a function that takes a heap and returns true if it has the max-heap property. And the same for min heap. (def is_max_heap() and is_min_heap())
+    - building a max heap from an unsorted array:  wrtie a function that takes an array and build converts it to the max or min heap reprersentation (generate a max or min heap from said array) (which is in effect, sorting/changing the array to be ordered (not sorted order but max/min heap order))
+
+        to build a max heap from an unsorted array, you recursively run a function max_heapify(arr). This function takes a heap, with the assumption that left(i) and right(i) are already max heaps (nodes below are already sorted) and contruct a final max heap with the provided root (depending on which of the root, the left or the right are the new max)
+            - we then recusively perform this function going up the tree
+            - max heapyify is O(logn) -> because of the assumption that left and right children are roots of max heaps themselves (and same for min heap and min-heapify)
+
+        other notes:
+        - in a nearly complete/complete binary tree A, nodes n/2 + 1 to n are all leaves
+        - all leaves are automatically max-heaps (or min-heaps  )
+
+on heaps and sorting from https://youtubetranscript.com/?v=B7hVxCmfPtM:
+"
+It makes perfect sense, because one of the simplest things that you want to do in a priority queue,
+is you want to be able to create a priority queue, and you want to be able to run extract_max() on the priority queue, over and over.
+And what that means, is that you take the max element, you delete it, take the next max element, delete it, and so on and so forth.
+And there you go. It's a bit of a preview here, but you could imagine that if you did that, you would get a sorted list of elements in decreasing order.
+
+So you see the connection to sorting, because you could imagine that once we have this heap structure, and we can maintain the max-heap property,
+that we could continually run extract_max() on it. And if you could build extract max in an efficient way, you might have a fantastic sorting algorithm.
+"
+
+
+- questions:
+    - if a heap is tree that is implemented as an array isn't traversal less efficient since nodes do not have a direct reference to their children as nodes do with a normal node-based tree implementation
+    (for example if the heap was implemented as a node tree, each node would have a reference to its two child nodes)?
+        answer: no. In a heap as array, a node's children are *implicit* (known) based on the order of the array and "traversing" back and forth in the array is just as fast as accessing a node's children in a tree - O(1). Remember that
+        accessing any element in an array is O(1) - we do not need to "traverse" through the array until we get to that index. The valule at each index is stored and access directly from memory in O(1) time.
+
+
+sources
+https://www.youtube.com/watch?v=B7hVxCmfPtM

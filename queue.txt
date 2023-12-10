@@ -18,3 +18,6 @@ time complexity
 - insertion/enqueuing into a queue is O(1) amortized (O(n) worst case when resizing is required?)
 - peeking has O(1) worst-case time complexity. (how so?)
 - dequeuing has O(1) worst-case time complexity
+
+
+=====[ Priority Queue ]=====
