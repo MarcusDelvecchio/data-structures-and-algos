@@ -34,11 +34,26 @@ def is_min_or_max(l):
             is_max = False
     return is_min or is_max
 
+# takes a max heap and inserts a given item into it
+def max_heap_insert(l, n):
+    # add element to the end of the list
+    l.append(n)
+
+    # continuously compare n with its parent and switch if needed
+    idx = len(l) - 1
+    while l[idx] > l[idx//2]:
+        temp = l[idx//2]
+        l[idx//2] = l[idx]
+        l[idx] = temp
+        idx = idx//2
+    return l
+    
+
 h = [1,2,3]
 h_1 = [3,2,1]
-h_2 = [5,4,3,2,1,0, 1, 1,1,1,0,0,0,-1,-2, 10] #
+h_2 = [5,4,3,2,1,0, 1, 1,1,1,0,0,0,-1,-2, 0] #
 h_3 = [5,4,3,2,1,9]
 
 min_1 = [0,1,2,3,4,6,7,9,9]
 
-print(is_min_or_max(h_2))
+print(max_heap_insert(h_2, 4))
