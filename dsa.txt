@@ -2,6 +2,66 @@ Data Structures and algorithms
 
 All Data Structures:
 https://en.wikipedia.org/wiki/List_of_data_structures#Linear_data_structures
+https://en.wikipedia.org/wiki/Data_structure
+
+What is a "Data Structure":
+a data structure is a data organization, management, and storage format that is usually chosen for efficient access to data. 
+More precisely, a data structure is a collection of data values, the relationships among them, and the functions or operations that can be applied to the data
+
+    ""
+    Data structures provide a means to manage large amounts of data efficiently for uses such as large databases and internet indexing services. Usually, efficient data
+    structures are key to designing efficient algorithms
+    ""
 
 Abstract Data Types:
 https://en.wikipedia.org/wiki/Abstract_data_type
+"
+An abstract datatype is like a machine that has a control panel. The user(programmer) can put an item in, take items out, ask questions about the number of items, things like that. But the 
+user(programmer) has no idea, and shouldn't know, how the machine is keeping track of the items.
+
+For a real example there is a list type in c#. It doesn't matter if it is stores items as a linked list, an array, or whatever. All you(the programmer) care about is that it is a list.
+
+An ADT is just like an interface but non-language specific. So no matter what language you're working in if you are writing a List datatype it should have the same handles/methods and they 
+should work the same. But the inner workings of HOW they do this can be different.
+"
+
+Is a linked list an ADT? 
+"
+A linked list may well be considered an abstract data type since it's value is not atomic - per definition, a node in a linked list must contain both a value and a link to the next node.
+If this is "homework" for a Java class as I understand most CS undergrads have to slog through in the US, ignore what I just said: then then principle is "yes sir, lists are not an ADT sir! :D
+ I will not implement my own linked lists, sir! :D"
+you are presumably trained to consider anything in the language that is part of the base library as axiomatic and therefore not an ADT. Just go with this, you want good grades.
+"
+so the answer varies, but seems like the consensus is that a *LL IS an ADT*
+
+"linked list is an ADT, and every ADT is also a data structure, so linked list is both."
+"A linked list is an abstract data type in the sense that it is a higher level container than just putting things in memory, 
+and keeping a pointer variable for each item, and dealing with data that way.
+
+On "Abstract Data Types" vs "Data Types":
+"Assume a box and you put a label on that according to what you want to store in it, that label is called data type and how you arrange those boxes is data structures."
+(below description says data sturctures are data types which doesn't seem to be the case, but ignore that part)
+"Data structures also called data types are the particular ways of organizing data in a computer so that it can be used efficiently. Abstract data types (ADT) are set of values (the carrier set), and operations on these values
+so ADTs can be seen as "a black box (abstraction) that provides some functions to manage a collection of data (data types)"
+
+On ADT vs Data structure:
+ADT is a logical description and data structure is concrete. ADT is the logical picture of the data and the operations to manipulate the component elements of the data. Data structure is the 
+actual representation of the data during the implementation and the algorithms to manipulate the data elements. ADT is in the logical level and data structure is in the implementation level.
+
+On "Abstraction" in CS:
+""
+In CS it means that you are taking something detailed and low-level and symbolizing it with an easier to use or simpler to deal with construct.
+You are “abstracting” the interface up from the tiny changes and minuscule steps it takes to do a task into a tool that you can just use.
+The ultimate abstract is said to be the “One Big Red Button” idea, where all you let the user do is push the button and the computer does it all. 
+Abstraction in practical terms in not that, but the basic concept is like that.
+""
+
+on Data Type vs ADT vs Data Stucture:
+""
+A data type is a collection of values (its domain) together with a set of permissible operations on those values. An abstract data type (ADT) is a data type whose properties 
+(domain and operations) are specified independently of any implementation. A data structure is the implementation of an ADT
+""
+(adt is a data type)
+(data structure is an implementation of a ADT which is a data type)
+
+this still seems obscure to me.
