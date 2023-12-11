@@ -74,6 +74,7 @@ On "Representation Invariant" ("Rep Invariant"):
 
     for example: a rep invariant of a max-heap is that the parent of a node is always larger then that node (and vice versa for min-heaps) and likewise (another rep invariant) is that the root of a max-heap must be the largest item and the root of a min-heap must be the smallest
     - so we want to maintain this rep-invariant (max-heap or min-heap property) as we modify the heap
+    - this is also called the "heap invariant" as I have now realized
 
     From MIT: (https://web.mit.edu/6.005/www/fa15/classes/13-abstraction-functions-rep-invariants/):
 

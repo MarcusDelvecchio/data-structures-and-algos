@@ -65,3 +65,7 @@ def trap(self, height: List[int]) -> int:
             temp += current - height[i]
         vals[height[i]] -= 1
     return w
+
+# note on "amortized" complexity of appending to array
+# That means the whole operation of pushing n objects onto the list is O(n). If we amortize that per element, it's O(n)/n = O(1).
+# https://stackoverflow.com/questions/33044883/why-is-the-time-complexity-of-pythons-list-append-method-o1

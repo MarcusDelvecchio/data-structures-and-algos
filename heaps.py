@@ -210,7 +210,7 @@ def largestInteger(self, num: int) -> int:
 
 # Top K Frequent Elements LeetCode Medium
 # https://leetcode.com/problems/top-k-frequent-elements/description/
-# TC: O(n) + O(n) + O(n) + O(klogn) = O(klogn) SC: O(n)
+# TC: O(n) + O(n) + O(n) + O(klogn) = O(n + klogn) SC: O(n)
 # TC = O(n) to iterate and convert nums to a dict, O(n) to convert dict to list of (freq, num) pairs, O(n) to build heap from this list and O(klogn) to pop k items
 def topKFrequent(self, nums: List[int], k: int) -> List[int]:
     freq, res = defaultdict(int), []
