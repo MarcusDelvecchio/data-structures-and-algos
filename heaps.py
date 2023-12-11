@@ -98,7 +98,53 @@ def max_heap_push_pop(l, val):
         
         idx = left_idx if right_idx > len(l) else max(left_idx, right_idx, key=lambda x: l[x])
     return root
+    
+def max_heap_del_by_val(l, val):
+    # get the array index of the value we want to delete
+    for curr, node in enumerate(l):
+        if node == val: break
+    
+    # swap this element with the last element and down heap until max-heap property is restored
+    l[curr] = l[-1]
+    del l[-1]
 
+    # ensure heap is not small enough that we can simply return now
+    if len(l) < 2: return
+    left, right = get_children(curr)
+
+    if left > len(l):
+        return
+
+    print(left, right)
+    idx = left if right > len(l) or l[left] > l[right] else right
+    while l[idx] > l[curr]:
+        print(curr)
+        temp = l[idx]
+        l[idx] = l[curr]
+        l[curr] = temp
+        curr = idx
+
+        # determine which side we should sift to next
+        left_idx, right_idx = get_children(curr)
+
+        print(left_idx, right_idx)
+
+        if left_idx >= len(l):
+            print("here")
+            print(left_idx, right_idx)
+            break
+
+        idx = left_idx if right_idx >= len(l) or max(left_idx, right_idx, key=lambda x: l[x]) else right_idx
+    return
+
+# okay thees seems to be working nicely and making sense.
+# just need to be careful that index isn't greater to *or equal* to the length when decidiing the next index to swap with
+# and it seems to be starting to make sense how we sift up and down after inserting and deleteing
+
+def get_children(idx):
+    return idx*2+1, idx*2+2
+
+# heap pop (extract)
 # heap delete by index
 # heap delete by value
 # heap delete by value, multiple
