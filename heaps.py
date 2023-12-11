@@ -98,7 +98,7 @@ def max_heap_push_pop(l, val):
         
         idx = left_idx if right_idx > len(l) else max(left_idx, right_idx, key=lambda x: l[x])
     return root
-    
+
 def max_heap_del_by_val(l, val):
     # get the array index of the value we want to delete
     for curr, node in enumerate(l):
@@ -159,3 +159,16 @@ min_1 = [0,1,2,3,4,6,7,9,9]
 
 print(max_heap_del_by_val(h_2, 5))
 print(h_2)
+
+# Kth Largest Element in an Array
+# https://leetcode.com/problems/kth-largest-element-in-an-array/description/
+# gets the kth largest element in a list using a heap
+# TC O(n+klogn) (O(n) to build heap from unsorted array and O(logn) to heapify after every pop) | SC O(n) (list is transformed into a heap in-place)
+def findKthLargest(self, nums: List[int], k: int) -> int:
+    nums_max = [-num for num in nums]
+    heapq.heapify(nums_max)
+    val = None
+    print(nums_max)
+    for _ in range(k):
+        val = heapq.heappop(nums_max)
+    return -val
