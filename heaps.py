@@ -191,16 +191,15 @@ def lastStoneWeight(self, stones: List[int]) -> int:
 # Largest Number After Digit Swaps by Parity LeetCode Easy
 # https://leetcode.com/problems/largest-number-after-digit-swaps-by-parity/description/
 # You are given a positive integer num. You may swap any two digits of num that have the same parity (i.e. both odd digits or both even digits). Return the largest possible value of num after any number of swaps.
+# solution: create two heaps with even and odd values, iterate throught the original number pop from corresponding heap to get the greatest values
+# TC O(n) to split into even/odd lists, O(n) to convert the two lists to heaps, O(nlogn) to pop from either heap for every n
+# TC = O(nlogn) SC = O(n) (two new lists are created of size n which are then heapified along with a string)
 def largestInteger(self, num: int) -> int:
-    num, res = str(num), ""
-    num_odd = [-int(digit) for digit in num if int(digit)%2 == 1]
-    num_even = [-int(digit) for digit in num if int(digit)%2 == 0]
+    num, res, num_odd, num_even = str(num), "", [], []
+    for digit in num:
+        num_odd.append(-int(digit)) if int(digit)%2 == 1 else num_even.append(-int(digit))
     heapq.heapify(num_even)
     heapq.heapify(num_odd)
-
     for digit in num:
-        if int(digit)%2 == 0:
-            res += str(-heapq.heappop(num_even))
-        else:
-            res += str(-heapq.heappop(num_odd))
+        res += str(-heapq.heappop(num_even)) if int(digit)%2 == 0 else str(-heapq.heappop(num_odd))
     return int(res)
