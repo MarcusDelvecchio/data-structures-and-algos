@@ -97,13 +97,33 @@ Usage: Understanding 4 patterns where HEAP data structure is used
     3. Two Heaps Pattern
     4. Minimum Number Pattern
 
-Heap Operations:
+Heap Operations: (all implemented at the top of heaps.py)
+
     Insert:
     1. Add the element to the bottom level of the heap at the leftmost open space.
     2. Compare the added element with its parent; if they are in the correct order, stop.
     3. If not, swap the element with its parent and return to the previous step.
 
     "Comparing and possibly swapping a node with its parent, are called the up-heap operation (also known as bubble-up, percolate-up, sift-up, trickle-up, swim-up, heapify-up, or cascade-up)."
+
+    Extract:
+    The procedure for deleting the root from the heap (effectively extracting the maximum element in a max-heap or the minimum element in a min-heap) while retaining the heap property is as follows:
+
+    1. Replace the root of the heap with the last element on the last level.
+    2. Compare the new root with its children; if they are in the correct order, stop.
+    3. If not, swap the element with one of its children and return to the previous step. (Swap with its smaller child in a min-heap and its larger child in a max-heap.)
+
+    Insert then extract:
+    Inserting an element then extracting from the heap can be done more efficiently than simply calling the insert and extract functions 
+    defined above, which would involve both an upheap and downheap operation. Instead, we can do just a downheap operation, as follows:
+
+    1. Compare whether the item we're pushing or the peeked top of the heap is greater (assuming a max heap)
+    2. If the root of the heap is greater:
+        1. Replace the root with the new item
+        2. Down-heapify starting from the root
+    3. Else, return the item we're pushing
+
+    (Python provides such a function for insertion then extraction called "heappushpop")
 
 sources
 https://en.wikipedia.org/wiki/Binary_heap

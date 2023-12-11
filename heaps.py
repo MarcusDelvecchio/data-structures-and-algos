@@ -48,8 +48,11 @@ def max_heap_insert(l, n):
         idx = idx//2
     return l
 
-def max_heap_del(l):
+# deletes (extracts) the value from the root of a given max heap l
+# and returns the extracted root
+def max_heap_extract(l):
     # replace root with end
+    root = l[0]
     l[0] = l[-1]
     del l[-1]
 
@@ -69,10 +72,33 @@ def max_heap_del(l):
 
         idx = left_idx if right_idx >= len(l) else max(left_idx, right_idx, key=lambda x: l[x])
         # idx = left_idx if right_idx >= len(l) or l[left_idx] > l[right_idx] else right_idx
-    return l
+    return root
 
+# heap insert then extract operation
+def max_heap_push_pop(l, val):
+    if val > l[0]: return val
+    root = l[0]
+    l[0] = val
 
-# heap pop
+    # down sift (down-heap) the node until it is in the correct location
+    curr = 0
+    idx = max(1,2, key=lambda x: l[x])
+    while l[idx] > l[curr]:
+        temp = l[curr]
+        l[curr] = l[idx]
+        l[idx] = temp
+        curr = idx
+
+        # get the new node to compare to (left or right)
+        left_idx = (curr*2)+1
+        right_idx = (curr*2)+2
+
+        if left_idx > len(l):
+            break
+        
+        idx = left_idx if right_idx > len(l) else max(left_idx, right_idx, key=lambda x: l[x])
+    return root
+
 # heap delete by index
 # heap delete by value
 # heap delete by value, multiple
@@ -83,7 +109,7 @@ h = [1,2,3]
 h_1 = [3,2,1]
 h_2 = [5,4,3,2,1,0, 1, 1,1,1,0,0,0,-1,-2, 0] #
 h_3 = [5,4,3,2,1,9]
-
 min_1 = [0,1,2,3,4,6,7,9,9]
 
-print(max_heap_del(h_2))
+print(max_heap_del_by_val(h_2, 5))
+print(h_2)
