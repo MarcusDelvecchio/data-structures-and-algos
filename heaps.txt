@@ -50,7 +50,6 @@ properties of heap as array: (*if the arrtay is 1 indexed - because it makes thi
 left and right children^
 - there are also max-heap and min-heap properties which we defined above (parent always greater than child and vice-versa for min)
 
-
 - simple questions
     - checking if an array is a max or min heap: write a function that takes a heap and returns true if it has the max-heap property. And the same for min heap. (def is_max_heap() and is_min_heap())
     - building a max heap from an unsorted array:  wrtie a function that takes an array and build converts it to the max or min heap reprersentation (generate a max or min heap from said array) (which is in effect, sorting/changing the array to be ordered (not sorted order but max/min heap order))
@@ -98,7 +97,15 @@ Usage: Understanding 4 patterns where HEAP data structure is used
     3. Two Heaps Pattern
     4. Minimum Number Pattern
 
+Heap Operations:
+    Insert:
+    1. Add the element to the bottom level of the heap at the leftmost open space.
+    2. Compare the added element with its parent; if they are in the correct order, stop.
+    3. If not, swap the element with its parent and return to the previous step.
+
+    "Comparing and possibly swapping a node with its parent, are called the up-heap operation (also known as bubble-up, percolate-up, sift-up, trickle-up, swim-up, heapify-up, or cascade-up)."
 
 sources
+https://en.wikipedia.org/wiki/Binary_heap
 https://www.youtube.com/watch?v=B7hVxCmfPtM
 https://leetcode.com/discuss/general-discussion/1127238/master-heap-by-solving-23-questions-in-4-patterns-category

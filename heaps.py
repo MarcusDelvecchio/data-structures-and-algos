@@ -47,7 +47,37 @@ def max_heap_insert(l, n):
         l[idx] = temp
         idx = idx//2
     return l
-    
+
+def max_heap_del(l):
+    # replace root with end
+    l[0] = l[-1]
+    del l[-1]
+
+    # continuously sift down while parent is smaller than smaller child
+    curr = 0
+    idx = 1 if l[1] > l[2] else 2
+    while l[idx] > l[curr]:
+        temp = l[idx]
+        l[idx] = l[curr]
+        l[curr] = temp
+        curr = idx
+        left_idx = (curr+1)*2-1
+        right_idx = (curr+1)*2
+        
+        if left_idx >= len(l):
+            break
+
+        idx = left_idx if right_idx >= len(l) else max(left_idx, right_idx, key=lambda x: l[x])
+        # idx = left_idx if right_idx >= len(l) or l[left_idx] > l[right_idx] else right_idx
+    return l
+
+
+# heap pop
+# heap delete by index
+# heap delete by value
+# heap delete by value, multiple
+# converts max to to a min heap
+# merge to heaps
 
 h = [1,2,3]
 h_1 = [3,2,1]
@@ -56,4 +86,4 @@ h_3 = [5,4,3,2,1,9]
 
 min_1 = [0,1,2,3,4,6,7,9,9]
 
-print(max_heap_insert(h_2, 4))
+print(max_heap_del(h_2))
