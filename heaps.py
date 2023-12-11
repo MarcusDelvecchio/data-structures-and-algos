@@ -175,13 +175,32 @@ def findKthLargest(self, nums: List[int], k: int) -> int:
 
 # Last Stone Weight LeetCode Easy
 # https://leetcode.com/problems/last-stone-weight/description/
+# TC O(n) (building) + O(n(logn+logn)) = O(n) + O(nlogn) = O(nlogn)
+#    ^building           ^for every 2 inputs we pop 2 (which takes logn to heapify)a and insert 1
 def lastStoneWeight(self, stones: List[int]) -> int:
     stones = [-num for num in stones]
     heapq.heapify(stones)
     while len(stones) > 1:
-        stone_1 = heapq.heappop(stones)
-        stone_2 = heapq.heappop(stones)
+        stone_1 = -heapq.heappop(stones)
+        stone_2 = -heapq.heappop(stones)
 
-        if stone_1 != stone_2:
-            heapq.heappush(stones, -abs(-stone_1+stone_2))
+        if stone_1 > stone_2:
+            heapq.heappush(stones, stone_2-stone_1)
     return -stones[0] if stones else 0
+
+# Largest Number After Digit Swaps by Parity LeetCode Easy
+# https://leetcode.com/problems/largest-number-after-digit-swaps-by-parity/description/
+# You are given a positive integer num. You may swap any two digits of num that have the same parity (i.e. both odd digits or both even digits). Return the largest possible value of num after any number of swaps.
+def largestInteger(self, num: int) -> int:
+    num, res = str(num), ""
+    num_odd = [-int(digit) for digit in num if int(digit)%2 == 1]
+    num_even = [-int(digit) for digit in num if int(digit)%2 == 0]
+    heapq.heapify(num_even)
+    heapq.heapify(num_odd)
+
+    for digit in num:
+        if int(digit)%2 == 0:
+            res += str(-heapq.heappop(num_even))
+        else:
+            res += str(-heapq.heappop(num_odd))
+    return int(res)
