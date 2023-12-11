@@ -75,6 +75,8 @@ def max_heap_extract(l):
     return root
 
 # heap insert then extract operation
+# more efficient then doing heap insert and then heap extract separately
+# TC = O(logn)
 def max_heap_push_pop(l, val):
     if val > l[0]: return val
     root = l[0]
@@ -165,6 +167,7 @@ print(h_2)
 # https://leetcode.com/problems/kth-largest-element-in-an-array/description/
 # gets the kth largest element in a list using a heap
 # TC O(n+klogn) (O(n) to build heap from unsorted array and O(logn) to heapify after every pop) | SC O(n) (list is transformed into a heap in-place)
+# see this answer for interesting description of how to make the solution more and more efficient https://leetcode.com/problems/kth-largest-element-in-an-array/solutions/762174/4-python-solutions-with-step-by-step-optimization-plus-time-and-space-analysis/
 def findKthLargest(self, nums: List[int], k: int) -> int:
     nums_max = [-num for num in nums]
     heapq.heapify(nums_max)
@@ -203,3 +206,18 @@ def largestInteger(self, num: int) -> int:
     for digit in num:
         res += str(-heapq.heappop(num_even)) if int(digit)%2 == 0 else str(-heapq.heappop(num_odd))
     return int(res)
+
+
+# Top K Frequent Elements LeetCode Medium
+# https://leetcode.com/problems/top-k-frequent-elements/description/
+# TC: O(n) + O(n) + O(n) + O(klogn) = O(klogn) SC: O(n)
+# TC = O(n) to iterate and convert nums to a dict, O(n) to convert dict to list of (freq, num) pairs, O(n) to build heap from this list and O(klogn) to pop k items
+def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+    freq, res = defaultdict(int), []
+    for num in nums:
+        freq[num] += 1
+    n = [(-freq[num], num) for num in freq.keys()]
+    heapq.heapify(n)
+    for _ in range(k):
+        res.append(heapq.heappop(n)[1])
+    return res
