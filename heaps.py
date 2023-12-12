@@ -310,7 +310,6 @@ class Solution:
 # this is a medium btu took me over an hour
 # had so many issues with the 'waiting' queue implementation and had a hard time conceptualizing the units of time and 'one off' issues (ex how the waiting array is length wait time + 1)
 def leastInterval(self, tasks: List[str], n: int) -> int:
-    if n == 0: return len(tasks)
     counts, ans, waiting = Counter(tasks), 0, deque([None]*(n+1))
     h = [(-counts[task], task) for task in counts]
     heapify(h)
@@ -331,4 +330,15 @@ def leastInterval(self, tasks: List[str], n: int) -> int:
         else:
             waiting.appendleft(None)
         ans += 1
-    return ans    
+    return ans  
+
+# todo do this solution with just a counter
+# get n+1 most common items at a time, increment units of time by n+1, decrement count of items actually popped (ex only 4 popped but n = 5) and then repeat
+
+# K Closest Points to Origin LeetCode Medium
+# took 6 mins
+# using nsmallest but could also do manually if I feel like it
+# could come back to practice
+def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
+    distances = [(sqrt(p[0]*p[0]+p[1]*p[1]), p[0], p[1]) for p in points]
+    return [[p[1], p[2]] for p in nsmallest(k, distances)] 
