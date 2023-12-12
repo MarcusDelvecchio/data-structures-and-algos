@@ -214,10 +214,75 @@ def largestInteger(self, num: int) -> int:
 # TC = O(n) to iterate and convert nums to a dict, O(n) to convert dict to list of (freq, num) pairs, O(n) to build heap from this list and O(klogn) to pop k items
 def topKFrequent(self, nums: List[int], k: int) -> List[int]:
     freq, res = defaultdict(int), []
+    # create dict with all frequencies. O(n)
     for num in nums:
         freq[num] += 1
+
+    # convert dict to a list. O(n)
     n = [(-freq[num], num) for num in freq.keys()]
+
+    # heapify this list. O(n)
     heapq.heapify(n)
+
+    # extract the largest item from the heap k times. O(klogn)
     for _ in range(k):
         res.append(heapq.heappop(n)[1])
     return res
+
+# more efficient solution to above
+# instead of creating a heap with all n items and then popping the top k, we can simply create a heap with only k items, and maintain this heap. Then once we have gone through all the items we can simply pop the remaining k items from the heap
+# this solution is faster than the one above especially if k is significantly less than n
+# TC = O(n) to create dict + O(n) to convert to lists + O(k) to heapify k items + O((n-k)logk) to pushpop the remaining k items + O(klogk) to pop the final k items
+# TC = O(n + (n-k)logk + klogk)
+# can be simplified because k is assumed to be smaller than n so the second term is dominant giving us
+# TC = O((n-k)logk) = O(nlogk)
+def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+    freq, res, first_k, remaining = defaultdict(int), [], [], []
+    # create dict of frequencies of items O(n)
+    for num in nums:
+        freq[num] += 1
+    
+    # split items into first k and remaining items O(n)
+    for idx, num in enumerate(freq.keys()):
+        first_k.append((freq[num], num)) if idx < k else remaining.append((freq[num], num))
+
+    # heapify first k items O(k)
+    heapq.heapify(first_k)
+
+    # pushpop the remaining items O((n-k)logk)
+    while remaining:
+        heapq.heappushpop(first_k, remaining.pop())
+    
+    # pop the remaining k items O(klogk)
+    while first_k:
+        res.append(heapq.heappop(first_k)[1])
+    return res
+
+# the above solution can also be simplified using pythons heapq.nlargest function just to clean things up
+# this nlargest function does exactly what we have done above. Creating a heap of k (where k = n in 'nlargest') elements and then pushpoping the remaining items to maintain the n/k largest
+def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+    freq, first_k, remaining = Counter(nums), [], []
+
+    # get nlargest values using heapq function. O(nlogk)
+    largest = heapq.nlargest(k, [(freq[num], num) for num in freq.keys()])
+    return [item[1] for item in largest]
+
+# greedy solution
+# adds k pairs to a tree and then attempts to pushpop all remaining possible items into the tree
+# problem with though is there are too many items and the lists are ascending - we do not need to do this
+# we can add pairs as we go along - but when?
+def kSmallestPairs(self, nums1: List[int], nums2: List[int], k: int) -> List[List[int]]:
+    h, res = [], []
+    for i in range(len(nums1)):
+        for j in range(len(nums2)):
+            if len(h) < k:
+                h.append((-(nums1[i]+nums2[j]),nums1[i],nums2[j]))
+            elif len(h) == k:
+                heapq.heapify(h)
+                heapq.heappushpop(h, (-(nums1[i]+nums2[j]), nums1[i],nums2[j]))
+            else:
+                heapq.heappushpop(h, (-(nums1[i]+nums2[j]), nums1[i],nums2[j]))
+    while h:
+        pair = heapq.heappop(h)
+        res.append([pair[1], pair[2]])
+    return reversed(res)
