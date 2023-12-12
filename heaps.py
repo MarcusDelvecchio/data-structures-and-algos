@@ -341,4 +341,15 @@ def leastInterval(self, tasks: List[str], n: int) -> int:
 # could come back to practice
 def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
     distances = [(sqrt(p[0]*p[0]+p[1]*p[1]), p[0], p[1]) for p in points]
-    return [[p[1], p[2]] for p in nsmallest(k, distances)] 
+    return [[p[1], p[2]] for p in nsmallest(k, distances)]
+
+# Find K Closest Elements LeetCode Medium
+# https://leetcode.com/problems/find-k-closest-elements/description/
+# same with the abopve solution, did very inefficiently because the heap questions are all becoming the same
+# should implement nsmallest at least for better efficiency and find a cleaner way to do it than sorting it again at the end (Its 3am and I'm nearly at 9 hours today so getting off)
+def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
+    distances, res = [(abs(val - x), val) for val in arr], []
+    heapify(distances)
+    for _ in range(k):
+        res.append(heappop(distances)[1])
+    return sorted(res)
