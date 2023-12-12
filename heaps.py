@@ -1,4 +1,6 @@
 import heapq as hq
+from collections import Counter
+from heapq import heappush, heappop, heapify
 
 # iterates through a given list and returns true if it is a valid max-heap else false
 def is_max_heap(l):
@@ -270,7 +272,7 @@ def topKFrequent(self, nums: List[int], k: int) -> List[int]:
 # greedy solution
 # adds k pairs to a tree and then attempts to pushpop all remaining possible items into the tree
 # problem with though is there are too many items and the lists are ascending - we do not need to do this
-# we can add pairs as we go along - but when?
+# we can add pairs as we go along - but 
 def kSmallestPairs(self, nums1: List[int], nums2: List[int], k: int) -> List[List[int]]:
     h, res = [], []
     for i in range(len(nums1)):
@@ -286,3 +288,19 @@ def kSmallestPairs(self, nums1: List[int], nums2: List[int], k: int) -> List[Lis
         pair = heapq.heappop(h)
         res.append([pair[1], pair[2]])
     return reversed(res)
+
+# Sort Characters By Frequency LeetCode Medium
+# https://leetcode.com/problems/sort-characters-by-frequency/description/
+# took 6 mins
+# TC: O(n) to convert to list, O(n) to convert to dict, O(n) to heapify, O(nlogn) to empty heap, O(n) to build res array and O(n) to join it.
+# TC: O(nlogn)
+# note that doing res += char*-count where res is a string instead of a list would be O(n^2) it seems because string concatenation is O(N+M) where N and M are the lengths of the two strings being concatenated. So this would be O(n+m) for EVERY char in n. So .join is much faster
+class Solution:
+    def frequencySort(self, s: str) -> str:
+        freq, res = Counter(list(s)), []
+        h = [(-freq[c], c) for c in freq.keys()]
+        heapify(h)
+        while h:
+            count, char = heappop(h)
+            res.append(char*-count)
+        return "".join(res)
