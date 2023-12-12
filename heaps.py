@@ -304,3 +304,31 @@ class Solution:
             count, char = heappop(h)
             res.append(char*-count)
         return "".join(res)
+
+# Task Scheduler LeetCode Medium
+# https://leetcode.com/problems/task-scheduler/description/
+# this is a medium btu took me over an hour
+# had so many issues with the 'waiting' queue implementation and had a hard time conceptualizing the units of time and 'one off' issues (ex how the waiting array is length wait time + 1)
+def leastInterval(self, tasks: List[str], n: int) -> int:
+    if n == 0: return len(tasks)
+    counts, ans, waiting = Counter(tasks), 0, deque([None]*(n+1))
+    h = [(-counts[task], task) for task in counts]
+    heapify(h)
+    num_waiting = 0
+
+    while h or num_waiting:
+        next = waiting.pop()
+        if next:
+            heappush(h, (next[0], next[1]))
+            num_waiting -= 1
+        if h:
+            freq, task = heappop(h)          
+            if -freq > 1:
+                waiting.appendleft((freq+1, task))
+                num_waiting += 1
+            else:
+                waiting.appendleft(None)
+        else:
+            waiting.appendleft(None)
+        ans += 1
+    return ans    
