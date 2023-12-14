@@ -2,12 +2,13 @@ Binary Search Tree (also called an ordered or sorted binary tree)
 *The time complexity of operations on the binary search tree is linear with respect to the height of the tree.*
 
 - unlike a heap, which is an array that is *visualized* as a tree, the BST is actual a tree, that has pointers.
-- each node, x, has 3 pointers, parent(x), left(x) and right(x)
+- each node, x, has 2 pointers: left(x) and right(x), and although nodes can also include a third pointer parent(x)
 
 notes:
 - performance varies!: The performance of a binary search tree is dependent on the order of insertion of the nodes into the tree since arbitrary insertions may lead to degeneracy; several variations of the binary search tree can be built with guaranteed worst-case performance
 - BSTs with guaranteed worst-case complexities perform better than an unsorted array, which would require linear search time.
 -  on average, the insert, delete and search takes O(log⁡n) for n nodes. In the worst case, they degrade to that of a singly linked list: O(n)
+- a 'height balanced' binary tree is a tree in which the height of the left and right subtree of any node differ by not more than 1
 
 addressing issues and balancing:
 - To address the boundless increase of the tree height with arbitrary insertions and deletions, self-balancing variants of BSTs are introduced to bound the worst lookup complexity to that of the binary logarithm.  
@@ -21,6 +22,12 @@ BST Invariant:
 
 Operations:
     basic operations include: search, traversal, insert and delete
+
+    searching()
+
+    insertion
+    
+    deletion
 
     find_min()
         - just follow the left path. This is an O(h) operation
