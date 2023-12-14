@@ -347,6 +347,7 @@ def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
 # https://leetcode.com/problems/find-k-closest-elements/description/
 # same with the abopve solution, did very inefficiently because the heap questions are all becoming the same
 # should implement nsmallest at least for better efficiency and find a cleaner way to do it than sorting it again at the end (Its 3am and I'm nearly at 9 hours today so getting off)
+# took 6 mins
 def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
     distances, res = [(abs(val - x), val) for val in arr], []
     heapify(distances)

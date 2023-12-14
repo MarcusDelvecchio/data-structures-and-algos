@@ -1,0 +1,35 @@
+Binary Search Tree (also called an ordered or sorted binary tree)
+*The time complexity of operations on the binary search tree is linear with respect to the height of the tree.*
+
+- unlike a heap, which is an array that is *visualized* as a tree, the BST is actual a tree, that has pointers.
+- each node, x, has 3 pointers, parent(x), left(x) and right(x)
+
+notes:
+- performance varies!: The performance of a binary search tree is dependent on the order of insertion of the nodes into the tree since arbitrary insertions may lead to degeneracy; several variations of the binary search tree can be built with guaranteed worst-case performance
+- BSTs with guaranteed worst-case complexities perform better than an unsorted array, which would require linear search time.
+-  on average, the insert, delete and search takes O(log⁡n) for n nodes. In the worst case, they degrade to that of a singly linked list: O(n)
+
+addressing issues and balancing:
+- To address the boundless increase of the tree height with arbitrary insertions and deletions, self-balancing variants of BSTs are introduced to bound the worst lookup complexity to that of the binary logarithm.  
+- self-balancing trees were introduced to bound the height of the tree to O(logn). Various height-balanced binary search trees were introduced to confine the tree height, such as AVL trees, Treaps, and red–black trees
+
+BST Invariant:
+- for all nodes, x if y ius in the left subtree of x, y <= x and if y is in the right subtree of x, then y >= x
+  (by x > y etc we really mean key(x) and key(y))
+- "stronger" invariant than a heap
+
+
+Operations:
+    basic operations include: search, traversal, insert and delete
+
+    find_min()
+        - just follow the left path. This is an O(h) operation
+
+    find_max():
+        - just follow the right path. This is an O(h) operation
+
+uses:
+- Binary search trees can be used to implement abstract data types such as dynamic sets, lookup tables and priority queues, and used in sorting algorithms such as tree sort.
+
+resources:
+see "binary logarithm" - the binary logarithm (log(base2)(n)) is the power to which the number 2 must be raised to obtain the value n
