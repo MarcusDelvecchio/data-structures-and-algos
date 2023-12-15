@@ -241,6 +241,7 @@ def getAllElements(self, root1: TreeNode, root2: TreeNode) -> List[int]:
 
 # yea it seems this is the best way to approach the problem (sadly not 'clean single pass solution', but did clean up my above solution with the below using deques)
 # improved from above
+# and also note the time complexity is actually O(n+m) not O(n) (unless it might be assumed that n = the length of the two lists combined I guess)
 def getAllElements(self, root1: TreeNode, root2: TreeNode) -> List[int]:
     def tree_to_list(root):
         if not root: return []
@@ -249,3 +250,26 @@ def getAllElements(self, root1: TreeNode, root2: TreeNode) -> List[int]:
     while list1 and list2:
         res.append(list1.popleft() if list1[0] < list2[0] else list2.popleft())
     return res + list(list1 or list2)
+
+# Convert Sorted List to Binary Search Tree LeetCode Medium
+# https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/description/
+# idea: two pointer method, split list into left, root and right lists and recursively perform this logic
+# couldn't find a way to make it much cleaner
+# took about 10 mins
+# TC O(n) SC O(n) because we have to build an entirely new tree
+def sortedListToBST(self, head: Optional[ListNode]) -> Optional[TreeNode]:
+    def build(l):
+        if not l: return None
+        p1, p2, prev = l,l, None
+        while p2.next and p2.next.next:
+            prev = p1
+            p1 = p1.next
+            p2 = p2.next.next
+        
+        # cut off end and recall with new two sublists
+        if prev:
+            prev.next = None
+        r = p1.next
+        p1.next = None
+        return TreeNode(p1.val, build(l) if prev else None, build(r))
+    return build(head)
