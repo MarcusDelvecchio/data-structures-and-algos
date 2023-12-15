@@ -120,3 +120,21 @@ def searchBST(self, root: Optional[TreeNode], val: int) -> Optional[TreeNode]:
         if root.val == val: return root
         return bsearch(root.left) if val < root.val else bsearch(root.right)
     return bsearch(root)
+
+# Increasing Order Search Tree LeetCode Easy
+# Given the root of a binary search tree, rearrange the tree in in-order so that the leftmost node in the tree is now the root of the tree, and every node has no left child and only one right child.
+# this actually took me a minute. Idk why I'm having a hard time grasping the concept of the bst in-order traversal
+prev, new_head = None, None
+def increasingBST(self, root: TreeNode) -> TreeNode:
+    
+    def dfs(root):
+        if not root: return
+        dfs(root.left)
+        if not self.new_head: self.new_head = root
+        if self.prev:
+            self.prev.right = root
+        self.prev = root
+        dfs(root.right)
+        root.left = None  
+    dfs(root)
+    return self.new_head
