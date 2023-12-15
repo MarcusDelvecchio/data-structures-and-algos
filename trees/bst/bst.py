@@ -170,3 +170,16 @@ def dfs(root):
         dfs(root.left)
 
 # other similar thinking is that the closest relationships between node values will be between parent and children, which is not the case and I am slowly having to try harder to realize such patterns
+
+# Construct Binary Search Tree from Preorder Traversal LeetCode Medium
+# https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/description/0
+# took about 10 mins but came back to it and did it myself after not being able to do it and looking at a solution
+def bstFromPreorder(self, preorder: List[int]) -> Optional[TreeNode]:
+    if not preorder: return None
+    root = TreeNode(preorder[0])
+    preorder, i = preorder[1:], 0
+    while i < len(preorder) and preorder[i] < root.val:
+        i += 1
+    root.left = Solution.bstFromPreorder(self, preorder[:i])
+    root.right = Solution.bstFromPreorder(self, preorder[i:])
+    return root
