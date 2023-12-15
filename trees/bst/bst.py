@@ -138,3 +138,35 @@ def increasingBST(self, root: TreeNode) -> TreeNode:
         root.left = None  
     dfs(root)
     return self.new_head
+
+# Range Sum of BST LeetCode Easy
+# https://leetcode.com/problems/range-sum-of-bst/description/
+# took like 5 mins
+sum = 0
+def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
+    
+    def dfs(root):
+        if not root: return
+
+        if root.val >= low and root.val <= high:
+            self.sum += root.val
+        dfs(root.left)
+        dfs(root.right)
+    dfs(root)
+    return self.sum
+
+# notes on this question^
+# again, I still struggle with conceptualizing BSTs. I attempted to use the following logic for excample, which is incorrect and wrong in thinking.
+# I need to try harder to realize the patterns with BSTs and how some rules are not intuitive
+# see the below code for the above dfs algo and how it is incorrect
+def dfs(root):
+    if not root: return
+
+    if root.val > low and root.val < high:
+        self.sum += root.val
+    if root.val < low:
+        dfs(root.right)
+    if root.val > high:
+        dfs(root.left)
+
+# other similar thinking is that the closest relationships between node values will be between parent and children, which is not the case and I am slowly having to try harder to realize such patterns
