@@ -53,3 +53,39 @@ def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
         return min
     find_min(root)
     return self.minimum
+
+# Find Mode in Binary Search Tree
+# https://leetcode.com/problems/find-mode-in-binary-search-tree/description/
+# took under 10 mins
+# TC = O(n), SC = O(n)
+mode, res = 0, []
+def findMode(self, root: Optional[TreeNode]) -> List[int]:
+    freq, = Counter()
+
+    def dfs(root):
+        if not root: return None
+        freq[root.val] += 1
+        if freq[root.val] == self.mode:
+            self.res.append(root.val)
+        elif freq[root.val] > self.mode:
+            self.res = [root.val]
+            self.mode = freq[root.val]
+        dfs(root.left)
+        dfs(root.right)
+    dfs(root)
+    return self.res
+
+# Binary Search Tree to Greater Sum Tree LeetCode Medium
+# took about 25 mins, actually had to think pretty hard but makes sense and like the clean solution
+# idea: 
+# 1. pass everything that is greater down to right and left (if there is a greater ancestor tree for example) for child nodes to add to their values
+# 2. but do the right side first and have the right side return the largest subtree value (i.e., the leftmost value. Because in a subtree, the farthest left node will be the sum of the entire tree)
+# 3. with this value returned from the right, increase the 'greater' value provided by the parent, and pass it to the left to update all of their values
+def bstToGst(self, root: TreeNode) -> TreeNode:
+    def dfs(root, greater):
+        if not root: return greater
+        greater = dfs(root.right, greater)
+        root.val += greater
+        return dfs(root.left, root.val) if root.left else root.val
+    dfs(root, 0)
+    return root
