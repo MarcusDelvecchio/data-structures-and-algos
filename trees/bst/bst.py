@@ -216,6 +216,7 @@ def balanceBST(self, root: TreeNode) -> TreeNode:
 # https://leetcode.com/problems/all-elements-in-two-binary-search-trees/submissions/
 # approach: converts trees to lists and merge the lists (could not think of a way to do it with single pass and recursion but will look at other solutions rn)
 # TC = O(n) to convert the trees to lists and O(n) to merge the two lists, SC = O(n) - need to store entire duplicates of trees in lists
+# (see improved version below)
 def getAllElements(self, root1: TreeNode, root2: TreeNode) -> List[int]:
     def tree_to_list(root):
         if not root: return []
@@ -237,3 +238,14 @@ def getAllElements(self, root1: TreeNode, root2: TreeNode) -> List[int]:
             res.append(arr2[p2])
             p2 += 1        
     return res
+
+# yea it seems this is the best way to approach the problem (sadly not 'clean single pass solution', but did clean up my above solution with the below using deques)
+# improved from above
+def getAllElements(self, root1: TreeNode, root2: TreeNode) -> List[int]:
+    def tree_to_list(root):
+        if not root: return []
+        return tree_to_list(root.left) + [root.val] + tree_to_list(root.right)
+    list1, list2, res = deque(tree_to_list(root1)), deque(tree_to_list(root2)), []
+    while list1 and list2:
+        res.append(list1.popleft() if list1[0] < list2[0] else list2.popleft())
+    return res + list(list1 or list2)

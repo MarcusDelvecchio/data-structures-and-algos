@@ -21,3 +21,8 @@ time complexity
 
 
 =====[ Priority Queue ]=====
+
+
+
+=====[ Python Deque ]====
+- time complexity of pop() and popleft() is O(1)
