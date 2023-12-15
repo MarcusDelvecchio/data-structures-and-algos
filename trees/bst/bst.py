@@ -76,11 +76,13 @@ def findMode(self, root: Optional[TreeNode]) -> List[int]:
     return self.res
 
 # Binary Search Tree to Greater Sum Tree LeetCode Medium
+# Given the root of a Binary Search Tree (BST), convert it to a Greater Tree such that every key of the original BST is changed to the original key plus the sum of all keys greater than the original key in BST.
 # took about 25 mins, actually had to think pretty hard but makes sense and like the clean solution
 # idea: 
 # 1. pass everything that is greater down to right and left (if there is a greater ancestor tree for example) for child nodes to add to their values
 # 2. but do the right side first and have the right side return the largest subtree value (i.e., the leftmost value. Because in a subtree, the farthest left node will be the sum of the entire tree)
 # 3. with this value returned from the right, increase the 'greater' value provided by the parent, and pass it to the left to update all of their values
+# TC: O(n) SC: O(1)
 def bstToGst(self, root: TreeNode) -> TreeNode:
     def dfs(root, greater):
         if not root: return greater
@@ -89,3 +91,21 @@ def bstToGst(self, root: TreeNode) -> TreeNode:
         return dfs(root.left, root.val) if root.left else root.val
     dfs(root, 0)
     return root
+
+# todo come back to this because I looked at the answer
+# Construct Binary Search Tree from Preorder Traversal
+# https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/description/
+# and come back to this idk how to do
+# https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/
+
+# Two Sum IV - Input is a BST LeetCode Easy
+# https://leetcode.com/problems/two-sum-iv-input-is-a-bst/description/
+# TC O(n) SC O(n)
+def findTarget(self, root: Optional[TreeNode], k: int) -> bool:
+    find = set()
+    def dfs(root):
+        if not root: return False
+        if root.val in find: return True
+        find.add(k - root.val)
+        return dfs(root.left) or dfs(root.right)
+    return dfs(root)
