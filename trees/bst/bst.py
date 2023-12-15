@@ -183,3 +183,30 @@ def bstFromPreorder(self, preorder: List[int]) -> Optional[TreeNode]:
     root.left = Solution.bstFromPreorder(self, preorder[:i])
     root.right = Solution.bstFromPreorder(self, preorder[i:])
     return root
+
+# Balance a Binary Search Tree LeetCode Medium
+# https://leetcode.com/problems/balance-a-binary-search-tree/submissions/
+# Given the root of a binary search tree, return a balanced binary search tree with the same node values. If there is more than one answer, return any of them.
+# TC O(n) ( I think - O(n) to traverse, O(n) to build) SC O(n)
+def balanceBST(self, root: TreeNode) -> TreeNode:
+    arr = []
+    
+    def traverse(root):
+        if not root: return None
+        traverse(root.left)
+        arr.append(root.val)
+        traverse(root.right)
+
+    def build(arr):
+        if not arr: return None
+        root_idx = len(arr)//2
+        root = TreeNode(arr[root_idx])
+        root.left = build(arr[:root_idx])
+        root.right = build(arr[root_idx+1:])
+        return root
+    
+    traverse(root)
+    return build(arr)  
+
+# there is definitely a more efficient way of doing this
+# also why does this always work isn't there a way to skew the list so that alwys uging the midpoints to build the subtrees doesn't always work? nope

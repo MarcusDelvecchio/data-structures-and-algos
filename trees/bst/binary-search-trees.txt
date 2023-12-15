@@ -9,6 +9,7 @@ notes:
 - BSTs with guaranteed worst-case complexities perform better than an unsorted array, which would require linear search time.
 -  on average, the insert, delete and search takes O(log⁡n) for n nodes. In the worst case, they degrade to that of a singly linked list: O(n)
 - a 'height balanced' binary tree is a tree in which the height of the left and right subtree of any node differ by not more than 1
+    - with this 'balanced' height say h then, any node within the tree can be reached within h steps
 
 addressing issues and balancing:
 - To address the boundless increase of the tree height with arbitrary insertions and deletions, self-balancing variants of BSTs are introduced to bound the worst lookup complexity to that of the binary logarithm.  
