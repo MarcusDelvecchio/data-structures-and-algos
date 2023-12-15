@@ -210,3 +210,30 @@ def balanceBST(self, root: TreeNode) -> TreeNode:
 
 # there is definitely a more efficient way of doing this
 # also why does this always work isn't there a way to skew the list so that alwys uging the midpoints to build the subtrees doesn't always work? nope
+
+# All Elements in Two Binary Search Trees LeetCode Medium
+# Given two binary search trees root1 and root2, return a list containing all the integers from both trees sorted in ascending order.
+# https://leetcode.com/problems/all-elements-in-two-binary-search-trees/submissions/
+# approach: converts trees to lists and merge the lists (could not think of a way to do it with single pass and recursion but will look at other solutions rn)
+# TC = O(n) to convert the trees to lists and O(n) to merge the two lists, SC = O(n) - need to store entire duplicates of trees in lists
+def getAllElements(self, root1: TreeNode, root2: TreeNode) -> List[int]:
+    def tree_to_list(root):
+        if not root: return []
+        return tree_to_list(root.left) + [root.val] + tree_to_list(root.right)
+    arr1 = tree_to_list(root1)
+    arr2 = tree_to_list(root2)
+    res, p1, p2 = [], 0, 0
+    while p1 < len(arr1) or p2 < len(arr2):
+        if p1 == len(arr1):
+            res.append(arr2[p2])
+            p2 += 1
+        elif p2 == len(arr2):
+            res.append(arr1[p1])
+            p1 += 1 
+        elif arr1[p1] < arr2[p2]:
+            res.append(arr1[p1])
+            p1 += 1
+        else:
+            res.append(arr2[p2])
+            p2 += 1        
+    return res

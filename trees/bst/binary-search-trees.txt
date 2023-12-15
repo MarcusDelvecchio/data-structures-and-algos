@@ -1,6 +1,7 @@
 Binary Search Tree (also called an ordered or sorted binary tree)
 *The time complexity of operations on the binary search tree is linear with respect to the height of the tree.*
 
+- is a data structure where nodes have two pointers (rather than one in a linked list for example), making it possible to traverse the data structure in *logarithmic* time (rather than liner time in a linked list for example)
 - unlike a heap, which is an array that is *visualized* as a tree, the BST is actual a tree, that has pointers.
 - each node, x, has 2 pointers: left(x) and right(x), and although nodes can also include a third pointer parent(x)
 
