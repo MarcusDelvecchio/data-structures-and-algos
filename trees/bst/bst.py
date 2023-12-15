@@ -24,6 +24,8 @@ def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:
 # Given the root of a Binary Search Tree (BST), return the minimum absolute difference between the values of any two different nodes in the tree.
 # https://leetcode.com/problems/minimum-absolute-difference-in-bst/description/
 # took like 20 mins because has the wrong approach but did in like 5 mins once I realized
+# TC O(n), SC O(n)
+# takes two passes and requires that you store the entire BST in a separate array
 def getMinimumDifference(self, root: Optional[TreeNode]) -> int:     
     def bst_sort(root):
         if not root: return []
@@ -37,3 +39,17 @@ def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
             dif = abs(val - prev)
         prev = val
     return dif
+
+# same as above but single-pass TC O(n) SC O(1)
+minimum, prev = 100000, None
+def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
+    def find_min(root):
+        if not root: return min
+        find_min(root.left)
+        if self.prev != None:
+            self.minimum = min(self.minimum, root.val - self.prev)
+        self.prev = root.val
+        find_min(root.right)
+        return min
+    find_min(root)
+    return self.minimum
