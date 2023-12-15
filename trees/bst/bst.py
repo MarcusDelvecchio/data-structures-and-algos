@@ -50,7 +50,6 @@ def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
             self.minimum = min(self.minimum, root.val - self.prev)
         self.prev = root.val
         find_min(root.right)
-        return min
     find_min(root)
     return self.minimum
 
@@ -101,6 +100,7 @@ def bstToGst(self, root: TreeNode) -> TreeNode:
 # Two Sum IV - Input is a BST LeetCode Easy
 # https://leetcode.com/problems/two-sum-iv-input-is-a-bst/description/
 # TC O(n) SC O(n)
+# took like 3 mins
 def findTarget(self, root: Optional[TreeNode], k: int) -> bool:
     find = set()
     def dfs(root):
@@ -109,3 +109,14 @@ def findTarget(self, root: Optional[TreeNode], k: int) -> bool:
         find.add(k - root.val)
         return dfs(root.left) or dfs(root.right)
     return dfs(root)
+
+# Search in a Binary Search Tree LeetCode Easy
+# https://leetcode.com/problems/search-in-a-binary-search-tree/submissions/
+# took like 1 minute mbut just trying to do easy questions because BST solutions aren't coming to me very easily
+# TC O(n) SC O(1)
+def searchBST(self, root: Optional[TreeNode], val: int) -> Optional[TreeNode]:
+    def bsearch(root):
+        if not root: return None
+        if root.val == val: return root
+        return bsearch(root.left) if val < root.val else bsearch(root.right)
+    return bsearch(root)
