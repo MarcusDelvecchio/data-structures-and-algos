@@ -273,3 +273,27 @@ def sortedListToBST(self, head: Optional[ListNode]) -> Optional[TreeNode]:
         p1.next = None
         return TreeNode(p1.val, build(l) if prev else None, build(r))
     return build(head)
+
+# Binary Search Tree Iterator LeetCode Medium
+# https://leetcode.com/problems/binary-search-tree-iterator/description/
+# approach: convert BST to queue and pop throught the queue as the user want to traverse the tree/move the pointer forward
+# pointer only needs to be able to go forwards not back
+# took like 5 mins
+from collections import deque
+class BSTIterator:
+    arr = deque()
+
+    def build(self, root):
+        if not root: return None
+        self.build(root.left)
+        self.arr.append(root.val)
+        self.build(root.right)  
+
+    def __init__(self, root: Optional[TreeNode]):
+        self.build(root)
+
+    def next(self) -> int:
+        return self.arr.popleft() if self.arr else None
+
+    def hasNext(self) -> bool:
+        return bool(self.arr)
