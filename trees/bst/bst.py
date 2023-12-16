@@ -396,3 +396,42 @@ def deleteNode(self, root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
             root.right = update(root.right)
         return root
     return update(root)
+
+# Validate Binary Search Tree LeetCode Medium
+# https://leetcode.com/problems/validate-binary-search-tree/description/
+# took 13 mins but had to refactor because I originally thought it was just as simple as comparing root to children
+# TC O(logn) SC O(n)
+# (better solution below)
+def isValidBST(self, root: Optional[TreeNode]) -> bool:
+    greater, lesser = set(), set()
+    def validate(root):
+        if not root: return True
+        for val in greater:
+            if root.val <= val: return False
+        for val in lesser:
+            if root.val >= val: return False
+        lesser.add(root.val)
+        left = validate(root.left) 
+        if not left: return False
+        lesser.remove(root.val)
+        greater.add(root.val)
+        right = validate(root.right)
+        greater.remove(root.val)
+        return right
+    return validate(root)
+
+# WAY BETTER
+# alternative solution that uses less space, is O(1) instead of O(n)
+# have two variables upper and lower and at every node, based on the path to the node, the node value must be wiothin the upper and lower bound
+# and each node will accordingly update the upper and lower bound before exploring it's left and right child and then undo said changes (backtracking?)
+# TC O(n) SC O(1)
+def isValidBST(self, root: Optional[TreeNode]) -> bool:
+    def validate(root, lower, upper):
+        if not root: return True
+        if lower != None and root.val <= lower: return False
+        if upper != None and root.val >= upper: return False
+        left = validate(root.left, lower, root.val) 
+        if not left: return False
+        right = validate(root.right, root.val, upper)
+        return right
+    return validate(root, None, None)
