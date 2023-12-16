@@ -328,12 +328,17 @@ def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -
     def find(root):
         if not root: return False, None
         found_left, val_left = find(root.left)
-        if found_left and val_left: return True, val_left
+        if found_left and val_left: return True, val_left 
         found_right, val_right = find(root.right)
         if found_right and val_right: return True, val_right
         if root.val == q.val or root.val == p.val:
             return True, root if found_left or found_right else None
-        if found_left and found_right:
+        if found_left and found_right: # note this and the below return statement can be condensed but not going to do that for readability
             return True, root
         return False, None
     return find(root)[1]
+
+# wow but look at this iterative solution so much simpler https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/solutions/1394823/explained-easy-iterative-python-solution/
+# I didn't even take into account the fact that there is order within the tree and we don't need to traverse in order
+# at any node, the node is either 1. greater than both values we are looking for, or 2. it's LESS than both values we are looking for. Otherwise IT is the common node
+# if 1. go left if 2. go right else return root wow simple
