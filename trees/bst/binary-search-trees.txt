@@ -29,7 +29,11 @@ Operations:
 
     insertion
     
-    deletion
+    deletion:
+        1. search the tree to find the node to delete
+        2. if the node has no children simply delete it
+        3. if the node only has one child, replace it with that child
+        4. if the node has two children, replace it with the smallest value from the subtree rootes at either child
 
     find_min()
         - just follow the left path. This is an O(h) operation

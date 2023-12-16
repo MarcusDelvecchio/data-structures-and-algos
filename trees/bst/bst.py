@@ -342,3 +342,34 @@ def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -
 # I didn't even take into account the fact that there is order within the tree and we don't need to traverse in order
 # at any node, the node is either 1. greater than both values we are looking for, or 2. it's LESS than both values we are looking for. Otherwise IT is the common node
 # if 1. go left if 2. go right else return root wow simple
+
+# Delete Node in a BST LeetCode Medium
+# https://leetcode.com/problems/delete-node-in-a-bst/description/
+# took like 35 mins becuase of edge cases. This soluition is ugly asf
+# O(logn) or O(h) and O(logn) / O(h) space
+def deleteNode(self, root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+    def update(root):
+        if not root: return None
+        if root.val == key:
+            if not root.left or not root.right: return root.right or root.left
+            next, prev = root.right, None
+            while next.left:
+                prev = next
+                next = next.left
+            rightmost = next.right
+            while rightmost and rightmost.right:
+                rightmost = rightmost.right
+            if prev:
+                if rightmost:
+                    rightmost.right = root.right
+                else:
+                    next.right = root.right
+                prev.left = None
+            next.left = root.left
+            return next
+        if key < root.val:
+            root.left = update(root.left)
+        else:
+            root.right = update(root.right)
+        return root
+    return update(root)
