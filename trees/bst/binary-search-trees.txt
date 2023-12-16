@@ -42,3 +42,7 @@ uses:
 
 resources:
 see "binary logarithm" - the binary logarithm (log(base2)(n)) is the power to which the number 2 must be raised to obtain the value n
+
+todo read
+Morris Traversal - a wy to traverse a BST inorder without using a stack or recursion
+https://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/

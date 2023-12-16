@@ -306,17 +306,34 @@ class BSTIterator:
 # Kth Smallest Element in a BST LeetCode Medium
 # https://leetcode.com/problems/kth-smallest-element-in-a-bst/description/
 # Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.
-# idea: do the usual BST in-ordser traversal but keep a global k value and once at the kth element return it all the way back to the top (without exploring further)
+# idea: do the usual BST in-ordser traversal but keep a global k value to keep track of hwo many nodes we have visited and once at the kth element return it all the way back to the top (without exploring further)
 # TC: O(n), SC: O(1)
 k = 0
 def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
     def explore(root):
         if not root: return None
         left = explore(root.left)
-        if left != None: return left
+        if left != None: return left # if left returns a value stop early
         self.k += 1
         if self.k == k: return root.val
-        right = explore(root.right)
-        if right != None:
-            return right
+        return explore(root.right) # if right returns a value return right else none
     return explore(root)
+
+# Lowest Common Ancestor of a Binary Search Tree LeetCode Medium
+# https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/submissions/
+# approach: search through the tree in-order (as in the solution above) and return from each node exploration to values 1. if a solution has been found in the node and 2. if a common ancestor has been found (if two nodes have been found) and what that common ancestor is
+# TC O(n) SC O(1)
+# took 13 mins
+def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
+    def find(root):
+        if not root: return False, None
+        found_left, val_left = find(root.left)
+        if found_left and val_left: return True, val_left
+        found_right, val_right = find(root.right)
+        if found_right and val_right: return True, val_right
+        if root.val == q.val or root.val == p.val:
+            return True, root if found_left or found_right else None
+        if found_left and found_right:
+            return True, root
+        return False, None
+    return find(root)[1]
