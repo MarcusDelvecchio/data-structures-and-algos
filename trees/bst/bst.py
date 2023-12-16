@@ -6,6 +6,10 @@
 # inerstion
 # deletion
 
+# importtant ideas and concepts:
+#   traversing a BST in-order (smallest to greatest values)
+#   converting a sorted list to a balanced BST
+
 # Convert Sorted Array to Binary Search Tree LeetCode Easy
 # first LC BST problem. Took like 7 mins total
 def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:
@@ -187,6 +191,7 @@ def bstFromPreorder(self, preorder: List[int]) -> Optional[TreeNode]:
 # Balance a Binary Search Tree LeetCode Medium
 # https://leetcode.com/problems/balance-a-binary-search-tree/submissions/
 # Given the root of a binary search tree, return a balanced binary search tree with the same node values. If there is more than one answer, return any of them.
+# idea: convert the BST to a list and then build the tree from that list. See 'sortedListToBST' solution below where you build a BST from a sorted list
 # TC O(n) ( I think - O(n) to traverse, O(n) to build) SC O(n)
 def balanceBST(self, root: TreeNode) -> TreeNode:
     arr = []
@@ -297,3 +302,21 @@ class BSTIterator:
 
     def hasNext(self) -> bool:
         return bool(self.arr)
+
+# Kth Smallest Element in a BST LeetCode Medium
+# https://leetcode.com/problems/kth-smallest-element-in-a-bst/description/
+# Given the root of a binary search tree, and an integer k, return the kth smallest value (1-indexed) of all the values of the nodes in the tree.
+# idea: do the usual BST in-ordser traversal but keep a global k value and once at the kth element return it all the way back to the top (without exploring further)
+# TC: O(n), SC: O(1)
+k = 0
+def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
+    def explore(root):
+        if not root: return None
+        left = explore(root.left)
+        if left != None: return left
+        self.k += 1
+        if self.k == k: return root.val
+        right = explore(root.right)
+        if right != None:
+            return right
+    return explore(root)
