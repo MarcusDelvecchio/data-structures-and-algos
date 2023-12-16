@@ -356,6 +356,7 @@ def deleteNode(self, root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
             while next.left:
                 prev = next
                 next = next.left
+            # section a start
             rightmost = next.right
             while rightmost and rightmost.right:
                 rightmost = rightmost.right
@@ -365,6 +366,28 @@ def deleteNode(self, root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
                 else:
                     next.right = root.right
                 prev.left = None
+            # seciton a end
+            next.left = root.left
+            return next
+        if key < root.val:
+            root.left = update(root.left)
+        else:
+            root.right = update(root.right)
+        return root
+    return update(root)
+
+
+# okay cleaned the solution up a bit by using recursion to remove the node we reaplce the deleted node with. I only changed "section a" from the above code
+def deleteNode(self, root: Optional[TreeNode], key: int) -> Optional[TreeNode]:
+    def update(root):
+        if not root: return None
+        if root.val == key:
+            if not root.left or not root.right: return root.right or root.left
+            next, prev = root.right, None
+            while next.left:
+                prev = next
+                next = next.left
+            next.right = self.deleteNode(root.right, next.val)
             next.left = root.left
             return next
         if key < root.val:
