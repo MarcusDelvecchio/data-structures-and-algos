@@ -435,3 +435,18 @@ def isValidBST(self, root: Optional[TreeNode]) -> bool:
         right = validate(root.right, root.val, upper)
         return right
     return validate(root, None, None)
+
+
+# Hard
+# given BST returns number of ways the BST could hbave been re-arranged if the BST was generated from a list
+# incorrect
+def numOfWays(self, nums: List[int]) -> int:
+    def combos(root):
+        if not root: return 1
+        if not root.left and not root.right: return 1
+        if not root.left: return combos(root.right)
+        if not root.right: return combos(root.left)
+        return 2*combos(root.left) + 2*combos(root.right)
+    return combos(root)
+
+# given a list to be used to build a BST, determine the number of nodes in each layer without building the tree
