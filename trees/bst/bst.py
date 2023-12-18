@@ -467,3 +467,17 @@ def minDepth(self, root: Optional[TreeNode]) -> int:
             d += 1
         return d
     return bfs()
+
+# Balanced Binary Tree LeetCode Easy
+# Given a binary tree, determine if it is height-balance
+# took like 5 mins after I realized how the height-balanced aspect works
+# approach: dfs each path and ensure that any node has both balanced subtrees (for the sake of early stoppage) and that the subtree depths are within 1
+# TC O(n), SC O(1)
+def isBalanced(self, root: Optional[TreeNode]) -> bool:
+    def dfs(root, d):
+        if not root: return True, d
+        left_balanced, left_depth = dfs(root.left, d+1)
+        if not left_balanced: return False, 0
+        right_balanced, right_depth = dfs(root.right, d+1)
+        return right_balanced and abs(left_depth - right_depth) < 2, max(left_depth, right_depth)
+    return dfs(root, 0)[0]
