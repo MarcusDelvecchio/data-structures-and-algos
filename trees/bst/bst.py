@@ -450,3 +450,20 @@ def numOfWays(self, nums: List[int]) -> int:
     return combos(root)
 
 # given a list to be used to build a BST, determine the number of nodes in each layer without building the tree
+
+# Minimum Depth of Binary Tree LeetCode Easy
+def minDepth(self, root: Optional[TreeNode]) -> int:
+    if not root: return 0
+    def bfs():
+        layer, d = deque([root]), 1
+        while layer:
+            next = deque()
+            for node in layer:
+                if node.left: next.append(node.left)
+                if node.right: next.append(node.right)
+                if not node.left and not node.right:
+                    return d
+            layer = next
+            d += 1
+        return d
+    return bfs()
