@@ -487,6 +487,8 @@ def isBalanced(self, root: Optional[TreeNode]) -> bool:
 # https://leetcode.com/problems/recover-binary-search-tree/description/
 # You are given the root of a binary search tree (BST), where the values of exactly two nodes of the tree were swapped by mistake. Recover the tree without changing its structure.
 # needed to look at solution and realized I completely missed the idea of using the inorder traversal
+# see solution
+# this didn't make sense to me the way he did it with the start and end but it makes sense. Just think about it as if it were an array/list
 def recoverTree(self, root: Optional[TreeNode]) -> None:
     prev, start, end = None, None, None
     def inorder(root):
@@ -502,4 +504,21 @@ def recoverTree(self, root: Optional[TreeNode]) -> None:
         inorder(root.right)
     inorder(root)
     if start and end: start.val, end.val = end.val, start.val
-    return root   
+    return root
+
+# Convert BST to Greater Tree LeetCode Medium
+# https://leetcode.com/problems/convert-bst-to-greater-tree/submissions/
+# Given the root of a Binary Search Tree (BST), convert it to a Greater Tree such that every key of the original BST is changed to the original key plus the sum of all keys greater than the original key in BST.
+# did this qesiton already but did an even simpler approach where instead of going per root->leaf path I just did a reverse inorder traversal
+# see the other solution for this somewhere above
+def convertBST(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+    total = 0
+    def rev_inorder(root):
+        nonlocal total
+        if not root: return 0
+        rev_inorder(root.right)
+        root.val += total
+        total = root.val
+        rev_inorder(root.left)
+    rev_inorder(root)
+    return root
