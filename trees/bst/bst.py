@@ -539,3 +539,47 @@ def insertIntoBST(self, root: Optional[TreeNode], val: int) -> Optional[TreeNode
     else:
         prev.right = TreeNode(val, None, None)
     return root
+
+
+
+# binary tree gotchas
+# nodes to left and right shouldn't be equal to the the root
+
+# todo
+# given a binary tree print the number of valid subtrees in the tree
+
+# Maximum Sum BST in Binary Tree LeetCode Hard
+# https://leetcode.com/problems/maximum-sum-bst-in-binary-tree/description/
+# Given a binary tree root, return the maximum sum of all keys of any sub-tree which is also a Binary Search Tree (BST).
+# a lot harder than I expected
+# took 90 mins
+def maxSumBST(self, root: Optional[TreeNode]) -> int:
+    maximum, prev, defects, prev_depth = 0, None, set(), 0
+
+    # perform single pass and find all defect nodes
+    def inorder(root, depth):
+        nonlocal maximum, prev, defects, prev_depth
+        if not root: return 0
+        inorder(root.left, depth + 1)
+        # if a defect is found in the order, set the higher node to defective
+        if (prev and prev.val >= root.val):
+            if depth < prev_depth:
+                defects.add((root.val, id(root)))
+            else:
+                defects.add((prev.val, id(prev)))               
+        prev = root
+        prev_depth = depth
+        inorder(root.right, depth + 1)   
+
+    # then do dfs to get the maximum sum while also validating that no defects appear in the subtrees
+    def dfs(root):
+        nonlocal maximum, defects
+        if not root: return True, 0
+        left_valid, left_sum = dfs(root.left)
+        right_valid, right_sum = dfs(root.right)
+        if left_valid and right_valid and (root.val, id(root)) not in defects:
+            maximum = max(maximum, root.val + left_sum + right_sum)
+        return left_valid and right_valid and (root.val, id(root)) not in defects, root.val + left_sum + right_sum
+    inorder(root, 0)
+    dfs(root)
+    return maximum
