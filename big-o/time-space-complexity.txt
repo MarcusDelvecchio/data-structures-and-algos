@@ -1,5 +1,8 @@
 
 - look more into how recursive calls effect space complexity - each recursive call is O(1)
 
+on space complexity of BST:
+https://stackoverflow.com/questions/36479640/time-space-complexity-of-depth-first-search
+
 interesting read about recusive call and space complexity
 https://stackoverflow.com/questions/53092180/space-complexity-for-recursive-calls

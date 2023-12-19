@@ -509,8 +509,9 @@ def recoverTree(self, root: Optional[TreeNode]) -> None:
 # Convert BST to Greater Tree LeetCode Medium
 # https://leetcode.com/problems/convert-bst-to-greater-tree/submissions/
 # Given the root of a Binary Search Tree (BST), convert it to a Greater Tree such that every key of the original BST is changed to the original key plus the sum of all keys greater than the original key in BST.
-# did this qesiton already but did an even simpler approach where instead of going per root->leaf path I just did a reverse inorder traversal
+# did this qesiton already but did different approach where instead of going per root->leaf path I just did a reverse inorder traversal
 # see the other solution for this somewhere above
+# took 7 mins
 def convertBST(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
     total = 0
     def rev_inorder(root):
@@ -521,4 +522,20 @@ def convertBST(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         total = root.val
         rev_inorder(root.left)
     rev_inorder(root)
+    return root
+
+# Insert into a Binary Search Tree LeetCode Medium
+# https://leetcode.com/problems/insert-into-a-binary-search-tree/description/
+# took like 5 mins. Did iteratively so space complexity is O(1) because no recursive call
+# TC O(h)/O(n) SC O(1)
+def insertIntoBST(self, root: Optional[TreeNode], val: int) -> Optional[TreeNode]:
+    if not root: return TreeNode(val, None, None)
+    curr, prev = root, root
+    while curr:
+        prev = curr
+        curr = curr.left if val < curr.val else curr.right
+    if val < prev.val:
+        prev.left = TreeNode(val, None, None)
+    else:
+        prev.right = TreeNode(val, None, None)
     return root
