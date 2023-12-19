@@ -1,0 +1,5 @@
+
+- look more into how recursive calls effect space complexity - each recursive call is O(1)
+
+interesting read about recusive call and space complexity
+https://stackoverflow.com/questions/53092180/space-complexity-for-recursive-calls
