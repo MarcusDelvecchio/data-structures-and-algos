@@ -50,3 +50,13 @@ see "binary logarithm" - the binary logarithm (log(base2)(n)) is the power to wh
 todo read
 Morris Traversal - a wy to traverse a BST inorder without using a stack or recursion
 https://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/
+
+
+
+in-order traversal python code:
+
+def inorder(root):
+    if not root: return
+    inorder(root.left)
+    print(root.val)
+    inorder(root.right)

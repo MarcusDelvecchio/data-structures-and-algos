@@ -452,6 +452,7 @@ def numOfWays(self, nums: List[int]) -> int:
 # given a list to be used to build a BST, determine the number of nodes in each layer without building the tree
 
 # Minimum Depth of Binary Tree LeetCode Easy
+# TC O(n) SC O(n)
 def minDepth(self, root: Optional[TreeNode]) -> int:
     if not root: return 0
     def bfs():
@@ -481,3 +482,24 @@ def isBalanced(self, root: Optional[TreeNode]) -> bool:
         right_balanced, right_depth = dfs(root.right, d+1)
         return right_balanced and abs(left_depth - right_depth) < 2, max(left_depth, right_depth)
     return dfs(root, 0)[0]
+
+# Recover Binary Search Tree LeetCode Medium
+# https://leetcode.com/problems/recover-binary-search-tree/description/
+# You are given the root of a binary search tree (BST), where the values of exactly two nodes of the tree were swapped by mistake. Recover the tree without changing its structure.
+# needed to look at solution and realized I completely missed the idea of using the inorder traversal
+def recoverTree(self, root: Optional[TreeNode]) -> None:
+    prev, start, end = None, None, None
+    def inorder(root):
+        nonlocal prev, start, end
+        if not root: return False
+        found = inorder(root.left)
+        if found: return True
+        if prev and prev.val > root.val:
+            if not start:
+                start = prev
+            end = root
+        prev = root         
+        inorder(root.right)
+    inorder(root)
+    if start and end: start.val, end.val = end.val, start.val
+    return root   
