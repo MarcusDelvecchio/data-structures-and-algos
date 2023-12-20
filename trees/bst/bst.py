@@ -540,14 +540,6 @@ def insertIntoBST(self, root: Optional[TreeNode], val: int) -> Optional[TreeNode
         prev.right = TreeNode(val, None, None)
     return root
 
-
-
-# binary tree gotchas
-# nodes to left and right shouldn't be equal to the the root
-
-# todo
-# given a binary tree print the number of valid subtrees in the tree
-
 # Maximum Sum BST in Binary Tree LeetCode Hard
 # https://leetcode.com/problems/maximum-sum-bst-in-binary-tree/description/
 # Given a binary tree root, return the maximum sum of all keys of any sub-tree which is also a Binary Search Tree (BST).
@@ -583,3 +575,9 @@ def maxSumBST(self, root: Optional[TreeNode]) -> int:
     inorder(root, 0)
     dfs(root)
     return maximum
+    
+# binary tree gotchas:
+# nodes to left and right shouldn't be equal to the the root
+
+# todo
+# given a binary tree print the number of valid subtrees in the tree

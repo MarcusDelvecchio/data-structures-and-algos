@@ -811,5 +811,20 @@ printList(reverseLinkedListShort_2(head))
 # uncomment this to display various solutions where we partition the LL on values from ranged 0 - 10
 # displaySolution_2_4(head)
 
-
+# Remove Duplicates from Sorted List LeetCode Easy
+# https://leetcode.com/problems/remove-duplicates-from-sorted-list/description/
+# took like 4 mins
+def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
+    curr, next = head, head
+    while next:
+        while next.val == curr.val:
+            if next.next:
+                next = next.next
+            else:
+                curr.next = None
+                return head
+        curr.next = next
+        curr = next
+        next = curr.next
+    return head
 
