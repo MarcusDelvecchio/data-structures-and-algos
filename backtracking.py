@@ -613,3 +613,65 @@ def isSolvable(self, words: List[str], result: str) -> bool:
             return False, False
         res, _ = dfs(words + [result], 0)
         return res
+
+# Maximum Profit in Job Scheduling LeetCode Hard
+# https://leetcode.com/problems/maximum-profit-in-job-scheduling/submissions/
+# took 1:32:00 first 50 mins to write the backtracking logic (haven't done in a while), second 45 mins writing memo and binary seach logic for optimization to overcome TLE
+def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
+    next_availability, jobs, memo_with, memo_without = [0], [], {}, {}
+    # combine items into array of sets
+    for i in range(len(startTime)):
+        jobs.append((startTime[i], endTime[i], profit[i]))
+
+    # sort the jobs based on startTime so that as we ierate forward through the jobs we know the next item will always have a later startTime
+    jobs.sort()
+
+    def get_next(start, end):
+        while start <= end:
+            mid = start + (end - start) // 2
+
+            # Check if the middle element is greater than or equal to the search value
+            if jobs[mid][0] >= next_availability[0]:
+                # If the previous element is less than the next_availability[0] value or mid is the first element
+                if mid == 0 or jobs[mid - 1][0] < next_availability[0]:
+                    return mid
+                else:
+                    # Continue searching in the left half
+                    end = mid - 1
+            else:
+                # Continue searching in the right half
+                start = mid + 1
+
+        # If no element is greater than or equal to the search value
+        return len(jobs)
+    
+    def schedule(curr):
+        if curr == len(startTime): return 0
+        
+        # if the current item cannot be started, try the next
+        if jobs[curr][0] < next_availability[0]:
+            next = get_next(curr, len(jobs) - 1)
+            return schedule(next)
+        
+        # take the current item
+        temp, next_availability[0] = next_availability[0], jobs[curr][1]
+        profit_with = 0
+        if jobs[curr] not in memo_with:
+            profit_with = jobs[curr][2] + schedule(curr + 1)
+            memo_with[jobs[curr]] = profit_with
+        else:
+            profit_with = memo_with[jobs[curr]]
+        next_availability[0] = temp
+        
+        # backtrack and don't take the current item
+        profit_without = 0
+        if jobs[curr] not in memo_without:
+            profit_without = schedule(curr + 1)
+            memo_without[jobs[curr]] = profit_without
+        else:
+            profit_without = memo_without[jobs[curr]]
+        next_availability[0] = temp
+        
+        # return the greater between using and not using the current item
+        return max(profit_with, profit_without)
+    return schedule(0)
