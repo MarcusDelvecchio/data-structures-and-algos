@@ -617,6 +617,10 @@ def isSolvable(self, words: List[str], result: str) -> bool:
 # Maximum Profit in Job Scheduling LeetCode Hard
 # https://leetcode.com/problems/maximum-profit-in-job-scheduling/submissions/
 # took 1:32:00 first 50 mins to write the backtracking logic (haven't done in a while), second 45 mins writing memo and binary seach logic for optimization to overcome TLE
+# approach: backtracking. convert the items into a list of tuples 'jobs', sort these items based on startTime so we can always assume the next item being iterated (recursively traversed) through will not have an earlier startTime (lost 15 mins with that issue)
+# then recursively explore every job, considering taking it and not taking it, while also memoizing the profits for jobs at the bottom of the tree for efficiency
+# furthermore, when we do have a next_availablility value, instead of recursively traversing the remaining jobs one by one to find the job that has EARLIEST (lowest) startTime after or at the next_availability, do a binary search do to this search much more efficiently
+# TC: i honestly don't know after optimizations but probably O(n^2) somehow. SC: O(n)?
 def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
     next_availability, jobs, memo_with, memo_without = [0], [], {}, {}
     # combine items into array of sets
@@ -626,6 +630,7 @@ def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[i
     # sort the jobs based on startTime so that as we ierate forward through the jobs we know the next item will always have a later startTime
     jobs.sort()
 
+    # function to do a binary search within the start and end indices of the jobs list as to find the next (THE LOWEST) job that is greater or equal to the next_availablility value
     def get_next(start, end):
         while start <= end:
             mid = start + (end - start) // 2
@@ -650,7 +655,7 @@ def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[i
         
         # if the current item cannot be started, try the next
         if jobs[curr][0] < next_availability[0]:
-            next = get_next(curr, len(jobs) - 1)
+            next = get_next(curr, len(jobs) - 1) # binary search for the next item in jobs rather than recursively iterating forward
             return schedule(next)
         
         # take the current item
