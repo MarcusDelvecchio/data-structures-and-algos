@@ -840,3 +840,19 @@ def deserialize(self, data):
             new_previous.append(node)
         previous = new_previous
     return root
+
+# Leetcode daily January 9th - 872. Leaf-Similar Trees Easy
+# return true/false if two trees have the same 'leaf sequence' i.e, all of their leaves are the same values in the same order
+# took 4:30 seconds and ran AND accepted first try
+# TC: O(n) SC: O(1)
+def leafSimilar(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> bool:
+    
+    def dfs(root):
+        if not root: return []
+
+        if not root.left and not root.right:
+            return [root.val]
+
+        return dfs(root.left) + dfs(root.right)
+
+    return dfs(root1) == dfs(root2)
