@@ -885,3 +885,36 @@ def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
             return min(left_min, root.val), max(left_max, root.val)
     dfs(root)
     return maximum[0]
+
+# LeetCode daily January 11th - Amount of Time for Binary Tree to Be Infected LeetCode Medium
+# https://leetcode.com/problems/amount-of-time-for-binary-tree-to-be-infected/description/
+# This actually took a bit because I was having a hard time coming up with a O(n) DFS solution.
+# Even couldn't conceptualize it very well until I started setting it up and had to tweak it to get a solution
+# took like 15 mins programming but spend a while thinking abt it while I was driving
+# TC: O(n) SC: O(n)
+# and I still think it's a pretty 'muddy' solution. Not very clear or simple
+def amountOfTime(self, root: Optional[TreeNode], start: int) -> int:
+    maximum = [0]
+    
+    def dfs(root):
+        if not root: return 0, False
+        
+        left, found_left = dfs(root.left)
+        right, found_right = dfs(root.right)
+        
+        if found_left or found_right:
+            maximum[0] = max(maximum[0], left + right)
+        else:
+            maximum[0] = max(maximum[0], left, right)
+        
+        if root.val == start:
+            return 1, True
+        else:
+            if found_left:
+                return left + 1, True
+            elif found_right:
+                return right + 1, True
+            else:
+                return max(left, right) + 1, found_right or found_left
+    dfs(root)
+    return maximum[0]   
