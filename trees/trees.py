@@ -856,3 +856,32 @@ def leafSimilar(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> b
         return dfs(root.left) + dfs(root.right)
 
     return dfs(root1) == dfs(root2)
+
+# LeetCode daily Jan 10th - Maximum Difference Between Node and Ancestor Medium
+# Given the root of a binary tree, return the maximium differenc between any node and an ancestor node (a node above it)
+# took about 12 mins
+# TC: O(n), SC: O(n)
+def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
+    maximum = [0]
+    
+    def dfs(root):
+        if not root: return None, None
+        if not root.left and not root.right: return root.val, root.val
+        
+        left_min, left_max, right_min, right_max = None, None, None, None
+        if root.left:
+            left_min, left_max = dfs(root.left)
+            maximum[0] = max(maximum[0], abs(root.val - left_max), abs(root.val - left_min))
+        
+        if root.right:
+            right_min, right_max = dfs(root.right)
+            maximum[0] = max(maximum[0], abs(root.val - right_min), abs(root.val - right_max))
+        
+        if root.left and root.right:
+            return min(left_min, right_min, root.val), max(left_max, right_max, root.val)
+        elif not root.left:
+            return min(right_min, root.val), max(right_max, root.val)
+        else:
+            return min(left_min, root.val), max(left_max, root.val)
+    dfs(root)
+    return maximum[0]
