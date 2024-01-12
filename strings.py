@@ -1,3 +1,19 @@
+# this is so easy don't even read
+# Leetcode daily Jan 12th - Determine if String Halves Are Alike Easy
+# https://leetcode.com/problems/determine-if-string-halves-are-alike/description/?envType=daily-question&envId=2024-01-12
+# TC: O(n) SC: O(n)(we can also do a 2ptr method for O(1) but idc)
+def halvesAreAlike(self, s: str) -> bool:
+    a, b = s[:len(s)//2], s[len(s)//2:]
+    count_a, count_b = 0,0
+
+    for i in range(len(a)):
+        if a[i] in ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U']:
+            count_a += 1
+        if b[i] in ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U']:
+            count_b += 1
+    return count_a == count_b
+
+
 # given two strings, returns true if they are one edit (insert, remove, replace) away
 # untested because 
 def areOneAway(str1, str2):
