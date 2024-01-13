@@ -157,3 +157,20 @@ def closeStrings(self, word1: str, word2: str) -> bool:
 
 
 areOneAway_test()
+
+# LeetCode Daily Jan 13th - Minimum Number of Steps to Make Two Strings Anagram Medium
+# took just over 20 because I had the wrong approach
+# https://leetcode.com/problems/minimum-number-of-steps-to-make-two-strings-anagram/?envType=daily-question&envId=2024-01-13
+# TC: O(n) SC: O(n)
+def minSteps(self, s: str, t: str) -> int:
+    s_chars, t_chars = Counter(s), Counter(t)
+    excess = 0
+
+    # count the excess characters in s that AREN'T in t
+    # of the characters that there are more of in s than t
+    for char in s_chars.keys():
+        if char not in t_chars:
+            excess += s_chars[char]
+        elif s_chars[char] > t_chars[char]:
+            excess += s_chars[char] - t_chars[char]
+    return excess
