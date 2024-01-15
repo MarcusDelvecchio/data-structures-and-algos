@@ -69,3 +69,31 @@ def trap(self, height: List[int]) -> int:
 # note on "amortized" complexity of appending to array
 # That means the whole operation of pushing n objects onto the list is O(n). If we amortize that per element, it's O(n)/n = O(1).
 # https://stackoverflow.com/questions/33044883/why-is-the-time-complexity-of-pythons-list-append-method-o1
+
+# LeetCode daily Jan 15th - Find Players With Zero or One Losses Medium
+# You are given an integer array matches where matches[i] = [winner i, loser i] indicates that the player winner i defeated player loser i in a match. Return is a list of all players that have not lost any matches and a list of all players that have lost exactly one match.
+# https://leetcode.com/problems/find-players-with-zero-or-one-losses/description/?envType=daily-question&envId=2024-01-15
+# TC: O(nlogn) SC: O(n)
+def findWinners(self, matches: List[List[int]]) -> List[List[int]]:
+    winners, losers, losses, used = [], [], defaultdict(int), {}
+
+    # get arrays of winners and losers along with a dict for losers and thei number of losses
+    for match in matches:
+        winners.append(match[0])
+        losers.append(match[1])
+        losses[match[1]] += 1
+    
+    # sort the lists
+    winners.sort()
+    losers.sort()
+
+    # collect the winners that are not in losers
+    zero_losses = []
+    for winner in winners:
+        if winner not in losses and winner not in used:
+            zero_losses.append(winner)
+            used[winner] = True
+
+    single_losses = [loser for loser in losers if losses[loser] == 1]
+    return [zero_losses, single_losses]
+
