@@ -1,4 +1,5 @@
 from collections import defaultdict
+import random
 
 # Leetcode Roman to Integer Easy
 # https://leetcode.com/problems/roman-to-integer/description/
@@ -587,3 +588,64 @@ def recoverArray(self, nums):
             # if we make it all the way through the array then the solution is valid and we can return res
             if is_valid:
                 return res
+
+# LeetCode Daily Jan 16th - Insert Delete GetRandom O(1) Medium
+# Implement the RandomizedSet class where RandomizedSet() Initializes the RandomizedSet object with remove(), insert() and getRandom() functions to interact with the set.
+# All of the class methods should perform their functions in O(1) time
+# https://leetcode.com/problems/insert-delete-getrandom-o1/description/?envType=daily-question&envId=2024-01-16
+# this actually took me a long time because AGAIN i had an issue where i had a 'not val' check at the top of the remove and add methods that were breaking the functionality
+# when they tried to insert 0. SO took me like 45 mins. But initial implementation was correct other than that, taking 15 mins
+# TC: O(1) insert, delete, getRandom
+class RandomizedSet:
+
+    def __init__(self):
+        self.random_set = {}
+        self.idx_key_mapping = {}
+        self.key_idx_mapping = {}
+
+    def insert(self, val: int) -> bool:
+
+        if val not in self.random_set:
+            self.random_set[val] = True
+
+            # update key mapping
+            index = len(self.random_set.keys()) - 1
+            self.idx_key_mapping[index] = val
+            self.key_idx_mapping[val] = index
+            return True
+        return False
+
+    def remove(self, val: int) -> bool:
+
+        if val not in self.random_set:
+            return False
+
+        # remove the item from the set
+        self.random_set.pop(val)
+
+        # get indices of item being removed and the (last) item in the map that will replace it
+        index_of_key = self.key_idx_mapping[val]
+        index_of_last_key = len(self.idx_key_mapping.keys()) - 1
+
+        # if there is only 1 item remove it from the mapping and simply return
+        if index_of_key == index_of_last_key:
+            self.key_idx_mapping.pop(val)
+            self.idx_key_mapping.pop(index_of_key)
+            return True
+
+        # replace the current index of the item being removed with the item at the last index
+        last_item = self.idx_key_mapping[index_of_last_key]
+        self.idx_key_mapping[index_of_key] = last_item
+        self.idx_key_mapping.pop(index_of_last_key)
+
+        # replace the value at the index-value map 
+        self.key_idx_mapping[self.idx_key_mapping[index_of_key]] = index_of_key
+        self.key_idx_mapping.pop(val)
+        return True
+
+    def getRandom(self) -> int:
+        if len(self.random_set.keys()) == 1: 
+            return self.idx_key_mapping[0]
+
+        idx = random.randint(0, len(self.random_set.keys()) - 1)
+        return self.idx_key_mapping[idx]
