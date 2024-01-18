@@ -680,3 +680,19 @@ def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[i
         # return the greater between using and not using the current item
         return max(profit_with, profit_without)
     return schedule(0)
+
+# LeetCode daily Jan 17th - Climbing Stairs Easy
+# You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+# https://leetcode.com/problems/climbing-stairs/description/?envType=daily-question&envId=2024-01-18
+# took 7 mins because I had to add optimization. I was honestly suprised this was an easy.
+# TC/SC: ???
+def climbStairs(self, n: int) -> int:
+    memo = {}
+    def climb(n):
+        if n < 3: return n
+        if n not in memo:
+            res = climb(n - 1) + climb(n - 2)
+            memo[n] = res
+            return res
+        return memo[n]
+    return climb(n)
