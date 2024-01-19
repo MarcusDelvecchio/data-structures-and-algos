@@ -696,3 +696,43 @@ def climbStairs(self, n: int) -> int:
             return res
         return memo[n]
     return climb(n)
+
+# Minimum Falling Path Sum LeetCode Medium
+# Given an n x n array of integers matrix, return the minimum sum of any falling path through matrix.
+# approach: consider every block in the first row, and then recursively attempt to choose the block either below and left, directly
+# below, or below and right, retuning the path sum back to the top and selecting the minimum path sum
+# Took 14:45. Took like 6 mins but had a pass-sum-through-to-bottom solution so when I wanted to implement momoization I had to reverse
+# the logic to a pass-sum-to-top (of recursive call stack) solution.
+# TC: O(n) S: O(n)
+def minFallingPathSum(self, matrix: List[List[int]]) -> int:
+    res, memo = 100000, {}
+
+    def search(row, col):
+        if (row, col) in memo:
+            return memo[(row, col)]
+        else:
+            res = find_path(row, col)
+            memo[(row, col)] = res
+            return res
+    
+    def find_path(row, col):
+        if row == len(matrix): return 0
+        left, center, right = 100000, 100000, 100000
+
+        # try below and left 1
+        if col != 0:
+            left = matrix[row][col-1] + search(row + 1, col-1)
+
+        # try below
+        center = matrix[row][col] + search(row + 1, col)
+
+        # try below and right 1
+        if col != len(matrix)-1:
+            right = matrix[row][col+1] + search(row + 1, col+1)
+
+        return min(left, right, center)
+
+    for i in range(len(matrix)):
+        res = min(res, find_path(0, i))
+
+    return res
