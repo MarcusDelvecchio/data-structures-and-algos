@@ -736,3 +736,32 @@ def minFallingPathSum(self, matrix: List[List[int]]) -> int:
         res = min(res, find_path(0, i))
 
     return res
+
+# 198. House Robber LeetCode Medium
+# Return the maximum value you can take from an array by adding up elements within it that are not directly beside each other
+# Took 8 minutes, 4 initially but another 4 for optimizations
+# TC: O(n), SC: O(n)
+def rob(self, nums: List[int]) -> int:
+    memo = {}
+    def calculate(pos):
+        if pos >= len(nums): return 0
+
+        with_current, without_current = 0, 0
+
+        # consider taking the current house
+        if pos in memo:
+            with_current = memo[pos]
+        else:
+            with_current = nums[pos] + calculate(pos+2)
+            memo[pos] = with_current
+
+        # backtrack and don't take the current house
+        if pos+1 in memo:
+            without_current = memo[pos+1]
+        else:
+            without_current = calculate(pos+1)
+            memo[pos+1] = without_current
+
+        memo[pos] = max(with_current, without_current)
+        return memo[pos]
+    return calculate(0)
