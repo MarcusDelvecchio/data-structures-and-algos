@@ -97,3 +97,17 @@ def findWinners(self, matches: List[List[int]]) -> List[List[int]]:
     single_losses = [loser for loser in losers if losses[loser] == 1]
     return [zero_losses, single_losses]
 
+# LeetCode Daily Jan 22 Set Mismatch Easy
+# https://leetcode.com/problems/set-mismatch/description/?envType=daily-question&envId=2024-01-22
+# given a set of len n that original contains nums from 1 to n, but has one num replaced with another num between 1 and n
+# return the num that has a duplicate and the num that is missing
+def findErrorNums(self, nums: List[int]) -> List[int]:
+    vals, duplicate, missing = Counter(nums), None, None
+
+    for i in range(1, len(nums) + 1):
+        if i not in vals:
+            missing = i
+        if vals[i] == 2:
+            duplicate = i 
+
+    return [duplicate, missing]
