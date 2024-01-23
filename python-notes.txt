@@ -221,3 +221,24 @@ I can add motify the deque with:
     my_queue.pop()
 
 we can also get the length with len(my_queue)
+
+
+=====
+notes
+
+the following doesn't run the for loop but doesn't throw an error
+
+for i in range(100, 50):
+    print("here")
+
+and this doesn't run either
+
+for i in range(1,1):
+    print("here")
+
+note also that loop variable exists outside of the scope of the loop:
+for j in range(1, 10):
+    print("here")
+print(j) # prints 9
+
+

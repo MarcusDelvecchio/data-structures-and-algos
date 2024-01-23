@@ -3,11 +3,19 @@ DP = Recursion + Memoization
 "DP is an approach to solving complex problems which involves breaking the problem down into simpler problems 
     and solving those problems"
 
-Recusively solving and memoizing sub problems as a means of solving the overall solution.
-A big part of it is finding the correct sub problems to solve.
+this one makes less sense to me but:
+"Dynamic programming is designed such that “the optimal solution to the overall problem depends upon the optimal 
+    solution to its subproblems.”
+
+"The key to dynamic programming is to identify the subproblem that gives the main problem
+    “optimal substructure property.”
 
 "Optimal Substructure" Property:
 "Optimal Substructure: If a problem can be solved by using the solutions of the sub problems then we say that problem has a Optimal Substructure Property."
+"A formal way of saying that the key is to identify the subproblem that will allow us us to solve the main problem by just solving the subproblem repeatedly"
+
+Recusively solving and memoizing sub problems as a means of solving the overall solution.
+A big part of it is finding the correct sub problems to solve.
 
 Bottom-Up Approach: Compute Subproblems First and 
 - Suppose we need to solve the problem for N, We start solving the problem with the smallest possible inputs and store it for future. Now as you calculate for the bigger values use the stored solutions (solution for smaller problems).  
@@ -17,4 +25,5 @@ Top-Down Approach: Break the problem into sub-problems and solve them as needed 
 
 
 resources:
+https://youtu.be/vYquumk4nWw?si=117daxY32dyRuFwZ
 coin change / dp guide: https://betterprogramming.pub/learn-dynamic-programming-the-coin-change-problem-22a104478f50
