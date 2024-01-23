@@ -23,7 +23,16 @@ Bottom-Up Approach: Compute Subproblems First and
 
 Top-Down Approach: Break the problem into sub-problems and solve them as needed and store the solution for future
 
+various DP problem patterns:
+Minimum (Maximum) Path to Reach a Target
+Distinct Ways
+Merging Intervals
+DP on Strings
+Decision Making
+
 
 resources:
 https://youtu.be/vYquumk4nWw?si=117daxY32dyRuFwZ
+https://www.youtube.com/watch?v=aPQY__2H3tE
 coin change / dp guide: https://betterprogramming.pub/learn-dynamic-programming-the-coin-change-problem-22a104478f50
+dp guide on LC: https://leetcode.com/discuss/study-guide/458695/Dynamic-Programming-Patterns

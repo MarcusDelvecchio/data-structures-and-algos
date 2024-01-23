@@ -40,6 +40,9 @@ def options(row, col):
 # woohoo first dp problem woohoo
 # https://leetcode.com/problems/longest-increasing-subsequence/
 # took a little while lol
+# this is an end-to-front / bottom-up approach, see below for the other
+# approach: traverse backwards in the array and for each element, determine the length of the largest sequence that *starts* at that number
+# TC: O(n^2) SC: O(n)
 def lengthOfLIS(self, nums: List[int]) -> int:
     memo, longest = { nums[-1]: 0 }, 1
     for i in range(len(nums) - 1, -1, -1):
@@ -49,3 +52,27 @@ def lengthOfLIS(self, nums: List[int]) -> int:
             longest = max(longest, memo[i] + 1)
         if i not in memo: memo[i] = 0
     return longest
+
+# front-to-end, top-down approach
+# approach: traverse forward in the array and for each element, determine the length of the largest sequence that *ends* at that number
+# TC: O(n^2), SC: O(n)
+def lengthOfLIS(self, nums: List[int]) -> int:
+    n = len(nums)
+    dp = [1] * n
+    for i in range(n):
+        for j in range(i):
+            if nums[i] > nums[j]:
+                dp[i] = max(dp[i], dp[j] + 1)
+    return max(dp)
+
+# Min Cost Climbing Stairs LeetCode Easy
+# https://leetcode.com/problems/min-cost-climbing-stairs/description/
+# You are given an integer array cost where cost[i] is the cost of ith step on a staircase. Once you pay the cost, you can either climb one or two steps. You can either start from the step with index 0, or the step with index 1. Return the minimum cost to reach the top of the floor.
+# top-down dp approach
+def minCostClimbingStairs(self, cost: List[int]) -> int:
+    n = len(cost) + 1
+    dp = [1000] * n
+    dp[0], dp[1] = 0, 0
+    for i in range(2, n):
+        dp[i] = min(dp[i-2] + cost[i-2], dp[i-1] + cost[i-1])
+    return dp[-1]
