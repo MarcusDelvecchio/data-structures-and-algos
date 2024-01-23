@@ -69,6 +69,9 @@ def lengthOfLIS(self, nums: List[int]) -> int:
 # https://leetcode.com/problems/min-cost-climbing-stairs/description/
 # You are given an integer array cost where cost[i] is the cost of ith step on a staircase. Once you pay the cost, you can either climb one or two steps. You can either start from the step with index 0, or the step with index 1. Return the minimum cost to reach the top of the floor.
 # top-down dp approach
+# took just under 15 mins
+# TC: O(n) -> for every n we simply check the solution to the previous two steps
+# SC: O(n) -> need to store an additional 'dp' list of length n
 def minCostClimbingStairs(self, cost: List[int]) -> int:
     n = len(cost) + 1
     dp = [1000] * n
@@ -76,3 +79,23 @@ def minCostClimbingStairs(self, cost: List[int]) -> int:
     for i in range(2, n):
         dp[i] = min(dp[i-2] + cost[i-2], dp[i-1] + cost[i-1])
     return dp[-1]
+
+# Triangle LeetCode Medium
+# https://leetcode.com/problems/triangle/?envType=list&envId=55ac4kuc
+# took 14 mins
+# dp top down approach
+# TC: O(n), SC: O(n)
+def minimumTotal(self, triangle: List[List[int]]) -> int:
+    height = len(triangle)
+    dp = [[0]*len(triangle[i]) for i in range(height)]
+    dp[0][0] = triangle[0][0]
+    for row in range(1, height):
+        for col in range(len(triangle[row])):
+            curr_cost = triangle[row][col]
+            if col-1 >= 0 and col < len(triangle[row]) - 1:
+                dp[row][col] = min(dp[row-1][col], dp[row-1][col-1]) + curr_cost
+            elif col-1 < 0:
+                dp[row][col] = dp[row-1][col] + curr_cost
+            elif col >= len(triangle[row]) - 1:
+                dp[row][col] = dp[row-1][col-1] + curr_cost
+    return min(dp[-1]) 
