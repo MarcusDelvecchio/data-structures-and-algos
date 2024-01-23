@@ -765,3 +765,35 @@ def rob(self, nums: List[int]) -> int:
         memo[pos] = max(with_current, without_current)
         return memo[pos]
     return calculate(0)
+
+# Maximum Length of a Concatenated String with Unique Characters LeetCode Medium
+# https://leetcode.com/problems/maximum-length-of-a-concatenated-string-with-unique-characters/submissions/1154338066/?envType=daily-question&envId=2024-01-23
+# TC: O(n) I believe? SC: O(n) -> the recursive stack will only ever be of size n since the two recursive calls for every iteration happen one after another
+def maxLength(self, arr: List[str]) -> int:
+    taken = {}
+    
+    def find(curr):
+        if curr == len(arr): return 0
+        res_with, res_without = 0, 0 
+
+        # take the item and continue to the next item
+        valid, added = True, {}
+        for char in arr[curr]:
+            if char not in taken and char not in added:
+                added[char] = True
+            else:
+                valid = False
+                break
+        if valid:
+            for char in added.keys():
+                taken[char] = True
+            res_with = find(curr+1) + len(arr[curr])
+
+        # backtrack and remove the item and continue to the next item
+        if valid:
+            for char in added.keys():
+                if char in taken:
+                    taken.pop(char)
+        res_without = find(curr+1)
+        return max(res_with, res_without)
+    return find(0)
