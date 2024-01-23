@@ -159,7 +159,19 @@ for a in range(10, 20):
 print(a) // 19
 
 
+=======[ Python Dicts / { } ]=====
+
+"Why dict.get(key) instead of dict[key]?":
+    
+    It allows you to provide a default value if the key is missing:
+    dictionary.get("bogus", default_value)
+    whereas
+    dictionary["bogus"] would raise a KeyError.
+    
+    *and if default default value is omitted, it will return None*
+
 ======[ Python Counter Class ]=======
+
 - replaces dictionaries / dictionary alternative
 "from collections import Counter"
 

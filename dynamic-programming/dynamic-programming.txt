@@ -1,0 +1,20 @@
+DP = Recursion + Memoization
+
+"DP is an approach to solving complex problems which involves breaking the problem down into simpler problems 
+    and solving those problems"
+
+Recusively solving and memoizing sub problems as a means of solving the overall solution.
+A big part of it is finding the correct sub problems to solve.
+
+"Optimal Substructure" Property:
+"Optimal Substructure: If a problem can be solved by using the solutions of the sub problems then we say that problem has a Optimal Substructure Property."
+
+Bottom-Up Approach: Compute Subproblems First and 
+- Suppose we need to solve the problem for N, We start solving the problem with the smallest possible inputs and store it for future. Now as you calculate for the bigger values use the stored solutions (solution for smaller problems).  
+- some people prefer this approach because it (can often?) be done without function calls
+
+Top-Down Approach: Break the problem into sub-problems and solve them as needed and store the solution for future
+
+
+resources:
+coin change / dp guide: https://betterprogramming.pub/learn-dynamic-programming-the-coin-change-problem-22a104478f50
