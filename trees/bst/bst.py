@@ -581,3 +581,34 @@ def maxSumBST(self, root: Optional[TreeNode]) -> int:
 
 # todo
 # given a binary tree print the number of valid subtrees in the tree
+
+# Pseudo-Palindromic Paths in a Binary Tree LeetCode Medium
+# https://leetcode.com/problems/pseudo-palindromic-paths-in-a-binary-tree/?envType=daily-question&envId=2024-01-24
+# took 10 mins
+# Return the number of pseudo-palindromic paths going from the root node to leaf nodes => a path that's elements can be re-arranged into a palindrom
+# approach: keep track of the count of all path nodes, there can only be one odd count for it to be palindrome. Do BFS.
+# TC: O(n) SC: O(n)
+def pseudoPalindromicPaths (self, root: Optional[TreeNode]) -> int:
+    res = 0
+
+    def is_sudo_palindromic(path_node_counts):
+        odd_used = False
+        for val in path_node_counts.keys():
+            if path_node_counts[val]%2 == 1:
+                if odd_used: return False
+                else: odd_used = True
+        return True
+    
+    def dfs(root, node_counts):
+        if not root: return
+        nonlocal res
+        node_counts[root.val] += 1
+
+        if not root.left and not root.right:
+            res += 1 if is_sudo_palindromic(node_counts) else 0
+        else:
+            dfs(root.left, node_counts)
+            dfs(root.right, node_counts)
+        node_counts[root.val] -= 1
+    dfs(root, Counter())
+    return res
