@@ -8,7 +8,7 @@ def minimum_coins(m, coins):
                 continue
                 
             memo[i] = min_ignore_none(memo.get(i), memo.get(subproblem) + 1)
-return memo[m]
+    return memo[m]
 
 def min_ignore_none(a, b):
     if a == None: return b

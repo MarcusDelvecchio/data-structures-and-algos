@@ -226,6 +226,8 @@ we can also get the length with len(my_queue)
 =====
 notes
 
+use float("inf") to represent an infinitely large number!!!
+
 the following doesn't run the for loop but doesn't throw an error
 
 for i in range(100, 50):

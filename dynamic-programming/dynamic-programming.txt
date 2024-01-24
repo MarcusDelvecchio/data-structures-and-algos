@@ -25,6 +25,7 @@ Top-Down Approach: Break the problem into sub-problems and solve them as needed 
 
 various DP problem patterns:
 Minimum (Maximum) Path to Reach a Target
+    https://leetcode.com/list/55ac4kuc/
 Distinct Ways
 Merging Intervals
 DP on Strings
