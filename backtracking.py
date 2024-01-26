@@ -797,3 +797,27 @@ def maxLength(self, arr: List[str]) -> int:
         res_without = find(curr+1)
         return max(res_with, res_without)
     return find(0)
+
+# Out of Boundary Paths LeetCode Medium
+# https://leetcode.com/problems/out-of-boundary-paths/description/?envType=daily-question&envId=2024-01-26
+# Given the five integers m, n, maxMove, startRow, startColumn, return the number of paths to move the ball out of the grid boundary.
+# TC: O(n*m*moves) SC: S(n*m*moves)
+# took a while becasue I was thinking it was going to be some hard DP problem, but ended up just going with a simple backtracking problem
+# I did NOT however, realize implementing such memoization techniques (storing ro,col,move in memo) would work. I glossed over it
+# because I had assumed if different 'branches' were to land on the same square, the number of moves would be different every time, making memoization based on that value ineffective
+# but it works anyhow. Had to look into that
+# I was also surprised to find out this is technically considered a '3D DP' problem, even though it seems like it is just backtracking
+# https://www.youtube.com/watch?v=Bg5CLRqtNmk
+def findPaths(self, m: int, n: int, maxMove: int, startRow: int, startColumn: int) -> int:
+    memo, MOD = {}, 10**9+7
+    
+    def explore(row, col, moves):
+        if row == -1 or row == m or col == -1 or col == n: return 1
+        if moves == 0: return 0
+        if (row,col,moves) in memo:
+            return memo[(row, col, moves)]
+
+        res =  explore(row + 1, col, moves - 1) + explore(row - 1, col, moves - 1) + explore(row, col + 1, moves - 1) + explore(row, col - 1, moves - 1)
+        memo[(row, col, moves)] = res
+        return res
+    return explore(startRow, startColumn, maxMove)%MOD
