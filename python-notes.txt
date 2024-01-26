@@ -244,3 +244,17 @@ for j in range(1, 10):
 print(j) # prints 9
 
 
+this doesn't work in python. It prints 10 times
+for i in range(10):
+    if i == 2:
+        i = 10
+    print('here')
+
+to initalize a 2D list in python do
+dp = [[0]*10 for _ in range(20)]
+^ creates list 20 rows each having 10 columns
+
+DO NOT DO
+dp = [[0]*10]*20
+this will create a 2D list but all of the rows will share the same reference
+so if you change a value in one row it will change the same value in every row

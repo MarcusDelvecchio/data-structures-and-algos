@@ -81,6 +81,7 @@ def minCostClimbingStairs(self, cost: List[int]) -> int:
     return dp[-1]
 
 # Triangle LeetCode Medium
+# Given a triangle array, return the minimum path sum from top to bottom.
 # https://leetcode.com/problems/triangle/?envType=list&envId=55ac4kuc
 # took 14 mins
 # dp top down approach
@@ -99,3 +100,21 @@ def minimumTotal(self, triangle: List[List[int]]) -> int:
             elif col >= len(triangle[row]) - 1:
                 dp[row][col] = dp[row-1][col-1] + curr_cost
     return min(dp[-1]) 
+
+# Longest Common Subsequence LeetCode Medium
+# A 2D DP problem
+# daily problem January 25th
+# Given two strings text1 and text2, return the length of their longest common subsequence. If there is no common subsequence, return 0
+# https://leetcode.com/problems/longest-common-subsequence/submissions/1156834418/?envType=daily-question&envId=2024-01-25
+# took a couple hours becuase first 2D DP problem
+# watched the first 14 mins of https://www.youtube.com/watch?v=Ua0GhsJSlWM and was able to implement the solution he discussed
+# TC: O(n^2) SC: O(n)
+def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+    dp = [[0]*(len(text2)+1) for _ in range(len(text1) + 1)]
+    for i in range(len(text1) - 1, -1, -1):
+        for j in range(len(text2) - 1, -1, -1):
+            if text1[i] == text2[j]:
+                dp[i][j] = dp[i+1][j+1] + 1
+            else:
+                dp[i][j] = max(dp[i+1][j], dp[i][j+1])
+    return dp[0][0]
