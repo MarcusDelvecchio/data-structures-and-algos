@@ -807,7 +807,7 @@ def maxLength(self, arr: List[str]) -> int:
 # because I had assumed if different 'branches' were to land on the same square, the number of moves would be different every time, making memoization based on that value ineffective
 # but it works anyhow. Had to look into that
 # I was also surprised to find out this is technically considered a '3D DP' problem, even though it seems like it is just backtracking
-# https://www.youtube.com/watch?v=Bg5CLRqtNmk
+# nvm makes sense how it can get pretty deep once you get to like 9 mimns into this video https://www.youtube.com/watch?v=Bg5CLRqtNmk
 def findPaths(self, m: int, n: int, maxMove: int, startRow: int, startColumn: int) -> int:
     memo, MOD = {}, 10**9+7
     
@@ -821,3 +821,21 @@ def findPaths(self, m: int, n: int, maxMove: int, startRow: int, startColumn: in
         memo[(row, col, moves)] = res
         return res
     return explore(startRow, startColumn, maxMove)%MOD
+
+# same thing but this is the 3D DP solution as mentioned above
+# SC: S(n*m) -> the idea here is we only store the previous 2 grid for the number of ways we can get out of bounds in one move
+# again, see this video and the 3D DP optimization at about 9 mins in https://www.youtube.com/watch?v=Bg5CLRqtNmk
+def findPaths(self, m: int, n: int, maxMove: int, startRow: int, startColumn: int) -> int:
+    dp = [[1]*(n+2)] + [[1] + [0]*n + [1] for _ in range(m)] + [[1]*(n+2)]
+    new_dp = dp[:]
+
+    for _ in range(maxMove):
+        new_dp = [[1]*(n+2)] + [[1] + [0]*n + [1] for _ in range(m)] + [[1]*(n+2)] # idk why you need this line
+        for i in range(1, m+1):
+            for j in range(1, n+1):
+                new_dp[i][j] = dp[i-1][j] + dp[i+1][j] + dp[i][j+1] + dp[i][j-1]
+        for k in range(m+2):
+            for l in range(n+2):
+                if k == 0 or k == m+1 or l == 0 or l == n+1: new_dp[k][l] = 1
+        dp = new_dp.copy()
+    return dp[startRow+1][startColumn+1]%(10**9+7)

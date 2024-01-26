@@ -118,3 +118,20 @@ def longestCommonSubsequence(self, text1: str, text2: str) -> int:
             else:
                 dp[i][j] = max(dp[i+1][j], dp[i][j+1])
     return dp[0][0]
+
+# Out of Boundary Paths LeetCode Medium
+# see notes in duplicate solution in backtracking.py file
+def findPaths(self, m: int, n: int, maxMove: int, startRow: int, startColumn: int) -> int:
+    dp = [[1]*(n+2)] + [[1] + [0]*n + [1] for _ in range(m)] + [[1]*(n+2)]
+    new_dp = dp[:]
+
+    for _ in range(maxMove):
+        new_dp = [[1]*(n+2)] + [[1] + [0]*n + [1] for _ in range(m)] + [[1]*(n+2)] # idk why you need this line
+        for i in range(1, m+1):
+            for j in range(1, n+1):
+                new_dp[i][j] = dp[i-1][j] + dp[i+1][j] + dp[i][j+1] + dp[i][j-1]
+        for k in range(m+2):
+            for l in range(n+2):
+                if k == 0 or k == m+1 or l == 0 or l == n+1: new_dp[k][l] = 1
+        dp = new_dp.copy()
+    return dp[startRow+1][startColumn+1]%(10**9+7)
