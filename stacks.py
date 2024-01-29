@@ -54,3 +54,34 @@ def removeDuplicateLetters(self, s: str) -> str:
             s = s[0:i+1] + s[i+2: len(s)] if i + 2 < newLen else s[0:i+1]
             newLen -= 1
     return ''.join(s)
+
+# Implement Queue using Two Stacks LeetCode Easy - problem of the day Jan 28th
+# https://leetcode.com/problems/implement-queue-using-stacks/?envType=daily-question&envId=2024-01-29
+# took like 7 mins cuz minor class issues
+class MyQueue:
+
+    def __init__(self):
+        self.stack_1 = []
+        self.stack_2 = []
+
+    def push(self, x: int) -> None:
+        self.stack_1.append(x)
+
+    def pop(self) -> int:
+        while len(self.stack_1) > 1:
+            recent = self.stack_2.append(self.stack_1.pop())
+        res = self.stack_1.pop()
+        while self.stack_2:
+            self.stack_1.append(self.stack_2.pop())
+        return res
+
+    def peek(self) -> int:
+        while len(self.stack_1) > 1:
+            recent = self.stack_2.append(self.stack_1.pop())
+        res = self.stack_1[0]
+        while self.stack_2:
+            self.stack_1.append(self.stack_2.pop())
+        return res
+
+    def empty(self) -> bool:
+        return not bool(self.stack_1)
