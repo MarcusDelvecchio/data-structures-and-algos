@@ -1,7 +1,24 @@
 DP = Recursion + Memoization
 
 "DP is an approach to solving complex problems which involves breaking the problem down into simpler problems 
-    and solving those problems"
+    and solving those problems first"
+    - This approach can be particularly effective when solving problems that have overlapping sub-problems.
+
+typically in a dynamic programming problem, we store the computed subproblem results in an array as we build up to
+    solve the full solution. And depending on the variables involved, this array could have various dimensions causing us to need
+    to store various computations for each subproblem as the variables change. This is the multi-dimension aspect of DP.
+
+    "what is the 1D DP??" -> "it means that you just use a 1 Dimensional that is a simple array to store the computed results. 2D would use values from two or possibly more elements from the matrix (2d array)"
+    "if you know dynamic programming then you must know what a state is. When your state can be represented by just one identifier (one - Dimension) you use a linear data structure to hold it.If your state is uniquely represented using two variables (two dimensions) then you need a 2D array or matrix to store the computed result. Similarly for 3d dp."
+    "the number of dimensions encoding the subproblems"
+
+_______________
+Dynamic programming has 3 steps:
+———————————––––
+1. Break the problem into easier/recursive subproblems.
+2. As you solve the subproblems, remember each one’s solution.
+3. If you encounter a subproblem that’s identical to one you’ve already solved, use the previous solution instead of recalculating it.
+———————————––––––
 
 this one makes less sense to me but:
 "Dynamic programming is designed such that “the optimal solution to the overall problem depends upon the optimal 
@@ -31,9 +48,13 @@ Merging Intervals
 DP on Strings
 Decision Making
 
+on the *dimensions* of a dynamic programming problem
+"a variety of dynamic programming that is well-suited to problems that have multiple dimensions or variables"
+
 
 resources:
 https://youtu.be/vYquumk4nWw?si=117daxY32dyRuFwZ
 https://www.youtube.com/watch?v=aPQY__2H3tE
 coin change / dp guide: https://betterprogramming.pub/learn-dynamic-programming-the-coin-change-problem-22a104478f50
 dp guide on LC: https://leetcode.com/discuss/study-guide/458695/Dynamic-Programming-Patterns
+on dimensions: https://iamsuman.com/multi-dimensional-dynamic-programming-an-introduction#
