@@ -28,7 +28,20 @@ def fib(self, n: int) -> int:
         prev_2 = prev_1
         prev_1 = new
         curr += 1
-    return prev_1 
+    return prev_1
+
+# Pascal's Triangle II LeetCode Easy
+# Given an integer rowIndex, return the rowIndexth (0-indexed) row of the Pascal's triangle.
+# took like 4 mins. I think this is the best example of a dynamic programming problem so far
+# TC: O(n), SC: O(n)
+def getRow(self, rowIndex: int) -> List[int]:
+    dp = [1]
+    for _ in range(rowIndex):
+        new = [1]
+        for i in range(len(dp)-1):
+            new.append(dp[i] + dp[i+1])
+        dp = new + [1]
+    return dp
 
 
 # say m = 20, coins = [3,5,12]
