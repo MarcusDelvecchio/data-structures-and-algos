@@ -15,6 +15,21 @@ def min_ignore_none(a, b):
     if b == None: return a
     return max(a,b)
 
+# Fibonacci Number LeetCode Easy
+# calculate the nth fibonacci number
+# https://leetcode.com/problems/fibonacci-number/
+# my solution: https://leetcode.com/problems/fibonacci-number/
+# TC: O(n), SC: O(1)
+def fib(self, n: int) -> int:
+    if n == 0: return 0
+    curr, prev_1, prev_2 = 2, 1, 0
+    while curr <= n:
+        new = prev_1 + prev_2
+        prev_2 = prev_1
+        prev_1 = new
+        curr += 1
+    return prev_1 
+
 
 # say m = 20, coins = [3,5,12]
 # memo looks like { 0: 0, 3: ?, 5: ?, 17: ?} -> this is why for i starts at 1?
@@ -135,3 +150,4 @@ def findPaths(self, m: int, n: int, maxMove: int, startRow: int, startColumn: in
                 if k == 0 or k == m+1 or l == 0 or l == n+1: new_dp[k][l] = 1
         dp = new_dp.copy()
     return dp[startRow+1][startColumn+1]%(10**9+7)
+
