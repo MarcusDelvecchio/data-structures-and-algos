@@ -111,3 +111,18 @@ def findErrorNums(self, nums: List[int]) -> List[int]:
             duplicate = i 
 
     return [duplicate, missing]
+
+# Best Time to Buy and Sell Stock LeetCode Easy
+# https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/
+# thought this was going to be a O(n^2) solution because of the nature of needing to compare array elements with each other
+# but didn't realize this was not the case because of the forward-moving solution, as elements only ever need to compare themselves with ones in front
+# I actually had to watch a video for this though because I hadn't done 2 pointer solutions in a bit and was looking for a dynamic programming solution
+# TC: O(n), SC: O(1)
+def maxProfit(self, prices: List[int]) -> int:
+    left, right, maxx = 0, 1, 0
+    while right < len(prices):
+        maxx = max(maxx, prices[right]-prices[left])
+        if prices[right] < prices[left]:
+            left = right
+        right += 1
+    return maxx
