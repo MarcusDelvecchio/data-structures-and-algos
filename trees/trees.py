@@ -917,4 +917,38 @@ def amountOfTime(self, root: Optional[TreeNode], start: int) -> int:
             else:
                 return max(left, right) + 1, found_right or found_left
     dfs(root)
-    return maximum[0]   
+    return maximum[0]
+
+# All Possible Full Binary Trees LeetCode Medium
+# Given an integer n, return a list of all possible full binary trees with n nodes
+# https://leetcode.com/problems/all-possible-full-binary-trees/
+# Took over an hour because initially tried to do it with DP or bottom-up
+# couldn't figure it out (got half-working solution that folded to edge cases)
+# TC: O(n), SC: O(n)
+# posted solution/explanation: https://leetcode.com/problems/all-possible-full-binary-trees/solutions/4647383/python-recursive-solution-simple-explanation-on-time-on-space/
+memo = {}
+def allPossibleFBT(self, n: int) -> List[Optional[TreeNode]]:
+    if n == 1: return [TreeNode(0)]
+    res = []
+
+    # check if we already calculated this solution
+    if n in Solution.memo: return Solution.memo[n]
+
+    # loop from 1 to n-2 to determine the number of nodes to assign to the left and right subtrees
+    # the left/right nodes will always add up to n-1 (+root == n)
+    for i in range(1, n-1):
+        left_nodes = i
+        right_nodes = n - 1 - i
+
+        # get the all of the possible left and right subtrees with the designed number of nodes for each side
+        right_subtrees = Solution.allPossibleFBT(self, left_nodes)
+        left_subtrees = Solution.allPossibleFBT(self, right_nodes)
+
+        # add a tree to res for every combination of possible trees generated for left and right
+        for j in range(len(right_subtrees)):
+            for k in range(len(left_subtrees)):
+                res.append(TreeNode(0, right_subtrees[j], left_subtrees[k]))
+    
+    # memoize and return the result
+    Solution.memo[n] = res
+    return res
