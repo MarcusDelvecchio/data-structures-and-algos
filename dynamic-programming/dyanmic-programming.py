@@ -169,6 +169,7 @@ def findPaths(self, m: int, n: int, maxMove: int, startRow: int, startColumn: in
 # see memoization solution in backtracking.py
 # took about 13 mins
 # https://leetcode.com/problems/minimum-falling-path-sum
+# my solution: https://leetcode.com/problems/minimum-falling-path-sum/solutions/4651417/python-dynamic-programming-tabulation-bottom-up-solution-o-n-time-o-1-space/
 # TC: O(n), SC: O(1) -> initial matrix is adjusted in-place
 def minFallingPathSum(self, matrix: List[List[int]]) -> int:
     rows, cols = len(matrix), len(matrix[0])

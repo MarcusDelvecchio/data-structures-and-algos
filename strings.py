@@ -13,6 +13,22 @@ def halvesAreAlike(self, s: str) -> bool:
             count_b += 1
     return count_a == count_b
 
+# EASY
+# Is Subsequence Easy
+# Given two strings s and t, return true if s is a subsequence of t, or false otherwise.
+# https://leetcode.com/problems/is-subsequence/description/
+# took like 5
+# TC: O(n), SC: O(1)
+def isSubsequence(self, s: str, t: str) -> bool:
+    if not s: return True
+    s_pointer = 0
+    for c in t:
+        if c == s[s_pointer]:
+            s_pointer += 1
+            if s_pointer == len(s):
+                return True
+    return False
+
 
 # given two strings, returns true if they are one edit (insert, remove, replace) away
 # untested because 
