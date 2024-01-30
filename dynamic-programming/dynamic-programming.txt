@@ -59,3 +59,46 @@ NeetCode on classes/types of DP problems: https://www.youtube.com/watch?v=mBNrRy
 coin change / dp guide: https://betterprogramming.pub/learn-dynamic-programming-the-coin-change-problem-22a104478f50
 dp guide on LC: https://leetcode.com/discuss/study-guide/458695/Dynamic-Programming-Patterns
 on dimensions: https://iamsuman.com/multi-dimensional-dynamic-programming-an-introduction#
+approaching DP problems: tabulation vs recursion, https://leetcode.com/problems/house-robber/solutions/156523/From-good-to-great.-How-to-approach-most-of-DP-problems./comments/209401/
+_______________
+Dynamic Programming Tabulation (versus recursion + memoization)
+
+Tabulation is an approach where you solve a dynamic programming problem by first filling up a table, 
+and then compute the solution to the original problem based on the results in this table.
+
+How to know whether to use recursion + memoization or iteration + tabulation
+
+_______________
+Tabulation
+
+Tabulation is a bottom-up method for solving DP problems.
+It starts from the base cases and finds the optimal solutions to the problems whose immediate sub-problems are the base cases.
+
+"
+Memoization is faster when you are *able to skip a lot of previous suboptimal solutions* since going top down means
+you can choose only the subproblems you need to solve.
+
+tabulation is faster when you have to compute *most or all* of the suboptimal solutions since going bottom up means you're 
+already solving almost all or all the subproblems that could possibly exist, and doing for loops is much faster than doing 
+recursion which initializes a crap load of stack frames and other call stack overhead.
+"
+
+________________________________
+DP versus memoization
+
+A top-down recuvsive solution *with memoization* is also considered "dynamic programming", but this
+type of solution is different than the *iterative* dp problems that often look very complex
+
+also note memoization can only be done when performing a top-down approach, as solutions to the subproblems
+are memoized, as to prevent repeated calculations. This is not needed for bottom-up approaches because in these solutions
+we build off of the lower-level solutions upwards, not needing to traverse back down again.
+
+On DP versus memoization:
+"
+The big thing to get out of this thread is that different people use different definitions of dynamic programming.
+It is true that, originally, dynamic programming referred only to the bottom-up approach, as in the comment by u/bhrgunatha. And some people continue to use the term only in that way.
+But others allow dynamic programming to refer to both the bottom-up and top-down approaches, as in the comment by u/krubslaw. This is where I'm coming from. In my algorithms class, I refer to "bottom-up dynamic programming" and "top-down dynamic programming".
+Therefore, if one allows dynamic programming to refer to the top-down approach, then, as u/krubslaw said, memoization is a technique that can be used to do top-down dynamic programming. But if one allows dynamic progamming to refer only to the traditional 
+bottom-up approach, then memoization is something separate. Bottom-up dynamic programming doesn't call functions more than once with the same parameter values, so memoization is not useful in that context.
+"
+

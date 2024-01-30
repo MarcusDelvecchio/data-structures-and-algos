@@ -164,3 +164,5 @@ def findPaths(self, m: int, n: int, maxMove: int, startRow: int, startColumn: in
         dp = new_dp.copy()
     return dp[startRow+1][startColumn+1]%(10**9+7)
 
+    
+
