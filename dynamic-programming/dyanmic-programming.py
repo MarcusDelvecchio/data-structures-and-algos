@@ -164,5 +164,18 @@ def findPaths(self, m: int, n: int, maxMove: int, startRow: int, startColumn: in
         dp = new_dp.copy()
     return dp[startRow+1][startColumn+1]%(10**9+7)
 
-    
-
+# Minimum Falling Path Sum LeetCode Medium
+# Tabulation & Bottom-Up solution
+# see memoization solution in backtracking.py
+# took about 13 mins
+# https://leetcode.com/problems/minimum-falling-path-sum
+# TC: O(n), SC: O(1) -> initial matrix is adjusted in-place
+def minFallingPathSum(self, matrix: List[List[int]]) -> int:
+    rows, cols = len(matrix), len(matrix[0])
+    for row in range(rows-2, -1, -1):
+        for col in range(cols-1, -1, -1):
+            left = matrix[row+1][col-1] if col > 0 else float('inf')
+            below = matrix[row+1][col]
+            right = matrix[row+1][col+1] if col < cols-1 else float('inf')
+            matrix[row][col] = min(left, below, right) + matrix[row][col]
+    return min(matrix[0])
