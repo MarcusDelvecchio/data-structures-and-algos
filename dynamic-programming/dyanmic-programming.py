@@ -180,3 +180,46 @@ def minFallingPathSum(self, matrix: List[List[int]]) -> int:
             right = matrix[row+1][col+1] if col < cols-1 else float('inf')
             matrix[row][col] = min(left, below, right) + matrix[row][col]
     return min(matrix[0])
+
+# Count Square Submatrices with All Ones LeetCode Medium
+# DP Tabulation Approach (bottom-up)
+# https://leetcode.com/problems/count-square-submatrices-with-all-ones/description/
+# Given a m * n matrix of ones and zeros, return how many **square** submatrices have all ones.
+# took a bit because mis understood the question
+# TC: O(n^2)
+def countSquares(self, matrix: List[List[int]]) -> int:
+
+    # checks if there are all zeros in a matrix between p1 (top-left) and p2 (bottom-right)
+    def is_all_zeros(p1_row, p1_col, p2_row, p2_col):
+        for col in range(p2_col, p1_col+1):
+            if matrix[p2_row][col] == 0:
+                return False
+        for row in range(p2_row, p1_row+1):
+            if matrix[row][p2_col] == 0: 
+                return False
+        return True
+
+    rows, cols, res = len(matrix), len(matrix[0]), 0
+    for row in range(rows-1, -1, -1):
+        for col in range(cols-1, -1, -1):
+            for dif in range(0, min(row, col)+1):
+                if dif == 0 and matrix[row][col] == 1: res += 1
+                elif is_all_zeros(row, col, row-dif, col-dif): res += 1
+                else: break
+    return res
+
+# Generate Parentheses LeetCode Medium
+# https://leetcode.com/problems/generate-parentheses/description/
+# took like 35?? idk. Had issues again because I my interpretation of the relationship between the
+# sub problems was off
+# TC: O(???) SC: O(??)
+def generateParenthesis(self, n: int) -> List[str]:
+    if n == 0: return []
+    dp = ["()"]
+    for i in range(n-1):
+        new_dp = []
+        for subproblem in dp:
+            for j in range(len(subproblem)):
+                new_dp.append(subproblem[:j] + "()" + subproblem[j:])
+        dp = new_dp
+    return set(dp)
