@@ -223,3 +223,22 @@ def generateParenthesis(self, n: int) -> List[str]:
                 new_dp.append(subproblem[:j] + "()" + subproblem[j:])
         dp = new_dp
     return set(dp)
+
+# Coin Change LeetCode Medium
+# https://leetcode.com/problems/coin-change/?envType=list&envId=55ac4kuc
+# You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
+# Return the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.
+# TC: O(n*c) SC: O(n)
+# took like 18 mins
+# approach: bottom up tabulation
+def coinChange(self, coins: List[int], amount: int) -> int:
+    if not amount: return 0
+    dp = [float('inf')]*amount
+    for i in coins:
+        if i > amount: continue
+        dp[amount-i] = 1
+    for i in range(amount-1, -1, -1):
+        for c in coins:
+            if i - c < 0: continue
+            dp[i-c] = min(dp[i] + 1, dp[i-c])
+    return dp[0] if dp[0] != float('inf') else -1
