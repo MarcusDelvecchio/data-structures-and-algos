@@ -1,0 +1,25 @@
+Monotonic stack:
+A monotonic stack is a stack whose elements are monotonically increasing or descreasing
+(increasing or staying the same OR decreaseing or staying the same)
+
+next greater element pattern:
+
+say we have an array of integers and we want to convert each integers to their next greater element:
+    - using a standard iterative approach, this would be an O(n^2) solution
+
+we can use a monotonic stack to do this in O(n) because of the following (not necessarily intuitive) preoperty of the above problem:
+    - say we have an array [3,2,7] and we are starting at 3, looking for its NGE
+    - we traverse to 2, and see that it is not greater, so we continue to 7
+    - we get to 7 and realize it is in fact, the next greater element for 3
+    - however, we also know then, that *7 must also be the next greater element of 2 as well*
+    - and this case would apply for any set of numbers between our current node and the node we are exploring to, as a means of finding the NGE
+
+    but the following case would break this system:
+    [3,1,2,4]
+    in this case, the NGE of 3 ≠ the NGE of 1
+
+    but using the monotonic stack this problem seems to be simply avoided?
+    see https://www.youtube.com/watch?v=68a1Dc_qVq4
+
+good problems:
+https://leetcode.com/problems/daily-temperatures

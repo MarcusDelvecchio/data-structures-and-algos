@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 # 71. Simplify Path
 # https://leetcode.com/problems/simplify-path/description/
 # complicated description see link
@@ -85,3 +87,28 @@ class MyQueue:
 
     def empty(self) -> bool:
         return not bool(self.stack_1)
+
+
+# Daily Temperatures LeetCode Medium - Daily problem
+# Requires Monotonic Stack
+# https://leetcode.com/problems/daily-temperatures/description/?envType=daily-question&envId=2024-01-31
+# TC: O(n), SC: O(n)
+# took like 20 mins because didn't know what a monotonic stack was (and didn't want to do the O(n^2) solution
+def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+    indices = defaultdict(list)
+    for i in range(len(temperatures)):
+        indices[temperatures[i]].append(i)
+    mono_stack = []
+    res = [0]*len(temperatures)
+    
+    for i in range(len(temperatures)):
+        if not mono_stack or mono_stack[-1] > temperatures[i]:
+            mono_stack.append(temperatures[i])
+        else:
+            while mono_stack and mono_stack[-1] < temperatures[i]:
+                val = mono_stack.pop()
+                idx = indices[val][0]
+                indices[val] = indices[val][1:]
+                res[idx] = i - idx
+            mono_stack.append(temperatures[i])
+    return res
