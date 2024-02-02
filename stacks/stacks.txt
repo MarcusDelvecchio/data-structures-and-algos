@@ -23,3 +23,6 @@ we can use a monotonic stack to do this in O(n) because of the following (not ne
 
 good problems:
 https://leetcode.com/problems/daily-temperatures
+
+resources:
+https://liuzhenglaichn.gitbook.io/algorithm/monotonic-stack
