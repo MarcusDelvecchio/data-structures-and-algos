@@ -126,3 +126,49 @@ def maxProfit(self, prices: List[int]) -> int:
             left = right
         right += 1
     return maxx
+
+# ugly solution ugly question I wouldn't even bother
+# Divide Array Into Arrays With Max Difference LeetCode Medium
+# https://leetcode.com/problems/divide-array-into-arrays-with-max-difference/description/?envType=daily-question&envId=2024-02-01
+def divideArray(self, nums: List[int], k: int) -> List[List[int]]:
+    groups, prev, res = [], None, []
+
+    # sort the array (nlogn)
+    nums.sort()
+
+    # divide the array into groups with values all within k
+    group = [nums[0]]
+    for i in range(1, len(nums)):
+        if nums[i] - nums[i-1] > k:
+            print(nums[i], group[0], k)
+            groups.append(group)
+            group = [nums[i]]
+        else:
+            group.append(nums[i])
+        
+    if group: groups.append(group)
+
+    # break the groups up into arrays of size 3
+    for group in groups:
+        curr = []
+        for num in group:
+            if len(curr) < 3:
+                curr.append(num)
+            else:
+                res.append(curr)
+                curr = [num]
+        
+        if len(curr) == 3:
+            res.append(curr)
+
+    # validate the group - check that all groups have length 3, all values are within k, and all items have been included in a group
+    total = 0
+    for group in res:
+        total += len(group)
+        if len(group) != 3:
+            return []
+        for num in group:
+            if num - group[0] > k: return []
+    if total != len(nums):
+        return []
+    return res

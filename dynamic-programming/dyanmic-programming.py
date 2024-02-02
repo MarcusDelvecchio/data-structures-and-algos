@@ -242,3 +242,26 @@ def coinChange(self, coins: List[int], amount: int) -> int:
             if i - c < 0: continue
             dp[i-c] = min(dp[i] + 1, dp[i-c])
     return dp[0] if dp[0] != float('inf') else -1
+
+# Sequential Digits LeetCode Medium
+# https://leetcode.com/problems/sequential-digits/description/?envType=daily-question&envId=2024-02-02
+# not too much of dynamic pgoramming but kinda
+# this actually took like an hour I'm cheesed
+# kind of a cheap way to solve the problem as well but soft
+# TC: O(1) I'd say and O(1) space as well
+def sequentialDigits(self, low: int, high: int) -> List[int]:
+    dp, res, largest = [1,2,3,4,5,6,7,8,9], [], 0
+
+    # get ALL 'sequential' integers from 0 - 10^9
+    while dp:
+        new_dp = []
+        for num in dp:
+            if str(num)[-1] == "9": continue
+            new = int(str(num) + str(int(str(num)[-1])+1))
+            largest = max(largest, new)
+            new_dp.append(new)
+        res.extend(new_dp)
+        dp = new_dp
+    
+    # filter the integers for the fitted range
+    return [num for num in res if num <= high and num >= low]
