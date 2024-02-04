@@ -886,7 +886,7 @@ def stoneGame(self, piles: List[int]) -> bool:
 
     def solve(left, right, alice_turn):
         if left == right: return 0
-        if (left, right) in memo: return memo[(left, right)]
+        if (left, right, alice_turn) in memo: return memo[(left, right)]
 
         # consider taking the right
         left_score = solve(left+1, right, not alice_turn)
@@ -904,3 +904,5 @@ def stoneGame(self, piles: List[int]) -> bool:
         return res
 
     return solve(0, len(piles)-1, True) > sum(piles)//2
+
+# note^ I am not sure whether we should memoize (left,right) or (left,right, alice_turn)

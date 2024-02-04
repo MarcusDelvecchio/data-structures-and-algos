@@ -281,3 +281,26 @@ def maxSumAfterPartitioning(self, arr: List[int], k: int) -> int:
             following = dp[i+j] if j+i < len(arr) else 0
             dp[i] = max(max(arr[i:i+j])*j + following, dp[i])
     return dp[0]
+
+# Sort Integers by The Power Value LeetCode Medium
+# 1D tabulation solution
+# https://leetcode.com/problems/sort-integers-by-the-power-value/description/
+# took 27 mins but lost like 10 mins to a simple issue where I didn't put hi+1 in initial range...
+# TC: O(???), SC: O(n)
+def getKth(self, lo: int, hi: int, k: int) -> int:
+    dp = [i for i in range(lo, hi+1)]
+    while True:
+        complete = []
+        for i in range(len(dp)):
+            if dp[i] == -1: continue
+            if dp[i] == 1:
+                k -= 1
+                dp[i] = -1
+                if k < 1: complete.append(lo+i)
+            elif dp[i]%2 == 0:
+                dp[i] //= 2
+            else:
+                dp[i] = dp[i]*3 + 1
+        
+        # return the smallest of all of the values that were complete in this round
+        if complete: return min(complete)
