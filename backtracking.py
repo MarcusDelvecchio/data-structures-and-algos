@@ -849,6 +849,7 @@ def findPaths(self, m: int, n: int, maxMove: int, startRow: int, startColumn: in
 # plus had a bunch of issues becuase I didn't wrap "(max(curr)*len(curr) if curr else 0)" in brackets at first, so lost like 30 mins to debugging that
 # but added that to the list of silly mistakes and gotchas ...
 # O(n), TC: O(n)
+# see DP solution for this as well becuase this is pretty inefficient
 def maxSumAfterPartitioning(self, arr: List[int], k: int) -> int:
     memo = {}
 

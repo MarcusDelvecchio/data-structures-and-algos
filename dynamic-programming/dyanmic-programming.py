@@ -265,3 +265,19 @@ def sequentialDigits(self, low: int, high: int) -> List[int]:
     
     # filter the integers for the fitted range
     return [num for num in res if num <= high and num >= low]
+
+# Partition Array for Maximum Sum LeetCode Medium
+# https://leetcode.com/problems/partition-array-for-maximum-sum/description/?envType=daily-question&envId=2024-02-03
+# bottom-up dp tabulation
+# took like 25 but had to watch a video etc still hurts my brain doing these tabulation problems
+# but we'll get there
+# see recursive memoization solution in backtracking.py
+# TC: O(n), SC: O(n)
+def maxSumAfterPartitioning(self, arr: List[int], k: int) -> int:
+    dp = [0]*len(arr)
+    for i in range(len(arr)-1, -1, -1):
+        window = min(len(arr) - i, k)
+        for j in range(1, window+1):
+            following = dp[i+j] if j+i < len(arr) else 0
+            dp[i] = max(max(arr[i:i+j])*j + following, dp[i])
+    return dp[0]
