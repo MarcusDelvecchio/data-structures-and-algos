@@ -870,3 +870,37 @@ def maxSumAfterPartitioning(self, arr: List[int], k: int) -> int:
         return res
 
     return solve([], arr)
+
+# Stone Game LeetCode Medium
+# https://leetcode.com/problems/stone-game/description/
+# dynamic programming top-down memoization / backtracking solution
+# apparently doing memo is easier than tabulation and it does seem to make sense because I can't conceptualize how
+# the tabulation problem would work because it's hard to visualize where the 'bottom' of the tree is - since
+# it seems we cannot simply go left to right or right to left idk though I didn't look too much into it
+# once I heard it was memoization I just cranked it out in like 10
+# TC: O(n^2) since we are using memoization for the L and R pointers for the remainin array
+# and there are n possible values for L and n possible values for R so its => O(n^2)
+# SC: O(n^2) as well we will have to store nxn combinations of L,R in the dictionary
+def stoneGame(self, piles: List[int]) -> bool:
+    memo = {}
+
+    def solve(left, right, alice_turn):
+        if left == right: return 0
+        if (left, right) in memo: return memo[(left, right)]
+
+        # consider taking the right
+        left_score = solve(left+1, right, not alice_turn)
+
+        # conider taking the right
+        right_score = solve(left, right-1, not alice_turn)
+
+        # if alice's turn we can add the item we removed to the score
+        if alice_turn:
+            right_score += piles[right]
+            left_score += piles[left]
+
+        res = max(left_score, right_score)
+        memo[(left, right)] = res
+        return res
+
+    return solve(0, len(piles)-1, True) > sum(piles)//2
