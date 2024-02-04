@@ -840,3 +840,32 @@ def findPaths(self, m: int, n: int, maxMove: int, startRow: int, startColumn: in
                 if k == 0 or k == m+1 or l == 0 or l == n+1: new_dp[k][l] = 1
         dp = new_dp.copy()
     return dp[startRow+1][startColumn+1]%(10**9+7)
+
+# Partition Array for Maximum Sum LeetCode Medium
+# backtracking aka top down DP with memoization
+# https://leetcode.com/problems/partition-array-for-maximum-sum/description/?envType=daily-question&envId=2024-02-03
+# this took me over an hour for whatever reason because I have been trying to do DP
+# problems recently so my conceptualization of recursive approaches is weird rn
+# plus had a bunch of issues becuase I didn't wrap "(max(curr)*len(curr) if curr else 0)" in brackets at first, so lost like 30 mins to debugging that
+# but added that to the list of silly mistakes and gotchas ...
+# O(n), TC: O(n)
+def maxSumAfterPartitioning(self, arr: List[int], k: int) -> int:
+    memo = {}
+
+    def solve(curr, remaining):
+        if len(curr) == k: return max(curr)*len(curr) + solve([], remaining)
+        if not remaining: return max(curr)*len(curr) if curr else 0
+        if (len(curr), len(remaining)) in memo: return memo[(len(curr), len(remaining))]
+
+        # consider taking the current first value into the current subarry
+        w = solve(curr + [remaining[0]], remaining[1:])
+
+        # then consider putting the current first value into a new subarray
+        wo = (max(curr)*len(curr) if curr else 0) + solve([remaining[0]], remaining[1:])
+
+        # memoize and determine better result
+        res = max(w, wo)
+        memo[(len(curr), len(remaining))] = res
+        return res
+
+    return solve([], arr)
