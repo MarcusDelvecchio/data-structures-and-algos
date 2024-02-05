@@ -937,3 +937,32 @@ def distributeCookies(self, cookies: List[int], k: int) -> int:
         return best
 
     return solve(kids, cookies)
+
+# Ones and Zeroes LeetCode Medium
+# https://leetcode.com/problems/ones-and-zeroes/?envType=list&envId=55ac4kuc
+# top-down recursive backtracking memoization dynamic programming solution
+# took 30 mins but took 15 mins to implement and then another 15 mins debugging an issue with
+# the memoization breaking. I was using (m,n, Counter(remaining_strs)) as a key initially but
+# then realized I could just use the idx. I thought there would still be something wrong because
+# I really don't get why using a counter(remaining) doesn't work. But after changing it to idx, I still have no idea why
+# TC: O(n*m*s) -> key space is made up of (idx, m, n) -> idx can be 1 through len(strs) aka s, so possible vals for idx x m values for m x n vals for val = s*m*n
+# SC: O(n*m*s + s) = O(n*m*s) -> we store values the size of the key space and the call stack will be of max size s? (max size s at any point)
+# improvements - key ideation. I initially tried to memoize the entire remaining list as a key when I could have just used the idx
+def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
+    memo = {}
+
+    def solve(idx, m, n):
+        if idx == len(strs) or m == 0 and n == 0: return 0
+        if (idx, m, n) in memo: return memo[(idx, m, n)]
+
+        # consider using the first item (if we can)
+        zeros, ones, with_next = strs[idx].count("0"), strs[idx].count("1"), 0
+        if m >= zeros and n >= ones:
+            with_next = 1 + solve(idx+1, m-zeros, n-ones)
+
+        # consider not using the first item
+        without_next = solve(idx+1, m, n)
+
+        memo[(idx, m, n)] = max(with_next, without_next)
+        return memo[(idx, m, n)]
+    return solve(0, m, n)
