@@ -304,3 +304,18 @@ def getKth(self, lo: int, hi: int, k: int) -> int:
         
         # return the smallest of all of the values that were complete in this round
         if complete: return min(complete)
+ 
+# Minimum Path Cost in a Grid LeetCode Medium
+# bottom-up tabulation dynamic programming
+# https://leetcode.com/problems/minimum-path-cost-in-a-grid/description/
+# TC: O(n), SC: O(1) -> matrix is manipulated in place
+# took 7 mins
+def minPathCost(self, grid: List[List[int]], moveCost: List[List[int]]) -> int:
+    for row in range(len(grid)-2, -1, -1):
+        for col in range(len(grid[0])-1, -1, -1):
+            cheapest = float('inf')
+            for n in range(len(grid[0])):
+                price = grid[row+1][n] + moveCost[grid[row][col]][n]
+                cheapest = min(cheapest, price)
+            grid[row][col] += cheapest
+    return min(grid[0])
