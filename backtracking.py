@@ -906,3 +906,34 @@ def stoneGame(self, piles: List[int]) -> bool:
     return solve(0, len(piles)-1, True) > sum(piles)//2
 
 # note^ I am not sure whether we should memoize (left,right) or (left,right, alice_turn)
+# I feel like since this question has "return True" an accepted solution (alice can ALWAYS win), I might have just implemented this wrong and just happen to be getting an accepted answer
+
+# Fair Distribution of Cookies LeetCode Medium
+# Top-down backtracking / DP problem with memoization
+# https://leetcode.com/problems/fair-distribution-of-cookies/description/
+# TC: O(n^2) -> where n is the number of cookies - we know this because of the number of possible memo keys
+# (this is my own understanding, not notes from somewhere)
+# say there are 5 items in cookies, the number of keys in the space when considering all of the possible distributions of cookies across the kids
+# is equal to cookies^2, because each cookie value in cookies can be possible placed in each spot in kids, to produce a different kids memo
+# SC: O(cookies^2)
+def distributeCookies(self, cookies: List[int], k: int) -> int:
+    kids, memo = [0]*k, {}
+    
+    def solve(kids, cookies):
+        if not cookies: return max(kids)
+        
+        # convert the array to a Counter because we want to hash the array but the order doesn't matter - so use dict - if we simply has the array as a list, we get TLE 
+        if tuple(Counter(kids)) in memo: return memo[tuple(Counter(kids))]
+
+        # consider giving each k to all of the kids
+        best = float('inf')
+        for i in range(k):
+            kids[i] += cookies[0]
+            res = solve(kids, cookies[1:])
+            kids[i] -= cookies[0]
+            best = min(best, res)
+        
+        memo[tuple(Counter(kids))] = best
+        return best
+
+    return solve(kids, cookies)
