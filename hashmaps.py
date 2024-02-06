@@ -649,3 +649,19 @@ class RandomizedSet:
 
         idx = random.randint(0, len(self.random_set.keys()) - 1)
         return self.idx_key_mapping[idx]
+
+
+# Group Anagrams LeetCode Medium
+# https://leetcode.com/problems/group-anagrams/solutions/
+# took like 7 mins because I couldn't figure out how to use a Counter
+# as a dictionary key
+# TC: O(n), SC: O(n)
+from collections import Counter
+from collections import defaultdict
+class Solution:
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        anagrams, res = defaultdict(list), []
+        for s in strs:
+            key = tuple(sorted(Counter(s).items()))
+            anagrams[key].append(s)
+        return [anagrams[group] for group in anagrams]
