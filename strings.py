@@ -190,3 +190,15 @@ def minSteps(self, s: str, t: str) -> int:
         elif s_chars[char] > t_chars[char]:
             excess += s_chars[char] - t_chars[char]
     return excess
+
+# Sort Characters By Frequency LeetCode Medium
+# https://leetcode.com/problems/sort-characters-by-frequency/description/
+# TC: O(n^2) becuase appending strings is inefficient. SC: O(n)
+# took like 6 mins because iterating and sorting across the counter items was a cheese
+from collections import Counter
+class Solution:
+    def frequencySort(self, s: str) -> str:
+        counts, res = Counter(s), ""
+        for item in sorted([(key, counts[key]) for key in counts], key=lambda x: x[1], reverse=True):
+            res += item[0]*item[1]
+        return res
