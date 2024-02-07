@@ -319,3 +319,19 @@ def minPathCost(self, grid: List[List[int]], moveCost: List[List[int]]) -> int:
                 cheapest = min(cheapest, price)
             grid[row][col] += cheapest
     return min(grid[0])
+
+# Unique Paths LeetCode Medium
+# https://leetcode.com/problems/unique-paths/description/
+# Dp tabulation solution
+# took 7 mins but I had the implementation done in 5, just issues with ranges
+# a 'm x n matrix' format is 'rows x cols'
+def uniquePaths(self, m: int, n: int) -> int:
+    dp = [[0]*n for _ in range(m)]
+    dp[-1][-1] = 1
+    for row in range(m-1, -1, -1):
+        for col in range(n-1, -1, -1):
+            if row == m-1 and col == n-1: continue
+            below = dp[row+1][col] if row < m - 1 else 0
+            right = dp[row][col+1] if col < n - 1 else 0
+            dp[row][col] = below + right
+    return dp[0][0]
