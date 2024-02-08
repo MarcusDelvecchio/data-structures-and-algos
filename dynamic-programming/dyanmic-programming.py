@@ -335,3 +335,30 @@ def uniquePaths(self, m: int, n: int) -> int:
             right = dp[row][col+1] if col < n - 1 else 0
             dp[row][col] = below + right
     return dp[0][0]
+
+# Perfect Squares LeetCode Medium
+# https://leetcode.com/problems/perfect-squares/
+# perfect squares
+# 1D Dynamic programming
+# TC: O(n), SC: O(n)
+# did below before but didn't add to this file. Exact same solution though just did it again here
+# this one is a bit better I think because we are not re-calculating the squares from 0-root(n) every time. Below we are
+def numSquares(self, n: int) -> int:
+    squares = [i*i for i in range(int(math.sqrt(n))+1)]
+    dp = [float('inf')]*(n+1)
+    dp[0], dp[1] = 0, 1
+    for i in range(1, n+1):
+        for sq in squares:
+            if sq > i: break
+            dp[i] = min(dp[i], dp[i-sq] + 1)
+    return dp[n]
+
+# beats 68% - not as efficient (but virtuall the same?) since we re-calculate the squares every time rather than once at the beginning
+def numSquares(self, n: int) -> int:
+    dp = [float('inf')] * (n+1)
+    dp[0] = 0
+
+    for i in range(1, n+1):
+        for j in range(1, int(i ** 0.5) + 1):
+            dp[i] = min(dp[i], dp[i - j*j] + 1)
+    return dp[n]
