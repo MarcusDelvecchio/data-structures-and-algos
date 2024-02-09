@@ -362,3 +362,24 @@ def numSquares(self, n: int) -> int:
         for j in range(1, int(i ** 0.5) + 1):
             dp[i] = min(dp[i], dp[i - j*j] + 1)
     return dp[n]
+
+# Largest Divisible Subset LeetCode Medium
+# https://leetcode.com/problems/largest-divisible-subset/description/
+# took like 40 to conceptualize the problem, watched a part of neetcode, he did recursion but then I realized
+# it wouldn't be hard to do tabulation
+# create DP list from from end-to front where dp[i] is equal to the longest divisible subset starting at i
+# so going backwards for every nums[i], we check every nums[j] that comes AFTER and if nums[i] and if it divides nums[j], we add nums[i] to dp[j] and it becoems dp[i]
+# TC: O(n^2) SC: O(n) -> would be O(n^2) becuase each dp[i] could theoretically contain the entire rest of the list, BUT the
+# largest an array could be is size 32 before the intger limit is reached, so SC = Nx32 worst case which is still SC: O(n)
+# see https://www.youtube.com/watch?v=LeRU6irRoW0 at 7:00 mins
+def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
+    nums.sort()
+    dp = [[] for _ in range(len(nums))]
+    for i in range(len(nums)-1, -1, -1):
+        shortest = [nums[i]]
+        for j in range(i+1, len(nums)):
+            if nums[j]%nums[i] == 0:
+                if not shortest or len(shortest) < len(dp[j]) + 1:
+                    shortest = [nums[i]] + dp[j]
+        dp[i] = shortest
+    return max(dp, key=len)
