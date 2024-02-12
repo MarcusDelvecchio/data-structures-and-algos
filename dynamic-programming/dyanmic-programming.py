@@ -466,6 +466,7 @@ def cherryPickup(self, grid: List[List[int]]) -> int:
 # because of this, the TC = O(col*col) rather than O(rows*cols*cols) above, because we only ever store
 # the dp table for the previous row (bottom-up)
 # see https://www.youtube.com/watch?v=c1stwk2TbNk at about 11:00 mins
+# took about 20 mins
 def cherryPickup(self, grid: List[List[int]]) -> int:
     cols = len(grid[0])
     dp = [[0]*cols for _ in range(cols)]
@@ -484,3 +485,35 @@ def cherryPickup(self, grid: List[List[int]]) -> int:
                             new_dp[c1][c2] = max(new_dp[c1][c2], grid[row][c1] + grid[row][c2] + dp[c1+i][c2+j])
         dp = new_dp
     return dp[0][0] + dp[0][-1]
+
+# Ways to Make a Fair Array LeetCode Medium
+# https://leetcode.com/problems/ways-to-make-a-fair-array/description/
+# took 30 mins montly because the confusion with the changes to even and odds 
+# approach: loop through the list forwards and backwards once and build a dp array where dp[i] has 4 values pertaining to the sum of the even and odd values on the left and right of it
+# IMPROVEMENT: there is really no need to loop forwards to sum the even and odd values before each item going forwards, we can just simultaneously do this as we loop through and 'remove' each element 
+# core idea: when an element is removed, all of the odd and even items on the left of it stay the same, but all of the odd elements on the right become even and all of the even elements on the right become odd
+# TC: O(n), SC: O(n)
+def waysToMakeFair(self, nums: List[int]) -> int:
+    # dp[i] = (evens_left, odds_left, evens_right, odds_right)
+    dp = [[0,0,0,0] for _ in range(len(nums))]
+
+    # loop forwards and backwards through the array to the sum of odd and even values to the left and right of each element
+    for i in range(1, len(nums)):
+        is_odd = i%2 != 0
+        dp[i][0] = dp[i-1][0] + (nums[i-1] if is_odd else 0)
+        dp[i][1] = dp[i-1][1] + (nums[i-1] if not is_odd else 0)
+
+    for j in range(len(nums)-2, -1, -1):
+        is_odd = j%2 != 0
+        dp[j][2] = dp[j+1][2] + (nums[j+1] if is_odd else 0)
+        dp[j][3] = dp[j+1][3] + (nums[j+1] if not is_odd else 0)
+    
+    # now for every possible item that can be removed, try to remove it
+    res = 0
+    for n in range(len(nums)):
+        is_odd = n%2 != 0
+        evens_left, odds_left, evens_right, odds_right = dp[n]
+        evens = evens_left + odds_right
+        odds = odds_left + evens_right
+        if odds == evens: res += 1
+    return res
