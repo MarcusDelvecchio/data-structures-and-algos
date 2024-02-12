@@ -517,3 +517,27 @@ def waysToMakeFair(self, nums: List[int]) -> int:
         odds = odds_left + evens_right
         if odds == evens: res += 1
     return res
+
+# two-pass and cleaner solution (rather than 3)
+# revised solution for Ways to Make a Fair Array LeetCode Medium
+def waysToMakeFair(self, nums: List[int]) -> int:
+    # dp[i] = (evens_right, odds_right)
+    dp = [[0,0] for _ in range(len(nums))]
+
+    # loop backwards through the array to get the sum of odd and even values to the right of each element
+    for j in range(len(nums)-2, -1, -1):
+        is_odd = j%2 != 0
+        dp[j][0] = dp[j+1][0] + (nums[j+1] if is_odd else 0)
+        dp[j][1] = dp[j+1][1] + (nums[j+1] if not is_odd else 0)
+    
+    # now for every possible item that can be removed, try to remove it, while also keeping track of the total sum of even and odd values on the left of that element
+    res, evens_left, odds_left = 0, 0, 0
+    for n in range(len(nums)):
+        is_odd = n%2 != 0
+        evens_right, odds_right = dp[n]
+        evens = evens_left + odds_right
+        odds = odds_left + evens_right
+        if odds == evens: res += 1
+        if is_odd: odds_left += nums[n]
+        else: evens_left += nums[n]
+    return res
