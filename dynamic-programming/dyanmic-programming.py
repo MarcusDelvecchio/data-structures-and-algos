@@ -244,6 +244,8 @@ def coinChange(self, coins: List[int], amount: int) -> int:
     return dp[0] if dp[0] != float('inf') else -1
 
 # Sequential Digits LeetCode Medium
+# An integer has sequential digits if and only if each digit in the number is one more than the previous digit.
+# Return a sorted list of all the integers in the range [low, high] inclusive that have sequential digits.
 # https://leetcode.com/problems/sequential-digits/description/?envType=daily-question&envId=2024-02-02
 # not too much of dynamic pgoramming but kinda
 # this actually took like an hour I'm cheesed
@@ -267,6 +269,7 @@ def sequentialDigits(self, low: int, high: int) -> List[int]:
     return [num for num in res if num <= high and num >= low]
 
 # Partition Array for Maximum Sum LeetCode Medium
+# Given an integer array arr, partition the array into (contiguous) subarrays of length at most k. After partitioning, each subarray has their values changed to become the maximum value of that subarray.
 # https://leetcode.com/problems/partition-array-for-maximum-sum/description/?envType=daily-question&envId=2024-02-03
 # bottom-up dp tabulation
 # took like 25 but had to watch a video etc still hurts my brain doing these tabulation problems
@@ -283,6 +286,8 @@ def maxSumAfterPartitioning(self, arr: List[int], k: int) -> int:
     return dp[0]
 
 # Sort Integers by The Power Value LeetCode Medium
+# The power of an integer x is defined as the number of steps needed to transform x into 1 using the following steps (see question)
+# Return the kth integer in the range [lo, hi] sorted by the power value
 # 1D tabulation solution
 # https://leetcode.com/problems/sort-integers-by-the-power-value/description/
 # took 27 mins but lost like 10 mins to a simple issue where I didn't put hi+1 in initial range...
@@ -307,6 +312,7 @@ def getKth(self, lo: int, hi: int, k: int) -> int:
  
 # Minimum Path Cost in a Grid LeetCode Medium
 # bottom-up tabulation dynamic programming
+# The cost of a path in grid is the sum of all values of cells visited plus the sum of costs of all the moves made. Return the minimum cost of a path that starts from any cell in the first row and ends at any cell in the last row.
 # https://leetcode.com/problems/minimum-path-cost-in-a-grid/description/
 # TC: O(n), SC: O(1) -> matrix is manipulated in place
 # took 7 mins
@@ -321,6 +327,7 @@ def minPathCost(self, grid: List[List[int]], moveCost: List[List[int]]) -> int:
     return min(grid[0])
 
 # Unique Paths LeetCode Medium
+# Given the two integers m and n, return the number of possible unique paths that the robot can take to reach the bottom-right corner of a matrix from the top-left.
 # https://leetcode.com/problems/unique-paths/description/
 # Dp tabulation solution
 # took 7 mins but I had the implementation done in 5, just issues with ranges
@@ -336,7 +343,23 @@ def uniquePaths(self, m: int, n: int) -> int:
             dp[row][col] = below + right
     return dp[0][0]
 
+# Minimum Path Sum LeetCode Medium
+# took 9 mins because idk
+# https://leetcode.com/problems/minimum-path-sum/description/
+# Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right, which minimizes the sum of all numbers along its path. You can only move either down or right at any point in time.
+# TC: O(n), SC: O(1)
+def minPathSum(self, grid: List[List[int]]) -> int:
+    rows, cols = len(grid), len(grid[0])
+    for row in range(rows-1, -1, -1):
+        for col in range(cols-1, -1, -1):
+            if row == rows-1 and col == cols-1: continue
+            below = grid[row+1][col] if row < rows-1 else float('inf')
+            right = grid[row][col+1] if col < cols-1 else float('inf')
+            grid[row][col] = min(below, right) + grid[row][col]
+    return grid[0][0]
+
 # Perfect Squares LeetCode Medium
+# Given an integer n, return the least number of perfect square numbers that sum to n
 # https://leetcode.com/problems/perfect-squares/
 # perfect squares
 # 1D Dynamic programming
@@ -353,7 +376,7 @@ def numSquares(self, n: int) -> int:
             dp[i] = min(dp[i], dp[i-sq] + 1)
     return dp[n]
 
-# beats 68% - not as efficient (but virtuall the same?) since we re-calculate the squares every time rather than once at the beginning
+# beats 68% - not as efficient (but virtually the same?) since we re-calculate the squares every time rather than once at the beginning
 def numSquares(self, n: int) -> int:
     dp = [float('inf')] * (n+1)
     dp[0] = 0
@@ -368,7 +391,7 @@ def numSquares(self, n: int) -> int:
 # took like 40 to conceptualize the problem, watched a part of neetcode, he did recursion but then I realized
 # it wouldn't be hard to do tabulation
 # create DP list from from end-to front where dp[i] is equal to the longest divisible subset starting at i
-# so going backwards for every nums[i], we check every nums[j] that comes AFTER and if nums[i] and if it divides nums[j], we add nums[i] to dp[j] and it becoems dp[i]
+# so going backwards for every nums[i], we check every nums[j] that comes AFTER and if nums[i] and if it divides nums[j], we add nums[i] to dp[j] and it becomes dp[i]
 # TC: O(n^2) SC: O(n) -> would be O(n^2) becuase each dp[i] could theoretically contain the entire rest of the list, BUT the
 # largest an array could be is size 32 before the intger limit is reached, so SC = Nx32 worst case which is still SC: O(n)
 # see https://www.youtube.com/watch?v=LeRU6irRoW0 at 7:00 mins
