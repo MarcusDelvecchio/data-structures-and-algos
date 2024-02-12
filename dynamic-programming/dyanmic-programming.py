@@ -390,6 +390,7 @@ def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
 # tried to do DP solution from bottom up and then traverse back down but this doesn't work
 # fails to testcase where grid = [[1,0,0,3],[0,0,0,3],[0,0,3,3],[9,0,3,3]] - there is no look ahead function
 # doesn't seem like theres a good tabulation solution so see the backtracking/top-down/recursive/memoization solution below
+# nvm tabulation solution below as well
 def cherryPickup(self, grid: List[List[int]]) -> int:
     for i in range(len(grid[0])):
         grid[-1][i] = (grid[-1][i], grid[-1][i])
@@ -430,6 +431,7 @@ def cherryPickup(self, grid: List[List[int]]) -> int:
     return total
 
 # Cherry Pickup II LeetCode Hard
+# see tabulation solution below as well
 # https://leetcode.com/problems/cherry-pickup-ii/?envType=daily-question&envId=2024-02-11
 # backtracking/top-down/recursive/memoization solution
 # took like 10 mins after thinking of a memoization solution
@@ -456,3 +458,29 @@ def cherryPickup(self, grid: List[List[int]]) -> int:
         return memo[(row, c1, c2)]
 
     return solve(0, 0, len(grid[0])-1)
+
+# Cherry Pickup II LeetCode Hard
+# Tabulation solution - pretty complex and unintuitive. Table consists of col*col matrix for every possible location
+# for both the left and right robots in a row, then when we move up to the next row we consider all of the possible
+# combinations each of the cols that the robots could be at and the places they could go and overwrite the dp table
+# because of this, the TC = O(col*col) rather than O(rows*cols*cols) above, because we only ever store
+# the dp table for the previous row (bottom-up)
+# see https://www.youtube.com/watch?v=c1stwk2TbNk at about 11:00 mins
+def cherryPickup(self, grid: List[List[int]]) -> int:
+    cols = len(grid[0])
+    dp = [[0]*cols for _ in range(cols)]
+
+    for row in range(len(grid)-1, -1, -1):
+        new_dp = [[0]*cols for _ in range(cols)]
+        for c1 in range(cols):
+            for c2 in range(cols):
+                if c1 == c2:
+                    new_dp[c1][c2] = 0
+                else:
+                    for i in [-1, 0, 1]:
+                        for j in [-1, 0, 1]:
+                            if c1+i < 0 or c1+i > cols-1 or c2+j < 0 or c2+j > cols-1: 
+                                continue
+                            new_dp[c1][c2] = max(new_dp[c1][c2], grid[row][c1] + grid[row][c2] + dp[c1+i][c2+j])
+        dp = new_dp
+    return dp[0][0] + dp[0][-1]
