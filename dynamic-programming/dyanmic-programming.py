@@ -383,3 +383,47 @@ def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
                     shortest = [nums[i]] + dp[j]
         dp[i] = shortest
     return max(dp, key=len)
+
+
+# Invalid solution for Cherry Pickup II LeetCode Hard
+# https://leetcode.com/problems/cherry-pickup-ii
+# tried to do DP solution from bottom up and then traverse back down but this doesn't work
+# fails to testcase where grid = [[1,0,0,3],[0,0,0,3],[0,0,3,3],[9,0,3,3]] - there is no look ahead function
+def cherryPickup(self, grid: List[List[int]]) -> int:
+    for i in range(len(grid[0])):
+        grid[-1][i] = (grid[-1][i], grid[-1][i])
+
+    def get_best(x):
+        return max()
+
+    # iterate bottom-up in the grid, composing the most valuable paths for each robot
+    for row in range(len(grid)-2, -1, -1):
+        for col in range(len(grid[0])):
+            grid[row][col] = (grid[row][col], grid[row][col] + max(grid[row+1][col-1][1] if col > 0 else 0, grid[row+1][col][1], grid[row+1][col+1][1] if col < len(grid[0]) - 1 else 0))
+
+    # traverse down the grid to get the most valuable paths and to ensure there are no conflicts
+    r, total, left, right = 0, 0, 0, len(grid[0]) -1
+    while r < len(grid) - 1:
+        # add current left and right before moving on
+        total += grid[r][left][0]
+        total += grid[r][right][0]
+
+        # find the best next left and right cells
+        best_left = max(left-1, left, left+1, key=lambda x: grid[r+1][x][1] if x < len(grid[0]) and x >= 0 else -1)
+        best_right = max(right-1, right, right+1, key=lambda x: grid[r+1][x][1] if x < len(grid[0]) and x >= 0 else -1)
+
+        if best_left == best_right:
+            best_alt_right = max(right-1, right, right+1, key=lambda x: grid[r+1][x][1] if x < len(grid[0]) and x >= 0 and x != best_right else -1)
+            best_alt_left = max(left-1, left, left+1, key=lambda x: grid[r+1][x][1] if x < len(grid[0]) and x >= 0 and x != best_right else -1)
+
+            if grid[r+1][best_alt_right][1] > grid[r+1][best_alt_left][1]:
+                best_right = best_alt_right
+            else:
+                best_left = best_alt_left
+
+        print(best_left, best_right)
+        right = best_right
+        left = best_left
+        r += 1
+    total += grid[r][left][0] + grid[r][right][0]
+    return total
