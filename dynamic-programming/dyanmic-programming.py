@@ -389,6 +389,7 @@ def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
 # https://leetcode.com/problems/cherry-pickup-ii
 # tried to do DP solution from bottom up and then traverse back down but this doesn't work
 # fails to testcase where grid = [[1,0,0,3],[0,0,0,3],[0,0,3,3],[9,0,3,3]] - there is no look ahead function
+# doesn't seem like theres a good tabulation solution so see the backtracking/top-down/recursive/memoization solution below
 def cherryPickup(self, grid: List[List[int]]) -> int:
     for i in range(len(grid[0])):
         grid[-1][i] = (grid[-1][i], grid[-1][i])
@@ -427,3 +428,31 @@ def cherryPickup(self, grid: List[List[int]]) -> int:
         r += 1
     total += grid[r][left][0] + grid[r][right][0]
     return total
+
+# Cherry Pickup II LeetCode Hard
+# https://leetcode.com/problems/cherry-pickup-ii/?envType=daily-question&envId=2024-02-11
+# backtracking/top-down/recursive/memoization solution
+# took like 10 mins after thinking of a memoization solution
+# this actually ran FIRST try after writing the solution - no failed test cases and no syntax errors
+# lost a million years trying tabulation just because I wanted to see if there was a way. But brute force was the answer
+# TC: O(rows*cols*cols) aka O(row*cols^2) (key space is (row,col,col) so there is that many subproblems max)
+# SC: O(rows*cols*cols) for key space and O(rows) for recusive depth, so O(rows*cols*cols) is larger and thus the SC
+def cherryPickup(self, grid: List[List[int]]) -> int:
+    memo = {}
+    
+    def solve(row, c1, c2):
+        if row == len(grid): return 0
+        if (row, c1, c2) in memo: return memo[(row, c1, c2)]
+
+        # consider all possible choices for left and right
+        best = 0
+        for c1_next in range(c1-1, c1+2):
+            if c1_next < 0 or c1_next > len(grid[0]) - 1: continue
+            for c2_next in range(c2-1, c2+2):
+                if c2_next < 0 or c2_next > len(grid[0]) - 1 or c1_next == c2_next: continue
+                best = max(best, solve(row+1, c1_next, c2_next))
+
+        memo[(row, c1, c2)] = best + grid[row][c1] + grid[row][c2]
+        return memo[(row, c1, c2)]
+
+    return solve(0, 0, len(grid[0])-1)
