@@ -564,3 +564,18 @@ def waysToMakeFair(self, nums: List[int]) -> int:
         if is_odd: odds_left += nums[n]
         else: evens_left += nums[n]
     return res
+
+# Knight Dialer LeetCode Medium
+# https://leetcode.com/problems/knight-dialer/
+# my solution here https://leetcode.com/problems/knight-dialer/solutions/4714185/python-3-dynamic-programming-tabulation-vs-memoization-solutions-tc-o-n-sc-o-1/
+# took like 10 after doing memoization solution
+def knightDialer(self, n: int) -> int:
+    neighbors = {1: [8,6], 2: [7,9], 3:[4,8], 4: [3,9,0], 5: [], 6: [7, 1, 0], 7: [6,2], 8: [1,3], 9: [4,2], 0: [4,6]}
+    vals = [1]*10
+    for _ in range(1,n):
+        new_vals = [0]*10
+        for num in range(10):
+            for neighbor in neighbors[num]:
+                new_vals[num] += vals[neighbor]
+        vals = new_vals
+    return sum(vals)%(10**9+7)

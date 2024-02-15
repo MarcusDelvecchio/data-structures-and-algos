@@ -68,6 +68,9 @@ and then compute the solution to the original problem based on the results in th
 
 How to know whether to use recursion + memoization or iteration + tabulation
 
+tabulation allows improvements on space complexity:
+bottom up allows for optimization tricks to reduce the space used if you only need the last X states to compute the current one.
+
 _______________
 Tabulation
 
@@ -102,3 +105,7 @@ Therefore, if one allows dynamic programming to refer to the top-down approach, 
 bottom-up approach, then memoization is something separate. Bottom-up dynamic programming doesn't call functions more than once with the same parameter values, so memoization is not useful in that context.
 "
 
+random bits:
+"DP problems are mostly optimization problems. They generally ask for the largest, smallest, shortest, longest, maximum, minimum something in an array or set. So look for these keywords to identify a DP problem.
+
+on Memoization vs Tabulation vs Non-DP Questions: https://www.reddit.com/r/leetcode/comments/164tz2c/comment/jybjvj1/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button

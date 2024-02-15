@@ -966,3 +966,29 @@ def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
         memo[(idx, m, n)] = max(with_next, without_next)
         return memo[(idx, m, n)]
     return solve(0, m, n)
+
+#
+#
+#
+#
+#
+#
+def knightDialer(self, n: int) -> int:
+    neighbors = {1: [8,6], 2: [7,9], 3:[4,8], 4: [3,9,0], 5: [], 6: [7, 1, 0], 7: [6,2], 8: [1,3], 9: [4,2], 0: [4,6]}
+    memo = {}
+
+    def solve(start, curr):
+        if curr == 1: return 1
+        if (start, curr) in memo: return memo[(start, curr)]
+
+        # consider jumping to all possible neighbors
+        choices = 0
+        for neighbor in neighbors[start]:
+            choices += solve(neighbor, curr-1)
+        memo[(start, curr)] = choices
+        return choices
+
+    res, MOD = 0, (10**9)+7
+    for i in range(10):
+        res += solve(i, n)
+    return res%MOD
