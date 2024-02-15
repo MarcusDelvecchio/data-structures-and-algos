@@ -172,3 +172,17 @@ def divideArray(self, nums: List[int], k: int) -> List[List[int]]:
     if total != len(nums):
         return []
     return res
+
+# Find Polygon With the Largest Perimiter LeetCode Medium
+# https://leetcode.com/problems/find-polygon-with-the-largest-perimeter/description/?envType=daily-question&envId=2024-02-15
+# took 6 mins
+# TC: O(n), SC: O(1)
+def largestPerimeter(self, nums: List[int]) -> int:
+    nums.sort()
+    total, curr, best = 0, 0, 0
+    while curr < len(nums):
+        if nums[curr] < total:
+            best = total + nums[curr]
+        total += nums[curr]
+        curr += 1
+    return best or -1
