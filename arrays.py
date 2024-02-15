@@ -186,3 +186,24 @@ def largestPerimeter(self, nums: List[int]) -> int:
         total += nums[curr]
         curr += 1
     return best or -1
+
+# Rearrange Array Elements by Sign LeetCode Medium
+# took like 4 mins because was trying to come up with SC: O(1) solution but this would be pretty merked
+# TC: O(n), SC: O(n)
+def rearrangeArray(self, nums: List[int]) -> List[int]:
+    positives, negatives, res = [], [], []
+    for num in nums:
+        if num < 0:
+            negatives.append(num)
+        else:
+            positives.append(num)
+    pos_p, neg_p, pos = 0,0, True
+    for _ in range(len(nums)):
+        if pos:
+            res.append(positives[pos_p])
+            pos_p += 1
+        else:
+            res.append(negatives[neg_p])
+            neg_p += 1
+        pos = not pos
+    return res
