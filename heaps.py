@@ -354,3 +354,34 @@ def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
     for _ in range(k):
         res.append(heappop(distances)[1])
     return sorted(res)
+
+
+# import heapq as hq
+# Least Number of Unique Integers after K Removals LeetCode Medium
+# Given an array of integers arr and an integer k. Find the least number of unique integers after removing exactly k elements.
+# https://leetcode.com/problems/least-number-of-unique-integers-after-k-removals/description/?envType=daily-question&envId=2024-02-16
+# TC: O(klogn), SC: O(n)
+def findLeastNumOfUniqueInts(self, arr: List[int], k: int) -> int:
+    freq, res = defaultdict(int), []
+
+    # gather number frequencies - O(n)
+    for num in arr:
+        freq[num] += 1
+    
+    # convert frequency dict to list - O(n)
+    n  = [(freq[num], num) for num in freq]
+    uniques = len(freq)
+
+    # heapify list - O(n)
+    hq.heapify(n)
+
+    # heappop the items with the lowest frequency for the k items being removed
+    # O(klogn)
+    while k > 0:
+        smallest = hq.heappop(n)
+        if smallest[0] <= k:
+            k -= smallest[0]
+            uniques -= 1
+        else:
+            break
+    return uniques
