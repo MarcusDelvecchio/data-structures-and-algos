@@ -420,4 +420,31 @@ def findLeastNumOfUniqueInts(self, arr: List[int], k: int) -> int:
 
 # NOT FINISHED IMPLEMENTING
 # also couldn't we do this in O(n) somehow - put into dict of freq: val pairs and then remove number of items that many times?
+# ^ yes we can see below
 # see https://www.google.com/search?client=safari&sca_esv=a2b78866b809fff6&rls=en&sxsrf=ACQVn0_hVw3LtI08E70Cz3Ux0Jk7Cnor-Q:1708121466761&q=O(n)+vs+%22klogn%22+OR+%22klog(n)%22&nfpr=1&sa=X&ved=2ahUKEwistImq8LCEAxV4kIkEHYKWAC4QvgUoAXoECAgQAw&biw=1314&bih=751&dpr=2
+# TC: O(n), SC: O(n)
+# beats 90%
+# approach: 
+#   1. create dict of {number: frequency} key value pairs 
+#   2. convert this dict to {frequency: [list, of nums, with, this freq]} key/value pairs
+#   3. iterate from 1 to n for all possible frequencieies (from low to high), removing elements with lowest frequencies if elements exist with said possible frequency
+def findLeastNumOfUniqueInts(self, arr: List[int], k: int) -> int:
+    num_freq, frequencies = Counter(arr), defaultdict(list)
+    uniques = len(num_freq)
+
+    # add all nums to the frequency: [nums, with, this, frequency] dict
+    for num in num_freq:
+        frequencies[num_freq[num]].append(num)
+    
+    # remove nums iterating up from 1 to n, for all possible frequencies
+    f = 1
+    while f < 10**5:
+        if f in frequencies:
+            for _ in range(len(frequencies[f])):
+                if k < f:
+                    return uniques
+                else:
+                    k-=f
+                    uniques -= 1
+        f+=1
+    return uniques
