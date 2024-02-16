@@ -360,7 +360,7 @@ def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
 # Least Number of Unique Integers after K Removals LeetCode Medium
 # Given an array of integers arr and an integer k. Find the least number of unique integers after removing exactly k elements.
 # https://leetcode.com/problems/least-number-of-unique-integers-after-k-removals/description/?envType=daily-question&envId=2024-02-16
-# TC: O(klogn), SC: O(n)
+# TC: O(n), SC: O(n)
 def findLeastNumOfUniqueInts(self, arr: List[int], k: int) -> int:
     freq, res = defaultdict(int), []
 
@@ -385,3 +385,39 @@ def findLeastNumOfUniqueInts(self, arr: List[int], k: int) -> int:
         else:
             break
     return uniques
+
+# optimization from above #1 - only add k elements to the heap so that heapify is O(nlogk) rather than O(n)
+# THIS WRITE UP IS PROBABLY WRONG - todo go down rabbit role and look into dif between O(n) and O(klogn) and O(n + klogn) and O(nlogn) (see https://www.google.com/search?client=safari&sca_esv=a2b78866b809fff6&rls=en&sxsrf=ACQVn0_hVw3LtI08E70Cz3Ux0Jk7Cnor-Q:1708121466761&q=O(n)+vs+%22klogn%22+OR+%22klog(n)%22&nfpr=1&sa=X&ved=2ahUKEwistImq8LCEAxV4kIkEHYKWAC4QvgUoAXoECAgQAw&biw=1314&bih=751&dpr=2
+# (heapifying the k least frequent elements is O(k) to heapify the first k elements (any k elements just to create the heap) and then O(nlogk) to get the k most infrequent of all n elements (O(logk) to pushpop elements for all n to get a heap of size k = O(nlogk)))
+# but to do this, the initial array also needs to be sorted
+# to sort the array would be nlogn again, which defeats the purpose of this optimization
+# so instead, we can get the k least frequent elements in O(n) rather than sorting
+# since the largest number of items we will remove is k, we don't need all n items to be in the heap
+# Since, K <= N, NlogK will always be more than or equal to KlogN
+def findLeastNumOfUniqueInts(self, arr: List[int], k: int) -> int:
+    freq, res = defaultdict(int), []
+
+    # gather number frequencies - O(n)
+    for num in arr:
+        freq[num] += 1
+    
+    # convert frequency dict to list of the k most infrequent elements in O(n)
+    
+
+    # heapify the first k items of the list - O(k)
+    hq.heapify(n)
+
+    # heappop the items with the lowest frequency for the k items being removed
+    # O(klogk)
+    while k > 0:
+        smallest = hq.heappop(n)
+        if smallest[0] <= k:
+            k -= smallest[0]
+            uniques -= 1
+        else:
+            break
+    return uniques
+
+# NOT FINISHED IMPLEMENTING
+# also couldn't we do this in O(n) somehow - put into dict of freq: val pairs and then remove number of items that many times?
+# see https://www.google.com/search?client=safari&sca_esv=a2b78866b809fff6&rls=en&sxsrf=ACQVn0_hVw3LtI08E70Cz3Ux0Jk7Cnor-Q:1708121466761&q=O(n)+vs+%22klogn%22+OR+%22klog(n)%22&nfpr=1&sa=X&ved=2ahUKEwistImq8LCEAxV4kIkEHYKWAC4QvgUoAXoECAgQAw&biw=1314&bih=751&dpr=2
