@@ -448,3 +448,50 @@ def findLeastNumOfUniqueInts(self, arr: List[int], k: int) -> int:
                     uniques -= 1
         f+=1
     return uniques
+
+# Furthest Building You Can Reach LeetCode Medium
+# https://leetcode.com/problems/furthest-building-you-can-reach/submissions/1178418076/?envType=daily-question&envId=2024-02-17
+# took like 35
+# greedy and heap solution
+# TC: O(nlogn) or O(nlogb) SC: O(n)
+# rudest heap question I've seen
+def furthestBuilding(self, heights: List[int], bricks: int, ladders: int) -> int:
+    if len(heights) == 1 or (not ladders and heights[1] - heights[0] > bricks): return 0
+    first_n_buildings = []
+    
+    # get as far as we can using only bricks and saving the buildings we traversed in a list - O(n)
+    i = 1
+    while i < len(heights):
+        if heights[i] - heights[i-1] > bricks: break
+        if heights[i] > heights[i-1]:
+            first_n_buildings.append(-(heights[i] - heights[i-1]))
+            bricks -= (heights[i] - heights[i-1])
+        i += 1
+
+    # max-heapify this lift - this is O(n) but the largest size of the list is bricks, so this is O(bricks)
+    hq.heapify(first_n_buildings)
+
+    # continuously use our ladders on the greatest build now (greatest in the heap or the next item if it is greater)
+    # O(nlogn) - because for every n in the list of heights (worst case) we will either heap-push or heap-pop, which is an O(logn) operation for a heap of max size n
+    # note that this is not  O(nlog(bricks)) because although at first the max heap size is bricks, it can become larger than bricks
+    # wait nvm it cannot become larger than the value of bricks so is it O(nlog(bricks)) ?
+    while i < len(heights):
+        if heights[i] <= heights[i-1]:
+            i+= 1
+            continue
+        if heights[i] - heights[i-1] <= bricks:
+            bricks -= heights[i] - heights[i-1]
+            hq.heappush(first_n_buildings, -(heights[i] - heights[i-1]))
+            i += 1
+            continue
+        if ladders == 0: break
+        if first_n_buildings:
+            largest = -(first_n_buildings[0])
+            if largest > (heights[i] - heights[i-1]):
+                hq.heappop(first_n_buildings)
+                bricks += largest - (heights[i] - heights[i-1])
+                hq.heappush(first_n_buildings, -(heights[i] - heights[i-1]))
+        ladders -= 1
+        i += 1
+
+    return i-1
