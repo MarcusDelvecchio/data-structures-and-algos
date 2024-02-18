@@ -526,3 +526,78 @@ def furthestBuilding(self, heights: List[int], bricks: int, ladders: int) -> int
         ladders -= 1
         i += 1 # move to the next building
     return i-1
+
+# https://leetcode.com/problems/meeting-rooms-iii/description/?envType=daily-question&envId=2024-02-18
+# stuck on 79/82 testcases and I have no idea why
+# but bad idea to iterate over values of time
+def mostBooked(self, n: int, meetings: List[List[int]]) -> int:
+    
+    # get all start values into a array of start_times[start] = end
+    start_times = {}
+    for meeting in meetings:
+        start_times[meeting[0]] = meeting
+
+    waiting = [] # minheap of meetings waiting (based on start time)
+    available = [i for i in range(n)] # minheap of rooms available
+    end_times = defaultdict(list) # dict of running meetings by endtime: rooms ending at that time
+    room_counts = [0]*n # list of number of meetings that took place in each room
+    hq.heapify(available)
+
+    # iterate upwards in time
+    for time in range(5*(10**5)+1):
+        # if a meeting is waiting 
+        while waiting and available:
+            meeting = hq.heappop(waiting)
+            room = hq.heappop(available)
+            delay = time - meeting[0]
+            end_times[meeting[1] + delay].append(room)
+
+        # if a meeting is supposed to be starting now check for availability
+        if time in start_times:
+            meeting = start_times[time]
+            if available:
+                room = hq.heappop(available)
+                end_times[meeting[1]].append(room)
+            else:
+                hq.heappush(waiting, meeting)
+        
+        # if a meeting is ending at this time
+        if time+1 in end_times:
+            for room in end_times[time+1]:
+                hq.heappush(available, room) # add room to available again
+                room_counts[room] += 1
+            end_times[time+1] = []
+    
+    # return the room with the largest number of meetings
+    greatest, rooms = 0, []
+    for i in range(len(room_counts)):
+        if room_counts[i] > greatest:
+            greatest = room_counts[i]
+            rooms = [i]
+        elif room_counts[i] == greatest:
+            rooms.append(i) 
+    return min(rooms)
+
+# solution - two heaps
+# Meeting Rooms III LeetCode Hard
+# todo come back to this ans review it
+def mostBooked(self, n: int, meetings: List[List[int]]) -> int:
+    booked, free = [], list(range(n))
+    meetings.sort()
+    freq = defaultdict(int)
+
+    for start, end in meetings:
+        while booked and booked[0][0] <= start:
+            _, room = heappop(booked)
+            heappush(free, room)
+        
+        if free:
+            room = heapq.heappop(free)
+            heappush(booked, [end, room])
+        else:
+            release, room = heappop(booked)
+            heappush(booked, [release + end - start, room])
+        
+        freq[room] += 1
+
+    return max(freq, key=freq.get)
