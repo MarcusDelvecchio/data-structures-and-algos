@@ -455,6 +455,7 @@ def findLeastNumOfUniqueInts(self, arr: List[int], k: int) -> int:
 # greedy and heap solution
 # TC: O(nlogn) or O(nlogb) SC: O(n)
 # rudest heap question I've seen
+# SHORTENED SOLUTION BELOW
 def furthestBuilding(self, heights: List[int], bricks: int, ladders: int) -> int:
     if len(heights) == 1 or (not ladders and heights[1] - heights[0] > bricks): return 0
     first_n_buildings = []
@@ -494,4 +495,34 @@ def furthestBuilding(self, heights: List[int], bricks: int, ladders: int) -> int
         ladders -= 1
         i += 1
 
+    return i-1
+
+# Furthest Building You Can Reach LeetCode Medium (Above)
+# realized we can just cut out the entire first part and simply start with an empty heap
+def furthestBuilding(self, heights: List[int], bricks: int, ladders: int) -> int:
+    if len(heights) == 1 or (not ladders and heights[1] - heights[0] > bricks): return 0
+    prev_transactions, i = [], 1
+
+    # 1. use any bricks we have if we can use them on the next building
+    # 2. continuously use our ladders on the greatest building gap (greatest gap the heap or gap to the next item if it is greater) 
+    while i < len(heights):
+        if heights[i] <= heights[i-1]: # if the next building is lower it is free
+            i += 1
+            continue
+        if heights[i] - heights[i-1] <= bricks: # use our bricks to get to the next building if we can
+            bricks -= heights[i] - heights[i-1]
+            hq.heappush(prev_transactions, -(heights[i] - heights[i-1]))
+            i += 1
+            continue
+        
+        # if we cannot use any bricks, we must use ladders on the gaps that costed the most bricks
+        if ladders == 0: break # if we have no ladders we're done
+        if prev_transactions: # if we have not spent any gaps on buildings yet, we must use the ladder on the next building (we cannot exchange)
+            largest = -(prev_transactions[0]) 
+            if largest > (heights[i] - heights[i-1]): # compare the largest transaction to the next building and use our ladder on whichever is more costly
+                hq.heappop(prev_transactions)
+                bricks += largest - (heights[i] - heights[i-1]) # if we're using a ladder on a previous transaction we get the bricks back
+                hq.heappush(prev_transactions, -(heights[i] - heights[i-1]))
+        ladders -= 1
+        i += 1 # move to the next building
     return i-1
