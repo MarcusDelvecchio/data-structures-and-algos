@@ -1,3 +1,21 @@
+
+# Find the Town Judge LeetCode Easy
+# daily problem  feb 22
+# took like 5 mins
+def findJudge(self, n: int, trust: List[List[int]]) -> int:
+    if n == 1: return 1
+    trusted_by, trusts, candidates = defaultdict(int), defaultdict(int), []
+    for t in trust:
+        trusted_by[t[1]] += 1
+        trusts[t[0]] += 1
+
+        if trusted_by[t[1]] == n - 1:
+            candidates.append(t[1])
+    for can in candidates:
+        if not trusts[can]:
+            return can
+    return -1
+
 # took about an hour but O(n+m) not not true Hard solution
 def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
     p1, p2 = 0, 0 
