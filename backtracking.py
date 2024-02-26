@@ -992,3 +992,27 @@ def knightDialer(self, n: int) -> int:
     for i in range(10):
         res += solve(i, n)
     return res%MOD
+
+# Best Time to Buy and Sell Stock II LeetCode Medium
+# https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/description/
+# TC: O(n) -> keyspace is O(len(prices)*2 possible values for hasStock) 
+# SC: O(n) -> same because keyspace
+def maxProfit(self, prices: List[int]) -> int:
+    memo = {}
+    
+    def solve(day, hasStock):
+        if day == len(prices): return 0
+        if (day, hasStock) in memo: return memo[(day, hasStock)]
+
+        # consider buying/selling on the first day
+        value = prices[day] if hasStock else -prices[day]
+        w = solve(day+1, not hasStock) + value
+
+        # consider moving onto the next day
+        wo = solve(day+1, hasStock)
+
+        res = max(w, wo)
+        memo[(day, hasStock)] = res
+        return res
+
+    return solve(0, False)
