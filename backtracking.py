@@ -1016,3 +1016,35 @@ def maxProfit(self, prices: List[int]) -> int:
         return res
 
     return solve(0, False)
+
+# Minimum Cost For Tickets LeetCode Medium
+# Return the minimum number of dollars you need to travel every day in the given list of days. Given the costs of daily, weekly and monthly tickets.
+# took like 8 mins got AC first try without even running
+# TC: O(365) = O(1) isn't it?
+# SC: O(365) - O(1)
+# since n is limited to a fixed number and keyspace is limited isn't time complexity constant
+def mincostTickets(self, days: List[int], costs: List[int]) -> int:
+    days = {day: True for day in days}
+    memo = {}
+
+    def solve(day):
+        if day > 365: return 0
+        if day in memo: return memo[day]
+
+        # consider using a daily, weekly and monthly pass today
+        using_daily = costs[0] + solve(day+1)
+        using_weekly = costs[1] + solve(day+7)
+        using_monthly = costs[2] + solve(day+30)
+
+        # consider not buying pass and moving onto the next day IF we can
+        not_using = None
+        if day not in days:
+            not_using = solve(day+1)
+        else:
+            not_using = float('inf') # don't consider the option of not using because we have to
+
+        res = min(using_daily, using_weekly, using_monthly, not_using)
+        memo[day] = res
+        return res
+
+    return solve(0)

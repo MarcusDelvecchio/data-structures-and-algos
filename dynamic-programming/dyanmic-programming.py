@@ -454,7 +454,7 @@ def cherryPickup(self, grid: List[List[int]]) -> int:
     return total
 
 # Cherry Pickup II LeetCode Hard
-# see tabulation solution below as well
+# RECURSIVE SOLUTION; see tabulation solution below as well
 # https://leetcode.com/problems/cherry-pickup-ii/?envType=daily-question&envId=2024-02-11
 # backtracking/top-down/recursive/memoization solution
 # took like 10 mins after thinking of a memoization solution
@@ -483,7 +483,7 @@ def cherryPickup(self, grid: List[List[int]]) -> int:
     return solve(0, 0, len(grid[0])-1)
 
 # Cherry Pickup II LeetCode Hard
-# Tabulation solution - pretty complex and unintuitive. Table consists of col*col matrix for every possible location
+# TABULATION SOLUTION - pretty complex and unintuitive. Table consists of col*col matrix for every possible location
 # for both the left and right robots in a row, then when we move up to the next row we consider all of the possible
 # combinations each of the cols that the robots could be at and the places they could go and overwrite the dp table
 # because of this, the TC = O(col*col) rather than O(rows*cols*cols) above, because we only ever store
@@ -510,8 +510,10 @@ def cherryPickup(self, grid: List[List[int]]) -> int:
     return dp[0][0] + dp[0][-1]
 
 # Ways to Make a Fair Array LeetCode Medium
+# An array is fair if the sum of the odd-indexed values equals the sum of the even-indexed values.
+# Return the number of indices that you could choose such that after the removal, nums is fair.
 # https://leetcode.com/problems/ways-to-make-a-fair-array/description/
-# took 30 mins montly because the confusion with the changes to even and odds 
+# took 30 mins mostly because the confusion with the changes to even and odds 
 # approach: loop through the list forwards and backwards once and build a dp array where dp[i] has 4 values pertaining to the sum of the even and odd values on the left and right of it
 # IMPROVEMENT: there is really no need to loop forwards to sum the even and odd values before each item going forwards, we can just simultaneously do this as we loop through and 'remove' each element 
 # core idea: when an element is removed, all of the odd and even items on the left of it stay the same, but all of the odd elements on the right become even and all of the even elements on the right become odd
