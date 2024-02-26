@@ -581,3 +581,20 @@ def knightDialer(self, n: int) -> int:
                 new_vals[num] += vals[neighbor]
         vals = new_vals
     return sum(vals)%(10**9+7)
+
+# Minimum Cost For Tickets LeetCode Medium
+# https://leetcode.com/problems/minimum-cost-for-tickets/
+# TC: O(365) = O(1), SC: O(365) = O(1)
+def mincostTickets(self, days: List[int], costs: List[int]) -> int:
+    days = set(days)
+    dp = [0] * 365
+    for i in range(364, -1, -1):
+        if i+1 in days:
+            day = costs[0] + (dp[i+1] if i < 365 - 1 else 0)
+            week = costs[1] + (dp[i+7] if i < 365 - 7 else 0)
+            month = costs[2] + (dp[i+30] if i < 365 - 30 else 0)
+            print(i, day, week, month)
+            dp[i] = min(day, week, month)
+        elif i != 364:
+            dp[i] = dp[i+1]
+    return dp[0]

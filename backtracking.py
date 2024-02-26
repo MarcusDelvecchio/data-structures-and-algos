@@ -1023,6 +1023,7 @@ def maxProfit(self, prices: List[int]) -> int:
 # TC: O(365) = O(1) isn't it?
 # SC: O(365) - O(1)
 # since n is limited to a fixed number and keyspace is limited isn't time complexity constant
+# see tabulation solution in other file
 def mincostTickets(self, days: List[int], costs: List[int]) -> int:
     days = {day: True for day in days}
     memo = {}
