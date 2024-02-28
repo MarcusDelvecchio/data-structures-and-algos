@@ -952,3 +952,20 @@ def allPossibleFBT(self, n: int) -> List[Optional[TreeNode]]:
     # memoize and return the result
     Solution.memo[n] = res
     return res
+
+# Find Bottom Left Tree Value LeetCode Medium
+# https://leetcode.com/problems/find-bottom-left-tree-value/description/?envType=daily-question&envId=2024-02-28
+# took like 6 mins
+def findBottomLeftValue(self, root: Optional[TreeNode]) -> int:
+    curr = [root]
+    while curr:
+        next_row = []
+        for node in curr:
+            if node.left:
+                next_row.append(node.left)
+            if node.right:
+                next_row.append(node.right)
+        if not next_row:
+            break
+        curr = next_row
+    return curr[0].val
