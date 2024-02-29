@@ -969,3 +969,26 @@ def findBottomLeftValue(self, root: Optional[TreeNode]) -> int:
             break
         curr = next_row
     return curr[0].val
+
+# Even Odd Tree LeetCode Medium
+# https://leetcode.com/problems/even-odd-tree/?envType=daily-question&envId=2024-02-29
+# Given the root of a binary tree, return true if the binary tree is Even-Odd, otherwise return false. (see question desc)
+# took 6 mins
+# TC: O(n), SC: O(n)
+def isEvenOddTree(self, root: Optional[TreeNode]) -> bool:
+    curr, level = [root], 0
+
+    while curr:
+        print([node.val for node in curr])
+        next_layer, prev = [], -float("inf") if level%2 == 0 else float("inf")
+        for node in curr:
+            if node.left: next_layer.append(node.left)
+            if node.right: next_layer.append(node.right)
+            if level%2 == 0 and (node.val%2 != 1 or node.val <= prev):
+                return False
+            elif level%2 == 1 and (node.val%2 != 0 or node.val >= prev):
+                return False
+            prev = node.val
+        level += 1
+        curr = next_layer
+    return True
