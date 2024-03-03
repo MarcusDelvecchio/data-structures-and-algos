@@ -828,3 +828,24 @@ def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:
         next = curr.next
     return head
 
+# Remove Nth Node From End of List LeetCode Medium
+# https://leetcode.com/problems/remove-nth-node-from-end-of-list/submissions/1193068473/?envType=daily-question&envId=2024-03-03
+# TC: O(n), SC: O(1)
+# took 8 mins because silly mistakes and trying to speedrun
+def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+    if not head or not head.next: return None
+    front, tail, prev = head, head, None
+    for _ in range(n-1):
+        front = front.next
+    while front.next:
+        front = front.next
+        prev = tail
+        tail = tail.next
+
+    if not prev:
+        return head.next
+    elif tail.next:
+        prev.next = tail.next
+    else:
+        prev.next = None
+    return head
