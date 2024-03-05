@@ -225,3 +225,27 @@ def rearrangeArray(self, nums: List[int]) -> List[int]:
             neg_p += 1
         pos = not pos
     return res
+
+# Minimum Length of String After Deleting Similar Ends LeetCode Medium
+# https://leetcode.com/problems/minimum-length-of-string-after-deleting-similar-ends/solutions/4824224/beat-100-00-full-explanation-with-pictures/?envType=daily-question&envId=2024-03-05
+# took like 15 mins because 1 off erros and was rushing - didn't really care to plan solution, just started coding
+# TC: O(n), SC: O(1)
+def minimumLength(self, s: str) -> int:
+    prefix_idx = 0
+    suffix_idx = len(s) - 1
+    while s[prefix_idx] == s[suffix_idx]:
+        # move prefix forward
+        while prefix_idx < suffix_idx - 1 and s[prefix_idx + 1] == s[suffix_idx]:
+            prefix_idx += 1
+        
+        # move suffix back
+        while suffix_idx > prefix_idx + 1 and s[prefix_idx] == s[suffix_idx - 1]:
+            suffix_idx -= 1
+        
+        if prefix_idx < suffix_idx - 1:
+            prefix_idx += 1
+            suffix_idx -= 1
+        else:
+            if prefix_idx == suffix_idx: return 1
+            else: return 0
+    return suffix_idx - prefix_idx + 1
