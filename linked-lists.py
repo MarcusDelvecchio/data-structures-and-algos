@@ -849,3 +849,15 @@ def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNod
     else:
         prev.next = None
     return head
+
+# Linked List Cycle Easy
+# did in 1 min
+# TC: O(n) SC: O(1)
+# constant space!
+def hasCycle(self, head: Optional[ListNode]) -> bool:
+    while head:
+        if head.val == "visited":
+            return True
+        head.val = "visited"
+        head = head.next
+    return False
