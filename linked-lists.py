@@ -415,6 +415,18 @@ def reverseLinkedListShort(head):
             next = next.next
 
     return current
+
+# Middle of the Linked List LeetCode Easy
+# https://leetcode.com/problems/middle-of-the-linked-list/description/?envType=daily-question&envId=2024-03-07
+# took 3 mins
+# TC: O(n) SC: O(1)
+def middleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:
+    front, back = head, head
+    while front.next and front.next.next:
+        front = front.next.next
+        back = back.next
+    return back.next if front.next else back
+
 # even SHORTER way to reverse a LL that I thought up later. I'm sure it's the most effective way
 # remember there are FOUR primary steps (inside that while loop)
 # consider the probelm from the 'perspective' of a single node at a time
