@@ -1,4 +1,4 @@
-# couldn't figure thius porblem out
+# couldn't figure this problem out
 # https://leetcode.com/problems/sum-of-subarray-minimums/?envType=daily-question&envId=2024-01-20
 # after over an hour
 # see https://www.youtube.com/watch?v=aX1F2-DrBkQ&list=LL&index=1&t=572s
