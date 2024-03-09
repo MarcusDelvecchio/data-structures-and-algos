@@ -1,0 +1,3 @@
+https://github.com/dipjul/Grokking-the-Coding-Interview-Patterns-for-Coding-Questions
+https://github.com/yangshun/tech-interview-handbook?tab=readme-ov-file
+https://www.techinterviewhandbook.org
