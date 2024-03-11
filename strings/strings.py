@@ -206,9 +206,8 @@ class Solution:
 # https://leetcode.com/problems/custom-sort-string/?envType=daily-question&envId=2024-03-11
 # Custom Sort String LeetCode Medium
 # Took 7 mins
-# TC: O(nlogn) (sorting) SC: O(n)
+# TC: O(nlogn) (sorting) SC: O(1)
 def customSortString(self, order: str, s: str) -> str:
     order = {order[i]: i for i in range(len(order))}
-    s = [(order[c], c) if c in order else (-1, c) for c in s]
-    s.sort(key=lambda x: x[0])
-    return "".join([c[1] for c in s])
+    s = sorted(list(s), key=lambda x: order[x] if x in order else -1)
+    return "".join(s)
