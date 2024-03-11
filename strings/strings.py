@@ -202,3 +202,13 @@ class Solution:
         for item in sorted([(key, counts[key]) for key in counts], key=lambda x: x[1], reverse=True):
             res += item[0]*item[1]
         return res
+
+# https://leetcode.com/problems/custom-sort-string/?envType=daily-question&envId=2024-03-11
+# Custom Sort String LeetCode Medium
+# Took 7 mins
+# TC: O(nlogn) (sorting) SC: O(n)
+def customSortString(self, order: str, s: str) -> str:
+    order = {order[i]: i for i in range(len(order))}
+    s = [(order[c], c) if c in order else (-1, c) for c in s]
+    s.sort(key=lambda x: x[0])
+    return "".join([c[1] for c in s])
