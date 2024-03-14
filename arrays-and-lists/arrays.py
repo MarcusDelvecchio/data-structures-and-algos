@@ -249,3 +249,38 @@ def minimumLength(self, s: str) -> int:
             if prefix_idx == suffix_idx: return 1
             else: return 0
     return suffix_idx - prefix_idx + 1
+
+#
+#
+#
+# TLE
+def numSubarraysWithSum(self, nums: List[int], goal: int) -> int:
+    res = 0
+    for i in range(len(nums)):
+        for j in range(i + 1, len(nums) + 1):
+            if sum(nums[i:j]) == goal:
+                res += 1
+    return res
+
+# Number of Good Ways to Split a String LeetCode Medium
+# https://leetcode.com/problems/number-of-good-ways-to-split-a-string/description/
+# took 16 mins but could have done quicker less minor issues
+# TC: O(n), SC: O(n)
+def numSplits(self, s: str) -> int:
+    # iterate from left-to-right and populate a list of integers representing the total number of distinct characters to the left of each element in s
+    total, elem_to_left, chars = 0, [0]*len(s), set()
+    for i in range(len(s)):
+        elem_to_left[i] = len(chars)
+        if s[i] not in chars:
+            chars.add(s[i])
+
+    # iterate from the right-to left and compare the total distinct characters to right of each element to the stored number of distincts to the left
+    chars.clear()
+    for i in range(len(s) - 1, -1, -1):
+        if s[i] not in chars:
+            chars.add(s[i])
+        
+        if len(chars) == elem_to_left[i]:
+            total += 1
+    
+    return total
