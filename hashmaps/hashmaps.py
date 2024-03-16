@@ -665,3 +665,22 @@ class Solution:
             key = tuple(sorted(Counter(s).items()))
             anagrams[key].append(s)
         return [anagrams[group] for group in anagrams]
+
+# Contiguous Array LeetCode Medium
+# this is really a hashmap problem
+# https://leetcode.com/problems/contiguous-array/submissions/1205754849/?envType=daily-question&envId=2024-03-16
+# TC: O(n), SC: O(n)
+# took a while, had to watch video. Considered DP, sliding window etc, didn't think of the solution with the hashmap
+def findMaxLength(self, nums: List[int]) -> int:
+    least_dif = {} # map of { difference: earliest idx that dif occurs } -> we will use this map so that at every idx we check if there exists an index with that difference that we can just 'cut off', but we also want it to be as early as possible
+    longest = 0
+    prev_dif = 0 # keeping track of the total difference in 1s and 0s as we go along. We only ever need the difference from the index before
+    for i in range(len(nums)):
+        diff = prev_dif + (1 if nums[i] == 1 else -1)
+        if diff not in least_dif: least_dif[diff] = i # only add the current difference to the least_diff map if there is no earlier element with the same difference. Otherwise we would want to cut off the earlier element
+        if diff == 0:
+            longest = i+1
+        elif diff in least_dif: # given the difference in 1s and 0s at our current element, if there exists a subarray that we can cut off that has the same difference, check if it is the new longest if we were to do so
+            longest = max(longest, i - least_dif[diff])
+        prev_dif = diff
+    return longest
