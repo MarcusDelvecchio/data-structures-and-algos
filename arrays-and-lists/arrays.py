@@ -1,3 +1,12 @@
+# Two Sum Easy
+# https://leetcode.com/problems/two-sum/
+# TC: O(n), SC: O(n)
+def twoSum(self, nums: List[int], target: int) -> List[int]:
+    find = {}
+    for i in range(len(nums)):
+        if nums[i] in find:
+            return [find[nums[i]], i]
+        find[target - nums[i]] = i
 
 # Find the Town Judge LeetCode Easy
 # daily problem  feb 22

@@ -1,6 +1,16 @@
 from collections import defaultdict
 import random
 
+# Two Sum Easy
+# https://leetcode.com/problems/two-sum/
+# TC: O(n), SC: O(n)
+def twoSum(self, nums: List[int], target: int) -> List[int]:
+    find = {}
+    for i in range(len(nums)):
+        if nums[i] in find:
+            return [find[nums[i]], i]
+        find[target - nums[i]] = i
+
 # Leetcode Roman to Integer Easy
 # https://leetcode.com/problems/roman-to-integer/description/
 # Given a roman numeral, convert it to an integer.
