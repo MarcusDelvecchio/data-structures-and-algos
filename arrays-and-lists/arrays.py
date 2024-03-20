@@ -341,7 +341,9 @@ def decode(self, s: str) -> List[str]:
 # Longest Consecutive Sequence LeetCode Medium (used to be a Hard)
 # https://leetcode.com/problems/longest-consecutive-sequence/submissions/1208792750/
 # TC O(n) SC O(n)
-# 
+# I glossed over this approach because I assumed that by iterating through all of the items in the sequence, it would be O(n^)
+# becuase we would do this for *every* item in the sequence. But this is incorrect, we can simply iterate through all of the items
+# of a sequence *starting only at the first item* (we would only do this once for every sequence, starting from the first item, making it O(n), not for EVERY item —— being O(n^2))
 def longestConsecutive(self, nums: List[int]) -> int:
     items = set(nums)
     maxx = 0
