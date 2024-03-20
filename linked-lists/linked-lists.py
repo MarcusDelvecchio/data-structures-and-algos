@@ -333,6 +333,35 @@ def mergeInBetween(self, list1: ListNode, a: int, b: int, list2: ListNode) -> Li
         current = current.next
         currentIndex += 1
 
+# Merge In Between Linked Lists LeetCode Medium
+# https://leetcode.com/problems/merge-in-between-linked-lists/description/?envType=daily-question&envId=2024-03-20
+# TC: O(n), SC: O(1)
+# took 9 mins
+def mergeInBetween(self, list1: ListNode, a: int, b: int, list2: ListNode) -> ListNode:
+    
+    # traverse list to get to ath node
+    curr = list1
+    for _ in range(a-1):
+        curr = curr.next
+    
+    old = curr.next # the beginning of the old list to be removed
+    curr.next = list2 # replace node a with list2
+
+    # traverse from a to b
+    for _ in range(b-a):
+        old = old.next
+
+    # traverse through list2
+    list2_end = list2
+    while list2_end.next:
+        list2_end = list2_end.next
+
+    # set end of list2 to b+1
+    list2_end.next = old.next
+
+    # return updated list
+    return list1
+
 # Leetcode Rotate List Medium Problem
 # Given the head of a linked list, rotate the list to the right by k places.
 # https://leetcode.com/problems/rotate-list/description/
