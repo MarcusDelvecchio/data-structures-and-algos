@@ -68,3 +68,33 @@ def threeSum(self, nums: List[int]) -> List[List[int]]:
                 else: # nums[left] + nums[right] < -nums[i]:
                     left += 1
     return res
+
+# Container With Most Water LeetCode Medium
+# https://leetcode.com/problems/container-with-most-water/
+# TC: O(n), SC: O(1)
+# this solution is more readable but shorter on below
+# took like 5 mins because studied it a few months ago
+def maxArea(self, height: List[int]) -> int:
+    left, right, maxx = 0, len(height) - 1, 0
+    while left < right:
+        maxx = max(maxx, min(height[left], height[right])*(right-left))
+        if height[left] < height[right]:
+            left += 1
+        elif height[left] > height[right]:
+            right -= 1
+        elif height[left+1] > height[right-1]:
+            left += 1
+        else:
+            right -= 1
+    return maxx
+
+# combined if statements from solution above
+def maxArea(self, height: List[int]) -> int:
+    left, right, maxx = 0, len(height) - 1, 0
+    while left < right:
+        maxx = max(maxx, min(height[left], height[right])*(right-left))
+        if height[left] < height[right] or (height[left] == height[right] and height[left+1] > height[right-1]):
+            left += 1
+        else: #if height[left] > height[right] or (height[left] == height[right] and height[left+1] > height[right-1]):
+            right -= 1
+    return maxx
