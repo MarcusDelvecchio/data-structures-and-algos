@@ -270,3 +270,12 @@ conversions
 converting python counter / dict of key-value pairs to a list?
 
     list(dic.items())
+
+methods
+converting string to upper / lower
+    s.upper()
+    s.lower()
+
+checking if a string is alphanumeric
+    s.isalnum()
+
