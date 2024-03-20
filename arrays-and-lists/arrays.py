@@ -315,3 +315,25 @@ def productExceptSelf(self, nums: List[int]) -> List[int]:
         res[i] = suffix_prod*(prefix_prod[i-1] if i > 0 else 1)
         suffix_prod *= nums[i]
     return res
+
+
+# String Encode and Decode NeetCode Medium
+# https://neetcode.io/problems/string-encode-and-decode
+# has to watch video but made sense
+# TC: O(n), SC: O(n)
+# see encode/decode below
+def encode(self, strs: List[str]) -> str:
+    return "".join([str(len(s)) + "#" + s for s in strs])
+
+def decode(self, s: str) -> List[str]:
+    res = []
+    i = 0
+    while i < len(s):
+        curr = ""
+        j = i
+        while s[j] != "#":
+            curr += s[j]
+            j += 1
+        res.append(s[j+1:j+1+int(curr)])
+        i = j + 1 + int(curr)
+    return res  

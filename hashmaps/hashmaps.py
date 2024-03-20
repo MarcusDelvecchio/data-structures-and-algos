@@ -183,6 +183,30 @@ class Solution:
             
         return True
 
+# same as above but with single pass
+# there is also a 7 line solution here https://leetcode.com/problems/valid-sudoku/ that uses sets to compare uniqueness of values in their
+# row, column and set
+def isValidSudoku(self, board: List[List[str]]) -> bool:
+    seen_cols = {col: {} for col in range(len(board))}
+    seen_box = [{}, {}, {}]
+    for r in range(len(board)):
+        row = board[r]
+        seen_row = {}
+
+        # reset the boxes
+        if r > 1 and r%3 == 0:
+            seen_box = [{}, {}, {}]
+
+        for i in range(len(row)):
+            box = i//3
+            if row[i] != "." and (row[i] in seen_row or row[i] in seen_cols[i] or row[i] in seen_box[box]):
+                return False
+            else:
+                seen_row[row[i]] = True  # add value to seen in this row
+                seen_cols[i][row[i]] = True  # add value to seen in this column
+                seen_box[box][row[i]] = True
+    return True
+
 # Sudoku Solver
 # solution is being printed but because of recursive call for some readon, they reset the solution and time limit exceeded called
 # too lazy to resolve rescursive issue (took too long)
