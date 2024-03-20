@@ -336,4 +336,19 @@ def decode(self, s: str) -> List[str]:
             j += 1
         res.append(s[j+1:j+1+int(curr)])
         i = j + 1 + int(curr)
-    return res  
+    return res
+
+# Longest Consecutive Sequence LeetCode Medium (used to be a Hard)
+# https://leetcode.com/problems/longest-consecutive-sequence/submissions/1208792750/
+# TC O(n) SC O(n)
+# 
+def longestConsecutive(self, nums: List[int]) -> int:
+    items = set(nums)
+    maxx = 0
+    for num in nums:
+        if num-1 not in items:
+            end = num + 1
+            while end in items:
+                end += 1
+            maxx = max(maxx, end - num)
+    return maxx if nums else 0
