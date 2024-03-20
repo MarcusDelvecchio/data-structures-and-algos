@@ -264,3 +264,9 @@ gotchas
 - python sorts ascending by default
 - tuple object does not support item assignment —— they are immutable, you must use a list instead
 - heapq is minheap by default, careful with flipped values when using inverted vals for max heap
+
+
+conversions
+converting python counter / dict of key-value pairs to a list?
+
+    list(dic.items())

@@ -293,3 +293,25 @@ def numSplits(self, s: str) -> int:
             total += 1
     
     return total
+
+# Product of Array Except Self LeetCode Medium
+# https://leetcode.com/problems/product-of-array-except-self/description/
+# took about 15 mins
+# TC: O(n) (two-pass)
+# SC: O(n)
+def productExceptSelf(self, nums: List[int]) -> List[int]:
+    # using prefix product and siffix product, the without-product of each element
+    # will be the product of the prefix prod of the element to the left of it and the suffix prod of the element to the right of it
+
+    # setup prefix product
+    prefix_prod = [nums[0]]
+    for i in range(1, len(nums)):
+        prefix_prod.append(prefix_prod[i-1]*nums[i])
+    
+    # now iterate backwards and maintain the suffix product as well as populate the product-without for each element
+    suffix_prod = 1
+    res = [0]*len(nums)
+    for i in range(len(nums)-1, -1, -1):
+        res[i] = suffix_prod*(prefix_prod[i-1] if i > 0 else 1)
+        suffix_prod *= nums[i]
+    return res

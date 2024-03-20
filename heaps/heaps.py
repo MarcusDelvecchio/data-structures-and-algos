@@ -256,6 +256,7 @@ def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         heapq.heappushpop(first_k, remaining.pop())
     
     # pop the remaining k items O(klogk)
+    # note we do not need to do this because it can be any order
     while first_k:
         res.append(heapq.heappop(first_k)[1])
     return res
@@ -601,3 +602,32 @@ def mostBooked(self, n: int, meetings: List[List[int]]) -> int:
         freq[room] += 1
 
     return max(freq, key=freq.get)
+
+# Top K Frequent Elements LC Medium again ik
+# best solution yet
+# TC: O((n-k)logk) = O(nlogk) ??
+# SC: O(n)
+def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+    freq = Counter(nums)
+    
+    # split the items into the first k and then remaining items
+    # TC O(n)
+    first_k, remaining = [], []
+    for idx, key in enumerate(freq.keys()):
+        if idx < k:
+            first_k.append((freq[key], key))
+        else:
+            remaining.append((freq[key], key))
+    
+    # heapify the first k items 
+    # TC O(k)
+    hq.heapify(first_k)
+
+    # now continuously pushpop the remaining n-k items (this is a min heap so minimum items will be pushed)
+    # TC O((n-k)logk)
+    for item in remaining:
+        hq.heappushpop(first_k, item)
+    
+    # then return the remaining k items in the heap (any order, just extract value)
+    # TC O(k)
+    return [item for _, item in first_k]
