@@ -64,12 +64,15 @@ def lengthOfLongestSubstring(self, s: str) -> int:
 
 # Permutation in String LeetCode Medium
 # https://leetcode.com/problems/permutation-in-string/description/
-# TC: O(n), SC: O(1)? Becuase we reassign s1 to a dict?
+# TC: O(n), SC: O(1)? Becuase we reassign s1 to a dict? (and also Counter is dict of max 26 keys (possible letters) regardless, so O(1) anyways)
 # took 18 mins
+# todo review, didn't see a solution similar to this at all
+# todo better approach is FIXED sliding window, comparing the frequencies/counters of the window as we do so. Def shorter/simpler solution as well.
 def checkInclusion(self, s1: str, s2: str) -> bool:
     target = len(s1)
     s1 = Counter(s1)
     left = 0
+    # iterate moving the right pointer forward (expanding the window)
     for right in range(len(s2)):
         # if the right element is in s1, ensure we haven't used too many of said element
         if s2[right] in s1:
@@ -84,7 +87,7 @@ def checkInclusion(self, s1: str, s2: str) -> bool:
             if right - left + 1 == target:
                 return True
 
-            # decrement availability of this char
+            # decrement availability of this element
             s1[s2[right]] -= 1
         
         # if the right element is not in s1 we cannot expand the window any more, so move left and right to the element after the current right
