@@ -135,7 +135,7 @@ def checkInclusion(self, s1: str, s2: str) -> bool:
 # Sliding Window Maximum LeetCode Hard
 # https://leetcode.com/problems/sliding-window-maximum/description/
 # TC: O(n), SC: O(n)
-# took like 40 because unfamilliar with uses of monotonically decreasing queue
+# took like 40 because unfamilliar with uses of monotonically decreasing queue - had to watch NC
 # beats 98%
 def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
 

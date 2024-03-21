@@ -1,5 +1,21 @@
 from collections import defaultdict
 
+# Valid Parentheses LeetCode Easy
+# https://leetcode.com/problems/valid-parentheses/submissions/1210371468/
+# took 4 mins
+def isValid(self, s: str) -> bool:
+    opening = {")":"(", "}": "{", "]": "["}
+    chars = []
+    for c in s:
+        if c == "[" or c == "(" or c == "{": # if opening, add to stack
+            chars.append(c)
+        elif not chars or opening[c] != chars[-1]: # elif closing and the item at the top of the stack isn't the corresponding opening bracket for this bracket, invalid
+            return False
+        else:   # else, item at top of stack does match this closing brace and we can pop it
+            chars.pop()
+    return not bool(chars)
+
+
 # 71. Simplify Path
 # https://leetcode.com/problems/simplify-path/description/
 # complicated description see link
