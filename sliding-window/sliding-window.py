@@ -36,3 +36,24 @@ def minWindow(self, s: str, t: str) -> str:
                 if s[p1] in remaining: remaining[s[p1]] += 1
                 p1 += 1
     return minimum if len(minimum) <= len(s) else ""
+
+# Longest Substring Without Repeating Characters LeetCode Medium
+# https://leetcode.com/problems/longest-substring-without-repeating-characters/
+# TC: O(n), SC: O(n)
+# approach: expand the window while the items inside are unique, then contract the window to allow it to keep expanding forward, keepign track of the maximum width it becomes
+def lengthOfLongestSubstring(self, s: str) -> int:
+    maxx = 0
+    curr = set()
+    left, right = 0, 0
+    while right < len(s):
+        if s[right] in curr:
+            # move left forward until the value we are trying to add on the right is found
+            while s[left] != s[right]:
+                curr.remove(s[left])
+                left += 1
+            left += 1 
+        else:
+            curr.add(s[right])
+        maxx = max(right - left + 1, maxx)
+        right += 1
+    return maxx
