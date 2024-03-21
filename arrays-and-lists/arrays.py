@@ -354,3 +354,23 @@ def longestConsecutive(self, nums: List[int]) -> int:
                 end += 1
             maxx = max(maxx, end - num)
     return maxx if nums else 0
+
+# Trapping Rain Water LeetCode Hard
+# https://leetcode.com/problems/trapping-rain-water/description/
+# TC: O(n), SC: O(n)
+# note: the amount of water stored at any point is min(highest point on left, highest point on right) - current point height
+def trap(self, height: List[int]) -> int:
+    # iterate forward and get prefix max for every element - the largest value that comes before every element
+    prefix_max, maxx = [0]*len(height), 0
+    for i in range(len(height)):
+        prefix_max[i] = maxx
+        maxx = max(prefix_max[i], height[i])
+    
+    # iterate backwards and maintain the suffix max for every element - the largest value that comes after every element
+    # and add the difference between the current point and the lesser of the two: prefix max and suffix max
+    total, suffix_max = 0, 0
+    for j in range(len(height)-1, -1, -1):
+        val = min(prefix_max[j], suffix_max) - height[j]
+        total += val if val > 0 else 0
+        suffix_max = max(suffix_max, height[j])
+    return total
