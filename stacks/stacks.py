@@ -128,3 +128,28 @@ def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
                 res[idx] = i - idx
             mono_stack.append(temperatures[i])
     return res
+
+# Min Stack LeetCode Medium
+# https://leetcode.com/problems/min-stack/
+# took like 15 mins. Thought about monotonic stack but pop would be O(n), and realized you could do prefix-max second stack solution
+# TC: O(1) for all operations, SC: O(n)
+class MinStack:
+
+    def __init__(self):
+        self.minimum = []
+        self.stack = [] 
+        self.largest_before = []
+
+    def push(self, val: int) -> None:
+        self.stack.append(val)
+        self.largest_before.append(min(val, self.largest_before[-1] if self.largest_before else float('inf')))
+
+    def pop(self) -> None:
+        self.stack.pop()
+        self.largest_before.pop()
+
+    def top(self) -> int:
+        return self.stack[-1]
+
+    def getMin(self) -> int:
+        return self.largest_before[-1]
