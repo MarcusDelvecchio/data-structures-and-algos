@@ -39,6 +39,7 @@ def minWindow(self, s: str, t: str) -> str:
 
 # shorter and clearner solution
 # TC: O(n), SC: O(n)
+# this only beats 18.88%, why?
 def minWindow(self, s: str, t: str) -> str:
     t = Counter(t)
     curr = Counter()
@@ -130,3 +131,33 @@ def checkInclusion(self, s1: str, s2: str) -> bool:
                     s1[s2[left]] += 1
                 left += 1
     return False
+
+# Sliding Window Maximum LeetCode Hard
+# https://leetcode.com/problems/sliding-window-maximum/description/
+# TC: O(n), SC: O(n)
+# took like 40 because unfamilliar with uses of monotonically decreasing queue
+# beats 98%
+def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
+
+    # initialize monotonically decreasing deque and initial window
+    q = deque()
+    start, end = 0, 0
+    for end in range(k):
+        while q and nums[end] > q[-1]:
+            q.pop()
+        q.append(nums[end]) 
+    
+    # iterate forward and update the deque
+    res = [q[0]]
+    for end in range(k, len(nums)):
+        # remove the item being left behind if it is the maximum (if it isn't, it doesn't matter)
+        if nums[start] == q[0]:
+            q.popleft()
+        start += 1
+
+        # add the new item to the queue and update it
+        while q and nums[end] > q[-1]:
+            q.pop()
+        q.append(nums[end])
+        res.append(q[0])
+    return res
