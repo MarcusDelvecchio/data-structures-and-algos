@@ -213,6 +213,7 @@ def countSquares(self, matrix: List[List[int]]) -> int:
 # took like 35?? idk. Had issues again because I my interpretation of the relationship between the
 # sub problems was off
 # TC: O(???) SC: O(??)
+# cleaner solution below
 def generateParenthesis(self, n: int) -> List[str]:
     if n == 0: return []
     dp = ["()"]
@@ -223,6 +224,18 @@ def generateParenthesis(self, n: int) -> List[str]:
                 new_dp.append(subproblem[:j] + "()" + subproblem[j:])
         dp = new_dp
     return set(dp)
+
+# better solution less space and shorter
+# TC: O(n^2)? SC: O(n)
+def generateParenthesis(self, n: int) -> List[str]:
+    dp = set(["()"])
+    for _ in range(n-1):
+        new = set()
+        for el in dp:
+            for idx in range(len(el)):
+                new.add(el[:idx] + "()" + el[idx:])
+        dp = new
+    return list(dp)
 
 # Coin Change LeetCode Medium
 # https://leetcode.com/problems/coin-change/?envType=list&envId=55ac4kuc
