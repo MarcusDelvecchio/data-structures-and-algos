@@ -37,6 +37,39 @@ def minWindow(self, s: str, t: str) -> str:
                 p1 += 1
     return minimum if len(minimum) <= len(s) else ""
 
+# shorter and clearner solution
+# TC: O(n), SC: O(n)
+def minWindow(self, s: str, t: str) -> str:
+    t = Counter(t)
+    curr = Counter()
+    left = 0
+    best = ""
+    def isValid():
+        for key in t:
+            if curr[key] < t[key]:
+                return False
+        return True
+        
+
+    for right in range(len(s)):
+
+        # expand right until all characters in the window
+        if s[right] in t:
+            curr[s[right]] += 1
+        valid = isValid()
+        if not valid:
+            continue
+
+        # shrink the window from the left as much as possible
+        while left < right and (s[left] not in t or s[left] in t and curr[s[left]] > t[s[left]]):
+            curr[s[left]] -= 1 # doesn't matter if the character isn't in t we reduce it in s
+            left += 1
+        
+        # update the max
+        if not best or right - left + 1 < len(best):
+            best = s[left:right+1]
+    return best
+
 # Longest Substring Without Repeating Characters LeetCode Medium
 # https://leetcode.com/problems/longest-substring-without-repeating-characters/
 # TC: O(n), SC: O(n)
