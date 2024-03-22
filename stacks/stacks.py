@@ -190,3 +190,26 @@ def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
             res[idx] = i - idx
         stack.append(i)
     return res
+
+# Car Fleet LeetCode Medium
+# https://leetcode.com/problems/car-fleet/description/
+# TC: O(nlogn) (sorting), SC: O(n)
+# had the idea but implementation was tough and tried for a while for O(n). Realized the solution must be O(nlogn)
+# approach: 
+def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
+    # end time = (target-position)/speed
+    # using monotonically decreasing stack
+
+    # create cars array and sort it
+    cars = []
+    for i in range(len(position)):
+        cars.append((position[i], speed[i]))
+    cars.sort()
+
+    finish_times = []
+    for i in range(len(cars)):
+        car_end_time = (target-cars[i][0])/cars[i][1]
+        while finish_times and finish_times[-1] <= car_end_time:
+            finish_times.pop()
+        finish_times.append(car_end_time)
+    return len(finish_times)
