@@ -176,3 +176,17 @@ def evalRPN(self, tokens: List[str]) -> int:
         else:
             s.append(t)
     return int(s[0])
+
+# Daily Temperatures LeetCode Medium
+# https://leetcode.com/problems/daily-temperatures/
+# TC: O(n), SC: O(n)
+# took 7:25
+def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+    res = [0]*len(temperatures)
+    stack = []  # stack of indexes of items
+    for i in range(len(temperatures)):
+        while stack and temperatures[stack[-1]] < temperatures[i]:
+            idx = stack.pop()
+            res[idx] = i - idx
+        stack.append(i)
+    return res
