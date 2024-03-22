@@ -34,3 +34,28 @@ def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
         else:
             return True
     return False
+
+# Koko Eating Bananas LeetCode Medium
+# 'Allocated Books' problem type
+# https://leetcode.com/problems/koko-eating-bananas/description/
+# TC: O(nlogn) SC: O(1)
+def minEatingSpeed(self, piles: List[int], h: int) -> int:
+    minn, maxx = 1, 0
+    for pile in piles:
+        maxx = max(maxx, pile)
+        # note: made mistake of thinking a should be doing maxx = min(maxx, pile) here as well
+        #       but this was incorrect, he can still eat slower than the speed required by minimum pile in 1h
+
+    best = float('inf')
+    while minn <= maxx:
+        speed = (minn+maxx)//2
+        total = 0
+        for p in piles:
+            total += p//speed if p%speed == 0 else p//speed+1
+            if total > h: # increase the speed
+                minn = speed + 1
+                break
+        if total <= h: # reduce the speed
+            maxx = speed - 1
+            best = min(best, speed) # save this speed if it is lesser than the best
+    return best
