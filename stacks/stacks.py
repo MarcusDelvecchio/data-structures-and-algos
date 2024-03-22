@@ -15,6 +15,24 @@ def isValid(self, s: str) -> bool:
             chars.pop()
     return not bool(chars)
 
+# Palindrome Linked List LeetCode Easy
+# Given the head of a singly linked list, return true if it is a palindrome or false otherwise.
+# https://leetcode.com/problems/palindrome-linked-list/description/?envType=daily-question&envId=2024-03-22
+# TC: O(n), SC: O(n)
+def isPalindrome(self, head: Optional[ListNode]) -> bool:
+    left = right = head
+    stack = []
+    while right:
+        stack.append(right.val)
+        right = right.next
+    while stack:
+        if left.val == stack[-1]:
+            left = left.next
+            stack.pop()
+        else:
+            return False
+    return True
+
 
 # 71. Simplify Path
 # https://leetcode.com/problems/simplify-path/description/
