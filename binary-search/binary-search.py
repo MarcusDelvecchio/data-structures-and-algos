@@ -59,3 +59,20 @@ def minEatingSpeed(self, piles: List[int], h: int) -> int:
             maxx = speed - 1
             best = min(best, speed) # save this speed if it is lesser than the best
     return best
+
+# Find Minimum in Rotated Sorted Array LeetCode Medium
+# https://leetcode.com/problems/find-minimum-in-rotated-sorted-array
+# TC: O(n), SC: O(1)
+# took 17 mins
+def findMin(self, nums: List[int]) -> int:
+    # do binary search while min>maxx to find correct subarray
+    L, R = 0, len(nums) - 1
+    minn = nums[0]
+    while L <= R:
+        mid = (L+R)//2
+        minn = min(minn, nums[mid])
+        if nums[mid] > nums[R]:
+            L = mid + 1
+        else: # nums[mid] < nums[R] - move right down
+            R = mid - 1
+    return minn   
