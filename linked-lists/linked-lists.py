@@ -473,7 +473,7 @@ def reverseLinkedListShort_2(head):
 
     return prev #current - note this change - see https://leetcode.com/problems/reverse-linked-list/solutions/58338/python-solution-simple-iterative/
 
-# merge two sorted lists Leetcode problem
+# merge two sorted lists Leetcode Medium
 # https://leetcode.com/problems/merge-two-sorted-lists/
 # given two sorted lists, merge the two sorted lists into one sorted list, returning ites head
 def mergeTwoLists(self, list1: [ListNode], list2: [ListNode]) -> [ListNode]:
@@ -514,6 +514,37 @@ def mergeTwoLists(self, list1: [ListNode], list2: [ListNode]) -> [ListNode]:
         currentNew.next = current1
 
     return newHead
+
+# Reorder List LeetCode Medium
+# TC: O(n), SC: O(n)(create array of LL items)
+# approach: iterate forward in the LL and reverse the list, while also populating an list containing LL nodes before reversing (with initial order)
+#           then use two pointers from left and right to close and and knit node associations, until nodes meet in the middle
+def reorderList(self, head: Optional[ListNode]) -> None:
+    """
+    Do not return anything, modify head in-place instead.
+    """
+    right = head
+    nodes = []
+    prev = None
+    # reverse list and get list of nodes in initial order
+    while right:
+        nodes.append(right)
+        temp = right.next
+        right.next = prev
+        prev = right
+        right = temp
+    
+    # use two pointers to weave nodes together as left/right move inwards to the center of the array
+    left, right = 0, len(nodes) - 1
+    while left <= right:
+        nodes[left].next = nodes[right]
+        if left + 1 < right:
+            nodes[right].next = nodes[left+1]
+        else: # 'tie off' end
+            nodes[right].next = None
+        right -= 1
+        left += 1
+    return head
 
 # Merge K Sorted Lists Leetcode problem
 # https://leetcode.com/problems/merge-k-sorted-lists/submissions/
