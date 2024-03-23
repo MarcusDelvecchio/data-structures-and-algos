@@ -41,3 +41,21 @@ def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
                 q.append(copies[n.val])
             removed.neighbors[idx] = copies[n.val]
     return copies[node.val]
+
+# Max Area of Island LeetCode Medium
+# https://leetcode.com/problems/max-area-of-island
+# TC: O(n), SC: O(n)
+def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+    rows, cols = len(grid), len(grid[0])
+    visited, maxArea = set(), 0
+
+    def dfs(row, col):
+        if (row, col) in visited or row == rows or row == -1 or col == -1 or col == cols or grid[row][col] == 0: return 0
+        visited.add((row, col))
+        return dfs(row+1, col) + dfs(row-1, col) + dfs(row, col-1) + dfs(row, col+1) + 1
+
+    for row in range(rows):
+        for col in range(cols):
+            if grid[row][col] == 1 and (row, col) not in visited:
+                maxArea = max(maxArea, dfs(row, col))
+    return maxArea
