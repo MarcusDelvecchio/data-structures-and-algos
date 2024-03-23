@@ -1,0 +1,25 @@
+revevant algorithms
+as per http://youtu.be/utDu3Q7Flrw
+
+DFS
+BFS
+union-find
+    - number of connected components (in undirected)
+
+topological sort
+    - given a directed, acyclical graph
+    - built on DFS
+
+Dijkstra's Shortest Path Algo
+    - for *weighted* graphs
+    - find the shortest path from a node and every other node in the  graph
+    - uses a heap - constantly looking at the minimum of many dif edges
+    - and hashset/hashmap to prevent cycles
+
+Other
+For minimum spanning trees:
+    - Prim's algo
+    - Kruskal's algo
+ 
+Floyd Warshall's Algorithms
+

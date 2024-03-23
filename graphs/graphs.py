@@ -21,4 +21,23 @@ def numIslands(self, grid: List[List[str]]) -> int:
                 res += 1
                 dfs(row, col)
 
-    return res  
+    return res
+
+# Clone Graph LeetCode Medium
+# https://leetcode.com/problems/clone-graph
+# TC: O(n), SC: O(n)
+# my solution here: https://leetcode.com/problems/clone-graph/solutions/4915896/python-simple-bfs-12-lines/
+# Took over an hour because debugging issue with cloning neighbors when creating cloned node. Otherwise, solution was implemented in like 15 mins.
+def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
+    if not node: return None
+    copies = { node.val: Node(node.val, [nei for nei in node.neighbors])} # without [nei for nei] solution doesn't work
+    q = collections.deque([copies[node.val]])
+
+    while q:
+        removed = q.popleft()
+        for idx, n in enumerate(removed.neighbors):
+            if n.val not in copies:
+                copies[n.val] = Node(n.val, [nei for nei in n.neighbors]) # without [nei for nei] solution doesn't work
+                q.append(copies[n.val])
+            removed.neighbors[idx] = copies[n.val]
+    return copies[node.val]
