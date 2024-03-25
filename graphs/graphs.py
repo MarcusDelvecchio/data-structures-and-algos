@@ -145,3 +145,47 @@ def solve(self, board: List[List[str]]) -> None:
         for col in range(cols):
             if (row, col) not in saved:
                 board[row][col] = "X"
+
+
+# Rotting Oranges LeetCode Medium
+# https://leetcode.com/problems/rotting-oranges/
+# approach: BFS from initiall rotten fruits, adding neighboring fruits and tracking time. After no more neighbors are added, check if any fruits lasted (not beighboring to fruits that are rotten/going to be rotten) and return time else -1 if any fruits survived
+# TC: O(n), SC: O(n)
+# took 20
+def orangesRotting(self, grid: List[List[int]]) -> int:
+    rows, cols = len(grid), len(grid[0])
+
+    # gather initially rotten cells and add to bfs queue
+    rotten = []
+    for row in range(rows):
+        for col in range(cols):
+            if grid[row][col] == 2:
+                rotten.append((row, col))
+    q = collections.deque(rotten)
+    added = set(rotten)
+
+    def isExplorable(row, col):
+        return (row, col) not in added and row > -1 and row < rows and col > -1 and col < cols and grid[row][col] == 1
+
+    # perform dfs unti no more adjacent fruits added to queue
+    time = 0
+    prev_size = 0
+    while q:
+        size = len(q)
+        for _ in range(size):
+            row, col = q.popleft()
+            for r in [-1, 0, 1]:
+                for c in [-1, 0, 1]:
+                    next_row, next_col = row+r, col+c
+                    if (not r or not c) and (r != c) and isExplorable(next_row, next_col):
+                        q.append((next_row, next_col))
+                        added.add((next_row, next_col))
+        prev_size = size
+        time += 1
+
+    # check if there are any 1s remaining in the grid that have not been explored (are not neighboring rotten fruits)
+    for row in range(rows):
+        for col in range(cols):
+            if (row, col) not in added and grid[row][col] == 1:
+                return -1
+    return time - 1 if time > 0 else 0
