@@ -91,6 +91,7 @@ def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
 # valid solution
 # TC: O(n), SC: O(n)
 # took like 45 mins because had invalid approach (see above)
+# todo review this
 def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
     rows, cols = len(heights), len(heights[0])
     memo = {}
@@ -114,3 +115,33 @@ def pacificAtlantic(self, heights: List[List[int]]) -> List[List[int]]:
         for col in range(cols):
             dfs(row, col, row == rows - 1 or col == cols - 1, row == 0 or col == 0)
     return res
+
+# Surrounded Regions LeetCode Medium
+# https://leetcode.com/problems/surrounded-regions
+# took like 30 mins and tried to do ugly dfs approach but then realized simple trick
+# TC: O(n), SC: O(n)
+def solve(self, board: List[List[str]]) -> None:
+    # set all squares to X if not connected to the border
+    # therefore, we can find every O connected to the boarder and do dfs on them
+    # all other O's connected to them will be saved, the rest will be reset
+    rows, cols = len(board), len(board[0])
+    saved = set()
+
+    def dfs(row, col):
+        if row == rows or row < 0 or col == cols or col < 0 or board[row][col] == "X" or (row, col) in saved: return
+        saved.add((row, col))
+
+        for r in [-1, 0, 1]:
+            for c in [-1, 0, 1]:
+                if (not r or not c) and (r != c):
+                    dfs(row+r, col+c)
+    
+    for row in range(rows):
+        for col in range(cols):
+            if board[row][col] == "O" and (row == 0 or row == rows - 1 or col == cols - 1 or col == 0):
+                dfs(row, col)
+
+    for row in range(rows):
+        for col in range(cols):
+            if (row, col) not in saved:
+                board[row][col] = "X"
