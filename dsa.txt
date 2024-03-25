@@ -95,5 +95,7 @@ On "Representation Invariant" ("Rep Invariant"):
         interesting section if you search "The problem is that Tweet leaked out a reference to a mutable object that its immutability depended on" and read the entire example on "immutability" - "We exposed the rep, in such a way that Tweet can no longer guarantee that its objects are immutable. Perfectly reasonable client code created a subtle bug."
             "In general, you should carefully inspect the argument types and return types of all your ADT operations. If any of the types are mutable, make sure your implementation doesn’t return direct references to its representation. Doing that creates rep exposure"
 
-details to remember:
+things to remember:
+- read the question thoroughly, read examples, and ask questions
+- realize and describe your assumptions
 - #permutations > #combinations
