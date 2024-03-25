@@ -374,3 +374,23 @@ def trap(self, height: List[int]) -> int:
         total += val if val > 0 else 0
         suffix_max = max(suffix_max, height[j])
     return total
+
+# Find All Duplicates in an Array LeetCode Medium
+# https://leetcode.com/problems/find-all-duplicates-in-an-array/?envType=daily-question&envId=2024-03-25
+# TC: O(n), SC: O(1)
+# approach: since the list values are in range [1..n], iterate through the array and attempt to place every number in it's corresponding index
+#           and take the value at that index and put it where we are. Continue to do so with the current new value, unless there is already the same value in it's spot
+#           if so, move forward
+# this took like 40 mins
+def findDuplicates(self, nums: List[int]) -> List[int]:
+    n = len(nums)
+    i = 0
+    while i < n:
+        # if the number x isn't equal to it's index AND the number x isn't already in the x index (if there are duplicates), then move this number to that index
+        if nums[i] != i+1 and nums[nums[i]-1] != nums[i]:
+            temp = nums[nums[i]-1]
+            nums[nums[i]-1] = nums[i]
+            nums[i] = temp
+        else: # else, move forward
+            i += 1
+    return [nums[i] for i in range(n) if nums[i] != i+1] # return all number in the list that aren't in their corresponding index
