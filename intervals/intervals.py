@@ -2,6 +2,7 @@
 # Insert Interval LeetCode Medium
 # https://leetcode.com/problems/insert-interval/description/
 # TC: O(n), SC: O(n) -> we could def do a O(1) solution but fine for now
+# took 17 mins
 def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
     i = 0
     res = []
@@ -19,7 +20,7 @@ def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[Lis
 
     # then while our recent interval's end date extends past further intervals's start date, extend that end date
     while i < len(intervals) and res[-1][1] >= intervals[i][0]:
-        res[-1][1] = max(intervals[i][1], res[-1][1]) #  to the later end date of either the recent one or the one being added
+        res[-1][1] = max(intervals[i][1], res[-1][1])  # extend to the later end date of either the recent one or the one being added
         i += 1
 
     # then just add any remaining intervals
@@ -27,4 +28,21 @@ def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[Lis
         res.append(intervals[i])
         i += 1
     
+    return res
+
+# Merge Intervals LeetCode Medium
+# https://leetcode.com/problems/merge-intervals/
+# TC: O(nlogn), SC: O(n) -> SC can definitely be reduced to O(1)
+# took 9:15
+def merge(self, intervals: List[List[int]]) -> List[List[int]]:
+    intervals.sort()
+    i = 0
+    res = []
+    while i < len(intervals):
+        res.append(intervals[i])
+        j = i+1
+        while j < len(intervals) and intervals[i][1] >= intervals[j][0]:
+            res[-1][1] = max(res[-1][1], intervals[j][1])
+            j += 1
+        i = j
     return res

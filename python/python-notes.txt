@@ -259,9 +259,10 @@ dp = [[0]*10]*20
 this will create a 2D list but all of the rows will share the same reference
 so if you change a value in one row it will change the same value in every row
 
-gotchas
+gotchas / notes
 - python lists are not hashable you must convert to tuple
 - python sorts ascending by default
+- python sorts tuples/lists by first item by default (and same w/heaps)
 - tuple object does not support item assignment —— they are immutable, you must use a list instead
 - heapq is minheap by default, careful with flipped values when using inverted vals for max heap
 - to initialize a set with a single string value you must do set(["()"]) NOT set("()") - latter initializes set to {"(", ")"}
