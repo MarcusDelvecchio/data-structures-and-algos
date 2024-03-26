@@ -394,3 +394,29 @@ def findDuplicates(self, nums: List[int]) -> List[int]:
         else: # else, move forward
             i += 1
     return [nums[i] for i in range(n) if nums[i] != i+1] # return all number in the list that aren't in their corresponding index
+
+# First Missing Positive LeetCode Hard
+# https://leetcode.com/problems/first-missing-positive/?envType=daily-question&envId=2024-03-26
+# TC: O(n), SC: O(1)
+# thought at it for 15 mins and couldn't figure it out. Started NC problem and stopped as soon as he said:
+#   "for an input array of length n, the minimum possible value in the worst case is n+1"
+# which def made it possible to use a trick, so then did the quesiton in 8 mins - very similar to the two problems above
+def firstMissingPositive(self, nums: List[int]) -> int:
+    # for an input array of length n, the minimum possible value in the worst case is n+1
+
+    # iterate through array and add items to their corrsponding index or ignore
+    n = len(nums)
+    i = 0
+    while i < n:
+        idx = nums[i] - 1
+        num = nums[i]
+        if num > 0 and num <= n and nums[idx] != num:
+            temp = nums[idx]
+            nums[idx] = num
+            nums[i] = temp
+        else:
+            i += 1
+    
+    for i in range(n):
+        if nums[i] != i+1: return i+1
+    return i+2
