@@ -94,3 +94,23 @@ def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
         else:
             curr_end = end
     return res
+
+# Meeting Schedule II LeetCode Medium
+# https://neetcode.io/problems/meeting-schedule-ii
+# Given an array of meeting time interval objects consisting of start and end times, find the minimum number of days required to schedule all meetings without any conflicts.
+# TC: O(nlogn), SC: O(n)
+def minMeetingRooms(self, intervals: List[Interval]) -> int:
+    # problem essentially asking "whats the most number of meetings occurring at a single moment?"
+    # convert meetings to list of times of type start or end
+    # iterate forward in the list and tracking the number of 'open' intervals: 
+    # every time a start time comes add 1 to the num of open intervals and every time an end time comes subtract 1
+    times = []
+    for interval in intervals:
+        times.append([interval.start, 1])
+        times.append([interval.end, -1])
+    times.sort()
+    open_intervals, maxx = 0, 0
+    for time in times:
+        open_intervals += time[1]
+        maxx = max(maxx, open_intervals)
+    return maxx
