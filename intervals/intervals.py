@@ -46,3 +46,25 @@ def merge(self, intervals: List[List[int]]) -> List[List[int]]:
             j += 1
         i = j
     return res
+
+# Non-overlapping Intervals LeetCode Medium
+# https://leetcode.com/problems/non-overlapping-intervals/description/
+# looked at solution after being stuck trying to implement recursive brute force solution for a while
+# didn't realize the trick with the end dates
+# TC: O(nlogn), SC: O(1)
+# todo review
+def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
+    #  approach: sort the intervals, and iterate forwards in ascending start time order
+    #  when two intervals over lap, delete the one that has a later end date
+    #  then compare the next value with the end date of the recent item
+    intervals.sort()
+
+    curr_end = intervals[0][1]
+    res = 0
+    for start, end in intervals[1:]:
+        if start < curr_end:
+            res += 1
+            curr_end = min(curr_end, end)
+        else:
+            curr_end = end
+    return res

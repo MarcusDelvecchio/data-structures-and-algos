@@ -401,6 +401,11 @@ def findDuplicates(self, nums: List[int]) -> List[int]:
 # thought at it for 15 mins and couldn't figure it out. Started NC problem and stopped as soon as he said:
 #   "for an input array of length n, the minimum possible value in the worst case is n+1"
 # which def made it possible to use a trick, so then did the quesiton in 8 mins - very similar to the two problems above
+# NC has a slightly dif approach where instead of swapping the nums and sending them to their corresponding index, he does the following:
+# 1. converts all neg numbers to 0
+# 2. for all numbers x, where 0 <= x <= n, flip index x to a negative
+# 3. then iterate upwards in the indices and return the first index that hasn't bee flipped
+# -- same idea but simpler than swapping. My solution is shorter though
 def firstMissingPositive(self, nums: List[int]) -> int:
     # for an input array of length n, the minimum possible value in the worst case is n+1
 
