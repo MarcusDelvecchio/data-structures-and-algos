@@ -27,11 +27,10 @@ def twoSum(self, numbers: List[int], target: int) -> List[int]:
 # 3Sum LeetCode Medium
 # https://leetcode.com/problems/3sum/description/
 # TC: O(n^2) SC: O(n)
-# the catch/trick for this problem: 3 positive integers cannot sum to 0
-# and also remember that twoSum is O(n)
-# !! much faster solution below with left/right pointer 2sum instead of dictionary
+# and also remember that sorted twoSum is O(n)
+# !! much faster solution below with left/right pointer 2sum instead of dictionary - is it that much faster?
 def threeSum(self, nums: List[int]) -> List[List[int]]:
-    nums.sort()
+    nums.sort() # sort - O(nlogn)
     res = set()
 
     for i in range(len(nums)):
@@ -46,9 +45,10 @@ def threeSum(self, nums: List[int]) -> List[List[int]]:
     return res
 
 # Better solution with left/right pointer 2sum instead of dictionary
-# TC: O(n), SC: O(n)
+# TC: O(nlogn) + O(n^2) = O(n^2)
+# SC: O(n)
 def threeSum(self, nums: List[int]) -> List[List[int]]:
-    nums.sort()
+    nums.sort() # sorting - O(nlogn)
     res = []
 
     for i in range(len(nums)):
