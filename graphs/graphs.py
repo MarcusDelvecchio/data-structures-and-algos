@@ -189,3 +189,37 @@ def orangesRotting(self, grid: List[List[int]]) -> int:
             if (row, col) not in added and grid[row][col] == 1:
                 return -1
     return time - 1 if time > 0 else 0
+
+# Walls and Gates LeetCode Medium
+# Fill each empty room with the distance to its nearest gate. If it is impossible to reach a gate, it should be filled with INF.
+# https://leetcode.com/problems/walls-and-gates/description/
+# approach: BFS on the initial gates. Doing DFS would be O(n^2)
+# TC: O(n), SC: O(n)
+# took 5 mins to come up w solution, 5 to implement and 5 to debug issues
+# takeaways. this row+r, col+c caused issues because IO kept doing row+c etc. I also did "row+c > 0" instead of ">= 0" so be careful of that
+def wallsAndGates(self, rooms: List[List[int]]) -> None:
+    q = collections.deque([])
+    rows, cols = len(rooms), len(rooms[0])
+
+    # all all gates to the queue initially
+    for row in range(rows):
+        for col in range(cols):
+            if rooms[row][col] == 0:
+                q.append((row, col))
+    
+    # performs dfs adding items and updating the values as per the distance to gate
+    distance = 1
+    while q:
+        size = len(q)
+        for _ in range(size):
+            row, col = q.popleft()
+
+            # insert all neighboring cells into the queue and update their distance values
+            for r in [-1, 0, 1]:
+                for c in [-1, 0, 1]:
+                    if (not r or not c) and (r != c) and (row+r > -1 and row+r < rows and col+c > -1 and col+c < cols) and rooms[row+r][col+c] == 2147483647:
+                        rooms[row+r][col+c] = distance
+                        q.append((row+r, col+c))
+        distance += 1
+
+    return
