@@ -15,3 +15,28 @@ def balancedStringSplit(self, s: str) -> int:
         elif s[i] == "R": count += 1
         if count == 0: res += 1
     return res
+
+# Maximum Units on a Truck LeetCode Easy
+# TC: O(nlogn)
+# cleaner solution below
+def maximumUnits(self, boxTypes: List[List[int]], truckSize: int) -> int:
+    boxTypes.sort(key= lambda x: x[1], reverse=True)
+    boxes, total, curBox = 0, 0, 0
+    while curBox < len(boxTypes) and boxes < truckSize:
+        while boxTypes[curBox][0] > 0 and boxes < truckSize:
+            total += boxTypes[curBox][1]
+            boxTypes[curBox][0] -= 1
+            boxes += 1
+        curBox += 1
+    return total
+
+# TC: O(nlogn)
+def maximumUnits(self, boxTypes: List[List[int]], truckSize: int) -> int:
+    total = 0
+    boxTypes.sort(key= lambda x: x[1], reverse=True)
+    for boxes, units in boxTypes:
+        while boxes and truckSize > 0:
+            total += units
+            boxes -= 1
+            truckSize -= 1
+    return total
