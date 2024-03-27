@@ -261,6 +261,7 @@ so if you change a value in one row it will change the same value in every row
 
 gotchas / notes
 - python lists are not hashable you must convert to tuple
+- python sets do not preserve insertion order!
 - python sorts ascending by default
 - python sorts tuples/lists by first item by default (and same w/heaps)
 - tuple object does not support item assignment —— they are immutable, you must use a list instead

@@ -221,7 +221,6 @@ def wallsAndGates(self, rooms: List[List[int]]) -> None:
                         rooms[row+r][col+c] = distance
                         q.append((row+r, col+c))
         distance += 1
-
     return
 
 # Course Schedule LeetCode Medium
@@ -229,17 +228,18 @@ def wallsAndGates(self, rooms: List[List[int]]) -> None:
 # took 19 mins. takeaways: careful with confusion with maps/dicts. Naming confused me and had to debug
 # approach: BFS. Take initial courses that don't have prereqs, add then to queue, remove them from list of prerequs of other courses. If those courses have no more prerequs, queue them.
 # TC: O(n), SC: O(n)
+# NC does this with DFS. todo redo this problem doing dfs. seems simpler
 def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-    # find courses that don't have prerequisits and add them to queue
-    # create map of neighboring courses to each course
+    # create two maps: 1. course: next courses 2. course: prerequisits
     has_prereqs = set()
     next_courses = collections.defaultdict(set)
-    prereqs = collections.defaultdict(set)
+    prereqs = collections.defaultdict(set) # turns out this can just be a number not a set of all prereqs, but it's fine
     for preReq, course in prerequisites:
         next_courses[preReq].add(course)
         prereqs[course].add(preReq)
         has_prereqs.add(course)
     
+    # get initial queue of courses that don't have prereqs
     no_prereqs = [course for course in range(numCourses) if course not in has_prereqs]
     q = collections.deque(no_prereqs)
     visited = set(no_prereqs)
@@ -250,11 +250,43 @@ def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
         for _ in range(size):
             course = q.popleft()
 
-            # remove this course as a prereq to the course
-            # and if there are no more prerequisites, queue the course
-            for next_course in next_courses[course]:
+            for next_course in next_courses[course]: # iterate through courses that the current course is a prereq of
                 prereqs[next_course].remove(course) # remove this course as prereq
                 if not len(prereqs[next_course]): # if there are no more prereqs, we can take/add this course
                     q.append(next_course)
                     visited.add(next_course)
     return len(visited) == numCourses
+
+# Course Schedule II LeetCode Medium
+# https://leetcode.com/problems/course-schedule-ii/description/
+# "Return the ordering of courses you should take to finish all courses. If there are many valid answers, return any of them. If it is impossible to finish all courses, return an empty array."
+# approach: DFS
+# TC: O(n+v) (n=nodes, v=vertices), SC: O(n)
+# approach: perform DFS and at every node, explore all nodes that are it's prerequisites, until nodes have no more prerequisites
+# if there is a cycle, we return false
+def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+    # get map of { course: prerequisites list }
+    # O(v) - worst case though v could be n^2 - each node could be dependant on every other node. So worset case is O(n^2)
+    preReq = collections.defaultdict(set)
+    for pre, course in prerequisites:
+        preReq[pre].add(course)
+
+    visited = set() # dict for determining if nodes are along the current path - used to detect cycles
+    added = set() # dict for determining if nodes have already been added to the ouhtput - memoizes courses that can be/are complete
+    res = [] # res set (not that this)
+    def dfs(course):
+        if course in visited: return True
+        if course in added: return
+        visited.add(course)
+        for pre in preReq[course]:
+            if dfs(pre): return True
+        visited.remove(course)
+        added.add(course) # add course to added - memoize solution that we can complete it so we don't explore children again
+        res.append(course) # add course to res
+
+    # attempt to complete each node.
+    # O(n+v)
+    for course in range(numCourses):
+        if dfs(course): return []
+
+    return res if len(res) == numCourses else []

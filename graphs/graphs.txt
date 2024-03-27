@@ -2,6 +2,13 @@ revevant algorithms
 as per http://youtu.be/utDu3Q7Flrw
 
 DFS
+    Graph DFS is O(E + V) where E = edges and V = vertices
+    
+    "Very simplified without much formality: every edge is considered exactly twice, and every node is processed exactly once, 
+    so the complexity has to be a constant multiple of the number of edges as well as the number of vertices"
+
+    O(V) to visit every node
+    and in total, across all nodes, every edge is visited twice (from both nodes), giving O(2E) = O(E)
 BFS
 union-find
     - number of connected components (in undirected)
