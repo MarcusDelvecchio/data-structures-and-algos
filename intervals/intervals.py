@@ -97,6 +97,7 @@ def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
 
 # Meeting Schedule II LeetCode Medium
 # https://neetcode.io/problems/meeting-schedule-ii
+# https://leetcode.com/problems/meeting-rooms-ii/submissions/1215611418/
 # Given an array of meeting time interval objects consisting of start and end times, find the minimum number of days required to schedule all meetings without any conflicts.
 # TC: O(nlogn), SC: O(n)
 # took like 17 mins and the first ~12 was coming up with the approach/solution

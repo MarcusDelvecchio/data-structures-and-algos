@@ -223,3 +223,38 @@ def wallsAndGates(self, rooms: List[List[int]]) -> None:
         distance += 1
 
     return
+
+# Course Schedule LeetCode Medium
+# https://leetcode.com/problems/course-schedule/
+# took 19 mins. takeaways: careful with confusion with maps/dicts. Naming confused me and had to debug
+# approach: BFS. Take initial courses that don't have prereqs, add then to queue, remove them from list of prerequs of other courses. If those courses have no more prerequs, queue them.
+# TC: O(n), SC: O(n)
+def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
+    # find courses that don't have prerequisits and add them to queue
+    # create map of neighboring courses to each course
+    has_prereqs = set()
+    next_courses = collections.defaultdict(set)
+    prereqs = collections.defaultdict(set)
+    for preReq, course in prerequisites:
+        next_courses[preReq].add(course)
+        prereqs[course].add(preReq)
+        has_prereqs.add(course)
+    
+    no_prereqs = [course for course in range(numCourses) if course not in has_prereqs]
+    q = collections.deque(no_prereqs)
+    visited = set(no_prereqs)
+
+    # do bfs continually add courses that those courses are prerequists to
+    while q:
+        size = len(q)
+        for _ in range(size):
+            course = q.popleft()
+
+            # remove this course as a prereq to the course
+            # and if there are no more prerequisites, queue the course
+            for next_course in next_courses[course]:
+                prereqs[next_course].remove(course) # remove this course as prereq
+                if not len(prereqs[next_course]): # if there are no more prereqs, we can take/add this course
+                    q.append(next_course)
+                    visited.add(next_course)
+    return len(visited) == numCourses
