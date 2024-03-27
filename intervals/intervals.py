@@ -99,6 +99,7 @@ def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:
 # https://neetcode.io/problems/meeting-schedule-ii
 # Given an array of meeting time interval objects consisting of start and end times, find the minimum number of days required to schedule all meetings without any conflicts.
 # TC: O(nlogn), SC: O(n)
+# took like 17 mins and the first ~12 was coming up with the approach/solution
 def minMeetingRooms(self, intervals: List[Interval]) -> int:
     # problem essentially asking "whats the most number of meetings occurring at a single moment?"
     # convert meetings to list of times of type start or end
@@ -114,3 +115,55 @@ def minMeetingRooms(self, intervals: List[Interval]) -> int:
         open_intervals += time[1]
         maxx = max(maxx, open_intervals)
     return maxx
+
+# Minimum Interval to Include Each Query LeetCode Hard
+# https://leetcode.com/problems/minimum-interval-to-include-each-query/description/
+# You are given an integer array queries. The answer to the jth query is the size of the smallest interval such that j falls insside that interval
+# shit took like an hour but got it
+# approach: add open intervals into a heap by their size (smallest at the top)
+# for every interval we are about to add, pop any closed intervals from the heap and use the smallest (heap min) interval from the top as
+# the answer for all of the queries up to this point
+# then continue and push more intervals to the heap as we iterate forward
+# TC: O(nlogn) -> for sorting and for logn heap operations for n items worst case
+# SC: O(n)
+# todo rewrite the question iterating on the queries rather than the intervals. Probably will poroduce a solution 5x cleaner
+def minInterval(self, intervals: List[List[int]], queries: List[int]) -> List[int]:
+    res = [-1]*len(queries)
+
+    # min-heap for containin intervals that are currently open where min heap items are [interval_size, intervel_end_point]
+    open_intervals = []
+
+    # sort this list
+    intervals.sort()
+
+    # create new queries list with initial indices so that we can sort the queries
+    sorted_queries = []
+    for i in range(len(queries)):
+        sorted_queries.append([queries[i], i])
+    queries = sorted(sorted_queries) # sort the queries
+    intervals.append([float('inf'), -1])
+
+    # iterate through intervals, appending open intervals to heap
+    q = 0
+    for start, end in intervals:
+        # handle any queries that are to be performed before this interval opens
+        while q < len(queries) and queries[q][0] < start and open_intervals:
+            query_idx = queries[q][1]
+
+            # pop intervals that are expired
+            while open_intervals and open_intervals[0][1] < queries[q][0]:
+                hq.heappop(open_intervals)
+
+            # use the current smallest interval for as many queries that come before the next interval start
+            while open_intervals and q < len(queries) and open_intervals[0][1] >= queries[q][0] and queries[q][0] < start:
+                query_idx = queries[q][1]
+                res[query_idx] = open_intervals[0][0]
+                q += 1
+        
+        # increase query number while queries are in the past
+        while q < len(queries) and queries[q][0] < start:
+            q += 1
+        
+        # add newly opened interveral to heap based on size
+        hq.heappush(open_intervals, [end-start+1, end])
+    return res

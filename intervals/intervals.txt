@@ -1,2 +1,8 @@
 https://www.youtube.com/watch?v=lPmkKnvNPrw
 https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/submissions/1207675388/?envType=daily-question&envId=2024-03-18
+
+
+notes
+- drawing pictures for interval problems is the most useful way to solve them when you don't understand what approach to take
+- don't forget to destructure with "for start, end in intervals" in these problems
+- many interval problems require sorting and are thus limited to an O(nlogn) order
