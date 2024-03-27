@@ -94,6 +94,27 @@ def lengthOfLongestSubstring(self, s: str) -> int:
         right += 1
     return maxx
 
+# Subarray Product Less Than K LeetCode Medium
+# Given an array of integers nums and an integer k, return the number of contiguous subarrays where the product of all the elements in the subarray is strictly less than k.
+# https://leetcode.com/problems/subarray-product-less-than-k/description/
+# TC: O(n), SC: O(1)
+# came up with solution in like 5 but had issues with adding subarrays between left/right, so took 15-20
+def numSubarrayProductLessThanK(self, nums: List[int], k: int) -> int:
+    left, prod, res = 0, 1, 0
+    # expand the window and increase the product while we can
+    for right in range(len(nums)):
+        prod = prod*nums[right]
+
+        # if the product is too large shrink the window
+        while left <= right and prod >= k:
+            prod /= nums[left]
+            left += 1
+
+        # add all of the possible subarrays in between, which could be however many spots we could move left forward currently before it reached the right
+        res += 1 + right - left
+        right += 1
+    return res
+
 # todo cleaner approach available by doing 'for r in range(len(s))' rather than 'while right < len(s)'
 
 # Permutation in String LeetCode Medium

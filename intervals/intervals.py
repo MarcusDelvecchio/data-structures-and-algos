@@ -126,6 +126,9 @@ def minMeetingRooms(self, intervals: List[Interval]) -> int:
 # then continue and push more intervals to the heap as we iterate forward
 # TC: O(nlogn) -> for sorting and for logn heap operations for n items worst case
 # SC: O(n)
+# takeaways:
+# cam up with heap type solution in like 15/20 mins but implementation was messy esp because I dind't consider iterating on the queries
+# rather than intervals. So in the future should try to be more aware of the implementation and if it seems too complex/considering alternatives
 # todo rewrite the question iterating on the queries rather than the intervals. Probably will poroduce a solution 5x cleaner
 def minInterval(self, intervals: List[List[int]], queries: List[int]) -> List[int]:
     res = [-1]*len(queries)
