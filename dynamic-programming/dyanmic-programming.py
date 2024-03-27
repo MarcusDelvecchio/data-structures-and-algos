@@ -15,6 +15,18 @@ def min_ignore_none(a, b):
     if b == None: return a
     return max(a,b)
 
+# Jump Game LeetCode Medium
+# https://leetcode.com/problems/jump-game/description/
+# only beats 5% because I guess there is a better greedy solution rather than DP
+def canJump(self, nums: List[int]) -> bool:
+    dp = [False]*len(nums)
+    for i in range(len(nums) -1, -1, -1):
+        for j in range(nums[i]):
+            if i+j+1 > len(nums)-2 or dp[i+j+1]:
+                dp[i] = True
+                break
+    return dp[0] or len(dp) == 1
+
 # Fibonacci Number LeetCode Easy
 # calculate the nth fibonacci number
 # https://leetcode.com/problems/fibonacci-number/

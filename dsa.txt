@@ -99,3 +99,4 @@ things to remember:
 - read the question thoroughly, read examples, and ask questions
 - realize and describe your assumptions
 - #permutations > #combinations
+- space complexity of say a counter of characters/numbers is actually O(1) because characters can only be a finite number of things!!

@@ -40,3 +40,13 @@ def maximumUnits(self, boxTypes: List[List[int]], truckSize: int) -> int:
             boxes -= 1
             truckSize -= 1
     return total
+
+# Longest Palindrome LeetCode Easy
+#
+# TC: O(n), SC: O(1) -> space complexity is actually O(n) but since characters can only be A-Z/a-z is O(1)
+def longestPalindrome(self, s: str) -> int:
+    counts, ans, hasCenter = collections.Counter(s), 0, False
+    for c in counts.values():
+        if c%2 == 1: hasCenter = True # if any char count has an odd number we can have a center value
+        ans += c//2
+    return ans*2 + (1 if hasCenter else 0)
