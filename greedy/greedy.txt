@@ -1,0 +1,22 @@
+Greedy
+
+with regards to greedy vs DP approach:
+    Whenever we see optimum or maximum or minimum or larget or smallest, the first approach which should strike our mind should be Greedy or 
+    Dynamic Programming. If the problem is solvable via recursion, one should do for memoized recursion or DP else start with the brute 
+    force and reduce it to Greedy.
+
+greedy is an optimization solution. A greedy algorithm picks the best immediate choice and never reconsiders its choices.
+You should use such solutions when it seems like there is an optimization trick that can produce the best result regardless if the input.
+
+list of greedy problems:
+https://leetcode.com/list/50f6p33i/
+
+resources:
+https://leetcode.com/discuss/general-discussion/1061059/ABCs-of-Greedy
+
+
+Some popular Greedy Algorithms
+    Dijkstra’s Shortest Path
+    Kruskal’s Minimum Spanning Tree (MST)
+    Prim's Minimum Spanning tree
+    Huffman Coding
