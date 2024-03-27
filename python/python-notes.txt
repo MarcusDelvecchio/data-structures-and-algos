@@ -280,3 +280,6 @@ converting string to upper / lower
 checking if a string is alphanumeric
     s.isalnum()
 
+sorting based on a object property or certain key
+    s.sort(key=lambda x: x.prop)
+

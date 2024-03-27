@@ -1,4 +1,30 @@
 
+# given a list of SORTED intervals, this function returns whether or not there are overlapping intervals
+def canAttendMeetings(self, intervals: List[Interval]) -> bool:
+    prevEnd = intervals[0].end
+    for interval in intervals[1:]:
+        if interval.start < prevEnd:
+            return False
+        else:
+            prevEnd = end
+    return True
+
+# Meeting Schedule LeetCode Easy
+# https://neetcode.io/problems/meeting-schedule
+# given a list of UNSORTED meeting intervals determine if a person could add all meetings to their schedule without any conflicts.
+# (are there any overlapping intervals)
+# TC: O(nlogn) -> there is no better solution than just simply sorting it
+# SC: O(1)
+def canAttendMeetings(self, intervals: List[Interval]) -> bool:
+    if not intervals: return True
+    intervals.sort(key=lambda x: x.start)
+    prevEnd = intervals[0].end
+    for interval in intervals[1:]:
+        if interval.start < prevEnd:
+            return False
+        prevEnd = interval.end
+    return True
+
 # Insert Interval LeetCode Medium
 # https://leetcode.com/problems/insert-interval/description/
 # TC: O(n), SC: O(n) -> we could def do a O(1) solution but fine for now
