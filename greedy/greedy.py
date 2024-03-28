@@ -62,3 +62,20 @@ def canJump(self, nums: List[int]) -> bool:
         right = max(right, left+nums[left])
         left += 1
     return left > len(nums)-1
+
+# Jump Game II LeetCode Medium
+# https://leetcode.com/problems/jump-game-ii/description/
+# took 20 mins because edge cases but came up with solution in like 5...
+# TC: O(n), SC: O(n)
+# approach: feels like a bad explanation and don't have time: keep a left and right pointer. The right represents the current max we can get to in the current number of jumps. We continuously
+# move an 'inc' index foward and when the left reaches the inc index, the number of jumps increase
+def jump(self, nums: List[int]) -> int:
+    left, right, jumps = 0, 0, 0 # number of jumps
+    inc = 0 # when left gets to inc, the number of jumps should be increased
+    while left < len(nums) - 1:
+        right = max(right, left+nums[left])
+        if left == inc:
+            jumps += 1
+            inc = right
+        left += 1
+    return jumps
