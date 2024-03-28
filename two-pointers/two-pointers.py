@@ -70,6 +70,7 @@ def threeSum(self, nums: List[int]) -> List[List[int]]:
     return res
 
 # 3Sum Smaller LeetCode Medium
+# Given an array of n integers nums and an integer target, find the number of index triplets (with different indices) that satisfy the condition nums[i] + nums[j] + nums[k] < target
 # https://leetcode.com/problems/3sum-smaller/description/
 # TC: O(n^2), SC: (1)
 # took 15 mins
@@ -93,6 +94,26 @@ def threeSumSmaller(self, nums: List[int], target: int) -> int:
 
             # then increase p2 (but leave p3 where it has been reduced to)
             left += 1
+    return ans
+
+# 3SUM // Valid Triangle Number Leetcode Medium
+# https://leetcode.com/problems/valid-triangle-number/description/
+# Given an integer array nums, return the number of triplets chosen from the array that can make triangles if we take them as side lengths of a triangle.
+# TC: O(n^2), SC: O(n)
+# took like 20 because actually different than the above problems
+# this is just 3sum but where the third pointer must be greater than the sum of the first 2
+def triangleNumber(self, nums: List[int]) -> int:
+    nums.sort()
+    ans = 0
+    for p1 in range(len(nums)):
+        p2, p3 = p1+1, p1+2
+        while p2 < p3 and p3 < len(nums):
+            first_2_sum = nums[p1] + nums[p2]
+            while p2 < p3 and first_2_sum <= nums[p3]:
+                p2 += 1
+                first_2_sum = nums[p1] + nums[p2]
+            ans += p3-p2
+            p3 += 1
     return ans
 
 # Container With Most Water LeetCode Medium
