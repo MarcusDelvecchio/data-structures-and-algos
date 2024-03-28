@@ -17,7 +17,9 @@ def min_ignore_none(a, b):
 
 # Jump Game LeetCode Medium
 # https://leetcode.com/problems/jump-game/description/
+# TC: O(n^2)(if all of DP is False) SC: O(n)
 # only beats 5% because I guess there is a better greedy solution rather than DP
+# see better greedy solution in greedy.py
 def canJump(self, nums: List[int]) -> bool:
     dp = [False]*len(nums)
     for i in range(len(nums) -1, -1, -1):

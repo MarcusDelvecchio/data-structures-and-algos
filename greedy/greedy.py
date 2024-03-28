@@ -50,3 +50,15 @@ def longestPalindrome(self, s: str) -> int:
         if c%2 == 1: hasCenter = True # if any char count has an odd number we can have a center value
         ans += c//2
     return ans*2 + (1 if hasCenter else 0)
+
+# Jump Game LeetCode Medium
+# https://leetcode.com/problems/jump-game/description/
+# see DP solution in DP - but it is less efficient
+# T: O(n), SC: O(1)
+def canJump(self, nums: List[int]) -> bool:
+    # approach: keep track of a window of where we can jump to and keep moving left forward by one as we expand the right window as long as we can
+    left, right = 0, 0
+    while left < len(nums) and left <= right:
+        right = max(right, left+nums[left])
+        left += 1
+    return left > len(nums)-1
