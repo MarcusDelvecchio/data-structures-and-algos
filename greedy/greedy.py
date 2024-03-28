@@ -79,3 +79,19 @@ def jump(self, nums: List[int]) -> int:
             inc = right
         left += 1
     return jumps
+
+# Gas Station LeetCode Medium
+# TC: O(n), SC: O(n) but SC can eaily be reduced to O(1)
+# took like 30 and had to watch video
+# this is pretty hard
+# I had the idea of the net costs too
+def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
+    nets = [gas[i]-cost[i] for i in range(len(gas))]
+    tank = idx = 0
+    if sum(nets) < 0: return -1
+    for i in range(len(gas)):
+        tank += nets[i]
+        if tank < 0:
+            tank = 0
+            idx = i+1
+    return idx
