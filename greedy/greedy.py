@@ -1,3 +1,14 @@
+
+# Maximum 69 Number LeetCode Easy
+# https://leetcode.com/problems/maximum-69-number/
+# took 2 mins
+def maximum69Number (self, num: int) -> int:
+    # remove the first occurance of 6?
+    num = str(num)
+    for i in range(len(num)):
+        if num[i] == "6": return int(num[:i] + "9" + num[i+1:])
+    return int(num)
+
 # Minimum Sum of Four Digit Number After Splitting Digits LeetCode Easy
 # Given a number, take all of it's digits and compase 2 new numbers with the smallest possible sum
 # TC: O(1), would be O(nlogn) but array is always size 4
@@ -130,6 +141,7 @@ class Solution:
 # took 18 mins but like 5 after realizing approach
 # hint/approach: for any/every element, we want to know if ANY value to the left of it is less than it and ANY value to the right is more than it
 # TC: O(n), SC: O(n)
+# way more clever solution below
 def increasingTriplet(self, nums: List[int]) -> bool:
     largest_to_right = nums.copy()
     largest = 0
@@ -150,3 +162,49 @@ def increasingTriplet(self, nums: List[int]) -> bool:
         if smallest_to_left[i] < nums[i] < largest_to_right[i]:
             return True
     return False
+
+# mind blowing alternative better solution but probably impossible to come up in an interview
+# This is a special case of LIS. (lonest increasing subsequence)
+# LIS can be solved with O(N log M) where M is the length of sequences (generally M is N). In this question, we can set M as 3 thus the problem can be solved with O(N) with the general LIS approach.
+def increasingTriplet(self, nums: List[int]) -> bool:
+    first = second = float('inf') 
+    for n in nums: 
+        if n <= first: 
+            first = n
+        elif n <= second:
+            second = n
+        else:
+            return True
+    return False
+
+# Make Array Zero by Subtracting Equal Amounts LeetCode Easy
+# https://leetcode.com/problems/make-array-zero-by-subtracting-equal-amounts/description/
+# TC: O(n), SC: O(n)
+# way simpler solution below
+# took 10 mins this is too slow
+def minimumOperations(self, nums: List[int]) -> int:
+    # sort the items
+    nums.sort()
+    largest = nums[-1]
+    ops = 0
+    prev = -1
+    reduction = 0
+    if sum(nums) == 0: return 0
+
+    # sum the items from smallest to largest and subtarct from the largest item as we go
+    for i in range(len(nums)):
+        val = nums[i] - reduction
+        if nums[i] != 0 and nums[i] != prev:
+            largest -= val
+            reduction += val
+            ops += 1
+            if largest <= 0:
+                return ops
+            prev = nums[i]
+
+# damn
+def minimumOperations(self, nums: List[int]) -> int:
+    if 0 in nums:
+        return len(set(nums))-1
+    else:
+        return len(set(nums))
