@@ -59,7 +59,7 @@ def maximizeSum(self, nums: List[int], k: int) -> int:
     return ans
 
 # Minimum Sum of Four Digit Number After Splitting Digits LeetCode Easy
-# Given a number, take all of it's digits and compase 2 new numbers with the smallest possible sum
+# Given a number, take all of it's digits and compose 2 new numbers with the smallest possible sum
 # TC: O(1), would be O(nlogn) but array is always size 4
 def minimumSum(self, num: int) -> int:
     nums = [c for c in str(num)]
@@ -100,6 +100,26 @@ def maximumUnits(self, boxTypes: List[List[int]], truckSize: int) -> int:
             boxes -= 1
             truckSize -= 1
     return total
+
+# Can Place Flowers LeetCode Easy
+# You have a long flowerbed in which some of the plots are planted, and some are not. However, flowers cannot be planted in adjacent plots.
+# Given an integer array flowerbed containing 0's and 1's, where 0 means empty and 1 means not empty, and an integer n, return true if n new flowers can be planted in the flowerbed without violating the no-adjacent-flowers rule and false otherwise.
+# https://leetcode.com/problems/can-place-flowers/description/
+# TC: O(n), SC: O(n)
+# took 13 mins
+def canPlaceFlowers(self, flowerbed: List[int], n: int) -> bool:
+    available, ans = collections.defaultdict(bool), 0
+    # all spots that have no 1 before or after, mark as available
+    for i in range(len(flowerbed)):
+        if flowerbed[i] == 0 and (i == 0 or flowerbed[i-1] != 1) and (i == len(flowerbed) - 1 or flowerbed[i+1] != 1):
+            available[i] = True
+    # iterate though available and mark adjacent spots as unavailable as we do so
+    for i in range(len(flowerbed)):
+        if available[i]:
+            ans += 1
+            if i < len(flowerbed)-1:
+                available[i+1] = False
+    return ans >= n
 
 # Longest Palindrome LeetCode Easy
 #
