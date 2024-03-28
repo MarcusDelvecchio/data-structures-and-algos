@@ -182,3 +182,18 @@ def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
         q.append(nums[end])
         res.append(q[0])
     return res
+
+# Length of Longest Subarray With at Most K Frequency LeetCode Medium
+# https://leetcode.com/problems/length-of-longest-subarray-with-at-most-k-frequency/description/?envType=daily-question&envId=2024-03-28
+# TC: O(n), SC: O(n)
+def maxSubarrayLength(self, nums: List[int], k: int) -> int:
+    freq = collections.Counter()
+    left = max_len = 0
+    for right in range(len(nums)):
+        freq[nums[right]] += 1 # update count of right pointer item
+        # move left inward until it reaches same character so that max_freq is reduced back below k
+        while left < right and freq[nums[right]] > k:
+            freq[nums[left]] -= 1
+            left += 1
+        max_len = max(max_len, right-left+1)
+    return max_len
