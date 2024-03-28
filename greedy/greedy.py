@@ -111,6 +111,25 @@ def longestPalindrome(self, s: str) -> int:
         ans += c//2
     return ans*2 + (1 if hasCenter else 0)
 
+# Valid Palindrome II LeetCode "Easy"
+# https://leetcode.com/problems/valid-palindrome-ii/description/
+# Given a string s, return true if the s can be palindrome after deleting at most one character from it.
+# approach: two pointers; Move pointers in until chars are not equal. If not equal, either could be removed (i.e., "skipped") and moved forward once for free
+# so we take the two possible strings that could be made up from removing the char at either pointer and return true if either is a palindrome
+# TC: O(n), SC: O(n)
+# took like 25 because didn't realize this simple approach. Was using 2ptr approach but was trying some janky logic to compare the remaining
+# of the two strings if either pointer char was skipped. Didn't realize you could just check at that point if the strings were palindromic
+def validPalindrome(self, s: str) -> bool:
+    left, right = 0, len(s)-1
+    while left <= right:
+        if s[left] != s[right]:
+            s1 = s[:left]+s[left+1:]
+            s2 = s[:right]+s[right+1:]
+            return s1==s1[::-1] or s2==s2[::-1]
+        right -= 1
+        left += 1
+    return True
+
 # Jump Game LeetCode Medium
 # https://leetcode.com/problems/jump-game/description/
 # see DP solution in DP - but it is less efficient

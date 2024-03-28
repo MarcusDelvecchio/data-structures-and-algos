@@ -284,3 +284,6 @@ checking if a string is alphanumeric
 sorting based on a object property or certain key
     s.sort(key=lambda x: x.prop)
 
+reversing a string
+    s[::-1]
+
