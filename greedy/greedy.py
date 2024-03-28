@@ -20,6 +20,18 @@ def minMovesToSeat(self, seats: List[int], students: List[int]) -> int:
         moves += abs(seats[i] - students[i])
     return moves
 
+# Maximum Sum With Exactly K Elements 
+# https://leetcode.com/problems/maximum-sum-with-exactly-k-elements/description/
+# took 3 mins becuase tried to do 1-liner
+# TC: O(n), SC: O(1)
+def maximizeSum(self, nums: List[int], k: int) -> int:
+    maxx = max(nums)
+    ans = 0
+    for i in range(k):
+        ans += maxx
+        maxx += 1
+    return ans
+
 # Minimum Sum of Four Digit Number After Splitting Digits LeetCode Easy
 # Given a number, take all of it's digits and compase 2 new numbers with the smallest possible sum
 # TC: O(1), would be O(nlogn) but array is always size 4
