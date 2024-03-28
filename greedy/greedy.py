@@ -20,6 +20,22 @@ def minMovesToSeat(self, seats: List[int], students: List[int]) -> int:
         moves += abs(seats[i] - students[i])
     return moves
 
+# Minimum Cost to Move Chips to The Same Position LeetCode Easy 
+# https://leetcode.com/problems/minimum-cost-to-move-chips-to-the-same-position/
+# 7 mins
+# TC: O(n), SC: O(1)
+# approach: all even chiups can be moved to any even position for free and same with odd. All odds can be moved next to all evens for free.
+# then whichever pile has less chips, all chips need to be moves 1 over to the next pile 
+def minCostToMoveChips(self, position: List[int]) -> int:
+    # we want to know the dif between num of even and num of odds
+    even = odd = 0
+    for pos in position:
+        if pos%2 == 0:
+            even += 1
+        else:
+            odd += 1
+    return min(odd, even)
+
 # Maximum Sum With Exactly K Elements 
 # https://leetcode.com/problems/maximum-sum-with-exactly-k-elements/description/
 # took 3 mins becuase tried to do 1-liner
