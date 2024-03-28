@@ -85,6 +85,7 @@ def jump(self, nums: List[int]) -> int:
 # took like 30 and had to watch video
 # this is pretty hard
 # I had the idea of the net costs too
+# todo this should be reviewed
 def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
     nets = [gas[i]-cost[i] for i in range(len(gas))]
     tank = idx = 0
@@ -95,3 +96,30 @@ def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
             tank = 0
             idx = i+1
     return idx
+
+# Largest Number LeetCode Medium
+# https://leetcode.com/problems/largest-number/description/
+# TC: O(n), SC: O(n)
+# custom sorting function is simple solution
+class LargerNumKey(str):
+    def __lt__(x, y):
+        # Compare x+y with y+x in reverse order to get descending order
+        return x+y > y+x
+        
+class Solution:
+    def largestNumber(self, nums: List[int]) -> str:
+
+        def compare(x, y):
+            return int(x+y) < int(y+x)
+
+        # convert to strings
+        nums = [str(num) for num in nums]
+
+        # sort items with custom sort to determine which item should come fist
+        nums.sort(key=LargerNumKey)
+
+        # combine all of the numbers
+        maximum = "".join(nums)
+
+        # return zero if the first value is "0" for any strings such as "00"
+        return "0" if maximum[0] == "0" else maximum
