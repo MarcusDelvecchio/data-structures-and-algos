@@ -123,3 +123,30 @@ class Solution:
 
         # return zero if the first value is "0" for any strings such as "00"
         return "0" if maximum[0] == "0" else maximum
+
+
+# 
+# https://leetcode.com/problems/increasing-triplet-sIncreasing Triplet Subsequence LeetCode Mediumubsequence/description/
+# took 18 mins but like 5 after realizing approach
+# hint/approach: for any/every element, we want to know if ANY value to the left of it is less than it and ANY value to the right is more than it
+# TC: O(n), SC: O(n)
+def increasingTriplet(self, nums: List[int]) -> bool:
+    largest_to_right = nums.copy()
+    largest = 0
+    # go right to left getting the largest value to the right of each element
+    for i in range(len(nums)-2, -1, -1):
+        largest = max(largest, nums[i+1])
+        largest_to_right[i] = largest
+
+    # go left to right getting the smallest value to the right of element
+    smallest_to_left = nums.copy()
+    smallest = float("inf")
+    for i in range(1, len(nums)):
+        smallest = min(smallest, nums[i-1])
+        smallest_to_left[i] = smallest
+
+    # for each element, check if the smallest on the left is less than that element and largest on right is greater
+    for i in range(len(nums)):
+        if smallest_to_left[i] < nums[i] < largest_to_right[i]:
+            return True
+    return False

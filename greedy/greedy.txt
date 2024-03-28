@@ -1,5 +1,16 @@
 Greedy
 
+on greedy difficulties:
+
+    "
+    I don’t believe there’s a high correlation between LC success and IQ provided you’re smart enough to code in 
+    the first place - unless we’re talking about greedy algorithms. I could be wrong, but they’re the only category
+    of problems whose identification I consider to be dependent on raw intelligence above all else.
+
+    Across all LC categories, I find greedies to be most akin to true logic puzzles, riddles, or brainteasers. 
+    They’re the true example of “Once you see the answer, you’ll never forget it
+    ”
+
 with regards to greedy vs DP approach:
     Whenever we see optimum or maximum or minimum or larget or smallest, the first approach which should strike our mind should be Greedy or 
     Dynamic Programming. If the problem is solvable via recursion, one should do for memoized recursion or DP else start with the brute 
@@ -8,12 +19,18 @@ with regards to greedy vs DP approach:
 greedy is an optimization solution. A greedy algorithm picks the best immediate choice and never reconsiders its choices.
 You should use such solutions when it seems like there is an optimization trick that can produce the best result regardless if the input.
 
+on recognizing when to use a greedy solution and how to implement:
+
+"Usually greedy algos require some pre processing of the input data. This could include resorting or re-ranking your input data before 
+performing the actual task. Sometimes there isn't a perfect solution so it's important to ensure "best effort" rather than taking the 
+words in the problem too seriously"
+
 list of greedy problems:
 https://leetcode.com/list/50f6p33i/
 
 resources:
 https://leetcode.com/discuss/general-discussion/1061059/ABCs-of-Greedy
-
+https://www.reddit.com/r/leetcode/comments/17s17km/really_struggling_with_greedy_algorithms/
 
 Some popular Greedy Algorithms
     Dijkstra’s Shortest Path
