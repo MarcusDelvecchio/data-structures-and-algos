@@ -9,6 +9,17 @@ def maximum69Number (self, num: int) -> int:
         if num[i] == "6": return int(num[:i] + "9" + num[i+1:])
     return int(num)
 
+# Minimum Number of Moves to Seat Everyone LeetCode Easy
+# took 5 mins but could have been 30 seconds
+# TC: O(nlogn), SC: O(1)
+def minMovesToSeat(self, seats: List[int], students: List[int]) -> int:
+    seats.sort()
+    students.sort()
+    moves = 0
+    for i in range(len(seats)):
+        moves += abs(seats[i] - students[i])
+    return moves
+
 # Minimum Sum of Four Digit Number After Splitting Digits LeetCode Easy
 # Given a number, take all of it's digits and compase 2 new numbers with the smallest possible sum
 # TC: O(1), would be O(nlogn) but array is always size 4
