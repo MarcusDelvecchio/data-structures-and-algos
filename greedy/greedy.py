@@ -1,3 +1,13 @@
+# Largest Odd Number in String LeetCode Easy
+# https://leetcode.com/problems/largest-odd-number-in-string/description/
+# took 1:30
+# a odd num will always end in an odd digit
+# iterate backwards in num until we find the rightmost odd and then return the entire num before that
+def largestOddNumber(self, num: str) -> str:
+    for i in range(len(num)-1, -1, -1):
+        if int(num[i])%2==1:
+            return num[:i+1]
+    return ""
 
 # Maximum 69 Number LeetCode Easy
 # https://leetcode.com/problems/maximum-69-number/
