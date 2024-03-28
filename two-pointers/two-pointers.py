@@ -69,6 +69,32 @@ def threeSum(self, nums: List[int]) -> List[List[int]]:
                     left += 1
     return res
 
+# 3Sum Smaller LeetCode Medium
+# https://leetcode.com/problems/3sum-smaller/description/
+# TC: O(n^2), SC: (1)
+# took 15 mins
+# algo summary: 3 pointers. first pointer starts at 0 and moves fwd, second starts at first+1 and thirs starts at end
+# algo: 1. while sum > k move third pointer in. 
+#       2. When p3 gets to when sum < k, p3 can be reduced all the way to p2 and have accepted answers, so add p3-p2 to ans
+#       3. increase p2 and repeat (p3 wil thus be forced to reduce again to make up for the increase in p2)
+#       4. when p2 gets to p3, increment p1z
+def threeSumSmaller(self, nums: List[int], target: int) -> int:
+    nums.sort()
+    ans = 0
+    for i in range(len(nums)):
+        left, right = i+1, len(nums)-1
+        while left < right:
+            threeSum = nums[i] + nums[left] + nums[right]
+            while threeSum >= target and right > left:
+                right -= 1
+                threeSum = nums[i] + nums[left] + nums[right]
+            # add all solutions for p3 being reduced to p2
+            ans += right-left
+
+            # then increase p2 (but leave p3 where it has been reduced to)
+            left += 1
+    return ans
+
 # Container With Most Water LeetCode Medium
 # https://leetcode.com/problems/container-with-most-water/
 # TC: O(n), SC: O(1)
