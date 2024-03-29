@@ -195,6 +195,24 @@ def evalRPN(self, tokens: List[str]) -> int:
             s.append(t)
     return int(s[0])
 
+# Minimum Add to Make Parentheses Valid LeetCode Medium
+# You are given a parentheses string s. In one move, you can insert a parenthesis at any position of the string.
+# Return the minimum number of moves required to make s valid.
+# https://leetcode.com/problems/minimum-add-to-make-parentheses-valid/description/
+# TC: O(n), SC: O(n)
+# took 4 mins
+def minAddToMakeValid(self, s: str) -> int:
+    stack = []
+    moves = 0
+    for c in s:
+        if c == "(":
+            stack.append("(")
+        elif stack and stack[-1] == "(":
+            stack.pop()
+        else: # not stack or stack[-1] == ")"
+            moves += 1
+    return moves + len(stack)
+
 # Daily Temperatures LeetCode Medium
 # https://leetcode.com/problems/daily-temperatures/
 # TC: O(n), SC: O(n)
