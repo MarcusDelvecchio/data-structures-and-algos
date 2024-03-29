@@ -114,6 +114,24 @@ def maximizeSum(self, nums: List[int], k: int) -> int:
         maxx += 1
     return ans
 
+# Minimum Adjacent Swaps to Make a Valid Array LeetCode Medium
+# Given an integer array nums where swaps of adjacent elements are able to be performed on nums.
+# Return the minimum swaps required so that (one of) the largest value is at the end
+# and (one of) the smallest is at the beginning
+# https://leetcode.com/problems/minimum-adjacent-swaps-to-make-a-valid-array/description/
+# took 5 mins
+# TC: O(n), SC: O(1)
+def minimumSwaps(self, nums: List[int]) -> int:
+    maxx, minn = max(nums), min(nums)
+    max_idx, min_idx = 0, float('inf')
+    for idx, num in enumerate(nums):
+        if num == maxx and idx > max_idx:
+            max_idx = idx
+        elif num == minn and idx < min_idx:
+            min_idx = idx
+    # return distance of largest from right + distance of smallest from left - 1 IF left is greater than right (becuase then we swap BOTH)
+    return (len(nums)-1-max_idx) + min_idx + (-1 if min_idx > max_idx else 0)
+
 # Split a String in Balanced Strings LeetCode Easy
 # 
 def balancedStringSplit(self, s: str) -> int:
@@ -181,6 +199,10 @@ def longestPalindrome(self, s: str) -> int:
 
 # Minimum Suffix Flips LeetCode Medium
 # https://leetcode.com/problems/minimum-suffix-flips/
+# Given a binary string of length n and a second binary string of length n intitially set to all zeros
+# You want to make s equal to target. In one operation, you can pick an index i where 0 <= i < n and 
+# flip all bits in the inclusive range [i, n - 1]. Flip means changing '0' to '1' and '1' to '0'.
+# Return the minimum number of operations needed to make s equal to target.
 # took 11 mins.
 # see shorter version below
 # TC: O(n), SC: O(1)
