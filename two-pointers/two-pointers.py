@@ -116,6 +116,29 @@ def triangleNumber(self, nums: List[int]) -> int:
             p3 += 1
     return ans
 
+# Count Subarrays Where Max Element Appears at Least K Times LeetCode Medium
+# You are given an integer array nums and a positive integer k.
+# Return the number of subarrays where the maximum element of nums appears at least k times in that subarray.
+# took 11 mins
+# TC: O(n), SC: O(1)
+# sliding window/2-pointers, similar to the above questions
+def countSubarrays(self, nums: List[int], k: int) -> int:
+    maxx = max(nums)
+    right = ans = 0
+    max_count = 0 if nums[0] != maxx else 1
+    for left in range(len(nums)):
+        while right < len(nums)-1 and max_count < k:
+            right += 1
+            if nums[right] == maxx:
+                max_count += 1
+        
+        # when there are at least k instances of the number, the right could be expanded all the way to the end, so account for all of those subarrays
+        if max_count >= k:
+            ans += len(nums)-1-right+1
+        if nums[left] == maxx:
+            max_count -= 1
+    return ans
+
 # Container With Most Water LeetCode Medium
 # https://leetcode.com/problems/container-with-most-water/
 # TC: O(n), SC: O(1)
