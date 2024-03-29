@@ -204,6 +204,20 @@ def minFlips(self, target: str) -> int:
             flipped = not flipped
     return ans
 
+# Minimum Number of Swaps to Make the String Balanced LeetCode Medium
+# https://leetcode.com/problems/minimum-number-of-swaps-to-make-the-string-balanced/
+# Given an even string of open/close brackets, return the minimum number of swaps to make s balanced.
+# TC: O(n), SC: O(1)
+# got lucky with this one and solved in like 5
+def minSwaps(self, s: str) -> int:
+    count = ans = 0
+    for c in s:
+        count += (1 if c == "[" else -1)
+        if count < 0:
+            ans += 1
+            count += 2
+    return ans
+
 # Valid Palindrome II LeetCode "Easy"
 # https://leetcode.com/problems/valid-palindrome-ii/description/
 # Given a string s, return true if the s can be palindrome after deleting at most one character from it.
