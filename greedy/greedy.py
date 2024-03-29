@@ -179,6 +179,31 @@ def longestPalindrome(self, s: str) -> int:
         ans += c//2
     return ans*2 + (1 if hasCenter else 0)
 
+# Minimum Suffix Flips LeetCode Medium
+# https://leetcode.com/problems/minimum-suffix-flips/
+# took 11 mins.
+# see shorter version below
+# TC: O(n), SC: O(1)
+def minFlips(self, target: str) -> int:
+    ans = 0
+    flipped = False
+    for i in range(len(target)):
+        if int(target[i]) == (1 if flipped else 0):
+            continue
+        else:
+            ans += 1
+            flipped = not flipped
+    return ans
+
+# shorter answer than above
+def minFlips(self, target: str) -> int:
+    ans = flipped = 0
+    for i in range(len(target)):
+        if int(target[i]) != int(flipped):
+            ans += 1
+            flipped = not flipped
+    return ans
+
 # Valid Palindrome II LeetCode "Easy"
 # https://leetcode.com/problems/valid-palindrome-ii/description/
 # Given a string s, return true if the s can be palindrome after deleting at most one character from it.
