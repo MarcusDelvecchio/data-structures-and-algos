@@ -1,4 +1,5 @@
 Greedy
+Greedy algorithms are the ones where at each point, you take the best possible option (the one with the lowest cost).
 
 on greedy difficulties:
 

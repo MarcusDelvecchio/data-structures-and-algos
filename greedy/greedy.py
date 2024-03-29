@@ -19,6 +19,62 @@ def maximum69Number (self, num: int) -> int:
         if num[i] == "6": return int(num[:i] + "9" + num[i+1:])
     return int(num)
 
+# Minimum Sum of Four Digit Number After Splitting Digits LeetCode Easy
+# Given a number, take all of it's digits and compose 2 new numbers with the smallest possible sum
+# TC: O(1), would be O(nlogn) but array is always size 4
+def minimumSum(self, num: int) -> int:
+    nums = [c for c in str(num)]
+    nums.sort()
+    return int(nums[0] + nums[3]) + int(nums[1] + nums[2])
+
+# Optimal Partition of String LeetCode Medium
+# https://leetcode.com/problems/optimal-partition-of-string/description/
+# Given a string s, partition the string into one or more substrings such that the characters in each substring are unique. 
+# That is, no letter appears in a single substring more than once.
+# Return the minimum number of substrings in such a partition.
+# agaiun, can't believe this is a medium. I actually struggles with a few greedy easys
+# TC: O(n), SC: O(n)
+# took 2:10
+def partitionString(self, s: str) -> int:
+    seen, subs = set(), 1
+    for c in s:
+        if c in seen:
+            subs += 1
+            seen = set([c])
+        else:
+            seen.add(c)
+    return subs
+
+# Maximum Number of Coins You Can Get LeetCode Medium
+# greedy mediums easier than LC gards
+#
+#
+#
+def maxCoins(self, piles: List[int]) -> int:
+    piles.sort()
+    left, right = 0, len(piles)-2
+    ans = 0
+    while left < right:
+        ans += piles[right]
+        right -= 2
+        left += 1
+    return ans
+
+# Minimize Maximum Pair Sum in Array LeetCode Medium
+# this medium is really easier than some of the easy greedy problems here
+# https://leetcode.com/problems/minimize-maximum-pair-sum-in-array/
+# TC: O(nlog) + O(n) = O(nlogn), SC: O(1)
+# took 4 mins
+def minPairSum(self, nums: List[int]) -> int:
+    nums.sort()
+    left, right = 0, len(nums)-1
+    max_pair = 0
+    while left < right:
+        max_pair = max(max_pair, nums[left] + nums[right])
+        left += 1
+        right -= 1
+    return max_pair
+
 # Minimum Number of Moves to Seat Everyone LeetCode Easy
 # took 5 mins but could have been 30 seconds
 # TC: O(nlogn), SC: O(1)
@@ -57,14 +113,6 @@ def maximizeSum(self, nums: List[int], k: int) -> int:
         ans += maxx
         maxx += 1
     return ans
-
-# Minimum Sum of Four Digit Number After Splitting Digits LeetCode Easy
-# Given a number, take all of it's digits and compose 2 new numbers with the smallest possible sum
-# TC: O(1), would be O(nlogn) but array is always size 4
-def minimumSum(self, num: int) -> int:
-    nums = [c for c in str(num)]
-    nums.sort()
-    return int(nums[0] + nums[3]) + int(nums[1] + nums[2])
 
 # Split a String in Balanced Strings LeetCode Easy
 # 
