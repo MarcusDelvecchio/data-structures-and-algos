@@ -167,6 +167,18 @@ def maximumUnits(self, boxTypes: List[List[int]], truckSize: int) -> int:
             truckSize -= 1
     return total
 
+# Minimum Processing Time LeetCode Medium
+# https://leetcode.com/problems/minimum-processing-time/description/
+# took like 8 mins
+# TC: O(nlogn), SC: O(1)
+def minProcessingTime(self, processorTime: List[int], tasks: List[int]) -> int:
+    tasks.sort(reverse=True)
+    processorTime.sort()
+    max_end = 0
+    for p in range(0, len(tasks), 4):
+        max_end = max(max_end, processorTime[(p+1)//4] + tasks[p])
+    return max_end
+
 # Can Place Flowers LeetCode Easy
 # You have a long flowerbed in which some of the plots are planted, and some are not. However, flowers cannot be planted in adjacent plots.
 # Given an integer array flowerbed containing 0's and 1's, where 0 means empty and 1 means not empty, and an integer n, return true if n new flowers can be planted in the flowerbed without violating the no-adjacent-flowers rule and false otherwise.
