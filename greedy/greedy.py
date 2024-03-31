@@ -417,3 +417,29 @@ def minimumOperations(self, nums: List[int]) -> int:
         return len(set(nums))-1
     else:
         return len(set(nums))
+
+# Remove K Digits LeetCode Medium - pretty tough greedy
+# Given string num representing a non-negative integer num, and an integer k, return the smallest possible integer after removing k digits from num.
+# https://leetcode.com/problems/remove-k-digits
+# TC: O(n), SC: O(n)
+#
+# took a while and had to look at principles involved in solution. But makes sense after you understand them
+# 1. If you need to remove all digits (k is as big as the number), just return "0" because you won't have anything left.
+# 2. Go through each digit of the number and if the current digit is smaller than the last digit in your "new number," throw away the last digit until it's not bigger anymore.
+# 3. Keep doing this until you've thrown away k digits or you've gone through all the digits.
+# 4. If you still have to throw away more digits (k > 0) after going through all the digits, just remove them from the end.
+# 5. The result is the smallest number you can make after all these operations. Handle any leading zeros.
+def removeKdigits(self, num: str, k: int) -> str:
+    if k == len(num): return "0"
+    ans = collections.deque([])
+    for c in num:
+        while k and ans and ans[-1] > c:
+            ans.pop()
+            k -= 1
+        ans.append(c)
+    while k:
+        ans.pop()
+        k -= 1
+    while ans and ans[0] == "0":
+        ans.popleft()
+    return "".join(ans) if ans else "0"
