@@ -13,6 +13,22 @@ def halvesAreAlike(self, s: str) -> bool:
             count_b += 1
     return count_a == count_b
 
+# Length of Last Word LeetCode Easy
+# https://leetcode.com/problems/length-of-last-word/description/
+# Given a string s consisting of words and spaces, return the length of the last word in the string. A word is a maximal substring consisting of non-space characters only.
+# TC: O(n), SC: O(1)
+# took 1 minute
+def lengthOfLastWord(self, s: str) -> int:
+    prev, length = 0, 0
+    for c in s:
+        if c == " ":
+            if length:
+                prev = length
+            length = 0
+        else:
+            length += 1
+    return length or prev
+
 # EASY
 # Is Subsequence Easy
 # Given two strings s and t, return true if s is a subsequence of t, or false otherwise.
