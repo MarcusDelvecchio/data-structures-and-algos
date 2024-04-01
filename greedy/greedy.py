@@ -540,6 +540,9 @@ def partitionLabels(self, s: str) -> List[int]:
 # edge cases:
 # ***((( should fail
 # (((*** should pass
+# wow NC has slightly better solution where you keep track of *range* of possible open_brace count, and for every wildcard option that comes you update the range of possibilities to account for the possible uses for the wildcard
+# see here https://youtu.be/QhPdNS143Qg?si=f_azInebihj_d-S7&t=448
+# TODO write better solution (don't study this one)
 def checkValidString(self, s: str) -> bool:
     open_braces = wildcards = 0
     # keeping track of (unclosed) open brace and wildcard indices so that at the end if extra open braces extist we can check if wildcards came AFTER

@@ -23,6 +23,35 @@ def numIslands(self, grid: List[List[str]]) -> int:
 
     return res
 
+# Number of Connected Components in an Undirected Graph LeetCode Medium
+# https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/description/
+# You have a graph of n nodes. You are given an integer n and an array edges where edges[i] = [ai, bi] indicates that there is an edge between ai and bi in the graph.
+# Return the number of connected components in the graph.
+# took 3 mins
+# TC: O(n + V) where v = vertices, n = nodes
+def countComponents(self, n: int, edges: List[List[int]]) -> int:
+    seen = set()
+    neighbors = defaultdict(list)
+    # create dict of node: neighbors list
+    for edge_from, edge_to in edges:
+        neighbors[edge_from].append(edge_to)
+        neighbors[edge_to].append(edge_from)
+    
+    # explore node and neighbors until all seen
+    def dfs(node):
+        for neighbor in neighbors[node]:
+            if neighbor not in seen:
+                seen.add(neighbor)
+                dfs(neighbor)
+
+    # try to explore all nodes. If they haven't been explored (seen) yet it must be a new "island"/component, so add 1 to ans
+    ans = 0
+    for node in range(n):
+        if node not in seen:
+            dfs(node)
+            ans += 1
+    return ans
+
 # Clone Graph LeetCode Medium
 # https://leetcode.com/problems/clone-graph
 # TC: O(n), SC: O(n)

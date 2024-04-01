@@ -1,6 +1,8 @@
 revevant algorithms
 as per http://youtu.be/utDu3Q7Flrw
 
+also keep in mind for graphs if edges are in an adjacency list, deg(v) = 2e (the number of vertices in the adj. list is 2x the number of edges (each edge appears twice))
+
 DFS
     Graph DFS is O(E + V) where E = edges and V = vertices
     
@@ -9,6 +11,7 @@ DFS
 
     O(V) to visit every node
     and in total, across all nodes, every edge is visited twice (from both nodes), giving O(2E) = O(E)
+    so is O(N) + O(V) = O(N + V)
 BFS
 union-find
     - number of connected components (in undirected)
