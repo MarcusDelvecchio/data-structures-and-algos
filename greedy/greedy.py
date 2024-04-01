@@ -497,3 +497,36 @@ def mergeTriplets(self, triplets: List[List[int]], target: List[int]) -> bool:
         ans[1] = ans[1] or (j == target[1] and i <= target[0] and k <= target[2])
         ans[2] = ans[2] or (k == target[2] and i <= target[0] and j <= target[1])
     return ans[0] and ans[1] and ans[2]
+
+# Partition Labels LeetCode Medium
+# https://leetcode.com/problems/partition-labels/description/
+# TC: O(n), SC: O(n)
+# You are given a string s. We want to partition the string into as many parts as possible so that each letter appears in at most one part.
+def partitionLabels(self, s: str) -> List[int]:
+    indices = collections.defaultdict(collections.deque)
+
+    # create dictionary of {character: [list of indices that character appears]}
+    for idx, c in enumerate(s):
+        indices[c].append(idx)
+    
+    # iterate forward through string expdnaing the minimum index we must traverse to so that all occurances of all of the characters in the substr can be covered
+    min_idx = substr_len = 0
+    ans = []
+    for idx, c in enumerate(s):
+        substr_len += 1
+        # if we are not at the minimum index yet (or haven't set it if a new substr) we should just check if it should be further expanded or single character can be it's own substr
+        if not min_idx or idx < min_idx:
+            # check if we should increase the minimum index
+            if len(indices[c]) > 1:
+                min_idx = max(min_idx, indices[c][-1])
+                while indices[c] and indices[c][0] <= idx: # pop all lesser indices from the char: indices queue
+                    indices[c].popleft()
+            # else if there is no more occurances of the same digit and this is the first letter of the current substring, it can be it's own substr (single character) 
+            elif not min_idx:
+                ans.append(substr_len)
+                substr_len = 0
+        else: # if we have reached the min idx we can add the length to our ans and start a new substr
+            ans.append(substr_len)
+            min_idx = 0
+            substr_len = 0
+    return ans
