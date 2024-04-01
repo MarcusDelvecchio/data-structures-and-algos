@@ -451,9 +451,10 @@ def removeKdigits(self, num: str, k: int) -> str:
 # TC: O(n), SC: O()
 # took 8 mins
 # careful of edge cases, there can be duplicate numbers!
+# also realized that I thought I needed to sort but we actually didn't
 def isNStraightHand(self, hand: List[int], groupSize: int) -> bool:
     if len(hand)%groupSize != 0: return False
-    # hand.sort() we don't even need to sort!!
+    # hand.sort() we don't need to sort!!
     counts = collections.Counter(hand)
     for card in hand:
         if counts[card] == 0:
@@ -467,3 +468,22 @@ def isNStraightHand(self, hand: List[int], groupSize: int) -> bool:
             else:
                 counts[card+i] -= 1
     return True
+
+# Merge Triplets to Form Target Triplet LeetCode Medium
+# You are given a 2D integer array triplets, where triplets[i] = [ai, bi, ci] describes the ith triplet. You are also given an integer array target = [x, y, z] that describes the triplet you want to obtain.
+# To obtain target, you may apply the following operation on triplets any number of times (possibly zero): choose any two triplets and update either triplet equal to become [max(ai, aj), max(bi, bj), max(ci, cj)]
+# questions seems complex but as with many greedy problems, there is a little pattern/idea that can be used as a simple approach to solving the problem
+# the question basically boils down to: given the target triplet [i,j,k], do there exist triplets containing any of the i,j,k values (in the correct indices) where the other two values in the triplet do *not exceed* the other two valules in the target?
+# intuitively, this makes sense. If we want to apply the operation on a triplet that may have an i, j, or k that we want, we cannot use that triplet if any of it's values exceed our target
+# took 8 mins
+# TC: O(n), SC: O(1)
+def mergeTriplets(self, triplets: List[List[int]], target: List[int]) -> bool:
+    ans = [False, False, False]
+    for i,j,k in triplets:
+        if i == target[0] and j <= target[1] and k <= target[2]:
+            ans[0] = True
+        if j == target[1] and i <= target[0] and k <= target[2]:
+            ans[1] = True
+        if k == target[2] and i <= target[0] and j <= target[1]:
+            ans[2] = True
+    return ans[0] and ans[1] and ans[2]
