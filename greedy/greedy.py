@@ -476,14 +476,24 @@ def isNStraightHand(self, hand: List[int], groupSize: int) -> bool:
 # the question basically boils down to: given the target triplet [i,j,k], do there exist triplets containing any of the i,j,k values (in the correct indices) where the other two values in the triplet do *not exceed* the other two valules in the target?
 # intuitively, this makes sense. If we want to apply the operation on a triplet that may have an i, j, or k that we want, we cannot use that triplet if any of it's values exceed our target
 # took 8 mins
+# my solution: https://leetcode.com/problems/merge-triplets-to-form-target-triplet/solutions/4958317/python-6-lines-simple-solution-o-n-time-o-1-space/
 # TC: O(n), SC: O(1)
 def mergeTriplets(self, triplets: List[List[int]], target: List[int]) -> bool:
     ans = [False, False, False]
     for i,j,k in triplets:
-        if i == target[0] and j <= target[1] and k <= target[2]:
+        if i == target[0] and j <= target[1] and k <= target[2]:    # if first value matches target and second/third do not exceed
             ans[0] = True
-        if j == target[1] and i <= target[0] and k <= target[2]:
+        if j == target[1] and i <= target[0] and k <= target[2]: # if second value matches target and first/third do not exceed
             ans[1] = True
-        if k == target[2] and i <= target[0] and j <= target[1]:
+        if k == target[2] and i <= target[0] and j <= target[1]: # if third value matches target and first/second do not exceed
             ans[2] = True
+    return ans[0] and ans[1] and ans[2]
+
+# shorter solution
+def mergeTriplets(self, triplets: List[List[int]], target: List[int]) -> bool:
+    ans = [False, False, False]
+    for i,j,k in triplets:
+        ans[0] = ans[0] or (i == target[0] and j <= target[1] and k <= target[2])
+        ans[1] = ans[1] or (j == target[1] and i <= target[0] and k <= target[2])
+        ans[2] = ans[2] or (k == target[2] and i <= target[0] and j <= target[1])
     return ans[0] and ans[1] and ans[2]
