@@ -443,3 +443,27 @@ def removeKdigits(self, num: str, k: int) -> str:
     while ans and ans[0] == "0":
         ans.popleft()
     return "".join(ans) if ans else "0"
+
+# Hand of Straights LeetCode Medium
+# https://leetcode.com/problems/hand-of-straights/description/
+# Given an integer array hand where hand[i] is the value written on the i-th card and an integer groupSize, return true if all of the cards can be arranged into groups of sizeGroupsize
+# where all of the cards in the group are consecutive numbers (ex: 1,2,3)
+# TC: O(n), SC: O()
+# took 8 mins
+# careful of edge cases, there can be duplicate numbers!
+def isNStraightHand(self, hand: List[int], groupSize: int) -> bool:
+    if len(hand)%groupSize != 0: return False
+    # hand.sort() we don't even need to sort!!
+    counts = collections.Counter(hand)
+    for card in hand:
+        if counts[card] == 0:
+            continue
+        else:
+            counts[card] -= 1
+        # check if the next groupSize cards are in hand and if any are left
+        for i in range(1, groupSize):
+            if counts[card+i] == 0:
+                return False
+            else:
+                counts[card+i] -= 1
+    return True
