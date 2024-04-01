@@ -501,6 +501,7 @@ def mergeTriplets(self, triplets: List[List[int]], target: List[int]) -> bool:
 # Partition Labels LeetCode Medium
 # https://leetcode.com/problems/partition-labels/description/
 # TC: O(n), SC: O(n)
+# took < 15 mins
 # You are given a string s. We want to partition the string into as many parts as possible so that each letter appears in at most one part.
 def partitionLabels(self, s: str) -> List[int]:
     indices = collections.defaultdict(collections.deque)
@@ -530,3 +531,49 @@ def partitionLabels(self, s: str) -> List[int]:
             min_idx = 0
             substr_len = 0
     return ans
+
+# Valid Parenthesis String LeetCode Medium
+# https://leetcode.com/problems/valid-parenthesis-string/
+# Given a string s containing only three types of characters: '(', ')' and '*', return true if s is valid. '*' could be treated as a single right parenthesis ')' or a single left parenthesis '(' or an empty string "".
+# TC: O(n), SC: O(n)
+# took 25
+# edge cases:
+# ***((( should fail
+# (((*** should pass
+def checkValidString(self, s: str) -> bool:
+    open_braces = wildcards = 0
+    # keeping track of (unclosed) open brace and wildcard indices so that at the end if extra open braces extist we can check if wildcards came AFTER
+    unclosed_braces = [] 
+    wildcard_indices = []
+    for idx, c in enumerate(s):
+        if c == "(":
+            open_braces += 1
+            unclosed_braces.append(idx)
+        elif c == ")":
+            open_braces -= 1
+            if unclosed_braces:
+                unclosed_braces.pop()
+            if open_braces < 0:
+                if wildcards > 0:
+                    wildcards -= 1
+                    open_braces = 0
+                else:
+                    return False
+        else: # is "*"
+            wildcard_indices.append(idx)
+            wildcards += 1
+    
+    if open_braces == 0: return True
+    if open_braces > wildcards: return False
+
+    # cover final edge case: for all unclosed open braces check if a wildcard came after
+    # ***((( should fail
+    # (((*** should pass
+    cur_wildcard = len(wildcard_indices)-1
+    for i in range(len(unclosed_braces)-1, len(unclosed_braces)-1-open_braces, -1):
+        open_brace_idx = unclosed_braces[i]
+        if not wildcard_indices or open_brace_idx > wildcard_indices[-1]:
+            return False
+        else:
+            wildcard_indices.pop()
+    return True   
