@@ -287,3 +287,18 @@ sorting based on a object property or certain key
 reversing a string
     s[::-1]
 
+avoiding temp to swap / adjust values
+
+    we can swap variables in python without using a temp variable
+    a, b = 1, 2
+    a, b = b, a
+    print(a,b) # 2 1
+
+    this is also useful if we want to do something like:
+    temp = last                         # save last so we can set sec_last to it after
+    last = max(nums[i]+sec_last, last)  # update last using sec_last
+    sec_last = temp                     # set sec last to old last
+
+    using a single line:
+    sec_last, last = last, max(nums[i]+sec_last, last)
+

@@ -1,3 +1,38 @@
+# Climbing Stairs LeetCode Easy
+# https://leetcode.com/problems/climbing-stairs/description/
+# TC: O(n), SC: O(n)
+def climbStairs(self, n: int) -> int:
+    if n < 2: return n
+    dp = [0]*n
+    dp[0], dp[1] = 1, 2
+    for i in range(2, n):
+        dp[i] = dp[i-1] + dp[i-2]
+    return dp[n-1]
+
+# House Robber LeetCode Medium
+# https://leetcode.com/problems/house-robber/
+# using DP tabulation with INPUT ARRAY (see two-variable) below
+# TC: O(n), SC: O(1)
+def rob(self, nums: List[int]) -> int:
+    if len(nums) < 2: return max(nums)
+    nums[1] = max(nums[0], nums[1])
+    for i in range(2, len(nums)):
+        nums[i] = max(nums[i-1], nums[i] + nums[i-2])
+    return nums[-1]
+
+# House Robber two variables
+# 4 lines
+def rob(self, nums: List[int]) -> int:
+    sec_last = last = 0
+    for i in range(len(nums)):
+        sec_last, last = last, max(nums[i]+sec_last, last)
+
+        # above is equivalent to
+        # temp = last
+        # last = max(nums[i]+sec_last, last)
+        # sec_last = temp
+    return last
+
 def minimum_coins(m, coins):
     memo = {}
     memo[0] = 0
@@ -114,6 +149,7 @@ def lengthOfLIS(self, nums: List[int]) -> int:
 # took just under 15 mins
 # TC: O(n) -> for every n we simply check the solution to the previous two steps
 # SC: O(n) -> need to store an additional 'dp' list of length n
+# constant space solution BELOW (just use initial cost array)
 def minCostClimbingStairs(self, cost: List[int]) -> int:
     n = len(cost) + 1
     dp = [1000] * n
@@ -121,6 +157,28 @@ def minCostClimbingStairs(self, cost: List[int]) -> int:
     for i in range(2, n):
         dp[i] = min(dp[i-2] + cost[i-2], dp[i-1] + cost[i-1])
     return dp[-1]
+
+# Min Cost Climbing Stairs LeetCode Easy
+# TC: O(n), SC: O(1)
+def minCostClimbingStairs(self, cost: List[int]) -> int:
+    for i in range(len(cost)-3, -1, -1):
+        cost[i] += min(cost[i+1], cost[i+2])
+    return min(cost[0], cost[1])
+
+# House Robber II LeetCode Medium
+# https://leetcode.com/problems/house-robber-ii/description/
+# took like 15
+# TC: O(n), SC: O(1)
+def rob(self, nums: List[int]) -> int:
+    if len(nums) < 3: return max(nums)
+    # Since House[1] and House[n] are adjacent, they cannot be robbed together. Therefore, the problem becomes to rob either House[1]-House[n-1] or House[2]-House[n], depending on which choice offers more money. Now the problem has degenerated to the House Robber, which is already been solved.
+    ans = 0
+    for i in range(2): # perform the dp solution twice, where the i loop can also be used to shift the dp indices by 1. j either goes from 0 to len(nums)-1 or 1 to len(nums). Comparing the results
+        sec_last = last = 0
+        for j in range(i, len(nums)-(1-i)):
+            sec_last, last = last, max(nums[j]+sec_last, last)
+        ans = max(ans, last)
+    return ans
 
 # Triangle LeetCode Medium
 # Given a triangle array, return the minimum path sum from top to bottom.
