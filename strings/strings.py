@@ -13,6 +13,24 @@ def halvesAreAlike(self, s: str) -> bool:
             count_b += 1
     return count_a == count_b
 
+# Isomorphic Strings LeetCode Easy
+# https://leetcode.com/problems/isomorphic-strings
+# actually took like 8 mins
+# TC: O(n), SC: O(n)
+def isIsomorphic(self, s: str, t: str) -> bool:
+    s_counts = collections.Counter(s)
+    t_counts = collections.Counter(t)
+    mappings = {}
+
+    # ensure all letters are consistiently mapped to the same letter
+    for i in range(len(t)):
+        # validate mapping matches if one already exists and validate frequency of the chars at the same idx are the same
+        if t[i] in mappings and s[i] != mappings[t[i]] or t_counts[t[i]] != s_counts[s[i]]:
+            return False
+        else: # if mapping doesn't already exist add one
+            mappings[t[i]] = s[i]
+    return True
+
 # Length of Last Word LeetCode Easy
 # https://leetcode.com/problems/length-of-last-word/description/
 # Given a string s consisting of words and spaces, return the length of the last word in the string. A word is a maximal substring consisting of non-space characters only.
