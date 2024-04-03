@@ -258,10 +258,11 @@ def longestPalindromeSubseq(self, s: str) -> int:
 
 # Edit Distance LeetCode "Medium"
 # https://leetcode.com/problems/edit-distance/
-# TC: O(n^2), SC: O(n)
+# TC: O(n^2), SC: O(n^2)
 # 2D DP Problem very similar to LCSS
 # took like 20 mins but has to look at hints but very very simlar to LCSS (and did right afer LCSS)
 # note I left the LCS lines in there to compare
+# NOTE # dp[i+1][j+1] explained: changing either character to the other. If we do this, the characters become the same so it is esentially equal to the LCS of the remaining of both of those strings (esentially removing *both* characters)
 def minDistance(self, word1: str, word2: str) -> int:
     dp = [[0]*(len(word2)+1) for _ in range(len(word1)+1)]
 
@@ -282,6 +283,31 @@ def minDistance(self, word1: str, word2: str) -> int:
                 dp[i][j] = 1 + min(dp[i][j+1], dp[i+1][j], dp[i+1][j+1])
                 # dp[i][j] = max(dp[i][j+1], dp[i+1][j])
     return  dp[0][0]
+
+# Delete Operation for Two Strings LeetCode Medium
+# https://leetcode.com/problems/delete-operation-for-two-strings/description/
+# exact same problem as edit distance except for 1 difference:
+# you cannot replace one char with the other so you can esentially not use the cell down 1 and right one when the characters are not the same (as you can in edit distance)
+# TC: O(n^2), SC: O(n^2)
+# took 6 mins because did all the similar problems: Largest Common Subsequence (LCS), Edit Distance, Longest Palindromic Subsequence, Delete Operations
+# todo we can definitely do this with an O(n) time complexity (we only ever need two rows at a time)
+def minDistance(self, word1: str, word2: str) -> int:
+    dp = [[0]*(len(word2)+1) for _ in range(len(word1)+1)]
+
+    # initial row-ends and col-ends to empty-string delete-differences
+    for r in range(len(word1)):
+        dp[r][-1] = len(word1) - r
+    for c in range(len(word2)):
+        dp[-1][c] = len(word2) - c
+    
+    # populate our dp matrix
+    for i in range(len(word1)-1, -1, -1):
+        for j in range(len(word2)-1, -1, -1):
+            if word1[i] == word2[j]:
+                dp[i][j] = dp[i+1][j+1]
+            else:
+                dp[i][j] = 1 + min(dp[i+1][j], dp[i][j+1])
+    return dp[0][0]
 
 # Out of Boundary Paths LeetCode Medium
 # see notes in duplicate solution in backtracking.py file
