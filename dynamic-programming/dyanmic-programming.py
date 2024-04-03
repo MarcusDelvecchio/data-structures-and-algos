@@ -256,6 +256,33 @@ def longestPalindromeSubseq(self, s: str) -> int:
                 dp[i][j] = max(dp[i+1][j], dp[i][j+1])
     return dp[0][0]
 
+# Edit Distance LeetCode "Medium"
+# https://leetcode.com/problems/edit-distance/
+# TC: O(n^2), SC: O(n)
+# 2D DP Problem very similar to LCSS
+# took like 20 mins but has to look at hints but very very simlar to LCSS (and did right afer LCSS)
+# note I left the LCS lines in there to compare
+def minDistance(self, word1: str, word2: str) -> int:
+    dp = [[0]*(len(word2)+1) for _ in range(len(word1)+1)]
+
+    # initialize the ends of the rows and the ends of the cols to edit distances between empty string and each substring
+    for r in range(len(word1)):
+        dp[r][-1] = len(word1)-r
+    for c in range(len(word2)):
+        dp[-1][c] = len(word2)-c
+
+    # iterate forwards and up the 2D matrix
+    # note commented lines are the exact lines from the LCS solution (and we also don't initialize row-ends and col-ends as we do above here, in LCS they stay zero)
+    for i in range(len(word1)-1, -1, -1):
+        for j in range(len(word2)-1, -1, -1):
+            if word1[i] == word2[j]:
+                # dp[i][j] = 1 + dp[i+1][j+1]
+                dp[i][j] = dp[i+1][j+1]
+            else:
+                dp[i][j] = 1 + min(dp[i][j+1], dp[i+1][j], dp[i+1][j+1])
+                # dp[i][j] = max(dp[i][j+1], dp[i+1][j])
+    return  dp[0][0]
+
 # Out of Boundary Paths LeetCode Medium
 # see notes in duplicate solution in backtracking.py file
 def findPaths(self, m: int, n: int, maxMove: int, startRow: int, startColumn: int) -> int:
@@ -320,8 +347,7 @@ def countSquares(self, matrix: List[List[int]]) -> int:
 
 # Generate Parentheses LeetCode Medium
 # https://leetcode.com/problems/generate-parentheses/description/
-# took like 35?? idk. Had issues again because I my interpretation of the relationship between the
-# sub problems was off
+# took like 35?? idk. Had issues again because my interpretation of the relationship between the sub problems was off
 # TC: O(???) SC: O(??)
 # cleaner solution below
 def generateParenthesis(self, n: int) -> List[str]:
@@ -367,9 +393,9 @@ def coinChange(self, coins: List[int], amount: int) -> int:
     return dp[0] if dp[0] != float('inf') else -1
 
 # Sequential Digits LeetCode Medium
+# https://leetcode.com/problems/sequential-digits/
 # An integer has sequential digits if and only if each digit in the number is one more than the previous digit.
 # Return a sorted list of all the integers in the range [low, high] inclusive that have sequential digits.
-# https://leetcode.com/problems/sequential-digits/description/?envType=daily-question&envId=2024-02-02
 # not too much of dynamic pgoramming but kinda
 # this actually took like an hour I'm cheesed
 # kind of a cheap way to solve the problem as well but soft
@@ -393,7 +419,7 @@ def sequentialDigits(self, low: int, high: int) -> List[int]:
 
 # Partition Array for Maximum Sum LeetCode Medium
 # Given an integer array arr, partition the array into (contiguous) subarrays of length at most k. After partitioning, each subarray has their values changed to become the maximum value of that subarray.
-# https://leetcode.com/problems/partition-array-for-maximum-sum/description/?envType=daily-question&envId=2024-02-03
+# https://leetcode.com/problems/partition-array-for-maximum-sum/
 # bottom-up dp tabulation
 # took like 25 but had to watch a video etc still hurts my brain doing these tabulation problems
 # but we'll get there
