@@ -1,5 +1,6 @@
 # Climbing Stairs LeetCode Easy
 # https://leetcode.com/problems/climbing-stairs/description/
+# You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
 # TC: O(n), SC: O(n)
 def climbStairs(self, n: int) -> int:
     if n < 2: return n
@@ -11,6 +12,8 @@ def climbStairs(self, n: int) -> int:
 
 # House Robber LeetCode Medium
 # https://leetcode.com/problems/house-robber/
+# You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, but you cannot rob two houses thgat are directly beside each other.
+# Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
 # using DP tabulation with INPUT ARRAY (see two-variable) below
 # TC: O(n), SC: O(1)
 def rob(self, nums: List[int]) -> int:
@@ -33,6 +36,7 @@ def rob(self, nums: List[int]) -> int:
         # sec_last = temp
     return last
 
+# what problem is this?
 def minimum_coins(m, coins):
     memo = {}
     memo[0] = 0
@@ -41,7 +45,6 @@ def minimum_coins(m, coins):
             subproblem = i - coin
             if subproblem < 0:
                 continue
-                
             memo[i] = min_ignore_none(memo.get(i), memo.get(subproblem) + 1)
     return memo[m]
 
@@ -80,7 +83,7 @@ def fib(self, n: int) -> int:
     return prev_1
 
 # Pascal's Triangle II LeetCode Easy
-# Given an integer rowIndex, return the rowIndexth (0-indexed) row of the Pascal's triangle.
+# Given an integer rowIndex, return the rowIndex-th (0-indexed) row of the Pascal's triangle.
 # took like 4 mins. I think this is the best example of a dynamic programming problem so far
 # TC: O(n), SC: O(n)
 def getRow(self, rowIndex: int) -> List[int]:
@@ -91,7 +94,6 @@ def getRow(self, rowIndex: int) -> List[int]:
             new.append(dp[i] + dp[i+1])
         dp = new + [1]
     return dp
-
 
 # say m = 20, coins = [3,5,12]
 # memo looks like { 0: 0, 3: ?, 5: ?, 17: ?} -> this is why for i starts at 1?
@@ -114,20 +116,23 @@ def options(row, col):
 # coins: 2. => what is the shortest path to get to the bottom right
 
 # Longest Increasing Subsequence LeetCode Medium
-# woohoo first dp problem woohoo
 # https://leetcode.com/problems/longest-increasing-subsequence/
+# Given an integer array nums, return the length of the longest strictly increasing subsequence
+# woohoo first dp problem woohoo
 # took a little while lol
 # this is an end-to-front / bottom-up approach, see below for the other
-# approach: traverse backwards in the array and for each element, determine the length of the largest sequence that *starts* at that number
+# approach: traverse backwards in the array and for each element, determine the length of the largest sequence that *starts* at that number (and INCLUDES that number)
+# not that when we maintain our DP array, for every num in the array, we are trying to find the LIS that includes that number. So when we return a value, we will simply not just return the last computd item, becuase the LIS of that item could be 1. INstead we return the maxmimum LIS of the entire dp list
 # TC: O(n^2) SC: O(n)
 def lengthOfLIS(self, nums: List[int]) -> int:
-    memo, longest = { nums[-1]: 0 }, 1
+    # THIS IS OLD SOLUTION SEE NEWER ONES BELOW
+    dp, longest = { nums[-1]: 0 }, 1
     for i in range(len(nums) - 1, -1, -1):
         for j in range(i + 1, len(nums)):
             if nums[i] >= nums[j]: continue
-            memo[i] = max(memo.get(i, 0), memo[j] + 1)
-            longest = max(longest, memo[i] + 1)
-        if i not in memo: memo[i] = 0
+            dp[i] = max(dp.get(i, 0), dp[j] + 1)
+            longest = max(longest, dp[i] + 1)
+        if i not in dp: dp[i] = 0
     return longest
 
 # front-to-end, top-down approach
@@ -142,9 +147,19 @@ def lengthOfLIS(self, nums: List[int]) -> int:
                 dp[i] = max(dp[i], dp[j] + 1)
     return max(dp)
 
+# same approach but forward to back. For each num look backwards at all nums and determine the length of the lis that ENDS at (and includes) the current num
+def lengthOfLIS(self, nums: List[int]) -> int:
+    dp = [1]*len(nums)
+    for i in range(len(nums)):
+        for j in range(i-1, -1, -1):
+            if nums[i] <= nums[j]: continue
+            dp[i] = max(dp[i], dp[j]+1)
+    return max(dp)
+
 # Min Cost Climbing Stairs LeetCode Easy
 # https://leetcode.com/problems/min-cost-climbing-stairs/description/
-# You are given an integer array cost where cost[i] is the cost of ith step on a staircase. Once you pay the cost, you can either climb one or two steps. You can either start from the step with index 0, or the step with index 1. Return the minimum cost to reach the top of the floor.
+# You are given an integer array cost where cost[i] is the cost of ith step on a staircase. Once you pay the cost, you can either climb one or two steps. 
+# You can either start from the step with index 0, or the step with index 1. Return the minimum cost to reach the top of the floor.
 # top-down dp approach
 # took just under 15 mins
 # TC: O(n) -> for every n we simply check the solution to the previous two steps
@@ -167,6 +182,8 @@ def minCostClimbingStairs(self, cost: List[int]) -> int:
 
 # House Robber II LeetCode Medium
 # https://leetcode.com/problems/house-robber-ii/description/
+# You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed. All houses at this place are arranged in a circle.
+# That means the first house is the neighbor of the last one. Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police (you cannot rob adjacent houses)
 # took like 15
 # TC: O(n), SC: O(1)
 def rob(self, nums: List[int]) -> int:
@@ -202,10 +219,11 @@ def minimumTotal(self, triangle: List[List[int]]) -> int:
     return min(dp[-1]) 
 
 # Longest Common Subsequence LeetCode Medium
+# https://leetcode.com/problems/longest-common-subsequence/
+# https://ics.uci.edu/~eppstein/161/960229.html
+# Given two strings text1 and text2, return the length of their longest common subsequence. If there is no common subsequence, return 0
 # A 2D DP problem
 # daily problem January 25th
-# Given two strings text1 and text2, return the length of their longest common subsequence. If there is no common subsequence, return 0
-# https://leetcode.com/problems/longest-common-subsequence/submissions/1156834418/?envType=daily-question&envId=2024-01-25
 # took a couple hours becuase first 2D DP problem
 # watched the first 14 mins of https://www.youtube.com/watch?v=Ua0GhsJSlWM and was able to implement the solution he discussed
 # TC: O(n^2) SC: O(n)
@@ -215,6 +233,25 @@ def longestCommonSubsequence(self, text1: str, text2: str) -> int:
         for j in range(len(text2) - 1, -1, -1):
             if text1[i] == text2[j]:
                 dp[i][j] = dp[i+1][j+1] + 1
+            else:
+                dp[i][j] = max(dp[i+1][j], dp[i][j+1])
+    return dp[0][0]
+
+# Longest Palindromic Subsequence LeetCode Medium
+# https://leetcode.com/problems/longest-palindromic-subsequence
+# Given a string s, find the longest palindromic subsequence's length in s.
+# NOTE the subsequence does not need to be CONTIGUOUS
+# TC: O(n^2), SC: O(n)
+# took 5 mins after I figured out the trick but that was also after studying LCS
+# trick!!!: to get the longest palindromic subsequence, find the LCS between s and rev(s)
+def longestPalindromeSubseq(self, s: str) -> int:
+    s_reverse = s[::-1]
+    dp = [[0]*(len(s)+1) for _ in range(len(s)+1)]
+
+    for i in range(len(s)-1, -1, -1):
+        for j in range(len(s)-1, -1, -1):
+            if s[i] == s_reverse[j]:
+                dp[i][j] = 1 + dp[i+1][j+1]
             else:
                 dp[i][j] = max(dp[i+1][j], dp[i][j+1])
     return dp[0][0]
@@ -254,8 +291,9 @@ def minFallingPathSum(self, matrix: List[List[int]]) -> int:
     return min(matrix[0])
 
 # Count Square Submatrices with All Ones LeetCode Medium
-# DP Tabulation Approach (bottom-up)
 # https://leetcode.com/problems/count-square-submatrices-with-all-ones/description/
+# Given a m * n matrix of ones and zeros, return how many square submatrices have all ones.
+# DP Tabulation Approach (bottom-up)
 # Given a m * n matrix of ones and zeros, return how many **square** submatrices have all ones.
 # took a bit because mis understood the question
 # TC: O(n^2)

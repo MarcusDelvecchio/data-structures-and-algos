@@ -268,15 +268,23 @@ gotchas / notes
 - heapq is minheap by default, careful with flipped values when using inverted vals for max heap
 - to initialize a set with a single string value you must do set(["()"]) NOT set("()") - latter initializes set to {"(", ")"}
 
-conversions
+conversions // methods // notes
+
 converting python counter / dict of key-value pairs to a list?
 
     list(dic.items())
 
-methods
 converting string to upper / lower
     s.upper()
     s.lower()
+
+initializing 2D array
+
+    DO NOT DO THIS OR CHANGING A ROW WILL CHANGE SAME COL IN THE OTHER ROWS!!!
+    dp = [[0]*n]*m
+    
+    PROPER WAY
+    dp = [[0]*n for _ in range(m)]
 
 checking if a string is alphanumeric
     s.isalnum()
