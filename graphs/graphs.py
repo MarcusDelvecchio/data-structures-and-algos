@@ -319,3 +319,27 @@ def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int
         if dfs(course): return []
 
     return res if len(res) == numCourses else []
+
+# Word Search LeetCode Medium
+# https://leetcode.com/problems/word-search/description/
+# Given an m x n grid of characters board and a string word, return true if word exists in the grid.
+# took 10 mins and slower than 80%?
+# TC: O(n^2), SC: O(n)
+def exist(self, board: List[List[str]], word: str) -> bool:
+    rows, cols = len(board), len(board[0])
+    def dfs(row, col, idx, path):
+        if (row, col) in path or board[row][col] != word[idx]: return False
+        path.add((row, col))
+        if idx == len(word)-1: return True
+        for r in [-1, 0, 1]:
+            for c in [-1, 0, 1]:
+                if (r or c) and (not r or not c) and row+r > -1 and row+r<rows and col+c>-1 and col+c<cols:
+                    if dfs(row+r, col+c, idx+1, path):
+                        return True
+        path.remove((row, col))
+        return False
+
+    for row in range(rows):
+        for col in range(cols):
+            if dfs(row, col, 0, set()): return True
+    return False

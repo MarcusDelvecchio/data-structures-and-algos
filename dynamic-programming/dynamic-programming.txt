@@ -20,6 +20,8 @@ Dynamic programming has 3 steps:
 3. If you encounter a subproblem that’s identical to one you’ve already solved, use the previous solution instead of recalculating it.
 ———————————––––––
 
+Lol there is only 11 DP easy problems on LC the rest are med/hard
+
 this one makes less sense to me but:
 "Dynamic programming is designed such that “the optimal solution to the overall problem depends upon the optimal 
     solution to its subproblems.”
