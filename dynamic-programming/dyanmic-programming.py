@@ -378,6 +378,50 @@ def maxUncrossedLines(self, nums1: List[int], nums2: List[int]) -> int:
                 dp[i][j] = max(dp[i][j+1], dp[i+1][j])
     return dp[0][0]
 
+# Shortest Common Supersequence LeetCode Hard
+# https://leetcode.com/problems/shortest-common-supersequence/description/
+# appraoch: find the LCS (as a string, not a number) and iterate through LCS chars and populate the answer with the chars before that char in the LCS from each string
+# TC: o(n^2), SCL O(n^2)
+# took 40 mins
+def shortestCommonSupersequence(self, str1: str, str2: str) -> str:
+    # find LCS between strings - this is O(n^3) because for every index we in 2D DP matrix we store the array
+    dp = [[] for _ in range(len(str2)+1)]
+    
+    for i in range(len(str1)-1, -1, -1):
+        new_dp = [[] for _ in range(len(str2)+1)]
+        for j in range(len(str2)-1, -1, -1):
+            if str1[i] == str2[j]:
+                new_dp[j] = [str2[j]] + dp[j+1]
+            else:
+                new_dp[j] = max(new_dp[j+1], dp[j], key=len)
+        dp = new_dp
+    
+    # add values from the strings before each character in the common subsequence
+    lcs = dp[0] # note we do not need to reverse lcs because they are added in reverse order from end-to-start
+    res = ""
+    s1_idx = s2_idx = 0
+
+    # for each character in the LCS, add all characters from both strings that come before that characterer, then add that character, then move onto the next character
+    for c in lcs:
+        while s1_idx < len(str1) and str1[s1_idx] != c:
+            res += str1[s1_idx]
+            s1_idx += 1
+        while s2_idx < len(str2) and str2[s2_idx] != c:
+            res += str2[s2_idx]
+            s2_idx += 1
+        res += c
+        s1_idx += 1
+        s2_idx += 1
+    
+    # fill in the rest of either string if they have not gotten to the end
+    while s1_idx < len(str1):
+            res += str1[s1_idx]
+            s1_idx += 1
+    while s2_idx < len(str2):
+        res += str2[s2_idx]
+        s2_idx += 1
+    return res
+
 # Maximize Number of Subsequences in a String LeetCode Medium
 # https://leetcode.com/problems/maximize-number-of-subsequences-in-a-string/
 # Given a text string and a two character string "pattern", where you can insert pattern[0] or pattern[1] into text once (not both, only one, once), return the maximum number of times pattern could

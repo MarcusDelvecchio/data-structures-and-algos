@@ -267,6 +267,8 @@ gotchas / notes
 - tuple object does not support item assignment —— they are immutable, you must use a list instead
 - heapq is minheap by default, careful with flipped values when using inverted vals for max heap
 - to initialize a set with a single string value you must do set(["()"]) NOT set("()") - latter initializes set to {"(", ")"}
+- python max/min comparison. When provided lists it compares the list items left to right until it finds one that is greater or lesser
+    - so to compare lists by length don't forget key=len 
 
 conversions // methods // notes
 
