@@ -1,3 +1,18 @@
+
+# Maximum Nesting Depth of the Parentheses LeetCode Easy
+# https://leetcode.com/problems/maximum-nesting-depth-of-the-parentheses/
+# TC: O(n), SC: O(1)
+# took 1 minute 45 seconds
+def maxDepth(self, s: str) -> int:
+    open_braces = depth = 0
+    for c in s:
+        if c == "(":
+            open_braces += 1
+        elif c == ")":
+            open_braces -= 1
+        depth = max(depth, open_braces)
+    return depth
+
 # this is so easy don't even read
 # Leetcode daily Jan 12th - Determine if String Halves Are Alike Easy
 # https://leetcode.com/problems/determine-if-string-halves-are-alike/description/?envType=daily-question&envId=2024-01-12
