@@ -309,6 +309,31 @@ def minDistance(self, word1: str, word2: str) -> int:
                 dp[i][j] = 1 + min(dp[i+1][j], dp[i][j+1])
     return dp[0][0]
 
+# Maximize Number of Subsequences in a String LeetCode Medium
+# https://leetcode.com/problems/maximize-number-of-subsequences-in-a-string/
+# Given a text string and a two character string "pattern", where you can insert pattern[0] or pattern[1] into text once (not both, only one, once), return the maximum number of times pattern could
+# appear as a substring of text if you were to place it in the optimized spot
+# wordy but relatively simple esp thought it would be similar to those above but 1D and simpler
+# TC: O(n), SC: O(1)
+# 1. (the bulk of the solution boils down to this) find the amount of time pattern appears in text by default
+# 2. either add the first (pattern[0]) to the beginning or the second (pattern[1]) to the end, whichever would create more subsequences, which depends on whichever other character appears more. If second appears more, we add first, otherwise second (intuitive)
+# if the same, doesn't matter
+# took 17 mins but wiring lots of commends
+def maximumSubsequenceCount(self, text: str, pattern: str) -> int:
+    # don't even need a dp array!
+
+    # work backwards, tracking the total occurances of pattern in text
+    # and the overall count of pattern[0] vs patteern[1]
+    total, num_of_As, num_of_Bs = 0, 0, 0
+    for i in range(len(text)-1, -1, -1):
+        if text[i] == pattern[0]:
+            total += num_of_Bs
+            num_of_As += 1
+        if text[i] == pattern[1]:
+            num_of_Bs += 1
+    
+    return total + max(num_of_As, num_of_Bs)
+
 # Out of Boundary Paths LeetCode Medium
 # see notes in duplicate solution in backtracking.py file
 def findPaths(self, m: int, n: int, maxMove: int, startRow: int, startColumn: int) -> int:
