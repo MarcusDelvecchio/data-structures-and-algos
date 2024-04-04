@@ -284,6 +284,28 @@ def minDistance(self, word1: str, word2: str) -> int:
                 # dp[i][j] = max(dp[i][j+1], dp[i+1][j])
     return  dp[0][0]
 
+# One Edit Distance LeetCode Medium
+# https://leetcode.com/problems/one-edit-distance/description/
+# TC: O(n*3) = O(n) SC: O(n)
+# took a while and got TLE. This problem is different in that it doesn't accept O(n^2) solutions
+# see invalid solutions in invalid-solutions.py
+# trying to write a more efficient solution but pretty tough
+def isOneEditDistance(self, s: str, t: str) -> bool:
+    if not s or not t: return len(s) == 1 or len(t) == 1
+    dp = [len(s)-i for i in range(len(s)+1)]
+
+    # populate 2D matrix with True/False values whether the substrings are 1 edit distance away
+    for i in range(len(t)-1,-1,-1):
+        new_dp = [0]*len(s) + [len(t)-i]
+        for j in range(len(s)-1,-1,-1):
+            if abs(i-j) > 1: continue
+            if t[i] == s[j]:
+                new_dp[j] = dp[j+1]
+            else:
+                new_dp[j] = 1 + min(dp[j], new_dp[j+1], dp[j+1])
+        dp = new_dp
+    return dp[0] == 1 
+
 # Delete Operation for Two Strings LeetCode Medium
 # https://leetcode.com/problems/delete-operation-for-two-strings/description/
 # exact same problem as edit distance except for 1 difference:
