@@ -255,6 +255,7 @@ def minSwaps(self, s: str) -> int:
 # Valid Palindrome II LeetCode "Easy"
 # https://leetcode.com/problems/valid-palindrome-ii/description/
 # Given a string s, return true if the s can be palindrome after deleting at most one character from it.
+# note this is also very similar to the below problem
 # approach: two pointers; Move pointers in until chars are not equal. If not equal, either could be removed (i.e., "skipped") and moved forward once for free
 # so we take the two possible strings that could be made up from removing the char at either pointer and return true if either is a palindrome
 # TC: O(n), SC: O(n)
@@ -270,6 +271,28 @@ def validPalindrome(self, s: str) -> bool:
         right -= 1
         left += 1
     return True
+
+# One Edit Distance LeetCode Medium
+# https://leetcode.com/problems/one-edit-distance/description/
+# TC: O(max(s, t)) = O(n), SC: O(max(s, t)) = O(n)
+# took 10 mins. I initially used 2D DP solution similar to calculate-edit-distance, but realized that was overkill
+# not really greedy but putting here because similar to above
+# also note you could definitely do this problem with pointers instead of storing the entire rest of the string
+# for constant space TODO
+# | a note on this problem
+# | note that insert and replace is covered (at the point when characters are not the same) by either skipping
+# | the current charcater in *one string but not the other* (to 'delete' that character), or by skipping
+# | the character in *both strings* (to 'replace' one char with the other so both strings continue)
+# | also note that insert is covered by the delete use case because if we need to insert a character to make them
+# | the same it is the same thing as deleting that character from the other string
+def isOneEditDistance(self, s: str, t: str) -> bool:
+    for i in range(min(len(s), len(t))):
+        if s[i] != t[i]:
+            skip_s_char = s[i+1:] # if we ignore the character in s
+            skip_t_char = t[i+1:] # if we ignore the character in t
+            # remove char from s == t OR remove char t == s OR remove char from both (replace one with other) makes them eq
+            return skip_s_char == t[i:] or skip_t_char == s[i:] or skip_s_char == skip_t_char
+    return abs(len(s) - len(t)) == 1 # if no differences, the difference in length must be one for one-edit distance
 
 # Jump Game LeetCode Medium
 # https://leetcode.com/problems/jump-game/description/
@@ -325,7 +348,7 @@ class LargerNumKey(str):
     def __lt__(x, y):
         # Compare x+y with y+x in reverse order to get descending order
         return x+y > y+x
-            
+
 class Solution:
     def largestNumber(self, nums: List[int]) -> str:
 

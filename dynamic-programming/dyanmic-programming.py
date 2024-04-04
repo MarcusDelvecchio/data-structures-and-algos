@@ -285,8 +285,10 @@ def minDistance(self, word1: str, word2: str) -> int:
     return  dp[0][0]
 
 # One Edit Distance LeetCode Medium
+# note even though similar to above can be done without DP (think about it) see solution in greedy.py
 # https://leetcode.com/problems/one-edit-distance/description/
 # TC: O(n*3) = O(n) SC: O(n)
+# note that this can probably be done in O(n) with two pointers
 # took a while and got TLE. This problem is different in that it doesn't accept O(n^2) solutions
 # see invalid solutions in invalid-solutions.py
 # trying to write a more efficient solution but pretty tough
