@@ -358,6 +358,26 @@ def minimumDeleteSum(self, s1: str, s2: str) -> int:
                 dp[i][j] = min(dp[i+1][j] + ord(s1[i]), dp[i][j+1] + ord(s2[j]))
     return dp[0][0]
 
+# Uncrossed Lines LeetCode Medium
+# You are given two integer arrays nums1 and nums2. We write the integers of nums1 and nums2 (in the order they are given) on two separate horizontal lines.
+# We may draw connecting lines: a straight line connecting two numbers nums1[i] and nums2[j] such that: nums1[i] == nums2[j], and the line we draw does not intersect any other connecting (non-horizontal) line. Note that a connecting line cannot intersect even at the endpoints (i.e., each number can only belong to one connecting line).
+# Return the maximum number of connecting lines we can draw in this way.
+# https://leetcode.com/problems/uncrossed-lines/description/
+# this question is exact same thing as Longest Common Subsequence (LCS)
+# TC: O(nums1*nums2) = O(n^2), SC: O(nums1*nums2)
+# took 3 mins 30 seconds
+def maxUncrossedLines(self, nums1: List[int], nums2: List[int]) -> int:
+    # this is LCS
+    dp = [[0]*(len(nums2)+1) for _ in range(len(nums1)+1)]
+
+    for i in range(len(nums1)-1, -1, -1):
+        for j in range(len(nums2)-1, -1, -1):
+            if nums1[i] == nums2[j]:
+                dp[i][j] = 1 + dp[i+1][j+1]
+            else:
+                dp[i][j] = max(dp[i][j+1], dp[i+1][j])
+    return dp[0][0]
+
 # Maximize Number of Subsequences in a String LeetCode Medium
 # https://leetcode.com/problems/maximize-number-of-subsequences-in-a-string/
 # Given a text string and a two character string "pattern", where you can insert pattern[0] or pattern[1] into text once (not both, only one, once), return the maximum number of times pattern could
