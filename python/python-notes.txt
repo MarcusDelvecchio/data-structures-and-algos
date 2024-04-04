@@ -289,6 +289,9 @@ initializing 2D array
 checking if a string is alphanumeric
     s.isalnum()
 
+get the ascii value of any character
+    ascii_val = ord("s")
+
 sorting based on a object property or certain key
     s.sort(key=lambda x: x.prop)
 

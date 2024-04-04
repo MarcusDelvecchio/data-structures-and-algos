@@ -309,6 +309,31 @@ def minDistance(self, word1: str, word2: str) -> int:
                 dp[i][j] = 1 + min(dp[i+1][j], dp[i][j+1])
     return dp[0][0]
 
+# Minimum ASCII Delete Sum for Two Strings LeetCode Medium
+# Given two strings s1 and s2, return the lowest ASCII sum of deleted characters to make two strings equal.
+# https://leetcode.com/problems/minimum-ascii-delete-sum-for-two-strings/description/
+# TC: O(n^2), SC: O(n^2)
+# took 10 mins because doing above
+def minimumDeleteSum(self, s1: str, s2: str) -> int:
+    dp = [[0]*(len(s2)+1) for _ in range(len(s1)+1)]
+
+    # populate row-ends and col-ends with values to make either string equal with the other when the other is empty string
+    # notice here the difference
+    dp[-1][-1] = 0
+    for r in range(len(s1)-1, -1, -1):
+        dp[r][-1] = dp[r+1][-1] + ord(s1[r])
+    for c in range(len(s2)-1, -1, -1):
+        dp[-1][c] = dp[-1][c+1] + ord(s2[c])
+    
+    # populate dp matrix
+    for i in range(len(s1)-1, -1, -1):
+        for j in range(len(s2)-1, -1, -1):
+            if s1[i] == s2[j]:
+                dp[i][j] = dp[i+1][j+1]
+            else:
+                dp[i][j] = min(dp[i+1][j] + ord(s1[i]), dp[i][j+1] + ord(s2[j]))
+    return dp[0][0]
+
 # Maximize Number of Subsequences in a String LeetCode Medium
 # https://leetcode.com/problems/maximize-number-of-subsequences-in-a-string/
 # Given a text string and a two character string "pattern", where you can insert pattern[0] or pattern[1] into text once (not both, only one, once), return the maximum number of times pattern could
