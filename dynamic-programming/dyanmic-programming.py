@@ -318,12 +318,13 @@ def minDistance(self, word1: str, word2: str) -> int:
 # 1. (the bulk of the solution boils down to this) find the amount of time pattern appears in text by default
 # 2. either add the first (pattern[0]) to the beginning or the second (pattern[1]) to the end, whichever would create more subsequences, which depends on whichever other character appears more. If second appears more, we add first, otherwise second (intuitive)
 # if the same, doesn't matter
-# took 17 mins but wiring lots of commends
+# took 17 mins was writing lots of commends
 def maximumSubsequenceCount(self, text: str, pattern: str) -> int:
     # don't even need a dp array!
 
     # work backwards, tracking the total occurances of pattern in text
     # and the overall count of pattern[0] vs patteern[1]
+    # note num_of_As = count of occurances of pattern[0], anmd Bs = pattern[2] like (A,B)/(0,1)
     total, num_of_As, num_of_Bs = 0, 0, 0
     for i in range(len(text)-1, -1, -1):
         if text[i] == pattern[0]:

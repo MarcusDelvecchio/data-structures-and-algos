@@ -13,6 +13,28 @@ def halvesAreAlike(self, s: str) -> bool:
             count_b += 1
     return count_a == count_b
 
+# Make Three Strings Equal LeetCode Easy
+# https://leetcode.com/problems/make-three-strings-equal/
+# took 8 mins
+# TC: O(str1+str2+str3) = O(n), SC: O(1)
+def findMinimumOperations(self, s1: str, s2: str, s3: str) -> int:
+    # idea: they should all be cut to the same length and compared as we cut them down
+    # approach: while not the same, loop. If all same length and not equal, we must pop from all. If some are larger, pop form them
+    ops, s1, s2, s3 = 0, list(s1), list(s2), list(s3)
+    while s1 and s2 and s3 and (s1 != s2 or s1 != s3):
+        if len(s1) == len(s2) and len(s1) == len(s3): # if all equal pop from all
+            s1.pop()
+            s2.pop()
+            s3.pop()
+            ops += 3
+        else:
+            maxx = max(len(s1), len(s2), len(s3))
+            for s in [s1, s2, s3]:
+                if len(s) == maxx:
+                    s.pop()
+                    ops += 1
+    return ops if s1 and s2 and s3 else -1
+
 # Isomorphic Strings LeetCode Easy
 # https://leetcode.com/problems/isomorphic-strings
 # actually took like 8 mins
