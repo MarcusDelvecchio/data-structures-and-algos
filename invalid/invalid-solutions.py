@@ -123,3 +123,31 @@ def isOneEditDistance(self, s: str, t: str) -> bool:
                 new_dp[j] = 1 + dp[j]
         dp = new_dp
     return dp[0] == 1  
+
+# Subsequence With the Minimum Score LeetCode Hard
+# thought it was similar to removal/edit distance but you can only remove from one string and you have to maintain a range
+# but solution not valid
+def minimumScore(self, s: str, t: str) -> int:
+    dp = [[(-1, -1)]*(len(s)+1) for _ in range(len(t)+1)]
+
+    for r in range(len(t)):
+        dp[r][-1] = (r, len(t)-1)
+    # for c in range(len(t)):
+    #     dp[-1][c] = (-1,-1)
+
+    for i in range(len(t)-1, -1, -1):
+        for j in range(len(s)-1, -1, -1):
+            if s[j] == t[i]:
+                dp[i][j] = dp[i+1][j+1]
+            else:
+                if dp[i][j+1][1] == -1:
+                    dp[i][j] = (-1, -1)
+                elif dp[i][j+1] == (-1, -1):
+                    dp[i][j] = (-1, -1)
+                elif dp[i+1][j] == (-1, -1):
+                    dp[i][j] = (i, i)
+                else:
+                    right_dif = dp[i][j+1][1] - dp[i][j+1][0]
+                    below_dif = dp[i+1][j][1] - i
+                    dp[i][j] = (i, dp[i+1][j][1]) if below_dif < right_dif else dp[i][j+1]
+    return dp[0][0][1] - dp[0][0][0] + 1

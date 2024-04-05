@@ -381,8 +381,10 @@ def maxUncrossedLines(self, nums1: List[int], nums2: List[int]) -> int:
 # Shortest Common Supersequence LeetCode Hard
 # https://leetcode.com/problems/shortest-common-supersequence/description/
 # appraoch: find the LCS (as a string, not a number) and iterate through LCS chars and populate the answer with the chars before that char in the LCS from each string
-# TC: o(n^2), SCL O(n^2)
+# TC: O(N*M) = O(n^2), SC: O(N*m) = O(n^2)
 # took 40 mins
+# nice, this seems like the most efficient approach and cannot be optimized further. see this exact solution to mine https://leetcode.com/problems/shortest-common-supersequence/solutions/3501177/day-403-easy-lcs-0ms-100-python-java-c-explained-approach/
+# note that we don't use O(n^3) here because we handle the 2D DP tabulation matrix two rows at a time
 def shortestCommonSupersequence(self, str1: str, str2: str) -> str:
     # find LCS between strings - this is O(n^3) because for every index we in 2D DP matrix we store the array
     dp = [[] for _ in range(len(str2)+1)]

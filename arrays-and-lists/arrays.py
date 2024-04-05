@@ -339,6 +339,46 @@ def decode(self, s: str) -> List[str]:
         i = j + 1 + int(curr)
     return res
 
+# Spiral Matrix LeetCode Meidum
+# https://leetcode.com/problems/spiral-matrix/
+# TC: O(n), SC: O(1)
+# took like 40 but should have been way quicker
+def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
+    rows, cols = len(matrix), len(matrix[0])
+    ans, target_len = [], rows*cols
+    left, right, top, bottom = 0, cols-1, 0, rows-1
+
+    def addToAns(num: int):
+        ans.append(num)
+        return len(ans) == target_len
+
+    while right >= left and top <= bottom:
+
+        # iterate across the top (from left to right)
+        for i in range(left, right+1):
+            if addToAns(matrix[top][i]):
+                return ans
+        top += 1
+
+        # iterate down the right (from top to bottom)
+        for i in range(top, bottom+1):
+            if addToAns(matrix[i][right]):
+                return ans
+        right -= 1
+
+        # iterate backwards across the bottom (from right to left)
+        for i in range(right, left-1, -1):
+            if addToAns(matrix[bottom][i]):
+                return ans
+        bottom -= 1
+
+        # iterate up the left (from bottom to top)
+        for i in range(bottom, top-1, -1):
+            if addToAns(matrix[i][left]):
+                return ans
+        left += 1
+    return ans
+
 # Longest Consecutive Sequence LeetCode Medium (used to be a Hard)
 # https://leetcode.com/problems/longest-consecutive-sequence/submissions/1208792750/
 # TC O(n) SC O(n)
