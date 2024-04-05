@@ -13,6 +13,19 @@ def maxDepth(self, s: str) -> int:
         depth = max(depth, open_braces)
     return depth
 
+# Make The String Great LeetCode Medium
+# https://leetcode.com/problems/make-the-string-great/description/
+# TC: O(n), SC:O(n)
+# took like 5 mins but then realized I should use stack then took 70 seconds
+def makeGood(self, s: str) -> str:
+    res = []
+    for i in range(len(s)):
+        if res and res[-1] != s[i] and res[-1].lower() == s[i].lower():
+            res.pop()
+        else:
+            res.append(s[i])
+    return "".join(res)
+
 # this is so easy don't even read
 # Leetcode daily Jan 12th - Determine if String Halves Are Alike Easy
 # https://leetcode.com/problems/determine-if-string-halves-are-alike/description/?envType=daily-question&envId=2024-01-12
