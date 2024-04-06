@@ -25,6 +25,24 @@ def findJudge(self, n: int, trust: List[List[int]]) -> int:
             return can
     return -1
 
+# Degree of an Array LeetCode Easy
+# https://leetcode.com/problems/degree-of-an-array/description/
+# TC: O(n), SC: O(n)
+#  Given a non-empty array of non-negative integers nums, the degree of this array is defined as the maximum frequency of any one of its elements.
+# Your task is to find the smallest possible length of a (contiguous) subarray of nums, that has the same degree as nums.
+# misread the question and didn't realize edge case when multiple items can be the most common element, so we have to look for multiple subwarrays with those elements
+def findShortestSubArray(self, nums: List[int]) -> int:
+    num_indices = collections.defaultdict(list)
+    max_count = 0
+    for idx, num in enumerate(nums):
+        num_indices[num].append(idx)
+        max_count = max(max_count, len(num_indices[num]))
+    smallest_sub = float('inf')
+    for num in num_indices:
+        if len(num_indices[num]) == max_count:
+            smallest_sub = min(smallest_sub, (max(num_indices[num]) - min(num_indices[num]) + 1))
+    return smallest_sub
+
 # took about an hour but O(n+m) not not true Hard solution
 def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
     p1, p2 = 0, 0 
