@@ -316,6 +316,34 @@ def maxAbsoluteSum(self, nums: List[int]) -> int:
         largest_abs = max(largest_abs, abs(pos_sum), abs(neg_sum))
     return largest_abs
 
+# Longest Turbulent Subarray LeetCode Medium
+# https://leetcode.com/problems/longest-turbulent-subarray
+# TC: O(n), SC: O(1)
+# similar to above
+# ugly solution
+def maxTurbulenceSize(self, arr: List[int]) -> int:
+    if len(arr) == 1: return 1
+    if len(arr) == 2: return 1 if arr[0] == arr[1] else 2
+    expectingGreater = None
+    max_len = curr_len = 1
+    for i, num in enumerate(arr):
+        if i == 0: continue
+        if expectingGreater == None:
+            expectingGreater = arr[i] < arr[i-1]
+            if arr[i] != arr[i-1]:
+                curr_len = 2
+        elif arr[i-1] == arr[i]:
+            curr_len = 1
+            expectingGreater = None 
+        elif expectingGreater == bool(arr[i] > arr[i-1]):
+            curr_len += 1
+            expectingGreater = not expectingGreater
+        else:
+            curr_len = 2
+            expectingGreater = arr[i] < arr[i-1]
+        max_len = max(max_len, curr_len)
+    return max_len
+
 # One Edit Distance LeetCode Medium
 # https://leetcode.com/problems/one-edit-distance/description/
 # TC: O(max(s, t)) = O(n), SC: O(max(s, t)) = O(n)
