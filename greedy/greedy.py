@@ -407,6 +407,28 @@ def maxProduct(self, nums: List[int]) -> int:
             max_prod = max(max_prod, right_product, left_product)
     return max_prod
 
+# two-pass version that does exactly the same thing but no need to split items
+# edge cases/factors to keep in mind: negative numbers and zeros
+def maxProduct(self, nums: List[int]) -> int:
+    currentProduct = 1
+    maxProduct = float('-inf')
+
+    # forwards
+    for num in nums:
+        currentProduct *= num
+        maxProduct = max(maxProduct, currentProduct, num)
+        if currentProduct == 0:
+            currentProduct = num
+
+    # backwards
+    currentProduct = 1
+    for num in nums[::-1]:
+        currentProduct *= num
+        maxProduct = max(maxProduct, currentProduct)
+        if currentProduct == 0:
+            currentProduct = num
+    return maxProduct
+
 # One Edit Distance LeetCode Medium
 # https://leetcode.com/problems/one-edit-distance/description/
 # TC: O(max(s, t)) = O(n), SC: O(max(s, t)) = O(n)
