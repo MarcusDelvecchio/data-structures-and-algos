@@ -9,6 +9,24 @@ def largestOddNumber(self, num: str) -> str:
             return num[:i+1]
     return ""
 
+# K Items With the Maximum Sum LeetCode Easy
+# https://leetcode.com/problems/k-items-with-the-maximum-sum/description/
+# TC: O(n), SC: O(1)
+def kItemsWithMaximumSum(self, numOnes: int, numZeros: int, numNegOnes: int, k: int) -> int:
+    ans = 0
+    while k > 0 and numOnes > 0:
+        ans += 1
+        k -= 1
+        numOnes -= 1
+    while k > 0 and numZeros > 0:
+        k -= 1
+        numZeros -= 1
+    while k > 0 and numNegOnes > 0:
+        ans -= 1
+        k -= 1
+        numNegOnes -= 1
+    return ans
+
 # Maximum 69 Number LeetCode Easy
 # https://leetcode.com/problems/maximum-69-number/
 # took 2 mins
