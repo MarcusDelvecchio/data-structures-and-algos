@@ -280,6 +280,7 @@ def validPalindrome(self, s: str) -> bool:
 # but at first I stared at this question for like 5 mins not getting it and thinking there was some
 # special DP trick. But once you realize how simple it is, the question is really a Medium
 # if it was an Easy I would have probably gotten it sooner because of how complicated I expected it to be
+# see Kadane's algorithm
 def maxSubArray(self, nums: List[int]) -> int:
     maxx, curr = -float('inf'), 0
     for num in nums:
@@ -288,6 +289,32 @@ def maxSubArray(self, nums: List[int]) -> int:
         if curr < 0:
             curr = 0
     return maxx
+
+# Maximum Absolute Sum of Any Subarray LeetCode Medium
+# see even more simplified version below but WAY less readable/inuitive
+# very similar to above question
+# TC: O(n), SC: O(1)
+# see Kadane's algorithm
+def maxAbsoluteSum(self, nums: List[int]) -> int:
+    neg_sum = pos_sum = largest_abs = 0
+    for num in nums:
+        neg_sum += num
+        pos_sum += num
+        if neg_sum > 0:
+            neg_sum = 0
+        if pos_sum < 0:
+            pos_sum = 0
+        largest_abs = max(largest_abs, abs(pos_sum), abs(neg_sum))
+    return largest_abs
+
+# even more simplified
+def maxAbsoluteSum(self, nums: List[int]) -> int:
+    neg_sum = pos_sum = largest_abs = 0
+    for num in nums:
+        neg_sum = min(neg_sum + num, 0)
+        pos_sum = max(pos_sum+num, 0)
+        largest_abs = max(largest_abs, abs(pos_sum), abs(neg_sum))
+    return largest_abs
 
 # One Edit Distance LeetCode Medium
 # https://leetcode.com/problems/one-edit-distance/description/
