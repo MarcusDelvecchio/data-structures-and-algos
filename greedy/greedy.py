@@ -272,6 +272,23 @@ def validPalindrome(self, s: str) -> bool:
         left += 1
     return True
 
+# Maximum Subarray LeetCode Medium
+# https://leetcode.com/problems/maximum-subarray/description/
+# TC: O(n), SC: O(1)
+# took like 10 mins to think about but 1 minute after realizing approach
+# one of those questions where when you realize the approach it is easy.
+# but at first I stared at this question for like 5 mins not getting it and thinking there was some
+# special DP trick. But once you realize how simple it is, the question is really a Medium
+# if it was an Easy I would have probably gotten it sooner because of how complicated I expected it to be
+def maxSubArray(self, nums: List[int]) -> int:
+    maxx, curr = -float('inf'), 0
+    for num in nums:
+        curr += num
+        maxx = max(maxx, curr)
+        if curr < 0:
+            curr = 0
+    return maxx
+
 # One Edit Distance LeetCode Medium
 # https://leetcode.com/problems/one-edit-distance/description/
 # TC: O(max(s, t)) = O(n), SC: O(max(s, t)) = O(n)
