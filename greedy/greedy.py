@@ -344,6 +344,69 @@ def maxTurbulenceSize(self, arr: List[int]) -> int:
         max_len = max(max_len, curr_len)
     return max_len
 
+# Maximum Product Subarray LeetCode Medium
+# https://leetcode.com/problems/maximum-product-subarray/submissions/1225192552/
+# Given an integer array nums, find a  subarray that has the largest product, and return the product. The test cases are generated so that the answer will fit in a 32-bit integer.
+# so merked, look out for odd/even number of negatives and zeros
+# approach: split array where zeros occur and then trim either the trailing/leading subarray upto/after the first/last nagative
+# and then compare all subarrays
+# edge cases/factors to keep in mind: negative numbers and zeros
+# this is such a merked question/solution
+# beats 99% runtime
+# took like 40 mins can't even lie
+# TC: O(n), SC: O(n)
+def maxProduct(self, nums: List[int]) -> int:
+    # compute product of entire list
+    product = 1
+    for num in nums:
+        product *= num
+
+    # if total sum is positive or length of list is 1 return total sum
+    if product > 0 or len(nums) == 1:
+        return product
+
+    # split the list where zeros occur
+    lists = []
+    curr_list = []
+    for num in nums:
+        if num != 0:
+            curr_list.append(num)
+        elif curr_list:
+            lists.append(curr_list)
+            curr_list = []
+    if curr_list:
+        lists.append(curr_list)
+
+    # for every negative subarray calculate the maximum value
+    max_prod = 0
+    for sublist in lists:
+        curr_sum = 1
+        for num in sublist:
+            curr_sum *= num
+            max_prod = max(max_prod, curr_sum)
+
+        # if the subarray product is negative, remove the left or right negative number
+        if len(sublist) == 1: continue
+        if curr_sum < 0:
+
+            # take off the subarray before (and including) the first negative
+            right_product = curr_sum
+            for num in sublist:
+                right_product //= num
+                if num < 0:
+                    break
+
+            # or take of the subarray after (and including) the last negative
+            left_product = curr_sum
+            for i in range(len(sublist)-1, -1, -1):
+                left_product //= sublist[i]
+                if sublist[i] < 0:
+                    break
+            
+            # compare the two and return the greater
+            max_prod = max(max_prod, right_product, left_product)
+    return max_prod
+
 # One Edit Distance LeetCode Medium
 # https://leetcode.com/problems/one-edit-distance/description/
 # TC: O(max(s, t)) = O(n), SC: O(max(s, t)) = O(n)
