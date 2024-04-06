@@ -249,3 +249,67 @@ def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
             finish_times.pop()
         finish_times.append(car_end_time)
     return len(finish_times)
+
+# Minimum Remove to Make Valid Parentheses LeetCode Medium
+# T: O(n), SC: O(n)
+# takeaways from this problem: I was so worried about removing the O(n) removal time so was storing indices in the recent_open list to remove later in reverse orer and checking by index
+# but a much simpler approach would just to *update* the items to be *marked* for removal and then remove them at the end
+# see a much simpler soloution below
+# but time/space complexity is the same
+def minRemoveToMakeValid(self, s: str) -> str:
+    open_braces = 0
+    ans = []
+    recent_open = []
+    for idx, c in enumerate(s):
+        if c == "(":
+            open_braces += 1
+            if open_braces > -1:
+                recent_open.append(len(ans))
+        elif c == ")":
+            open_braces -= 1
+            if open_braces > -1:
+                recent_open.pop()
+        if open_braces < 0:
+            open_braces = 0
+        else:
+            ans.append(c)
+    res = []
+    unclosed_open_idx = 0
+    for idx, num in enumerate(ans):
+        if unclosed_open_idx < len(recent_open) and idx == recent_open[unclosed_open_idx]:
+            unclosed_open_idx += 1
+        else:
+            res.append(num)
+    return "".join(res)
+
+# simpler solution to above
+# see https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/solutions/4980158/100-beat-easy-2-approaches-stack-without-stack-detailed-explanation/
+def minRemoveToMakeValid(self, s: str) -> str:
+    left_count = 0
+    right_count = 0
+    stack = []
+
+    # Pass 1 - remove (don't add to stack) handing closed braces
+    for ch in s:
+        if ch == '(':
+            left_count += 1
+        elif ch == ')':
+            right_count += 1
+        if right_count > left_count:
+            right_count -= 1
+        else:
+            stack.append(ch)
+
+    result = ""
+
+    # Pass 2 - remove unclosed open braces (in reverse)
+    while stack:
+        current_char = stack.pop()
+        if left_count > right_count and current_char == '(':
+            left_count -= 1
+        else:
+            result += current_char
+
+    # Reverse the result string
+    return result[::-1]
+

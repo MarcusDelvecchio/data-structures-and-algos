@@ -323,6 +323,15 @@ def canJump(self, nums: List[int]) -> bool:
         left += 1
     return left > len(nums)-1
 
+# above solution^ using for loop
+def canJump(self, nums: List[int]) -> bool:
+    max_jump = 0
+    for idx, num in enumerate(nums):
+        if idx > max_jump:
+            return False
+        max_jump = max(max_jump, idx + num)
+    return True
+
 # Jump Game II LeetCode Medium
 # https://leetcode.com/problems/jump-game-ii/description/
 # took 20 mins because edge cases but came up with solution in like 5...
