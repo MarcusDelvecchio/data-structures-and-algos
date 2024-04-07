@@ -742,48 +742,26 @@ def partitionLabels(self, s: str) -> List[int]:
 # Valid Parenthesis String LeetCode Medium
 # https://leetcode.com/problems/valid-parenthesis-string/
 # Given a string s containing only three types of characters: '(', ')' and '*', return true if s is valid. '*' could be treated as a single right parenthesis ')' or a single left parenthesis '(' or an empty string "".
-# TC: O(n), SC: O(n)
-# took 25
-# edge cases:
-# ***((( should fail
-# (((*** should pass
-# wow NC has slightly better solution where you keep track of *range* of possible open_brace count, and for every wildcard option that comes you update the range of possibilities to account for the possible uses for the wildcard
-# see here https://youtu.be/QhPdNS143Qg?si=f_azInebihj_d-S7&t=448
-# TODO write better solution (don't study this one)
+# TC: O(n), SC: O(1)
+# beats 99% runtime
+# be careful of edge cases here *( notable invalid testcase
+# took 20
 def checkValidString(self, s: str) -> bool:
-    open_braces = wildcards = 0
-    # keeping track of (unclosed) open brace and wildcard indices so that at the end if extra open braces extist we can check if wildcards came AFTER
-    unclosed_braces = [] 
-    wildcard_indices = []
-    for idx, c in enumerate(s):
+    min_open = max_open = 0
+    for c in s:
         if c == "(":
-            open_braces += 1
-            unclosed_braces.append(idx)
+            min_open += 1
+            max_open += 1
         elif c == ")":
-            open_braces -= 1
-            if unclosed_braces:
-                unclosed_braces.pop()
-            if open_braces < 0:
-                if wildcards > 0:
-                    wildcards -= 1
-                    open_braces = 0
-                else:
-                    return False
-        else: # is "*"
-            wildcard_indices.append(idx)
-            wildcards += 1
-    
-    if open_braces == 0: return True
-    if open_braces > wildcards: return False
-
-    # cover final edge case: for all unclosed open braces check if a wildcard came after
-    # ***((( should fail
-    # (((*** should pass
-    cur_wildcard = len(wildcard_indices)-1
-    for i in range(len(unclosed_braces)-1, len(unclosed_braces)-1-open_braces, -1):
-        open_brace_idx = unclosed_braces[i]
-        if not wildcard_indices or open_brace_idx > wildcard_indices[-1]:
+            min_open -= 1
+            max_open -= 1
+        elif c == "*":
+            max_open += 1
+            min_open -= 1
+        
+        # keep our values in range (note the importance of the second clause here)
+        if max_open < 0:
             return False
-        else:
-            wildcard_indices.pop()
-    return True   
+        if min_open < 0:
+            min_open = 0
+    return 0 >= min_open # and 0 <= max_open
