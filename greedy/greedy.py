@@ -449,7 +449,7 @@ def maxProduct(self, nums: List[int]) -> int:
 
 # One Edit Distance LeetCode Medium
 # https://leetcode.com/problems/one-edit-distance/description/
-# TC: O(max(s, t)) = O(n), SC: O(max(s, t)) = O(n)
+# TC: O(max(s, t)) = O(n), SC: O(max(s, t)) = O(n) (but it actually could easily be done in O(1) by iterating through items rather than using s[x:y] syntax (duplicating string))
 # took 10 mins. I initially used 2D DP solution similar to calculate-edit-distance, but realized that was overkill
 # not really greedy but putting here because similar to above
 # also note you could definitely do this problem with pointers instead of storing the entire rest of the string

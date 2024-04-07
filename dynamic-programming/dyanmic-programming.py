@@ -914,3 +914,22 @@ def mincostTickets(self, days: List[int], costs: List[int]) -> int:
         elif i != 364:
             dp[i] = dp[i+1]
     return dp[0]
+
+# Unique Paths II LeetCode Medium
+# https://leetcode.com/problems/unique-paths-ii/
+# TC: O(n), SC: O(1)
+# took 10 mins
+def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
+    if obstacleGrid[-1][-1] == 1: return 0
+    rows, cols = len(obstacleGrid), len(obstacleGrid[0])
+    for i in range(rows-1, -1, -1):
+        for j in range(cols-1, -1, -1):
+            if i == rows-1 and j == cols - 1:
+                obstacleGrid[i][j] = 1
+            elif obstacleGrid[i][j] == 1:
+                obstacleGrid[i][j] = 0
+            else:
+                right_paths = 0 if j == cols-1 else obstacleGrid[i][j+1]
+                below_paths = 0 if i == rows-1 else obstacleGrid[i+1][j]
+                obstacleGrid[i][j] = right_paths + below_paths
+    return obstacleGrid[0][0]
