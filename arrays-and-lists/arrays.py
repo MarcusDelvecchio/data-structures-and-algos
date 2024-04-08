@@ -159,6 +159,9 @@ def findErrorNums(self, nums: List[int]) -> List[int]:
 
 # Best Time to Buy and Sell Stock LeetCode Easy
 # https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/
+# You are given an array prices where prices[i] is the price of a given stock on the ith day.
+# You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+# Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
 # thought this was going to be a O(n^2) solution because of the nature of needing to compare array elements with each other
 # but didn't realize this was not the case because of the forward-moving solution, as elements only ever need to compare themselves with ones in front
 # I actually had to watch a video for this though because I hadn't done 2 pointer solutions in a bit and was looking for a dynamic programming solution
@@ -484,3 +487,33 @@ def firstMissingPositive(self, nums: List[int]) -> int:
     for i in range(n):
         if nums[i] != i+1: return i+1
     return i+2
+
+# Palindromic Substrings LeetCode Medium
+# Given a string s, return the number of palindromic substrings in it.
+# https://leetcode.com/problems/palindromic-substrings/description/
+# took like 10 mins
+# I also like this solution and should have done something like this - break it into a function and call it twice (second with two item center) https://leetcode.com/problems/palindromic-substrings/solutions/4703811/interview-approach-3-approach-brute-force-expand-middle-dp/
+# TC: O(n^2), SC: O(1)
+def countSubstrings(self, s: str) -> int:
+    palindromes = 0
+    for idx, char in enumerate(s):
+        left = right = idx
+        pal_len = 0
+        while left >= 0 and right <= len(s) - 1:
+            if s[left] != s[right]:
+                break
+            palindromes += 1
+            left -= 1
+            right += 1
+        right = idx+1
+        if right < len(s) and s[right] == s[idx]:
+            palindromes += 1
+            left = idx - 1
+            right = right + 1
+            while left >= 0 and right <= len(s) - 1:
+                if s[left] != s[right]:
+                    break
+                palindromes += 1
+                left -= 1
+                right += 1
+    return palindromes

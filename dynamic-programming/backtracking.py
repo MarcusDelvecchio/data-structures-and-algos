@@ -3,6 +3,7 @@
 
 # Binary Tree Paths
 # https://leetcode.com/problems/binary-tree-paths/description/
+# Given the root of a binary tree, return all root-to-leaf paths in any order. A leaf is a node with no children.
 # took like 4 mins idk how it's backtracking though
 def binaryTreePaths(self, root: Optional[TreeNode]) -> List[str]:
     paths = []
@@ -19,8 +20,11 @@ def binaryTreePaths(self, root: Optional[TreeNode]) -> List[str]:
     dfs(root, "")
     return paths
 
-# Combination Sum LeetCode Medium 
+# Combination Sum LeetCode Medium
 # https://leetcode.com/problems/combination-sum/solutions/429538/general-backtracking-questions-solutions-in-python-for-reference/
+# : Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order.
+# : The same number may be chosen from candidates an unlimited number of times. Two combinations are unique if the frequency of at least one of the chosen numbers is different.
+# : The test cases are generated such that the number of unique combinations that sum up to target is less than 150 combinations for the given input.
 # took like 13 mins
 # still not sure where or what makes it specifically backtracking
 def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
@@ -995,6 +999,9 @@ def knightDialer(self, n: int) -> int:
 
 # Best Time to Buy and Sell Stock II LeetCode Medium
 # https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/description/
+# You are given an integer array prices where prices[i] is the price of a given stock on the ith day.
+# On each day, you may decide to buy and/or sell the stock. You can only hold at most one share of the stock at any time. However, you can buy it then immediately sell it on the same day.
+# Find and return the maximum profit you can achieve.
 # TC: O(n) -> keyspace is O(len(prices)*2 possible values for hasStock) 
 # SC: O(n) -> same because keyspace
 def maxProfit(self, prices: List[int]) -> int:
