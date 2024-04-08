@@ -933,3 +933,37 @@ def uniquePathsWithObstacles(self, obstacleGrid: List[List[int]]) -> int:
                 below_paths = 0 if i == rows-1 else obstacleGrid[i+1][j]
                 obstacleGrid[i][j] = right_paths + below_paths
     return obstacleGrid[0][0]
+
+# Decode Ways LeetCode Medium
+# https://leetcode.com/problems/decode-ways/description/
+# Given a string s containing only digits, return the number of ways to decode it, where digits can be decoded to letters from 1 -> A, ..., 26 -> Z
+# this question took way longer than it should have
+# and adding the default values at the beginning of the dp array caused this annoying +1 shift
+# careful of edge cases
+# TC: O(n), SC: O(n) (but SC: O(1) could be implemented)
+# see O(1) solution below
+def numDecodings(self, s: str) -> int:
+    if s[0] == "0": return 0
+    dp = [0]*(len(s)+1)
+    dp[0] = 1 # first char is a valid isngle digit (cannot be double)
+    for idx, c in enumerate(s):
+        if idx > 0 and int(s[idx-1] + s[idx]) < 27 and s[idx-1] != "0":
+            dp[idx+1] += dp[idx+1-2]
+        if int(s[idx]) > 0:
+            dp[idx+1] += dp[idx+1-1]
+    return dp[-1]
+
+# TC: O(n), SC: O(1)
+def numDecodings(self, s: str) -> int:
+    if s[0] == "0": return 0
+    two_before = 1
+    one_before = 1
+    for idx, c in enumerate(s):
+        curr = 0
+        if idx > 0 and int(s[idx-1] + s[idx]) < 27 and s[idx-1] != "0":
+            curr += two_before
+        if int(s[idx]) > 0:
+            curr += one_before
+        two_before = one_before
+        one_before = curr
+    return curr
