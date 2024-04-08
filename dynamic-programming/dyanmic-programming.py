@@ -544,9 +544,11 @@ def generateParenthesis(self, n: int) -> List[str]:
 # https://leetcode.com/problems/coin-change/?envType=list&envId=55ac4kuc
 # You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
 # Return the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.
-# TC: O(n*c) SC: O(n)
+# approach: bottom up tabulation. Create dp array where of length *amount* where dp[i] represents the number of coins required to make up that amount, between 0 and amount
+# initialize the dp[coin] for all coins to 1, since it requires 1 coin to make up those amounts
+# iterate downwards from amount to zero, and at each amount and for each coin, populate dp[amount-coin] to be qual to dp[amount] + 1
+# TC: O(c+n*c) = O(n*c), where S = amount and n = num of coins SC: O(n)
 # took like 18 mins
-# approach: bottom up tabulation
 def coinChange(self, coins: List[int], amount: int) -> int:
     if not amount: return 0
     dp = [float('inf')]*amount
@@ -967,3 +969,36 @@ def numDecodings(self, s: str) -> int:
         two_before = one_before
         one_before = curr
     return curr
+
+# Partition Equal Subset Sum LeetCode Medium
+# https://leetcode.com/problems/partition-equal-subset-sum/description/
+# Given an integer array nums, return true if you can partition the array into two subsets such that the sum of the elements in both subsets is equal or false otherwise.
+# TC: O(n), SC: O(n^2)?
+# top down dp
+# had issues with key selection
+def canPartition(self, nums: List[int]) -> bool:
+    total = sum(nums)
+    if total % 2 == 1:
+        return False
+    memo = {}
+
+    def solve(nums_idx, target):
+        if (nums_idx, target) in memo: return memo[(nums_idx, target)]
+
+        if nums[nums_idx] == target:
+            return True
+        if nums_idx == len(nums)-1 or target < 0:
+            return False
+
+        # consider adding next coin to left pile
+        if solve(nums_idx + 1, target-nums[nums_idx]):
+            return True
+
+        # consider adding next coin to right pile
+        if solve(nums_idx + 1, target):
+            return True
+        
+        memo[(nums_idx, target)] = False
+        return False
+    
+    return solve(0, total//2)
