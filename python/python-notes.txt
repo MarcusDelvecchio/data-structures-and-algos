@@ -270,6 +270,7 @@ gotchas / notes
 - python max/min comparison. When provided lists it compares the list items left to right until it finds one that is greater or lesser
     - so to compare lists by length don't forget key=len
 - time complexity of python list deletion by index (using the del[idx] method) is O(n) (as expected)
+- not difference between x//y and int(x/y) is that "//" always rounds down towards -∞, while int() just trims the decimal. So they will diverge for any division in the negatives.
 
 conversions // methods // notes
 

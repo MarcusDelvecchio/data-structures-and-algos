@@ -25,6 +25,22 @@ def findJudge(self, n: int, trust: List[List[int]]) -> int:
             return can
     return -1
 
+# Time Needed to Buy Tickets LeetCode Medium
+# https://leetcode.com/problems/time-needed-to-buy-tickets/
+# Took 4 mins
+# TC: O(n), SC: O(1)
+def timeRequiredToBuy(self, tickets: List[int], k: int) -> int:
+    i = time = 0
+    while True:
+        if i == len(tickets):
+            i = 0
+        if tickets[i]:
+            tickets[i] -= 1
+            time += 1
+        if not tickets[k]:
+            return time
+        i += 1
+
 # Degree of an Array LeetCode Easy
 # https://leetcode.com/problems/degree-of-an-array/description/
 # TC: O(n), SC: O(n)
