@@ -282,6 +282,32 @@ def lowestCommonAncestor(self, root, p, q):
       return root
     return l or r
 
+# Sum Root to Leaf Numbers LeetCode Medium
+# https://leetcode.com/problems/sum-root-to-leaf-numbers/description/
+# TC: O(n), SC: O(1)
+# took 6 mins
+def sumNumbers(self, root: Optional[TreeNode]) -> int:
+    ans = 0
+
+    def dfs(root, path):
+        if not root: return
+        nonlocal ans
+        path.append(str(root.val))
+
+        # traverse left
+        dfs(root.left, path)
+
+        # traverse right
+        dfs(root.right, path)
+
+        # if it's a leaf node, add the path number to the sum
+        if not root.right and not root.left:
+            path_val = int("".join(path))
+            ans += path_val
+        path.pop()
+    dfs(root, [])
+    return ans
+
 # Add One Row to Tree LeetCode Medium
 # took 33 mins and 12 mins to shorten
 # https://leetcode.com/problems/add-one-row-to-tree/description/
