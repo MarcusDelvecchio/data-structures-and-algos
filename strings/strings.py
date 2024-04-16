@@ -157,7 +157,7 @@ def areOneAway(str1, str2):
 def areOneAway_test():
     test0_1 = "the same string"
     test0_2 = "the same string"
-    print(areOneAway(test0_1, test0_2)) # false
+    # print(areOneAway(test0_1, test0_2)) # false
 
     test1_1 = "abcdef"
     test1_2 = "abcdxf"

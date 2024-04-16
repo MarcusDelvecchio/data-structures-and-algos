@@ -165,19 +165,16 @@ class Solution:
 
                 # if at the bottom rows we can validate the columns
                 if i == 8 and len(cols[j]) > len(set(cols[j])):
-                    print("column invalid returning false")
                     return False
 
                 # if at the last column in a row we can validate the row
                 if j == 8 and len(row) > len(set(row)):
-                    print("row invalid returning false")
                     return False
                 
                 # if at last column 
                 if j == 8 and i in [2,5,8]:
                     for box in row_boxes:
                         if len(box) > len(set(box)):
-                            print("box invalid returning false")
                             return False
                     row_boxes = [[], [], []] 
             
@@ -208,7 +205,6 @@ def isValidSudoku(self, board: List[List[str]]) -> bool:
     return True
 
 # Sudoku Solver
-# solution is being printed but because of recursive call for some readon, they reset the solution and time limit exceeded called
 # too lazy to resolve rescursive issue (took too long)
 class Solution:
     def solveSudoku(self, board):
@@ -254,13 +250,11 @@ class Solution:
                 # update/recalculate related columns and rows 
                 for ij in solutionDict.keys():
                     if int(ij[0]) == i and len(solutionDict[ij]) == 2:
-                        print("here")
                         i = int(ij[0])
                         j = int(ij[1])
                         board, solutionDict = updateCellAvailabilities(i, j, board, solutionDict)
                         break
                     elif int(ij[1]) == j and len(solutionDict[ij]) == 2:
-                        print("here")
                         i = int(ij[0])
                         j = int(ij[1])
                         board, solutionDict = updateCellAvailabilities(i, j, board, solutionDict)
@@ -277,19 +271,13 @@ class Solution:
             continues = 0
             for i in range(9):
                 for j in range(9):
-                    # print(i,j)
                     if board[i][j] != ".":
                         continues += 1
                         if continues > 70:
-                            # print
-                            print(board)
                         if continues == 81:
-                            print(board)
-                            print("RETURNING")
                             return
                         continue
                     else:
-                        print('here')
                         board, solutionDict = updateCellAvailabilities(i, j, board, solutionDict)
         return
         
@@ -433,7 +421,6 @@ def minWindow(self, s, t):
                     best = front - back
                     
                 if back_char == 'c':
-                    print(finds)
 
                 if back_char in t and finds[back_char] + 1 > 0:
                     break

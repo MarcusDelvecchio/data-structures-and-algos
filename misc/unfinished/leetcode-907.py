@@ -45,7 +45,6 @@ def sumSubarrayMins(self, arr: List[int]) -> int:
         for j in range(i + 1, len(arr)):
             if arr[j] < arr[i]: break
             right += 1
-        # print(left, right)
         res += arr[i]*left*right                
 
     return res % (pow(10, 9) + 7)

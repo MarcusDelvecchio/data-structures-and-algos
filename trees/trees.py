@@ -47,7 +47,6 @@ def isSymmetric(self, root: Optional[TreeNode]) -> bool:
         level_vals = []
         for node in level:
             level_vals.append(node.val if node else None)
-        print(level_vals)
         level_ok = isLevelSymmetric(level_vals)
         
         # if the current level isn't symmetric stop
@@ -1005,7 +1004,6 @@ def isEvenOddTree(self, root: Optional[TreeNode]) -> bool:
     curr, level = [root], 0
 
     while curr:
-        print([node.val for node in curr])
         next_layer, prev = [], -float("inf") if level%2 == 0 else float("inf")
         for node in curr:
             if node.left: next_layer.append(node.left)

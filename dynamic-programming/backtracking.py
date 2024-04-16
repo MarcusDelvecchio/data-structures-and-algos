@@ -502,8 +502,6 @@ def minStickers(self, stickers, target):
         visited = {start: True}
 
         while layer:
-            print(depth)
-            print([item for item in layer])
             size = len(layer)
             for _ in range(size):
                 for s in stickers:
@@ -558,9 +556,7 @@ def isSolvable(self, words: List[str], result: str) -> bool:
         
         def dfs(words, carry):
             if result == "AA":
-                print(words)
             if len(max(words, key=len)) == 0:
-                print(carry)
                 return not carry, False
 
             # add up numbers from right to left as we go along. If the ones columns don't add up, we shouldn't continue to do the tens, hundreds etc
@@ -587,7 +583,6 @@ def isSolvable(self, words: List[str], result: str) -> bool:
             if can_add:
                 carry_new = floor((left + carry)/10)
                 left = (left + carry)%10
-                print(left, right)
                 if left != right:
                     return False, right > left
                 else:

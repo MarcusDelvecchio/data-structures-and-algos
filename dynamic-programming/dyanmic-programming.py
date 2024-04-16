@@ -764,7 +764,6 @@ def cherryPickup(self, grid: List[List[int]]) -> int:
             else:
                 best_left = best_alt_left
 
-        print(best_left, best_right)
         right = best_right
         left = best_left
         r += 1
@@ -911,7 +910,6 @@ def mincostTickets(self, days: List[int], costs: List[int]) -> int:
             day = costs[0] + (dp[i+1] if i < 365 - 1 else 0)
             week = costs[1] + (dp[i+7] if i < 365 - 7 else 0)
             month = costs[2] + (dp[i+30] if i < 365 - 30 else 0)
-            print(i, day, week, month)
             dp[i] = min(day, week, month)
         elif i != 364:
             dp[i] = dp[i+1]

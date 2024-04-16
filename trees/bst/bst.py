@@ -37,7 +37,6 @@ def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
     sorted_arr = bst_sort(root)
 
     dif, prev = 100000, None
-    print(sorted_arr)
     for val in sorted_arr:
         if prev != None and abs(val - prev) < dif:
             dif = abs(val - prev)

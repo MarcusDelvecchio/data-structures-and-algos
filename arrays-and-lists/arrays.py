@@ -204,7 +204,6 @@ def divideArray(self, nums: List[int], k: int) -> List[List[int]]:
     group = [nums[0]]
     for i in range(1, len(nums)):
         if nums[i] - nums[i-1] > k:
-            print(nums[i], group[0], k)
             groups.append(group)
             group = [nums[i]]
         else:

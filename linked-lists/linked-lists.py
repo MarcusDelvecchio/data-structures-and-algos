@@ -19,8 +19,6 @@ def printList(head):
     while(current):
         res += str(current.data)
         current = current.next
-    
-    print(res)
 
 
 # function to remove all nodes with a certain value
@@ -136,7 +134,6 @@ def partitionOnVal(head, val):
 # prints various solutions for problem 2.4
 def displaySolution_2_4(head):
     for i in range(0, 10):
-        print("partitionOnVal(head,", i, ") returns:")
         printList(partitionOnVal(head, i))
 
 # 2.5 Sum Lists
@@ -155,7 +152,6 @@ def addLinkedListNumbers(l1, l2):
         if current1 and current2:
             value = (current1.val + current2.val + carry)
             carry = (1 if value >= 10 else 0)
-            print("value: ", value, ", carry: ", carry)
 
             resCurrent = ListNode(value%10)
             if prev:
@@ -249,7 +245,6 @@ def isPalindrome(head):
     
     printList(head)
     printList(headRight)
-    print(len)
     # compare the left and right LLs. Compare the kth last element of the left with the 
     k = 1
     leftCurrent = head
@@ -382,7 +377,6 @@ def RotateList(head, k):
         else:
             break
     
-    print(len)
     k = k%len if k >= len else k
 
     if k == 0:
@@ -653,7 +647,6 @@ def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
     prev = None
     next = None
     while current:
-        print(count)
         if count == 0:
             # advance
             prevNew = current
@@ -863,19 +856,14 @@ head = Node(7, head2)
 printList(reverseLinkedListShort_2(head))
 
 # headSecondList = Node(5, second)
-# print(haveIntersection(headSecondList, head))
 
 # uncomment below two lined to test loop detection
 # seventh.next = second
-# print(detectLoop(head).data)
 
-# print(first.next.data)
 # removeByValue(head, 3)
 # removeDups(head)
 # kthLast = getKthLast(head, 2)
-# print(kthLast.data)
 
-# print(isPalindrome(head))
 
 # 2.4 testing
 # printList(partitionOnVal(head, 1))

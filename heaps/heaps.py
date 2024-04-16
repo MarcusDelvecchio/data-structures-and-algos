@@ -119,10 +119,8 @@ def max_heap_del_by_val(l, val):
     if left > len(l):
         return
 
-    print(left, right)
     idx = left if right > len(l) or l[left] > l[right] else right
     while l[idx] > l[curr]:
-        print(curr)
         temp = l[idx]
         l[idx] = l[curr]
         l[curr] = temp
@@ -131,38 +129,13 @@ def max_heap_del_by_val(l, val):
         # determine which side we should sift to next
         left_idx, right_idx = get_children(curr)
 
-        print(left_idx, right_idx)
 
         if left_idx >= len(l):
-            print("here")
-            print(left_idx, right_idx)
             break
 
         idx = left_idx if right_idx >= len(l) or max(left_idx, right_idx, key=lambda x: l[x]) else right_idx
     return
 
-# okay thees seems to be working nicely and making sense.
-# just need to be careful that index isn't greater to *or equal* to the length when decidiing the next index to swap with
-# and it seems to be starting to make sense how we sift up and down after inserting and deleteing
-
-def get_children(idx):
-    return idx*2+1, idx*2+2
-
-# heap pop (extract)
-# heap delete by index
-# heap delete by value
-# heap delete by value, multiple
-# converts max to to a min heap
-# merge to heaps
-
-h = [1,2,3]
-h_1 = [3,2,1]
-h_2 = [5,4,3,2,1,0, 1, 1,1,1,0,0,0,-1,-2, 0] #
-h_3 = [5,4,3,2,1,9]
-min_1 = [0,1,2,3,4,6,7,9,9]
-
-print(max_heap_del_by_val(h_2, 5))
-print(h_2)
 
 # Kth Largest Element in an Array
 # maxheap, put all numbers in the maxheap and pop k times.
