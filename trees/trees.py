@@ -1016,3 +1016,55 @@ def isEvenOddTree(self, root: Optional[TreeNode]) -> bool:
         level += 1
         curr = next_layer
     return True
+
+# Smallest String Starting From Leaf LeetCode Medium
+# https://leetcode.com/problems/smallest-string-starting-from-leaf/description/
+# took like 25
+# TC: O(n), SC: O(n)
+# approach: perform DFS and add .parent prop to all nodes (O(n) space) and also collect all leaf nodes
+# then perform BFS from bottom up, collecting the minimum paths
+# do this while there are one or more equal minimum paths or stop and return parth to top if there is only a single one
+def smallestFromLeaf(self, root: Optional[TreeNode]) -> str:
+    leaves = []
+    
+    def dfs(root, parent):
+        if not root: return
+        root.parent = parent
+        dfs(root.right, root)
+        dfs(root.left, root)
+        if not root.right and not root.left:
+            leaves.append(root)
+        
+    dfs(root, None)
+
+    # perform reverse BFS from bottom to top
+    ans = []
+    while leaves:
+        minn, new_leaves = 27, []
+        for node in leaves:
+            if node.val < minn:
+                minn = node.val
+                if node.parent:
+                    new_leaves = [node.parent]
+                else:
+                    new_leaves = []
+            elif node.val == minn and node.parent:
+                new_leaves.append(node.parent)
+
+        # add the minimum to the ans
+        ans.append(chr(ord('`')+minn+1))
+
+        # if any leaf in the queue is equal to the current minimum and doesn't have a parent, we can stop
+        for leaf in leaves:
+            if leaf.val == minn and not leaf.parent:
+                return "".join(ans)
+        leaves = new_leaves
+
+        # if there is only one item in the leaves, we can return from this leaf to top
+        if len(leaves) == 1:
+            leaf = leaves[0]
+            while leaf:
+                ans.append(chr(ord('`')+leaf.val+1))
+                leaf = leaf.parent
+            return "".join(ans)
+    return "".join(ans)
