@@ -1,3 +1,48 @@
+# Island Perimeter LeetCode Easy
+# Given a grid of cells where 1 represents land and zero water, and there is only a single island, return the perimeter of the island
+# https://leetcode.com/problems/island-perimeter/description/
+# TC: O(n), SC: O(n)
+# took 4 mins, submitted first try
+def islandPerimeter(self, grid: List[List[int]]) -> int:
+    rows, cols = len(grid), len(grid[0])
+    perimiter = 0
+    visited = set()
+
+    def isEdge(row, col):
+        return row == rows or col == cols or row < 0 or col < 0 or grid[row][col] == 0
+
+    def explore(row, col):
+        if (row, col) in visited: return
+        visited.add((row, col))
+        nonlocal perimiter
+
+        if isEdge(row+1, col):
+            perimiter += 1
+        else:
+            explore(row+1, col)
+
+        if isEdge(row-1, col):
+            perimiter += 1
+        else:
+            explore(row-1, col)
+        
+        if isEdge(row, col+1):
+            perimiter += 1
+        else:
+            explore(row, col+1)
+        
+        if isEdge(row, col-1):
+            perimiter += 1
+        else:
+            explore(row, col-1)
+
+    for row in range(rows):
+        for col in range(cols):
+            if grid[row][col] == 1:
+                explore(row, col)
+                return perimiter
+
+
 # Number of Islands LeetCode Medium
 # https://leetcode.com/problems/number-of-islands/
 # took 6 mins
