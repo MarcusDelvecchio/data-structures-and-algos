@@ -388,3 +388,41 @@ def exist(self, board: List[List[str]], word: str) -> bool:
         for col in range(cols):
             if dfs(row, col, 0, set()): return True
     return False
+
+# Find All Groups of Farmland LeetCode Medium
+# https://leetcode.com/problems/find-all-groups-of-farmland/submissions/1237664274/
+# took 12 mins
+# TC: O(n), SC: O(n)
+# see O(1) solution below
+def findFarmland(self, land: List[List[int]]) -> List[List[int]]:
+    rows, cols = len(land), len(land[0])
+    visited = set()
+    res = []
+    
+    def dfs(row, col):
+        if row == rows or col == cols or row < 0 or col < 0 or land[row][col] == 0: return
+        if (row, col) in visited: return
+        visited.add((row, col))
+        
+        # if we can go down, go down
+        if row < rows - 1 and land[row+1][col] == 1:
+            dfs(row+1, col)
+        # else if at the bottom, go as right as possible
+        elif col < cols - 1 and land[row][col+1] == 1:
+            dfs(row, col+1)
+        # else we are at bottom right, we can add these coordinated
+        else:
+            # add entire box to visited
+            for cell_row in range(res[-1][0], row):
+                for cell_col in range(res[-1][1]+1, col+1):
+                    visited.add((cell_row, cell_col))
+            # update res item to include bottom right coords
+            res[-1] = [res[-1][0], res[-1][1], row, col]
+
+    # iterate over every cell addings groups to res
+    for row in range(rows):
+        for col in range(cols):
+            if (row, col) not in visited and land[row][col] == 1:
+                res.append([row, col])
+                dfs(row, col)
+    return res
