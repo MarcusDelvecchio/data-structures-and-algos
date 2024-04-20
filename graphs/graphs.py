@@ -393,7 +393,7 @@ def exist(self, board: List[List[str]], word: str) -> bool:
 # https://leetcode.com/problems/find-all-groups-of-farmland/submissions/1237664274/
 # took 12 mins
 # TC: O(n), SC: O(n)
-# see O(1) solution below
+# SEE O(1) SPACE SOLUTION BELOW
 def findFarmland(self, land: List[List[int]]) -> List[List[int]]:
     rows, cols = len(land), len(land[0])
     visited = set()
@@ -423,6 +423,37 @@ def findFarmland(self, land: List[List[int]]) -> List[List[int]]:
     for row in range(rows):
         for col in range(cols):
             if (row, col) not in visited and land[row][col] == 1:
+                res.append([row, col])
+                dfs(row, col)
+    return res
+
+# TC: O(n), SC: O(1)
+# approach: we can eliminate the 'visited' set and solve in constant space by iterating across the grid, looking only for top left corner cells
+# if a cell is at the top left, we can perform the 'drill down and right' dfs to find the bottom right cell corresponding to the top left
+# and then we continue to iterate, only doing DFS when we find a top left
+def findFarmland(self, land: List[List[int]]) -> List[List[int]]:
+    rows, cols = len(land), len(land[0])
+    res = []
+    
+    def dfs(row, col):
+        
+        # if we can go down, go down
+        if row < rows - 1 and land[row+1][col] == 1:
+            dfs(row+1, col)
+        # else if at the bottom, go as right as possible
+        elif col < cols - 1 and land[row][col+1] == 1:
+            dfs(row, col+1)
+        # else we are at bottom right, we can add these coordinated
+        else:
+            # update res item to include bottom right coords
+            res[-1] = [res[-1][0], res[-1][1], row, col]
+
+    # iterate over every cell addings groups to res
+    for row in range(rows):
+        for col in range(cols):
+            is_top = row == 0 or land[row-1][col] == 0
+            is_left = col == 0 or land[row][col-1] == 0
+            if land[row][col] == 1 and is_left and is_top:
                 res.append([row, col])
                 dfs(row, col)
     return res
