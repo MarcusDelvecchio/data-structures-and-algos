@@ -42,6 +42,32 @@ def islandPerimeter(self, grid: List[List[int]]) -> int:
                 explore(row, col)
                 return perimiter
 
+# Find if Path Exists in Graph LeetCode Easy
+# Given edges and the integers n, source, and destination, return true if there is a valid path from source to destination, or false otherwise.
+# https://leetcode.com/problems/find-if-path-exists-in-graph/description/
+# TC: O(n), SC: O(n)
+# took 9 mins because did q.append(node) instead of q.append(edge). Otherwise took 5 
+def validPath(self, n: int, edges: List[List[int]], source: int, destination: int) -> bool:
+    if source == destination: return True
+
+    edge_map = defaultdict(list)
+    for edge_from, edge_to in edges:
+        edge_map[edge_from].append(edge_to)
+        edge_map[edge_to].append(edge_from)
+
+    q = collections.deque([source])
+    seen = set()
+    while q:
+        size = len(q)
+        for _ in range(size):
+            node = q.popleft()
+            for edge in edge_map[node]:
+                if edge == destination: return True
+                if edge not in seen:
+                    seen.add(edge)
+                    q.append(edge)
+    return False
+
 
 # Number of Islands LeetCode Medium
 # https://leetcode.com/problems/number-of-islands/
