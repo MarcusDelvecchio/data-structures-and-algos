@@ -1000,3 +1000,33 @@ def canPartition(self, nums: List[int]) -> bool:
         return False
     
     return solve(0, total//2)
+
+# Longest Ideal Subsequence LeetCode Medium
+# INCORRECT
+# https://leetcode.com/problems/longest-ideal-subsequence/description/
+# TC: O(n), SC: O(n) Memory Limit Exceeded (MLE) - Memoization Keyspace too large
+# Great example of where top-down DP does not work. This leads to MLE error because input string is so large.
+# Even though the keyspace is size len(s)*26, which is still O(n*26) = O(n), since the string can be so large, it still leads to MLE
+# so perfect example of where bottom-up / tabulative DP must be employed
+# study this problem. Should be able to realize this would happen. Can we tell from the constraints of the problem? "1 <= s.length <= 105"
+def longestIdealString(self, s: str, k: int) -> int:
+    memo = {}
+    
+    def solve(prev_letter, idx):
+        if idx == len(s): return 0
+        if (prev_letter, idx) in memo: return memo[(prev_letter, idx)]
+
+        # consider taking the current letter (if we can)
+        letter_idx = string.ascii_lowercase.index(s[idx])
+        best = 0
+        if prev_letter == None or abs(letter_idx - prev_letter) <= k:
+            best = 1 + solve(letter_idx, idx + 1)
+
+        # consider not taking current letter
+        best = max(best, solve(prev_letter, idx + 1))
+
+        # return greater result
+        memo[(prev_letter, idx)] = best
+        return best
+
+    return solve(None, 0)
