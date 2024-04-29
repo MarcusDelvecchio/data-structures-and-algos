@@ -322,3 +322,22 @@ def compress(self, chars: List[str]) -> int:
             curr += 1
     chars = chars[:curr]
     return curr
+
+# Count and Say LeetCode Medium
+# https://leetcode.com/problems/count-and-say/description/
+# TC: O(2^n), SC: O(n)
+def countAndSay(self, n: int) -> str:
+    curr = "1"
+    for _ in range(n-1):
+        idx = 0
+        ans = [] # the next sequence
+        while idx < len(curr):
+            next_idx = idx + 1
+            count = 1
+            while next_idx < len(curr) and curr[next_idx] == curr[idx]:
+                next_idx += 1
+                count += 1
+            ans.append(str(count) + curr[idx])
+            idx = next_idx
+        curr = "".join(ans)
+    return curr
