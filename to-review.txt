@@ -1,1 +1,9 @@
 Combination Sum LeetCode Medium
+Sum of Distances in Tree (April 28th)
+https://leetcode.com/problems/sum-of-distances-in-tree/description/
+
+Longest Ideal Subsequence (April 25)
+https://leetcode.com/problems/longest-ideal-subsequence/description/
+
+Minimum Height Trees (April 23)
+https://leetcode.com/problems/minimum-height-trees/description/

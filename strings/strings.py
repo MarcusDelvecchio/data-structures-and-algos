@@ -295,3 +295,30 @@ def customSortString(self, order: str, s: str) -> str:
     order = {order[i]: i for i in range(len(order))}
     s = sorted(list(s), key=lambda x: order[x] if x in order else -1)
     return "".join(s)
+
+# String Compression LeetCode Medium
+# TC: O(n), SC: O(n)
+# https://leetcode.com/problems/string-compression/description/
+# compress a list of characters by groupsing characters into char + count of items in group like: [a,a,a,b,c,c,c] => a3bc3 (3 a's, 1 b, 3 c's)
+def compress(self, chars: List[str]) -> int:
+    ans = []
+    idx = 0
+    while idx < len(chars):
+        count = 1
+        next_idx = idx + 1
+        while next_idx < len(chars) and chars[next_idx] == chars[idx]:
+            next_idx += 1
+            count += 1
+        if count == 1:
+            ans.append(chars[idx])
+        else:
+            ans.append(chars[idx] + str(count))
+        idx = next_idx
+
+    curr = 0
+    for part in ans:
+        for c in part:
+            chars[curr] = c
+            curr += 1
+    chars = chars[:curr]
+    return curr
