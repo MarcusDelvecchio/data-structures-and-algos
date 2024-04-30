@@ -15,4 +15,4 @@
 ### 
 Problems often pertain to **both** a certain core data structure and a certain pattern/problem class. Consequently, the problem can often be placed in more than one directory, so I decide which is more fitting based on the nature of the problem, or I add it to both.
 
-### This repository contains ~215 solved [LeetCode](https://leetcode.com/MarcusDelVecchio/) problems
+### This repository contains ~350 solved [LeetCode](https://leetcode.com/MarcusDelVecchio/) problems

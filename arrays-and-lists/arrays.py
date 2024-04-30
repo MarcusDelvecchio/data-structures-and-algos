@@ -356,7 +356,7 @@ def productExceptSelf(self, nums: List[int]) -> List[int]:
 # String Encode and Decode NeetCode Medium
 # https://neetcode.io/problems/string-encode-and-decode
 # https://leetcode.com/problems/encode-and-decode-strings/submissions/1215609322/
-# has to watch video but made sense
+# had to watch video but made sense
 # TC: O(n), SC: O(n)
 # see encode/decode below
 def encode(self, strs: List[str]) -> str:

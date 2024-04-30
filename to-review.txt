@@ -7,3 +7,6 @@ https://leetcode.com/problems/longest-ideal-subsequence/description/
 
 Minimum Height Trees (April 23)
 https://leetcode.com/problems/minimum-height-trees/description/
+
+Number of Wonderful Substrings - Bitmask solution
+https://leetcode.com/problems/number-of-wonderful-substrings/submissions/1246054725/
