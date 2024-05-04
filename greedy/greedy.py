@@ -9,6 +9,27 @@ def largestOddNumber(self, num: str) -> str:
             return num[:i+1]
     return ""
 
+# Boats to Save People LeetCode Medium
+# https://leetcode.com/problems/boats-to-save-people/description/
+# TC: O(nlogn)
+# SC: O(1)
+def numRescueBoats(self, people: List[int], limit: int) -> int:
+    # sort the people based on weight
+    people.sort()
+
+    # take largest and smallest person (or just largest if it exceeds) until no more people
+    boats = 0
+    smallest, largest = 0, len(people)-1
+    while smallest <= largest:
+        if people[largest] + people[smallest] <= limit:
+            boats += 1
+            largest -= 1
+            smallest += 1
+        else:
+            boats += 1
+            largest -= 1
+    return boats
+
 # K Items With the Maximum Sum LeetCode Easy
 # https://leetcode.com/problems/k-items-with-the-maximum-sum/description/
 # TC: O(n), SC: O(1)
