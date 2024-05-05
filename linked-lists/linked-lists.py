@@ -328,6 +328,22 @@ def mergeInBetween(self, list1: ListNode, a: int, b: int, list2: ListNode) -> Li
         current = current.next
         currentIndex += 1
 
+# Delete Node in a Linked List LeetCode Meidum
+# https://leetcode.com/problems/delete-node-in-a-linked-list/description/
+# TC O(n), SC: O(1)
+# took 3 mins
+def deleteNode(self, node):
+    """
+    :type node: ListNode
+    :rtype: void Do not return anything, modify node in-place instead.
+    """
+    prev = None
+    while node.next:
+        node.val = node.next.val
+        prev = node
+        node = node.next
+    prev.next = None
+
 # Merge In Between Linked Lists LeetCode Medium
 # https://leetcode.com/problems/merge-in-between-linked-lists/description/?envType=daily-question&envId=2024-03-20
 # TC: O(n), SC: O(1)
