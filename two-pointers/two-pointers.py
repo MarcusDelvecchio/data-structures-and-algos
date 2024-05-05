@@ -96,6 +96,28 @@ def threeSumSmaller(self, nums: List[int], target: int) -> int:
             left += 1
     return ans
 
+# 3Sum Closest LeetCode Medium
+# https://leetcode.com/problems/3sum-closest/description/
+# TC: O(n^2), SC: O(n)
+def threeSumClosest(self, nums: List[int], target: int) -> int:
+    nums.sort()
+    n = len(nums)
+    best = float('inf')
+
+    for p1 in range(n):
+        p2, p3 = p1 + 1, n-1
+        while p2 < p3:
+            sum = nums[p1]+nums[p2]+nums[p3]
+            if abs(sum-target) < abs(best-target):
+                best = sum
+            if sum == target:
+                return target
+            elif sum-target<0:
+                p2 += 1
+            else:
+                p3 -= 1
+    return best
+
 # 3SUM // Valid Triangle Number Leetcode Medium
 # https://leetcode.com/problems/valid-triangle-number/description/
 # Given an integer array nums, return the number of triplets chosen from the array that can make triangles if we take them as side lengths of a triangle.
