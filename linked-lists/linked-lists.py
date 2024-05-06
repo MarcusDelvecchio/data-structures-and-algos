@@ -345,6 +345,7 @@ def deleteNode(self, node):
     prev.next = None
 
 # Remove Nodes From Linked List LeetCode Medium
+# * see alternative approach below using monotonic stack, much simpler *
 # https://leetcode.com/problems/remove-nodes-from-linked-list/?envType=daily-question&envId=2024-05-06
 # TC: O(n), SC: O(n)
 def removeNodes(self, head: Optional[ListNode]) -> Optional[ListNode]:
@@ -382,6 +383,26 @@ def removeNodes(self, head: Optional[ListNode]) -> Optional[ListNode]:
         i += 1
     prev.next = None
     return new_head
+
+# Remove Nodes From Linked List LeetCode Medium
+# using monotonic stack
+# https://leetcode.com/problems/remove-nodes-from-linked-list/?envType=daily-question&envId=2024-05-06
+# TC: O(n), SC: O(n)
+def removeNodes(self, head: Optional[ListNode]) -> Optional[ListNode]:
+    mon_stack = []
+    while head:
+        while mon_stack and head.val > mon_stack[-1].val:
+            mon_stack.pop()
+        mon_stack.append(head)
+        head = head.next
+    
+    # update relationships in monotonic stack
+    for idx, node in enumerate(mon_stack):
+        if idx < len(mon_stack) - 1:
+            node.next = mon_stack[idx+1]
+        else:
+            node.next = None
+    return mon_stack[0]
 
 # Merge In Between Linked Lists LeetCode Medium
 # https://leetcode.com/problems/merge-in-between-linked-lists/description/?envType=daily-question&envId=2024-03-20
