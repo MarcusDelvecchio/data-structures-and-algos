@@ -49,4 +49,21 @@ def tribonacci(self, n: int) -> int:
         third = new_third
         num += 1
 
-    return third 
+    return third
+
+# Multiply Strings LeetCode Medium
+# https://leetcode.com/problems/multiply-strings/description/
+# TC: O(len_num1*len_num2) = O(n*m), SC: O(1)
+# approach: multiple each digit of num1 by each digit of num 2 while also accounting for each digit's position in the string by and multiplying by a factor of 10
+def multiply(self, num1: str, num2: str) -> str:
+    total = 0
+    num1_position = 0
+    for i in range(len(num1)-1, -1, -1):
+        num2_position = 0
+        for j in range(len(num2)-1, -1, -1):
+            num1_val = int(num1[i])*10**num1_position
+            num2_val = int(num2[j])*10**num2_position
+            total += num1_val*num2_val
+            num2_position += 1
+        num1_position += 1
+    return str(total)

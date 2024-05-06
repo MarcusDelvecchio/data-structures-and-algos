@@ -406,7 +406,7 @@ def removeNodes(self, head: Optional[ListNode]) -> Optional[ListNode]:
 
 # Merge In Between Linked Lists LeetCode Medium
 # https://leetcode.com/problems/merge-in-between-linked-lists/description/?envType=daily-question&envId=2024-03-20
-# TC: O(n), SC: O(1)
+# TC: O(logn), SC: O(1)
 # note a betetr solution exists using O(1) space
 # took 9 mins
 def mergeInBetween(self, list1: ListNode, a: int, b: int, list2: ListNode) -> ListNode:
