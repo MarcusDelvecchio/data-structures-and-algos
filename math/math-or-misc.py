@@ -67,3 +67,26 @@ def multiply(self, num1: str, num2: str) -> str:
             num2_position += 1
         num1_position += 1
     return str(total)
+
+# Rotate Image LeetCode Medium
+# https://leetcode.com/problems/rotate-image/description/
+# TC: O(n): SC: O(1)
+def rotate(self, matrix: List[List[int]]) -> None:
+    # see https://assets.leetcode.com/users/images/0ab215cd-9cd8-4872-90a7-901fb660dc67_1682068950.8864057.gif
+    # tanspose the matrix - swap the row and col of every cell (flip the matrix over the line y = -x)
+    for row in range(len(matrix)):
+        for col in range(len(matrix[0])):
+            if row < col:
+                new_row, new_col = col, row
+                temp = matrix[new_row][new_col]
+                matrix[new_row][new_col] = matrix[row][col]
+                matrix[row][col] = temp
+    
+    # swap the columns - flip the matrix over a vertical line down the middle
+    for row in range(len(matrix)):
+        for col in range(len(matrix[0])):
+            if col < len(matrix[0])//2:
+                new_col = len(matrix[0]) - col - 1
+                temp = matrix[row][new_col]
+                matrix[row][new_col] = matrix[row][col]
+                matrix[row][col] = temp
