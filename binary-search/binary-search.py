@@ -13,6 +13,40 @@ def search(self, nums: List[int], target: int) -> int:
             return mid
     return -1
 
+# Find First and Last Position of Element in Sorted Array LeetCode Medium
+# https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/description/
+# TC: O(n), SC: O(1)
+# approach: perform binary search twice, once to find the earliest occurrence of the target element, and a second time to find the latest
+# the two searches differ simply in what they do when they find an occurrence of the target: either shifting left to find an earlier one or right to find a later one
+def searchRange(self, nums: List[int], target: int) -> List[int]:
+    left, right = 0, len(nums) - 1
+    
+    # find earliest occurrence
+    earliest = float('inf')
+    while left <= right:
+        mid = (left+right)//2
+        if nums[mid] == target:
+            earliest = min(earliest, mid)
+            right = mid - 1 # we want to go earlier
+        elif nums[mid] > target:
+            right = mid - 1
+        else:
+            left = mid + 1
+
+    # find earliest occurrence
+    left, right = 0, len(nums) - 1
+    latest = -1
+    while left <= right:
+        mid = (left+right)//2
+        if nums[mid] == target:
+            latest = max(latest, mid)
+            left = mid + 1 # we want to go later
+        elif nums[mid] > target:
+            right = mid - 1
+        else:
+            left = mid + 1
+    return [earliest, latest] if latest != -1 else [-1, -1]
+
 # Search a 2D Matrix LeetCode Medium
 # https://leetcode.com/problems/search-a-2d-matrix
 # took 17 mins becuase off-by-one issues and dumb mistakes
