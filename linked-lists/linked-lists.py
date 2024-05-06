@@ -344,6 +344,45 @@ def deleteNode(self, node):
         node = node.next
     prev.next = None
 
+# Remove Nodes From Linked List LeetCode Medium
+# https://leetcode.com/problems/remove-nodes-from-linked-list/?envType=daily-question&envId=2024-05-06
+# TC: O(n), SC: O(n)
+def removeNodes(self, head: Optional[ListNode]) -> Optional[ListNode]:
+    # create array of elements representing node values
+    nodes = []
+    inital_head = head
+    while head:
+        nodes.append(head.val)
+        head = head.next
+
+    # flag nodes for deletion
+    largest = nodes[-1]
+    nodes[-1] = 0
+    for i in range(len(nodes)-2, -1, -1):
+        node = nodes[i]
+        nodes[i] = 1 if largest > node else 0
+        largest = max(largest, node)
+    
+    # delete nodes flagged for deletion
+    head = inital_head
+    i = 0
+    new_head = None
+    prev = None
+    while head:
+        if nodes[i]:
+            head = head.next
+            i += 1
+            continue
+        elif not new_head:
+            new_head = head
+        else:
+            prev.next = head
+        prev = head
+        head = head.next
+        i += 1
+    prev.next = None
+    return new_head
+
 # Merge In Between Linked Lists LeetCode Medium
 # https://leetcode.com/problems/merge-in-between-linked-lists/description/?envType=daily-question&envId=2024-03-20
 # TC: O(n), SC: O(1)
