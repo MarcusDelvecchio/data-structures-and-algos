@@ -272,6 +272,7 @@ gotchas / notes
 - time complexity of python list deletion by index (using the del[idx] method) is O(n) (as expected)
 - not difference between x//y and int(x/y) is that "//" always rounds down towards -∞, while int() just trims the decimal. So they will diverge for any division in the negatives.
 
+
 conversions // methods // notes
 
 converting python counter / dict of key-value pairs to a list?

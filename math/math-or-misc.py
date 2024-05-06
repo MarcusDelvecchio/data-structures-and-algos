@@ -68,6 +68,19 @@ def multiply(self, num1: str, num2: str) -> str:
         num1_position += 1
     return str(total)
 
+# Pow(x, n) LeetCode Medium - Implement Power function
+# https://leetcode.com/problems/powx-n/
+# TC: O(n), SC: O(n)
+def myPow(self, x: float, n: int) -> float:
+    if n == 0: return 1
+    if n < 0:
+        return 1/self.myPow(x, -n)
+
+    if n % 2 == 0:
+        res = self.myPow(x, n/2)
+        return res*res
+    return x*self.myPow(x, n-1)
+
 # Rotate Image LeetCode Medium
 # https://leetcode.com/problems/rotate-image/description/
 # TC: O(n): SC: O(1)
