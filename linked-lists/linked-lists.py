@@ -1,3 +1,5 @@
+from types import Optional
+
 class Node:
     def __init__(self, data, next=None):
         self.data = data
@@ -481,6 +483,7 @@ def RotateList(head, k):
     return newHead
 
 # reverses a linked list given it's head
+# OLD SOLUTION keeping for note
 def reverseLinkedList(head):
     previous = None
     next = None
@@ -515,6 +518,42 @@ def reverseLinkedListShort(head):
             next = next.next
 
     return current
+
+# Double a Number Represented as a Linked List LeetCode Medium
+# https://leetcode.com/problems/double-a-number-represented-as-a-linked-list/description/
+# TC: O(n), SC: O(1)
+# You are given the head of a non-empty linked list representing a non-negative integer without leading zeroes. Return the head of the linked list after doubling it.
+# approach: reverse the linked list and starting from the end (new head) double each digit, keeping track of carry value, while also reversing the linked list
+def doubleIt(self, head: Optional[ListNode]) -> Optional[ListNode]:
+    
+    # reverse linked list
+    prev = None
+    while head:
+        next = head.next
+        head.next = prev
+        prev = head
+        head = next
+
+    # start at the head and double each digit, keeping track of carry value and reversing the list again
+    head, prev = prev, None
+    carry = 0
+    while head:
+        # double the value and maintin carry value
+        doubled = str(head.val*2 + carry)
+        head.val = int(doubled[-1])
+        carry = 0 if len(doubled) == 1 else int(doubled[0])
+
+        # reverse the list and move forward
+        next = head.next
+        head.next = prev
+        prev = head
+        head = next
+    
+    # if there is a carry after, we need to add another node
+    new_head = prev
+    if carry != 0:
+        new_head = ListNode(carry, prev)
+    return new_head
 
 # Middle of the Linked List LeetCode Easy
 # https://leetcode.com/problems/middle-of-the-linked-list/description/?envType=daily-question&envId=2024-03-07
