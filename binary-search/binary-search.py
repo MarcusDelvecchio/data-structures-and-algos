@@ -1,3 +1,5 @@
+from types import List
+
 # Binary Search LeetCode Easy
 # https://leetcode.com/problems/binary-search
 # TC: O(logn), SC: O(1)
@@ -109,4 +111,35 @@ def findMin(self, nums: List[int]) -> int:
             L = mid + 1
         else: # nums[mid] < nums[R] - move right down
             R = mid - 1
-    return minn   
+    return minn
+
+# Find Peak Element LeetCode Medium
+# https://leetcode.com/problems/find-peak-element/description/
+# : A peak element is an element that is strictly greater than its neighbors.: 
+# : Given a 0-indexed integer array nums, find a peak element, and return its index. If the array contains multiple peaks, return the index to any of the peaks.
+# : You may imagine that nums[-1] = nums[n] = -∞. In other words, an element is always considered to be strictly greater than a neighbor that is outside the array.
+# : You must write an algorithm that runs in O(log n) time.
+# TC: O(logn), SC: O(1)
+# great question interesting concepts
+def findPeakElement(self, nums: List[int]) -> int:
+    ''' for any element there are 3 cases:
+        1. the element on the left is greater: if so, there must be a peak on the left somewhere (could be that element)
+        2. the element on the right is greater: if so, there must be a peak on the right somewhere (could be that element)
+        3. this element is a peak
+    '''
+    
+    left, right = 0, len(nums)-1
+    while left <= right:
+        mid_idx = (left+right)//2
+
+        # shift right if right is greater
+        if mid_idx + 1 < len(nums) and nums[mid_idx+1] > nums[mid_idx]:
+            left = mid_idx + 1
+
+        # shift right if right is greater
+        elif mid_idx - 1 > -1 and nums[mid_idx-1] > nums[mid_idx]:
+            right = mid_idx - 1
+        
+        # else is a peak
+        else:
+            return mid_idx
