@@ -275,6 +275,11 @@ gotchas / notes
 
 conversions // methods // notes
 
+self keyword
+
+    x = Bank()
+    x is an instantiation of a bank. if x has a function create_atm. Calling x.create_atm() in python is the same as calling Bank.create_atm(x);, so now self refers to x
+
 converting python counter / dict of key-value pairs to a list?
 
     list(dic.items())
