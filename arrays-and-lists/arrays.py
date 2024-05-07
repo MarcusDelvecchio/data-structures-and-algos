@@ -352,6 +352,42 @@ def productExceptSelf(self, nums: List[int]) -> List[int]:
         suffix_prod *= nums[i]
     return res
 
+# Spiral Matrix II LeetCode Medium
+# https://leetcode.com/problems/spiral-matrix-ii/description/
+# TC: O(n), SC: O(1)
+# Given a positive integer n, generate an n x n matrix filled with elements from 1 to n^2 in a spiral order.
+def generateMatrix(self, n: int) -> List[List[int]]:
+    left, right, top, bottom, val = 0, n, 0, n, 1
+    matrix = [[0 for _ in range(n)] for _ in range(n)]
+    
+    while top <= bottom and left <= right:
+    
+        # go across the matrix
+        for col in range(left, right):
+            matrix[top][col] = val
+            val += 1
+        top += 1
+
+        # go down the matrix
+        for row in range(top, bottom):
+            matrix[row][right-1] = val
+            val += 1
+        right -= 1
+
+        # go left across the matrix
+        for col in range(right-1, left-1, -1):
+            matrix[bottom-1][col] = val
+            val += 1
+        bottom -= 1
+
+        # go up the matrix
+        for row in range(bottom-1, top-1, -1):
+            matrix[row][left] = val
+            val += 1
+        left += 1
+    
+    return matrix
+
 
 # String Encode and Decode NeetCode Medium
 # https://neetcode.io/problems/string-encode-and-decode
