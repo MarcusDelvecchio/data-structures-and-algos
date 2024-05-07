@@ -1,3 +1,22 @@
+from types import List
+
+# Minimum Size Subarray Sum LeetCode Medium
+# https://leetcode.com/problems/minimum-size-subarray-sum/description/
+# Given an array of positive integers nums and a positive integer target, return the minimal length of a subarray whose sum is greater than or equal to target. If there is no such subarray, return 0 instead.
+# TC: O(n), SC: O(1)
+def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+    right = 0
+    summ = nums[0]
+    min_len = float('inf')
+    for left in range(len(nums)):
+        while right < len(nums) - 1 and summ < target:
+            right += 1
+            summ += nums[right]
+        if summ >= target:
+            min_len = min(min_len, right - left + 1)           
+        summ -= nums[left]
+    return 0 if min_len == float('inf') else min_len
+
 
 # Minimum Window Substring LeetCode Hard
 # https://leetcode.com/problems/minimum-window-substring/description/
