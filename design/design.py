@@ -1,3 +1,5 @@
+from types import List
+
 # Design Hit Counter LeetCode Medium
 # https://leetcode.com/problems/design-hit-counter/description/
 # Design a hit counter which counts the number of hits received in the past 5 minutes (i.e., the past 300 seconds).
@@ -44,6 +46,46 @@ class HitCounter:
                 left = mid_idx + 1
         return closest_idx
 
+# Design Bitset LeetCode Medium
+# https://leetcode.com/problems/design-bitset/description/
+# see system requirements^
+# All operations TC: O(1)
+# SC: O(n)
+# the challenging part is having to implement the flip() function in O(1) time, by using a global 'flipped' flag to represent
+# whether all of the actual bit values are flipped
+# in doing this, we also need to meticulously organize getters and setters (see getBits() and setBits()) for the bit values to fetch the correct
+# values corresponding to thwe 'flipped' state and update the values corresponding to the 'flipped' state
+# we can think of the logic in the getters/setters as an interface to the correct system/class state
+class Bitset:
+    def __init__(self, size: int):
+        self.bits = [0]*size        
+        self.flipped = False
+        self.ones_count = 0
+        
+    def getBit(self, idx):
+        return int(self.bits[idx] and not self.flipped or not self.bits[idx] and self.flipped)
+
+    def setBit(self, idx, val):
+        if idx < len(self.bits) and self.getBit(idx) != val:
+            new_val = int(not self.bits[idx])
+            self.bits[idx] = new_val
+            self.ones_count += 1 if self.getBit(idx) else -1
+
+    def fix(self, idx: int) -> None:
+        self.setBit(idx, 1)
+
+    def unfix(self, idx: int) -> None:
+        self.setBit(idx, 0)
+
+    def flip(self) -> None:
+        self.flipped = not self.flipped
+        self.ones_count = len(self.bits) - self.ones_count
+
+    def all(self) -> bool: return self.ones_count == len(self.bits)  
+    def one(self) -> bool: return self.ones_count > 0        
+    def count(self) -> int: return self.ones_count
+    def toString(self) -> str: return "".join([str(self.getBit(idx)) for idx in range(len(self.bits))])
+
 # Design Twitter LeetCode Medium
 # https://leetcode.com/problems/design-twitter/description/
 # see system requirements^
@@ -53,6 +95,8 @@ class HitCounter:
 # unfollow: O(n+m) where n is followee tweets length and m is follower tweets length becuase we have to remove all of the followee's tweets from the follower's feed
 # postTweet: O(n) where n is the length of the poster's followers, since we need to add the tweet to the end of all of their follower's feeds
 # I decided to create supplemental User and Tweet classes
+# took ~30 mins and 40 after debugging edge cases
+# edge cases to be aware of: users following/unfollowing themselves, users following/unfollowing users they already follow / don't follow, not yet existing users creating tweets
 class Tweet:
 
     def __init__(self, id, timestamp, creator):
