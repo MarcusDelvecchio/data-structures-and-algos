@@ -154,6 +154,29 @@ def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNo
         
     return TreeNode(root, left, right)
 
+# Closest Binary Search Tree Value LeetCode Easy
+# https://leetcode.com/problems/closest-binary-search-tree-value/description/
+# Interesting question for understanding intuition of BSTs. Go traverse left/right as we find values closer to our target, but when we cannot go
+# left or right anymore, you don't simply return the current node; nodes we have traversed already could be closer, so we return the closest we have seen
+# example: tree [5, 1, 15] with target 7, we traver right to 15, but don't return 15, we return 6
+# TC: O(n), SC: O(1)
+def closestValue(self, root: Optional[TreeNode], target: float) -> int:
+    closest = float('inf')
+    while root:
+        # update the closest value
+        if abs(root.val - target) < abs(closest - target):
+            closest = root.val
+        elif abs(root.val - target) == abs(closest - target):
+            closest = min(root.val, closest)
+        
+        # go left or right to a closer value if we can, else return the closest value we've seen
+        if target > root.val and root.right:
+            root = root.right
+        elif target < root.val and root.left:
+            root = root.left
+        else:
+            return closest
+
 # Path Sum 2 LeetCode Medium
 # https://leetcode.com/problems/path-sum-ii/submissions/
 # took almost 40 but still picking up the tree ideas
