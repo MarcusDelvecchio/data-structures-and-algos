@@ -99,6 +99,24 @@ def maxCoins(self, piles: List[int]) -> int:
         left += 1
     return ans
 
+# Find Minimum Time to Finish All Jobs II LeetCode Medium
+# https://leetcode.com/problems/find-minimum-time-to-finish-all-jobs-ii/?envType=study-plan-v2&envId=amazon-spring-23-high-frequency
+# TC: O(nlogn), SC: O(n)
+# approach: sort the jobs and workers and assign largest job to worker that can do most work, second largest6 to second best worker etc. keeping track of
+# what worker/job pair will take the longest
+# return the largest quotient for job size / worker efficiency
+# TC: O(nlogn), SC: O(1/n)
+def minimumTime(self, jobs: List[int], workers: List[int]) -> int:
+    jobs.sort()
+    workers.sort()
+
+    maxx = 0
+    for i in range(len(jobs)):
+        time_required = math.ceil(jobs[i] / workers[i])
+        maxx = max(maxx, time_required)
+
+    return maxx
+
 # Minimize Maximum Pair Sum in Array LeetCode Medium
 # this medium is really easier than some of the easy greedy problems here
 # https://leetcode.com/problems/minimize-maximum-pair-sum-in-array/
