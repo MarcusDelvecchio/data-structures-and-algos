@@ -160,6 +160,8 @@ def maximizeSum(self, nums: List[int], k: int) -> int:
 # https://leetcode.com/problems/minimum-adjacent-swaps-to-make-a-valid-array/description/
 # took 5 mins
 # TC: O(n), SC: O(1)
+# follow up: min swaps but not only to have largest on right and smallest on left, but to fix entire order of all elements
+# this would be O(nlogn) because we'd have to sort to determine and compare where every element needs to be vs is. But if it were something like n elements with values from 0-(n-1) we wouldn't need to sort and could figure it out in O(n) time directly.
 def minimumSwaps(self, nums: List[int]) -> int:
     maxx, minn = max(nums), min(nums)
     max_idx, min_idx = 0, float('inf')

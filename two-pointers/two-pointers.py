@@ -218,3 +218,25 @@ def minimumOperations(self, nums: List[int]) -> int:
             left += 1
             right -= 1
     return ops
+
+# Valid Palindrome IV LeetCode Medium
+# https://leetcode.com/problems/valid-palindrome-iv/description/?envType=study-plan-v2&envId=amazon-spring-23-high-frequency
+# : You are given a 0-indexed string s consisting of only lowercase English letters. In one operation, you can change any character of s to any other character.
+# : Return true if you can make s a palindrome after performing exactly one or two operations, or return false otherwise.
+# TC: O(n), SC: O(n) 
+# approach: write a function that checks for palindrome using 2 pointers converging to the center of the string
+# if there are chances remaining and the pointer's characters don't match, skip them both (equivalent to setting either one to the other)
+# and recall the function with 1 less chance
+def makePalindrome(self, s: str) -> bool:
+    
+    def checkForPalindrome(s, chances):
+        if chances == -1: return False
+        left, right = 0, len(s)-1
+        while left < right:
+            if s[left] != s[right]:
+                return checkForPalindrome(s[left+1:right], chances-1)
+            left += 1
+            right -= 1
+        return True
+
+    return checkForPalindrome(s, 2)
