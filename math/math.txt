@@ -1,0 +1,6 @@
+
+
+Composite Number
+A composite number is a positive integer divisible by smaller positive integers other than 1 and itself, aka those numbers that have more than two factors. 
+It can be proven that a composite number must have a prime factor less than or equal to its square root.
+Every composite number can be written as the product of two or more (not necessarily distinct) primes - so all composite numbers have at least one prime factor (less than it's square root). "every composite number has exactly one prime factorization."

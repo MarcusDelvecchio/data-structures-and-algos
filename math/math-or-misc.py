@@ -14,6 +14,42 @@ def pivotInteger(self, n: int) -> int:
         curr += 1
     return -1
 
+# The kth Factor of n LeetCode Medium (this solution is Easy, see below fo medium in < O(n))
+# https://leetcode.com/problems/the-kth-factor-of-n/description/?envType=study-plan-v2&envId=amazon-spring-23-high-frequency
+# TC: O(n), SC: O(1)
+# : You are given two positive integers n and k. A factor of an integer n is defined as an integer i where n % i == 0.
+# : Consider a list of all factors of n sorted in ascending order, return the kth factor in this list or return -1 if n has less than k factors.
+# follow up is: how to solve this in < O(n) time?
+def kthFactor(self, n: int, k: int) -> int:
+    factors = set()
+    for i in range(1, n+1):
+        if n % i == 0:
+            k -= 1
+            if k == 0:
+                return i
+    return -1
+
+# The kth Factor of n LeetCode Medium O(sqrt(n)*logk)
+# https://leetcode.com/problems/the-kth-factor-of-n/description/?envType=study-plan-v2&envId=amazon-spring-23-high-frequency
+# note there is also a way to do it in O(nsqrt(n)) see https://leetcode.com/problems/the-kth-factor-of-n/solutions/3882180/python-o-sqrt-n-with-explaination-top-95/?envType=study-plan-v2&envId=amazon-spring-23-high-frequency
+# we only need to check factors up until sqrt(n) because all other factors larger than sqrt(n) may be derived from factors less than sqrt(n) -> because finding a factor gives us a second factor
+# so iterater up to sqrt(n) and add every factor and it's pairing factor to a heap that maintains the k smallest factors
+# if the heap grows beyond k factors, pop the largest factors (flipped-value min heap)
+# and then at the end return the largest (thus, the kth overall largest) factor from the heap
+# TC: O(sqrt(n)logk), SC: O(k)
+def kthFactor(self, n: int, k: int) -> int:
+    factors = [] # heap representing the k smallest factors
+    for i in range(1, int(math.sqrt(n))+1):
+        val = n
+        if val % i == 0:
+            heapq.heappush(factors, -i)
+            if i != n//i:
+                heapq.heappush(factors, n//-i)
+
+            while len(factors) > k:
+                item = heapq.heappop(factors)
+    return -heapq.heappop(factors) if len(factors) == k else -1
+
 # Product of Array Except Self LeetCode Medium
 # https://leetcode.com/problems/product-of-array-except-self/
 # TC: O(n), SC: O(n)
