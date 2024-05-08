@@ -217,3 +217,32 @@ def maxSubarrayLength(self, nums: List[int], k: int) -> int:
             left += 1
         max_len = max(max_len, right-left+1)
     return max_len
+
+# Minimum Swaps to Group All 1's Together LeetCode Medium
+# https://leetcode.com/problems/minimum-swaps-to-group-all-1s-together/description/?envType=study-plan-v2&envId=amazon-spring-23-high-frequency
+# : Given a binary array data, return the minimum number of swaps required to group all 1’s present in the array together in any place in the array.
+# TC: O(n), SC: O(1)
+# approach: sliding window. Expand window until number of zeros inside of the window is equal to the number of ones outside of the window.
+# simple but a bit tricky. Also note the variable ones / total ones can be combined into one but is more clear when two varaiables are used
+# 8 mins before coming up with sliding windiow solution after looking at topic
+def minSwaps(self, data: List[int]) -> int:
+    total_ones = data.count(1) # total ones in the string
+    best = float('inf') # smallest window
+    left = 0 
+    ones = 0 # number of ones in the window
+    zeros = 0 # number of zeros in the window
+    for right in range(len(data)):
+        if data[right] == 1:
+            ones += 1
+        else:
+            zeros += 1
+        
+        while zeros == total_ones - ones:
+            best = min(best, zeros)
+            if data[left] == 1:
+                ones -= 1
+            else:
+                zeros -= 1
+            left += 1
+
+    return best if total_ones != 0 else 0
