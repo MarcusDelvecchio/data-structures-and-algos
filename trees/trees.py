@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 # Definition for a binary tree node.
 class TreeNode:
@@ -1091,3 +1091,30 @@ def smallestFromLeaf(self, root: Optional[TreeNode]) -> str:
                 leaf = leaf.parent
             return "".join(ans)
     return "".join(ans)
+
+# Lowest Common Ancestor of a Binary Tree IV LeetCode Medium
+# https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree-iv/description/?envType=study-plan-v2&envId=amazon-spring-23-high-frequency
+# Given the root of a binary tree and an array of TreeNode objects nodes, return the lowest common ancestor (LCA) of all the nodes in nodes. All the nodes will exist in the tree, and all values of the tree's nodes are unique.
+# Note that I initially decided to return an array from every node reprresenting which of the nodes we have found out of the entire list of nodes
+# but got a TLE (even though that was also an O(n) solution, it is technically O(n*nodes) solution which caused TLE)
+# note that we didn't need to do this because why return a list? if we found *any* of the nodes in the child subtree then we must include that entire subtree
+def lowestCommonAncestor(self, root: 'TreeNode', nodes: 'List[TreeNode]') -> 'TreeNode':
+    nodes = {node.val: True for node in nodes}
+
+    def dfs(root):
+        if not root: return False, None
+
+        # check left and right
+        found_in_left, left_LCA = dfs(root.left)
+        found_in_right, right_LCA = dfs(root.right)
+
+        if root.val in nodes or found_in_left and found_in_right: # if this node is in the list to find or both left and right subtrees include a node, this node could be the LCA
+            return True, root
+        elif found_in_right: # if a required is found only in right, return the LCA of the right
+            return True, right_LCA
+        elif found_in_left: # if a required is found only in left, return the LCA of the left
+            return True, left_LCA
+        else: # else, this node does not need to be included and there is no potential LCA here
+            return False, None
+    
+    return dfs(root)[1]
