@@ -1,5 +1,77 @@
 from types import List
 
+# Design Snake Game LeetCode Medium
+# https://leetcode.com/problems/design-snake-game/submissions/1252198125/
+# TC: O(1) for all operations but spawnNextFood is O(n)
+# note this question has ambiguities and not well documented + limited test cases
+class SnakeGame:
+
+    def __init__(self, width: int, height: int, food: List[List[int]]):
+        self.grid = [[0]*width for _ in range(height)]
+        self.score = 0
+        self.path = collections.deque([[0,0]])
+        self.occupied = set() # provides O(1) lookup time so we don't have to traverse entire snake path every time 
+        self.food = collections.deque(food)
+        self.food_reminaing = len(food)
+
+        # add initial food to the grid
+        self.occupied.add((0,0))
+        self.spawnNextFood()          
+
+    def move(self, direction: str) -> int:
+        rows, cols = len(self.grid), len(self.grid[0])
+        # check next move, if invalid, end game
+        head = self.path[-1]
+        row, col = head[0], head[1]
+        if direction == "R":
+            col += 1
+        elif direction == "L":
+            col -= 1
+        elif direction == "U":
+            row -= 1
+        else:# direction == "D":
+            row += 1
+        
+        # validate the snake is still in the grid
+        if row < 0 or row == rows or col < 0 or col == cols:
+            return -1
+        
+        # valid the snake has not run into itself
+        if self.grid[row][col] == 1 and (self.path[0][0] != row or self.path[0][1] != col):
+            return -1
+
+        # else if next move location is food, generate next food
+        self.path.append([row, col])
+        self.occupied.add((row, col))
+        if self.grid[row][col] == 2:
+            self.score += 1
+            self.spawnNextFood()
+        else:
+
+            # remove the tail item
+            tail = self.path.popleft()
+            if tail[0] != row or tail[1] != col: # don't set the tail value to 0 again if we are oging back to the square the tail is on
+                self.grid[tail[0]][tail[1]] = 0
+                self.occupied.remove((tail[0], tail[1]))
+        
+        self.grid[row][col] = 1
+        return self.score
+
+    def spawnNextFood(self):
+        # if all food is collected, end game
+        if not self.food_reminaing:
+            return
+
+        # find next food item that isn't under the snake
+        # or don't show next food at all
+        i = 0
+        while i < len(self.food) and (not self.food[i] or tuple(self.food[i]) in self.occupied):
+            i += 1
+        if i < len(self.food) and self.food[i] and tuple(self.food[i]) not in self.occupied:
+            self.food_reminaing -= 1
+            self.grid[self.food[i][0]][self.food[i][1]] = 2
+            self.food[i] = None
+
 # Design Hit Counter LeetCode Medium
 # https://leetcode.com/problems/design-hit-counter/description/
 # Design a hit counter which counts the number of hits received in the past 5 minutes (i.e., the past 300 seconds).
@@ -61,7 +133,7 @@ class Bitset:
         self.bits = [0]*size        
         self.flipped = False
         self.ones_count = 0
-        
+
     def getBit(self, idx):
         return int(self.bits[idx] and not self.flipped or not self.bits[idx] and self.flipped)
 
