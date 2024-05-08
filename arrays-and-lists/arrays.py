@@ -1,3 +1,17 @@
+from types import List
+from collections import defaultdict, Counter
+
+# Relative Ranks LeetCode Easy
+# https://leetcode.com/problems/relative-ranks/description/?envType=daily-question&envId=2024-05-08
+# Given an integer array score of size n, where score[i] is the score of the ith athlete in a competition. All the scores are guaranteed to be unique.
+# return a list of representing the place of each score in the overall scores, and replace 1st, 2nd and 3rd rank with medal strings (see desc)
+# TC: O(nlogn), SC: O(n)
+# actually had some issues with this and trying to doit in 3 lines, took >15 mins
+def findRelativeRanks(self, score: List[int]) -> List[str]:
+    medals = {1: "Gold Medal", 2: "Silver Medal", 3: "Bronze Medal"}
+    scores = {s: idx for idx, s in enumerate(sorted(score))}
+    return [str(len(score) - scores[s]) if (len(score) - scores[s]) not in medals else medals[(len(score) - scores[s])] for s in score]
+
 # Two Sum Easy
 # https://leetcode.com/problems/two-sum/
 # TC: O(n), SC: O(n)
