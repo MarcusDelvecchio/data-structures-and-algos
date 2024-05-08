@@ -1,3 +1,5 @@
+from types import List
+
 # Valid Palindrome LeetCode Easy
 # https://leetcode.com/problems/valid-palindrome/description/
 # took 6 mins
@@ -190,3 +192,29 @@ def maxArea(self, height: List[int]) -> int:
         else: #if height[left] > height[right] or (height[left] == height[right] and height[left+1] > height[right-1]):
             right -= 1
     return maxx
+
+# Merge Operations to Turn Array Into a Palindrome LeetCode Medium
+# https://leetcode.com/problems/merge-operations-to-turn-array-into-a-palindrome/description/?envType=study-plan-v2&envId=amazon-spring-23-high-frequency
+# : You are given an array nums consisting of positive integers. You can perform an operaiton to combine any two adjacent elements into their sum
+# : Return the minimum number of operations needed to turn the array into a palindrome.
+# appraoch: use two pointers from left and right. When pointer values are not equal, combine the lesser one with it's next value and move that pointer forward
+# TC: O(n), SC: O(1)
+# tried to use stack at the beginning which wasn't a great decision because why use O(n) space when you can use O(1)
+# (using stack) didn't realize edge case: when number of items is odd we can't simply ignore the center item becuase this oculd be used in an operation on one side to combine to get a value
+# also didn't consider edge case: negative numbers. Even though they are all positive, I didn't even realize until I realized the edge case and read that it wasn't an issue 10 mins in
+def minimumOperations(self, nums: List[int]) -> int:
+    left, right, ops = 0, len(nums)-1, 0
+
+    while left < right:
+        if nums[left] != nums[right] and nums[left] < nums[right]:
+            left += 1
+            nums[left] += nums[left-1]
+            ops += 1
+        elif nums[left] != nums[right] and nums[left] > nums[right]:
+            right -= 1
+            nums[right] += nums[right+1]
+            ops += 1
+        else:
+            left += 1
+            right -= 1
+    return ops

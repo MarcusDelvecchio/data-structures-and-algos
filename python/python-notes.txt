@@ -271,9 +271,14 @@ gotchas / notes
     - so to compare lists by length don't forget key=len
 - time complexity of python list deletion by index (using the del[idx] method) is O(n) (as expected)
 - not difference between x//y and int(x/y) is that "//" always rounds down towards -∞, while int() just trims the decimal. So they will diverge for any division in the negatives.
-
+- note when you try to get the 'mid' of an array/subarray using mid = (left+right)//2 or mid = len(arr)//2 it will give the middle item if the number of elements in the array is odd. If the number is even, it always gives the second of the two center items.
 
 conversions // methods // notes
+
+getting mid value in even lengthed array returns the second middle item:
+
+    s = "test"
+    print(s[len(s)//2])     # prints 's'
 
 self keyword
 
