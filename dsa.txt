@@ -111,3 +111,24 @@ examples:
 
     for Hand of Straights - never considered that there could be duplicate numbers in the input list (even though it's in the exmaple) and setup a completely invalid solution
     https://leetcode.com/problems/hand-of-straights/description/
+
+
+Solving Problems with the help of problem constraints
+see https://leetcode.com/discuss/interview-question/1105473/solving-problems-with-aid-of-problem-constraints
+how to determine for what input size each time complexity is suitable
+
+Size of Input -> Worst accepted algorithm
+<=[10....11] -> O(N!) ,O(n^6)
+<=[15......18] -> O(2^N*N^2)
+<=[18......22] -> O(2^N*N)
+<=100 -> O(N^4)
+<=400 -> O(N^3)
+<=2K -> O(N^2*logN)
+<=10K -> O(N^2)
+<=1M -> O(N*logN)
+<=100M -> O(N),O(logN)
+
+"
+when I see constraints in problem like N>10^4 immeditaly it rings me the bell that i need something at least O(n*logn) or O(n) even better.
+If i see n<1000 i am extra sure that my nested for loop solution is in right track.
+"

@@ -84,6 +84,25 @@ def partitionString(self, s: str) -> int:
             seen.add(c)
     return subs
 
+# Maximize Happiness of Selected Children LeetCode Medium
+# https://leetcode.com/problems/maximize-happiness-of-selected-children/description/
+# Given an array happiness where happiness[i] represents the happiness of child i, you want to select k children in turns. When you select a child
+# the score goes up by that child's happiness value, but the remaining children's happiness is all reduced by 1. A child's happiness also cannot become negative but rather, stay at zero.
+# return the largest score / happiness of all selected children you can obtain
+# approach: greedy, you would think there might be some strategy for choosing smallest vs largest first, but it alwyas makes the most sense to select the largest value, becuase k is always less than n, 
+# so you don't want to lose out on larger values by not selecting them until the end or potentially not selecting them at all
+# approach: sort the chidlren, continuously take the largest child value until you have taken k children
+# TC: O(nlogn), SC: O(1) 
+def maximumHappinessSum(self, happiness: List[int], k: int) -> int:
+    happiness.sort(reverse=True)
+    reduction = ans = 0
+    for val in happiness:
+        if not k: break
+        ans += max(val - reduction, 0)
+        reduction += 1
+        k -= 1
+    return ans
+
 # Maximum Number of Coins You Can Get LeetCode Medium
 # greedy mediums easier than LC gards
 #
