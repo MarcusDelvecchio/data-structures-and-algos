@@ -118,6 +118,38 @@ def maxCoins(self, piles: List[int]) -> int:
         left += 1
     return ans
 
+# Minimum Number of Keypresses LeetCode Medium
+# https://leetcode.com/problems/minimum-number-of-keypresses/description/?envType=study-plan-v2&envId=amazon-spring-23-high-frequency
+# : You have a keypad with 9 buttons, numbered from 1 to 9, each mapped to lowercase English letters. You can choose which characters each button is matched to as long as:
+# : All 26 lowercase English letters are mapped to.
+# : Each character is mapped to by exactly 1 button.
+# : Each button maps to at most 3 characters.
+# : To type the first character matched to a button, you press the button once. To type the second character, you press the button twice, and so on.
+# : Given a string s, return the minimum number of keypresses needed to type s using your keypad.
+# TC: O(n), SC: O(1)
+# approach: assign the most frequent characters to 'first slots' on a number until there are not more first slots,
+# then second slots then third, tracking the excpected presses based on the frequency of items and the slots we place them in
+def minimumKeypresses(self, s: str) -> int:
+    # get the frequencies of each letter
+    freq = collections.Counter(s)
+
+    # create array of most frequent items
+    most_freq = sorted([c for c in freq], key=lambda c: freq[c], reverse=True)
+
+    # dispense letters across keys based on positions
+    ans = 0
+    first_slots = second_slots = 9
+    for c in most_freq:
+        if first_slots: # if there are first slots remaining, put the next most frequent character ina first slot and add char_frequency*1 to ans
+            first_slots -= 1
+            ans += freq[c]*1
+        elif second_slots: # else if there are second slots remaining, put the next most frequent character ina second slot and add char_frequency*2 to ans
+            second_slots -= 1
+            ans += freq[c]*2
+        else:  # put the next most frequent character in third slot and add char_frequency*3 to ans
+            ans += freq[c]*3
+    return ans
+
 # Find Minimum Time to Finish All Jobs II LeetCode Medium
 # https://leetcode.com/problems/find-minimum-time-to-finish-all-jobs-ii/?envType=study-plan-v2&envId=amazon-spring-23-high-frequency
 # TC: O(nlogn), SC: O(n)
