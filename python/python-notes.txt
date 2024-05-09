@@ -328,3 +328,10 @@ avoiding temp to swap / adjust values
     using a single line:
     sec_last, last = last, max(nums[i]+sec_last, last)
 
+note these loop edge cases
+
+    for i in range(0,0):
+        # doesn't loop
+
+    for i in range(0,-1, -1):
+        # loops once

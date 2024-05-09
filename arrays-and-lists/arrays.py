@@ -1,6 +1,13 @@
 from types import List
 from collections import defaultdict, Counter
 
+# Kids With the Greatest Number of Candies LeetCode Easy
+# https://leetcode.com/problems/kids-with-the-greatest-number-of-candies/description/?envType=study-plan-v2&envId=amazon-spring-23-high-frequency
+# given an array of integers each representing a kid with that integer number of candies, return an array of boolean values representing whether or not each kid will have more candies than all of the other kids (or equal to the max)
+def kidsWithCandies(self, candies: List[int], extraCandies: int) -> List[bool]:
+    maxx = max(candies)
+    return [candies[i] + extraCandies >= maxx for i in range(len(candies))]
+
 # Relative Ranks LeetCode Easy
 # https://leetcode.com/problems/relative-ranks/description/?envType=daily-question&envId=2024-05-08
 # Given an integer array score of size n, where score[i] is the score of the ith athlete in a competition. All the scores are guaranteed to be unique.
