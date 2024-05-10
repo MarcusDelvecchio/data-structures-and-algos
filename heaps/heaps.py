@@ -604,3 +604,27 @@ def topKFrequent(self, nums: List[int], k: int) -> List[int]:
     # then return the remaining k items in the heap (any order, just extract value)
     # TC O(k)
     return [item for _, item in first_k]
+
+# K-th Smallest Prime Fraction LeetCode Medium
+# https://leetcode.com/problems/k-th-smallest-prime-fraction/description/
+# You are given a sorted integer array arr containing 1 and prime numbers, where all the integers of arr are unique. You are also given an integer k.
+# for every i and j where 0 <= i < j < arr.length, we consider the fraction arr[i] / arr[j].Return the kth smallest fraction considered. Return your answer as an array of integers of size 2, where answer[0] == arr[i] and answer[1] == arr[j].
+# TC: O((k^2)logk), SC: O(n)
+# approach: calculate smallest fractions and maintain a max-heap of size k
+# adding all items for pairs where we start with smallest and largest value to create a fraction, and move smallest forward k times or largest down k times
+def kthSmallestPrimeFraction(self, arr: List[int], k: int) -> List[int]:
+    heap = []
+    fracs = collections.defaultdict(list) # store the fraction numerator/denominator pairs in a dict so that we don't need to constantly recalculate the fractions
+    for left in range(min(len(arr), k)):
+        for right in range(len(arr)-1, min(-1, len(arr)-1-k), -1):
+            if right == left: break
+            frac = arr[left]/arr[right]
+            if len(heap) == k:
+                removed = heapq.heappushpop(heap, -frac)
+                if removed != -frac:
+                    del fracs[removed]
+                    fracs[-frac] = [arr[left], arr[right]]
+            else:
+                heapq.heappush(heap, -frac)
+                fracs[-frac] = [arr[left], arr[right]]
+    return fracs[heap[0]]

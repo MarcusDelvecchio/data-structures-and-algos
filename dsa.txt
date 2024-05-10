@@ -100,7 +100,7 @@ things to remember:
 - realize and describe your assumptions
 - #permutations > #combinations
 - space complexity of say a counter of characters/numbers is actually O(1) because characters can only be a finite number of things!!
-- number of substrings in a string is n^2
+- number of substrings in a string is n^2 / number of subsets in a list/array is n^2
 
 general learning priiples for getting better at DSA/LC:
 - try to avoid the "let me just change this and re-run the tests" mentality. When you change something you should train yourself to think about
