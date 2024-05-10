@@ -1,6 +1,6 @@
-import heapq as hq
-from collections import Counter
-from heapq import heappush, heappop, heapify
+from types import list, Optional
+from collections import Counter, defaultdict
+from heapq import heappush, heappop, heapify, nlargest, heappushpop
 
 # iterates through a given list and returns true if it is a valid max-heap else false
 def is_max_heap(l):
@@ -145,10 +145,10 @@ def max_heap_del_by_val(l, val):
 # see this answer for interesting description of how to make the solution more and more efficient https://leetcode.com/problems/kth-largest-element-in-an-array/solutions/762174/4-python-solutions-with-step-by-step-optimization-plus-time-and-space-analysis/
 def findKthLargest(self, nums: List[int], k: int) -> int:
     nums_max = [-num for num in nums]
-    heapq.heapify(nums_max)
+    heapify(nums_max)
     val = None
     for _ in range(k):
-        val = heapq.heappop(nums_max)
+        val = heappop(nums_max)
     return -val
 
 # Last Stone Weight LeetCode Easy
@@ -157,13 +157,13 @@ def findKthLargest(self, nums: List[int], k: int) -> int:
 #    ^building           ^for every 2 inputs we pop 2 (which takes logn to heapify)a and insert 1
 def lastStoneWeight(self, stones: List[int]) -> int:
     stones = [-num for num in stones]
-    heapq.heapify(stones)
+    heapify(stones)
     while len(stones) > 1:
-        stone_1 = -heapq.heappop(stones)
-        stone_2 = -heapq.heappop(stones)
+        stone_1 = -heappop(stones)
+        stone_2 = -heappop(stones)
 
         if stone_1 > stone_2:
-            heapq.heappush(stones, stone_2-stone_1)
+            heappush(stones, stone_2-stone_1)
     return -stones[0] if stones else 0
 
 # Largest Number After Digit Swaps by Parity LeetCode Easy
@@ -176,10 +176,10 @@ def largestInteger(self, num: int) -> int:
     num, res, num_odd, num_even = str(num), "", [], []
     for digit in num:
         num_odd.append(-int(digit)) if int(digit)%2 == 1 else num_even.append(-int(digit))
-    heapq.heapify(num_even)
-    heapq.heapify(num_odd)
+    heapify(num_even)
+    heapify(num_odd)
     for digit in num:
-        res += str(-heapq.heappop(num_even)) if int(digit)%2 == 0 else str(-heapq.heappop(num_odd))
+        res += str(-heappop(num_even)) if int(digit)%2 == 0 else str(-heappop(num_odd))
     return int(res)
 
 
@@ -197,11 +197,11 @@ def topKFrequent(self, nums: List[int], k: int) -> List[int]:
     n = [(-freq[num], num) for num in freq.keys()]
 
     # heapify this list. O(n)
-    heapq.heapify(n)
+    heapify(n)
 
     # extract the largest item from the heap k times. O(klogn)
     for _ in range(k):
-        res.append(heapq.heappop(n)[1])
+        res.append(heappop(n)[1])
     return res
 
 # more efficient solution to above
@@ -222,25 +222,25 @@ def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         first_k.append((freq[num], num)) if idx < k else remaining.append((freq[num], num))
 
     # heapify first k items O(k)
-    heapq.heapify(first_k)
+    heapify(first_k)
 
     # pushpop the remaining items O((n-k)logk)
     while remaining:
-        heapq.heappushpop(first_k, remaining.pop())
+        heappushpop(first_k, remaining.pop())
     
     # pop the remaining k items O(klogk)
     # note we do not need to do this because it can be any order
     while first_k:
-        res.append(heapq.heappop(first_k)[1])
+        res.append(heappop(first_k)[1])
     return res
 
-# the above solution can also be simplified using pythons heapq.nlargest function just to clean things up
+# the above solution can also be simplified using pythons nlargest function just to clean things up
 # this nlargest function does exactly what we have done above. Creating a heap of k (where k = n in 'nlargest') elements and then pushpoping the remaining items to maintain the n/k largest
 def topKFrequent(self, nums: List[int], k: int) -> List[int]:
     freq, first_k, remaining = Counter(nums), [], []
 
     # get nlargest values using heapq function. O(nlogk)
-    largest = heapq.nlargest(k, [(freq[num], num) for num in freq.keys()])
+    largest = nlargest(k, [(freq[num], num) for num in freq.keys()])
     return [item[1] for item in largest]
 
 # greedy solution
@@ -254,12 +254,12 @@ def kSmallestPairs(self, nums1: List[int], nums2: List[int], k: int) -> List[Lis
             if len(h) < k:
                 h.append((-(nums1[i]+nums2[j]),nums1[i],nums2[j]))
             elif len(h) == k:
-                heapq.heapify(h)
-                heapq.heappushpop(h, (-(nums1[i]+nums2[j]), nums1[i],nums2[j]))
+                heapify(h)
+                heappushpop(h, (-(nums1[i]+nums2[j]), nums1[i],nums2[j]))
             else:
-                heapq.heappushpop(h, (-(nums1[i]+nums2[j]), nums1[i],nums2[j]))
+                heappushpop(h, (-(nums1[i]+nums2[j]), nums1[i],nums2[j]))
     while h:
-        pair = heapq.heappop(h)
+        pair = heappop(h)
         res.append([pair[1], pair[2]])
     return reversed(res)
 
@@ -330,7 +330,7 @@ def findClosestElements(self, arr: List[int], k: int, x: int) -> List[int]:
     return sorted(res)
 
 
-# import heapq as hq
+# import heapq as heapq
 # Least Number of Unique Integers after K Removals LeetCode Medium
 # Given an array of integers arr and an integer k. Find the least number of unique integers after removing exactly k elements.
 # https://leetcode.com/problems/least-number-of-unique-integers-after-k-removals/description/?envType=daily-question&envId=2024-02-16
@@ -347,12 +347,12 @@ def findLeastNumOfUniqueInts(self, arr: List[int], k: int) -> int:
     uniques = len(freq)
 
     # heapify list - O(n)
-    hq.heapify(n)
+    heapify(n)
 
     # heappop the items with the lowest frequency for the k items being removed
     # O(klogn)
     while k > 0:
-        smallest = hq.heappop(n)
+        smallest = heappop(n)
         if smallest[0] <= k:
             k -= smallest[0]
             uniques -= 1
@@ -379,12 +379,12 @@ def findLeastNumOfUniqueInts(self, arr: List[int], k: int) -> int:
     
 
     # heapify the first k items of the list - O(k)
-    hq.heapify(n)
+    heapify(n)
 
     # heappop the items with the lowest frequency for the k items being removed
     # O(klogk)
     while k > 0:
-        smallest = hq.heappop(n)
+        smallest = heappop(n)
         if smallest[0] <= k:
             k -= smallest[0]
             uniques -= 1
@@ -444,7 +444,7 @@ def furthestBuilding(self, heights: List[int], bricks: int, ladders: int) -> int
         i += 1
 
     # max-heapify this lift - this is O(n) but the largest size of the list is bricks, so this is O(bricks)
-    hq.heapify(first_n_buildings)
+    heapify(first_n_buildings)
 
     # continuously use our ladders on the greatest build now (greatest in the heap or the next item if it is greater)
     # O(nlogn) - because for every n in the list of heights (worst case) we will either heap-push or heap-pop, which is an O(logn) operation for a heap of max size n
@@ -456,16 +456,16 @@ def furthestBuilding(self, heights: List[int], bricks: int, ladders: int) -> int
             continue
         if heights[i] - heights[i-1] <= bricks:
             bricks -= heights[i] - heights[i-1]
-            hq.heappush(first_n_buildings, -(heights[i] - heights[i-1]))
+            heappush(first_n_buildings, -(heights[i] - heights[i-1]))
             i += 1
             continue
         if ladders == 0: break
         if first_n_buildings:
             largest = -(first_n_buildings[0])
             if largest > (heights[i] - heights[i-1]):
-                hq.heappop(first_n_buildings)
+                heappop(first_n_buildings)
                 bricks += largest - (heights[i] - heights[i-1])
-                hq.heappush(first_n_buildings, -(heights[i] - heights[i-1]))
+                heappush(first_n_buildings, -(heights[i] - heights[i-1]))
         ladders -= 1
         i += 1
 
@@ -485,7 +485,7 @@ def furthestBuilding(self, heights: List[int], bricks: int, ladders: int) -> int
             continue
         if heights[i] - heights[i-1] <= bricks: # use our bricks to get to the next building if we can
             bricks -= heights[i] - heights[i-1]
-            hq.heappush(prev_transactions, -(heights[i] - heights[i-1]))
+            heappush(prev_transactions, -(heights[i] - heights[i-1]))
             i += 1
             continue
         
@@ -494,9 +494,9 @@ def furthestBuilding(self, heights: List[int], bricks: int, ladders: int) -> int
         if prev_transactions: # if we have not spent any gaps on buildings yet, we must use the ladder on the next building (we cannot exchange)
             largest = -(prev_transactions[0]) 
             if largest > (heights[i] - heights[i-1]): # compare the largest transaction to the next building and use our ladder on whichever is more costly
-                hq.heappop(prev_transactions)
+                heappop(prev_transactions)
                 bricks += largest - (heights[i] - heights[i-1]) # if we're using a ladder on a previous transaction we get the bricks back
-                hq.heappush(prev_transactions, -(heights[i] - heights[i-1]))
+                heappush(prev_transactions, -(heights[i] - heights[i-1]))
         ladders -= 1
         i += 1 # move to the next building
     return i-1
@@ -515,14 +515,14 @@ def mostBooked(self, n: int, meetings: List[List[int]]) -> int:
     available = [i for i in range(n)] # minheap of rooms available
     end_times = defaultdict(list) # dict of running meetings by endtime: rooms ending at that time
     room_counts = [0]*n # list of number of meetings that took place in each room
-    hq.heapify(available)
+    heapify(available)
 
     # iterate upwards in time
     for time in range(5*(10**5)+1):
         # if a meeting is waiting 
         while waiting and available:
-            meeting = hq.heappop(waiting)
-            room = hq.heappop(available)
+            meeting = heappop(waiting)
+            room = heappop(available)
             delay = time - meeting[0]
             end_times[meeting[1] + delay].append(room)
 
@@ -530,15 +530,15 @@ def mostBooked(self, n: int, meetings: List[List[int]]) -> int:
         if time in start_times:
             meeting = start_times[time]
             if available:
-                room = hq.heappop(available)
+                room = heappop(available)
                 end_times[meeting[1]].append(room)
             else:
-                hq.heappush(waiting, meeting)
+                heappush(waiting, meeting)
         
         # if a meeting is ending at this time
         if time+1 in end_times:
             for room in end_times[time+1]:
-                hq.heappush(available, room) # add room to available again
+                heappush(available, room) # add room to available again
                 room_counts[room] += 1
             end_times[time+1] = []
     
@@ -566,7 +566,7 @@ def mostBooked(self, n: int, meetings: List[List[int]]) -> int:
             heappush(free, room)
         
         if free:
-            room = heapq.heappop(free)
+            room = heappop(free)
             heappush(booked, [end, room])
         else:
             release, room = heappop(booked)
@@ -594,12 +594,12 @@ def topKFrequent(self, nums: List[int], k: int) -> List[int]:
     
     # heapify the first k items 
     # TC O(k)
-    hq.heapify(first_k)
+    heapify(first_k)
 
     # now continuously pushpop the remaining n-k items (this is a min heap so minimum items will be pushed)
     # TC O((n-k)logk)
     for item in remaining:
-        hq.heappushpop(first_k, item)
+        heappushpop(first_k, item)
     
     # then return the remaining k items in the heap (any order, just extract value)
     # TC O(k)
@@ -608,23 +608,27 @@ def topKFrequent(self, nums: List[int], k: int) -> List[int]:
 # K-th Smallest Prime Fraction LeetCode Medium
 # https://leetcode.com/problems/k-th-smallest-prime-fraction/description/
 # You are given a sorted integer array arr containing 1 and prime numbers, where all the integers of arr are unique. You are also given an integer k.
-# for every i and j where 0 <= i < j < arr.length, we consider the fraction arr[i] / arr[j].Return the kth smallest fraction considered. Return your answer as an array of integers of size 2, where answer[0] == arr[i] and answer[1] == arr[j].
+# for every i and j where 0 <= i < j < arr.length, we consider the fraction arr[i] / arr[j].
 # TC: O((k^2)logk), SC: O(n)
 # approach: calculate smallest fractions and maintain a max-heap of size k
 # adding all items for pairs where we start with smallest and largest value to create a fraction, and move smallest forward k times or largest down k times
+# todo come up with more efficient solution? is there a more efficient way?
 def kthSmallestPrimeFraction(self, arr: List[int], k: int) -> List[int]:
     heap = []
-    fracs = collections.defaultdict(list) # store the fraction numerator/denominator pairs in a dict so that we don't need to constantly recalculate the fractions
+    fracs = defaultdict(list) # store the fraction numerator/denominator pairs in a dict so that we don't need to constantly recalculate the fractions
     for left in range(min(len(arr), k)):
         for right in range(len(arr)-1, min(-1, len(arr)-1-k), -1):
             if right == left: break
             frac = arr[left]/arr[right]
             if len(heap) == k:
-                removed = heapq.heappushpop(heap, -frac)
+                removed = heappushpop(heap, -frac)
                 if removed != -frac:
                     del fracs[removed]
                     fracs[-frac] = [arr[left], arr[right]]
+                else:
+                    break # note this break here - don't contrinue adding if fraction is largest, because they will only continue to get larger
+                    # note that we cannot return here though
             else:
-                heapq.heappush(heap, -frac)
+                heappush(heap, -frac)
                 fracs[-frac] = [arr[left], arr[right]]
     return fracs[heap[0]]
