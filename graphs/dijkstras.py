@@ -46,3 +46,64 @@ def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
         if i not in visited:
             return -1
     return recent
+
+# The Maze II LeetCode Medium
+# https://leetcode.com/problems/the-maze-ii/description/
+# TC: O(n), SC: O(n)
+# this was a bit tedious just to add the logic for finidn next rightmost, leftmost, upmost and downmost cells the ball can move to
+# I could have probably implemented a more dynamic loop mechanism to traverse in directions as much as posisble but is fine to have separate modular methods
+def shortestDistance(self, maze: List[List[int]], start: List[int], destination: List[int]) -> int:
+    rows, cols = len(maze), len(maze[0])
+
+    def getUpmost(row, col):
+        dist = 0
+        while row-1 > -1 and maze[row-1][col] != 1:
+            row -= 1
+            dist += 1
+        return [dist, [row, col]] if dist else None
+    
+    def getDownmost(row, col):
+        dist = 0
+        while row + 1 < rows and maze[row+1][col] != 1:
+            row += 1
+            dist += 1
+        return [dist, [row, col]] if dist else None
+    
+    def getRightmost(row, col):
+        dist = 0
+        while col+1 < cols and maze[row][col+1] != 1:
+            col += 1
+            dist += 1
+        return [dist, [row, col]] if dist else None
+
+    def getLeftmost(row, col):
+        dist = 0
+        while col - 1 > -1 and maze[row][col-1] != 1:
+            col -= 1
+            dist += 1
+        return [dist, [row, col]] if dist else None
+
+    visited = set()
+    closestNextMoves = [[0, start]]
+    while closestNextMoves:
+        dist, cell = heapq.heappop(closestNextMoves)
+        if tuple(cell) in visited: continue
+        if cell == destination:
+            return dist
+        visited.add(tuple(cell))
+
+        # add all possible next cells to the queue
+        neighbors = []
+        left = getLeftmost(cell[0], cell[1])
+        right = getRightmost(cell[0], cell[1])
+        up = getUpmost(cell[0], cell[1])
+        down = getDownmost(cell[0], cell[1])
+        if left: neighbors.append(left)
+        if right: neighbors.append(right)
+        if up: neighbors.append(up)
+        if down: neighbors.append(down)
+
+        for neighbor_dist, neighbor in neighbors:
+            heapq.heappush(closestNextMoves, [neighbor_dist+dist, neighbor])
+
+        return -1
