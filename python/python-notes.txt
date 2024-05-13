@@ -335,3 +335,8 @@ note these loop edge cases
 
     for i in range(0,-1, -1):
         # loops once
+
+note on string comparisons
+- min(list_of_strings) returns the smallest string lexographically
+- note that strings can be shorter than others but still be lexographically larger aaabbb is smaller than aaac
+    - x is smaller than aaaaaa

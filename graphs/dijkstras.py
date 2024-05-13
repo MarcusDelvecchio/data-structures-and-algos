@@ -50,6 +50,10 @@ def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
 # The Maze II LeetCode Medium
 # https://leetcode.com/problems/the-maze-ii/description/
 # TC: O(n), SC: O(n)
+# : There is a ball in a maze with empty spaces (represented as 0) and walls (represented as 1). The ball can go through the empty spaces by rolling up, down, left or right, but it won't stop rolling until hitting a wall. When the ball stops, it could choose the next direction.
+# : Given the m x n maze, the ball's start position and the destination, where start = [startrow, startcol] and destination = [destinationrow, destinationcol], return the shortest distance for the ball to stop at the destination. If the ball cannot stop at destination, return -1.
+# : The distance is the number of empty spaces traveled by the ball from the start position (excluded) to the destination (included).
+# : You may assume that the borders of the maze are all walls (see examples).
 # this was a bit tedious just to add the logic for finidn next rightmost, leftmost, upmost and downmost cells the ball can move to
 # I could have probably implemented a more dynamic loop mechanism to traverse in directions as much as posisble but is fine to have separate modular methods
 def shortestDistance(self, maze: List[List[int]], start: List[int], destination: List[int]) -> int:
@@ -107,3 +111,53 @@ def shortestDistance(self, maze: List[List[int]], start: List[int], destination:
             heapq.heappush(closestNextMoves, [neighbor_dist+dist, neighbor])
 
         return -1
+
+# The Maze III LeetCode Hard
+# https://leetcode.com/problems/the-maze-iii/description/
+# TC: O(n), SC: O(n)
+def findShortestWay(self, maze: List[List[int]], ball: List[int], hole: List[int]) -> str:
+    rows, cols = len(maze), len(maze[0])
+
+    directions = {
+        'd': (1, 0),
+        'u': (-1, 0),
+        'l': (0, -1),
+        'r': (0, 1)
+    }            
+
+    heap = [[0, ball, ""]] # next moves
+    visited = set()
+    best_dist = None
+    best_paths = []
+    while heap:
+        move_dist, cell, path = heapq.heappop(heap)
+        if tuple(cell) in visited: continue
+        visited.add(tuple(cell))
+        if best_dist != None and move_dist > best_dist:
+            return min(best_paths)
+
+        for direction in directions:
+            shouldStop = False
+            dx, dy = 0, 0
+            farthest = [cell[0] + dx, cell[1] + dy]
+
+            # continue in the direction while possible
+            while 0 <= cell[0] + dx <= rows - 1 and 0 <= cell[1] + dy <= cols - 1 and maze[cell[0] + dx][cell[1] + dy] != 1:
+                farthest = [cell[0] + dx, cell[1] + dy]
+                # check if this cell is the hole
+                if farthest == hole:
+                    travel_dist = move_dist + max(abs(farthest[0] - cell[0]), abs(farthest[1] - cell[1]))
+                    if best_dist == None or travel_dist == best_dist:
+                        best_dist = travel_dist
+                        best_paths.append(path + direction)
+                        shouldStop = True
+                        break                            
+                dx += directions[direction][0]
+                dy += directions[direction][1]
+
+            if shouldStop: break
+            if farthest != cell:
+                travel_dist = max(abs(farthest[0] - cell[0]), abs(farthest[1] - cell[1])) + move_dist
+                heapq.heappush(heap, [travel_dist, farthest, path + direction])
+
+    return "impossible" if not best_paths else min(best_paths)
