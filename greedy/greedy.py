@@ -1,3 +1,6 @@
+from types import List
+from collections import defaultdict, Counter
+
 # Largest Odd Number in String LeetCode Easy
 # https://leetcode.com/problems/largest-odd-number-in-string/description/
 # took 1:30
@@ -856,4 +859,32 @@ def checkValidString(self, s: str) -> bool:
             return False
         if min_open < 0:
             min_open = 0
-    return 0 >= min_open # and 0 <= max_open
+    return 0 >= min_open # and 0 <= max_open'
+
+# Minimum Cost to Hire K Workers LeetCode Hard
+# https://leetcode.com/problems/minimum-cost-to-hire-k-workers/description/
+# TC: O(nlogn), SC: O(n)
+# todo add notes on approach when reviewed
+def mincostToHireWorkers(self, quality: List[int], wage: List[int], k: int) -> float:
+    res = float('inf')
+
+    # for each worker, calculate their quality / wage ratio
+    ratios = []
+    for i in range(len(quality)):
+        ratio = wage[i]/quality[i]
+        ratios.append((ratio, quality[i]))
+    ratios.sort(key=lambda x: x[0])
+    
+    heap = []
+    total_quality = 0
+    for ratio, q in ratios:
+        total_quality += q
+        heapq.heappush(heap, -q)
+
+        if len(heap) > k:
+            total_quality += heapq.heappop(heap)
+
+        if len(heap) == k:
+            res = min(res, total_quality*ratio)
+    
+    return res
