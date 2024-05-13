@@ -182,3 +182,34 @@ def minimumEffortPath(self, heights: List[List[int]]) -> int:
             next_row, next_col = row + row_dif, col + col_dif
             if 0 <= next_row <= rows - 1 and 0 <= next_col <= cols - 1:
                 heapq.heappush(nextCellHeap, [max(effort, abs(heights[row][col] - heights[next_row][next_col])), next_row, next_col])
+
+# Find the City With the Smallest Number of Neighbors at a Threshold Distance LeetCode Medium
+# https://leetcode.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance/description/
+# TC: O(n^2), SC: O(n)
+def findTheCity(self, n: int, edges: List[List[int]], distanceThreshold: int) -> int:
+    neighbors = collections.defaultdict(list)
+    for src, tar, weight in edges:
+        neighbors[src].append([tar, weight])
+        neighbors[tar].append([src, weight])
+
+    min_cities = float('inf')
+    min_city = None
+    for i in range(n):
+        heap = [[0, i]]
+        visited = set()
+        cities_in_range = 0
+        while heap:
+            path_total, city = heapq.heappop(heap)
+            if path_total > distanceThreshold or city in visited: continue
+            else:
+                visited.add(city)
+                cities_in_range += 1
+
+            for neighbor, weight in neighbors[city]:
+                heapq.heappush(heap, [path_total + weight, neighbor])
+        
+        # check if it is min city
+        if cities_in_range - 1 <= min_cities: # covers case where is equal to but greater city number
+            min_cities = cities_in_range - 1
+            min_city = i
+    return min_city

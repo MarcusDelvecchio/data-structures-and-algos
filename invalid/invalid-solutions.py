@@ -151,3 +151,30 @@ def minimumScore(self, s: str, t: str) -> int:
                     below_dif = dp[i+1][j][1] - i
                     dp[i][j] = (i, dp[i+1][j][1]) if below_dif < right_dif else dp[i][j+1]
     return dp[0][0][1] - dp[0][0][0] + 1
+
+# Critical Connections in a Network LeetCode Hard
+# TLE - input i snodes <= 10,000 so should have noticed we cannot use O(n^2) solution (for DFS it is O((E + V)^2))
+def criticalConnections(self, n: int, connections: List[List[int]]) -> List[List[int]]:
+    critical = []
+    neighbors = collections.defaultdict(list)
+    for src, tar in connections:
+        neighbors[src].append(tar)
+        neighbors[tar].append(src)
+
+    for i in range(len(connections)):
+        visited = set()
+        nodes = [0]
+        while nodes:
+            node = nodes.pop()
+            if node in visited: continue
+            visited.add(node)
+            for neighbor in neighbors[node]:
+                if [node, neighbor] != connections[i] and [neighbor, node] != connections[i]:\
+                    nodes.append(neighbor)
+        # check that every node can be visited
+        for node in range(n):
+            if node not in visited:
+                critical.append(connections[i])
+                break
+    
+    return critical
