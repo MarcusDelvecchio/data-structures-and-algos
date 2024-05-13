@@ -720,6 +720,41 @@ def minimumOperations(self, nums: List[int]) -> int:
     else:
         return len(set(nums))
 
+# Score After Flipping Matrix LeetCode Medium
+# TC: O(n), SC: O(1)
+# interesting problem
+# : You are given an m x n binary matrix grid.: 
+# : A move consists of choosing any row or column and toggling each value in that row or column (i.e., changing all 0's to 1's, and all 1's to 0's).
+# : Every row of the matrix is interpreted as a binary number, and the score of the matrix is the sum of these numbers.
+# : Return the highest possible score after making any number of moves (including zero moves).
+def matrixScore(self, grid: List[List[int]]) -> int:
+    rows, cols = len(grid), len(grid[0])
+    # flip rows so that the leftmost digits are all 1s
+    for row in range(rows):
+        if grid[row][0] == 0:
+            for col in range(cols):
+                grid[row][col] = int(not grid[row][col])
+
+    # flip the columns as to produce the greatest number of ones in each column
+    for col in range(cols):
+        col_ones = 0
+        for row in range(rows):
+            if grid[row][col] == 1:
+                col_ones += 1
+        if rows - col_ones > col_ones: # if less ones than zeros flip the col
+            for row in range(rows):
+                grid[row][col] = int(not grid[row][col])
+
+    # calculate the score
+    score = 0
+    for row in range(rows):
+        fac = 0
+        for col in range(cols-1, -1, -1):
+            if grid[row][col] == 1:
+                score += 2**fac
+            fac += 1
+    return score
+
 # Remove K Digits LeetCode Medium - pretty tough greedy
 # Given string num representing a non-negative integer num, and an integer k, return the smallest possible integer after removing k digits from num.
 # https://leetcode.com/problems/remove-k-digits
