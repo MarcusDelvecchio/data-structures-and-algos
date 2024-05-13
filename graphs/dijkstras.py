@@ -20,3 +20,29 @@ def maxProbability(self, n: int, edges: List[List[int]], succProb: List[float], 
         for neighbor_prob, neighbor in neighbors[node]:
             heapq.heappush(maxProbHeap, [prob*neighbor_prob, neighbor])
     return 0
+
+# Network Delay Time LeetCode Medium
+# https://leetcode.com/problems/network-delay-time
+# TC: O(n), SC O(n)
+def networkDelayTime(self, times: List[List[int]], n: int, k: int) -> int:
+    neighbors = collections.defaultdict(list)
+    for start, end, weight in times:
+        neighbors[start].append([weight, end])
+
+    closestNodes = [[0, k]]
+    visited = set()
+    recent = None
+    while closestNodes:
+        weight, node = heapq.heappop(closestNodes)
+        if node in visited: continue
+        visited.add(node)
+        recent = weight
+
+        for neighbor_weight, neighbor in neighbors[node]:
+            heapq.heappush(closestNodes, [weight+neighbor_weight, neighbor])
+    
+    # check that every node has been visited
+    for i in range(1, n+1):
+        if i not in visited:
+            return -1
+    return recent
