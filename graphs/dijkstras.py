@@ -161,3 +161,24 @@ def findShortestWay(self, maze: List[List[int]], ball: List[int], hole: List[int
                 heapq.heappush(heap, [travel_dist, farthest, path + direction])
 
     return "impossible" if not best_paths else min(best_paths)
+
+# Path With Minimum Effort LeetCode Medium
+# https://leetcode.com/problems/path-with-minimum-effort/description/
+# TC: O(n), SC: O(n)
+def minimumEffortPath(self, heights: List[List[int]]) -> int:
+    rows, cols = len(heights), len(heights[0])
+    directions = [(-1, 0), (1, 0), (0, -1), (0, 1)] # up, down, left, right
+
+    nextCellHeap = [[0, 0, 0]]
+    visited = set()
+    while nextCellHeap:
+        effort, row, col = heapq.heappop(nextCellHeap)
+        if (row, col) in visited: continue
+        if row == rows - 1 and col == cols - 1: return effort
+        visited.add((row, col))
+
+        # consider moving to all directions
+        for row_dif, col_dif in directions:
+            next_row, next_col = row + row_dif, col + col_dif
+            if 0 <= next_row <= rows - 1 and 0 <= next_col <= cols - 1:
+                heapq.heappush(nextCellHeap, [max(effort, abs(heights[row][col] - heights[next_row][next_col])), next_row, next_col])
