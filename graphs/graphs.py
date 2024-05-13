@@ -483,3 +483,56 @@ def findFarmland(self, land: List[List[int]]) -> List[List[int]]:
                 res.append([row, col])
                 dfs(row, col)
     return res
+
+# BFS: Shortest Reach in a Graph HackerRank Hard
+# https://www.hackerrank.com/challenges/ctci-bfs-shortest-reach/problem
+# Define a class that allows you to perform the following: Considerf an undirected graph of nodes from 1 to n where the edge between any two nodes is always of length 6. We define node  to be the starting position for a BFS. Given a graph, determine the distances from the start node to each of its descendants and return the list in node number order, ascending ans[i] is the distance from initial node to node i. Note that we do not include the start node in the ans, so there should be n-1 values in the ans.If a node is disconnected, it's distance should be -1.
+# create a class for Graph with method to perform the operations outlined.
+# note that the inputa dn outputs are not super intuitive so I recommend reading the initial question if the solution isn't too clear.
+
+# this code was provided, it shows you how they expect you to set up the graph class and initialize the edges
+t = int(input())
+for i in range(t):
+    n, m = [int(value) for value in input().split()]
+    graph = Graph(n)
+    for i in range(m):
+        x, y = [int(x) for x in input().split()]
+        graph.connect(x-1, y-1)
+    s = int(input())
+    graph.find_all_distances(s-1)
+
+# this is the graph class I created. I defined methods connect, __init__ and find_all_distances
+class Graph:
+    
+    def __init__(self, num_nodes):
+        self.nodes = num_nodes
+        self.node_neighbors = defaultdict(list)
+        
+    def connect(self, start, end):
+        self.node_neighbors[start].append(end)
+        self.node_neighbors[end].append(start)
+                
+    def find_all_distances(self, start_node):
+        nodes = deque([start_node])
+        node_distances = defaultdict(int)
+        depth = 0
+        while nodes:
+            size = len(nodes)
+            for _ in range(size):
+                node = nodes.popleft()
+                if node in node_distances:
+                    continue
+                node_distances[node] = depth*6
+                
+                # add all of the neighbors of this node to the queue
+                for neighbor in self.node_neighbors[node]:
+                    nodes.append(neighbor)
+            depth += 1
+        
+        # compose result
+        res = ""
+        for node in range(self.nodes):
+            if node != start_node:
+                res += str(node_distances[node] if node in node_distances else -1) + " "
+        print(res) # needed to print the response in hackerank
+        return res
