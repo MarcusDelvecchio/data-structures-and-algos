@@ -1051,3 +1051,31 @@ def mincostTickets(self, days: List[int], costs: List[int]) -> int:
         return res
 
     return solve(0)
+
+# Path with Maximum Gold LeetCode Medium
+# https://leetcode.com/problems/path-with-maximum-gold/description/?envType=daily-question&envId=2024-05-14
+# : In a gold mine grid of size m x n, each cell in this mine has an integer representing the amount of gold in that cell, 0 if it is empty.
+# : Return the maximum amount of gold you can collect under the conditions:
+# : Every time you are located in a cell you will collect all the gold in that cell.
+# : From your position, you can walk one step to the left, right, up, or down.
+# : You can't visit the same cell more than once.
+# : Never visit a cell with 0 gold.
+# : You can start and stop collecting gold from any position in the grid that has some gold.
+# TC: O(n^2) // O((n*m)^2)
+# SC: O(n*m)
+def getMaximumGold(self, grid: List[List[int]]) -> int:
+    rows, cols = len(grid), len(grid[0])
+
+    def dfs(row, col, visited):
+        if (row, col) in visited or row == -1 or row == rows or col == -1 or col == cols or grid[row][col] == 0: return 0
+
+        visited.add((row, col))
+        ans = grid[row][col] + max(dfs(row+1, col, visited), dfs(row, col+1, visited), dfs(row-1, col, visited), dfs(row, col-1, visited))
+        visited.remove((row, col))
+        return ans
+
+    best = 0
+    for r in range(rows):
+        for c in range(cols):
+            best = max(dfs(r, c, set()), best)
+    return best
