@@ -280,6 +280,9 @@ getting mid value in even lengthed array returns the second middle item:
     s = "test"
     print(s[len(s)//2])     # prints 's'
 
+    s = "tes"
+    print(s[len(s)//2])     # prints 'e' - center character
+
 self keyword
 
     x = Bank()

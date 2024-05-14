@@ -15,6 +15,26 @@ def isValid(self, s: str) -> bool:
             chars.pop()
     return not bool(chars)
 
+# Balanced Brackets HackRank Medium
+# same as above just used helper function instead of mapping opening to close (latter is cleaner)
+def isMatch(open, close):
+    if open == "(":
+        return close == ")"
+    elif open == "[":
+        return close == "]"
+    elif open == "{":
+        return close == "}"
+def isBalanced(s):
+    stack = []
+    for c in s:
+        if c == "(" or c == "[" or c == "{":
+            stack.append(c)
+        elif stack and isMatch(stack[-1], c):
+            stack.pop()
+        else:
+            return "NO"
+    return "NO" if stack else "YES"
+
 # Palindrome Linked List LeetCode Easy
 # Given the head of a singly linked list, return true if it is a palindrome or false otherwise.
 # https://leetcode.com/problems/palindrome-linked-list/description/?envType=daily-question&envId=2024-03-22
