@@ -168,3 +168,66 @@ class TrieNode:
     def __init__(self):
         self.children = {}
         self.endOfWord = False
+
+
+# Contacts HackerRank Medium
+# https://www.hackerrank.com/challenges/contacts/problem
+# Create a 'Contacts' application! The application must perform two types of operations:
+# 1. add name, where name is a string denoting a contact name. This must store name as a new contact in the application.
+# 2. find partial, where partial is a string denoting a partial name to search the application for. It must count the number of contacts starting with partial and print the count on a new line.
+# Given n sequential add and find operations, perform each operation in order.
+# TC: O(n) for both operations, SC: O(n) where n is all queries
+class TreeNode:
+    
+    def __init__(self, char):
+        self.char = char
+        self.isEndWord = False
+        self.children = {}
+        self.childWords = 0
+        
+    def addNewChild(self, node):
+        self.children[node.char] = node
+        self.childWords += 1
+        return node
+        
+        
+def getEndWordsBelow(node):
+    ans = 1 if node.isEndWord else 0
+    for child in node.children:
+        ans += getEndWordsBelow(node.children[child])
+    return ans
+
+def contacts(queries):
+    prefix_tree = TreeNode("")
+    ans = []
+    for q in queries:
+        op, word = q
+        if op == "add":
+            # tarverse the tree while nodes match
+            word_idx = 0
+            node = prefix_tree
+            while word_idx < len(word) and word[word_idx] in node.children:
+                node.childWords += 1
+                node = node.children[word[word_idx]]
+                word_idx += 1
+                
+            # add the node when it no longer matches items in the tree
+            for idx in range(word_idx, len(word)):
+                node = node.addNewChild(TreeNode(word[idx]))
+            node.childWords += 1
+        elif op == "find":
+            # traverse the tree while nodes match (or don't)
+            word_idx = 0
+            node = prefix_tree
+            while word_idx < len(word) and word[word_idx] in node.children:
+                node = node.children[word[word_idx]]
+                word_idx += 1
+                
+            # if we haven't gone through the whole word, no matches
+            if word_idx < len(word):
+                ans.append(0)
+                continue
+                
+            # else, perform dfs to find nodes that have isEndWord == True
+            ans.append(node.childWords)
+    return ans
