@@ -16,6 +16,26 @@ def maxDepth(self, root: Optional[TreeNode]) -> int:
     right_ans = maxDepth(self, root.right)
     return max(left_ans, right_ans) + 1
 
+# same thing as above but using DFS
+# Tree: Height of a Binary Tree HackerRank Easy
+# https://www.hackerrank.com/challenges/tree-height-of-a-binary-tree/problem
+def height(root):
+    nodes = deque([root])
+    depth = 0
+    
+    while nodes:
+        size = len(nodes)
+        for _ in range(size):
+            node = nodes.popleft()
+            
+            # add nodes children
+            if node.right:
+                nodes.append(node.right)
+            if node.left:
+                nodes.append(node.left)
+        depth += 1
+    return depth-1
+
 # Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
 # https://leetcode.com/explore/learn/card/data-structure-tree/17/solve-problems-recursively/536/
 # ex:   Input: root = [1,2,2,3,4,4,3]
