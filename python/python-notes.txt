@@ -283,6 +283,14 @@ getting mid value in even lengthed array returns the second middle item:
     s = "tes"
     print(s[len(s)//2])     # prints 'e' - center character
 
+    but note different with indices if I have an odd number of indices and I want ot find the middle index, the mid index defualt to the earlier of the two
+    print((0+1)//2) # prints 0
+    
+    a = [0,1,2,3]
+    left, right = 0, 3
+    print((left+right)//2) # prints 1
+
+
 self keyword
 
     x = Bank()

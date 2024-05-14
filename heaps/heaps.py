@@ -632,3 +632,54 @@ def kthSmallestPrimeFraction(self, arr: List[int], k: int) -> List[int]:
                 heappush(heap, -frac)
                 fracs[-frac] = [arr[left], arr[right]]
     return fracs[heap[0]]
+
+
+# Find Median from Data Stream LeetCode Hard
+# https://www.hackerrank.com/challenges/find-the-running-median/problem
+# https://leetcode.com/problems/find-median-from-data-stream/description/
+# TC: O(log(n/2) = O(logn) for addNum
+# TC: O(1) for findMedian
+# approach: # 2 heaps, max-heap for left of median and min heap for right of median.
+# difference between the heaps should be at most 1 so that if one heap is larger, it's root is the median
+# To insert a value we add the value to the corresponding heap and then re-balance if we need to
+class MedianFinder:
+
+    def __init__(self):
+        self.less = []
+        self.more = []        
+
+    def addNum(self, num: int) -> None:
+        more, less = self.more, self.less
+
+        if not more: # add to more by default
+            heappush(more, num)
+        elif not less:
+            heappush(less, -num)
+            if -less[0] > more[0]: # if we just added to left, that means we also just added to more (max 1 dif in size), so these values may need to be reversed
+                less[0], more[0] = -more[0], -less[0]
+        elif len(more) == len(less): # if equal sizes, add to the corresponding heap
+            if num > -less[0]:
+                heappush(more, num)
+            else:
+                heappush(less, -num)
+        elif len(more) > len(less): # if right heap is larger, add to left if the value belongs there, else, heappushpop into right and add new minimum of right to left
+            if num <= -less[0]:
+                heappush(less, -num)
+            else:
+                # add new item to more and take smallest item from more & add to less
+                heappush(less, -heappushpop(more, num))
+        elif len(less) > len(more): # if left heap is larger, add to right if the value belongs there, else, heappushpop into left and add new maximum of left to right
+            if num >= more[0]:
+                heappush(more, num)
+            else:
+                # add new item to less and take largest item from less & add to more
+                heappush(more, -heappushpop(less, -num))
+
+    # median will always either be the root of the heap with more values or the average of the two roots if they are the same size
+    def findMedian(self) -> float:
+        if len(self.more) == len(self.less):
+            return (self.more[0] - self.less[0])/2
+        elif len(self.more) > len(self.less):
+            return float(self.more[0])
+        else:
+            return -float(self.less[0])

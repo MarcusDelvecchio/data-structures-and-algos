@@ -178,3 +178,42 @@ def criticalConnections(self, n: int, connections: List[List[int]]) -> List[List
                 break
     
     return critical
+
+# Find the Running Median HackerRank Hard
+# https://www.hackerrank.com/challenges/find-the-running-median/problem
+# this is a O(n*nlogn) solution that does binary search to find the place tyo insert each int into the array and then finds the median
+# but shifting the array after each insert causes extreme inefficiencies and the solution goes from being O(nlogn) to (n^2)logn
+# Complete the 'runningMedian' function below.
+# The function is expected to return a DOUBLE_ARRAY.
+# The function accepts INTEGER_ARRAY a as parameter.
+def addItemToList(items, mid, i):
+    if items[mid] <= i:
+        items = items[:mid+1] + [i] + items[mid+1:]
+    else:
+        items = items[:mid] + [i] + items[mid:]
+    return items
+
+def runningMedian(a):
+    ans = []
+    items = []
+    for i in a:
+        left, right = 0, len(items)-1
+        mid_idx = 0
+        while left < right:
+            mid_idx = (left+right)//2
+            if items[mid_idx] < i:
+                left = mid_idx + 1
+            elif items[mid_idx] > i:
+                right = mid_idx - 1
+            else:
+                # items[mid_idx] == i
+                break
+        if len(items) >= 1:
+            items = addItemToList(items, (left+right)//2, i)
+        else:
+            items = [i]
+        
+        # add median to ans
+        mid = len(items)//2
+        ans.append(float(items[mid] if len(items) % 2 == 1 else (items[mid] + items[mid-1])/2))
+    return ans
