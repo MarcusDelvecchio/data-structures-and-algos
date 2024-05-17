@@ -42,6 +42,28 @@ Recursive or Iterative
     **Typically when you delete nodes in a tree, deletion process will be in post-order. That is to say, when 
     you delete a node, you will delete its left child and its right child before you delete the node itself.**
 
+
+
+            25
+           /   \
+          /     \
+         15      50
+        /  \    /  \
+       /    \  /    \
+      10   22 35    70
+
+    in-order:
+        10, 15, 22, 25, 35, 50, 70
+                     ^
+        - notice that left of root is in-order traversal or left subtree and right of root is in-order traversal of right subtree
+        - note that the in-order traversal of two different trees can be the same though they are structurally different.
+    
+    pre-order:
+        [todo]
+
+
+
+
 ===== Level order Traversal ====
 Level-order traversal is to traverse the tree level by level. Breadth-First Search is an algorithm to traverse or search in data structures like a tree or a 
 graph. The algorithm starts with a root node and visit the node itself first. Then traverse its neighbors, traverse its second level neighbors, traverse its 

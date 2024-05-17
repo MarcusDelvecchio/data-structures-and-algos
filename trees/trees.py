@@ -242,6 +242,32 @@ def sumNumbers(self, root: Optional[TreeNode]) -> int:
     get_sum(root, "")
     return self.res
 
+# Delete Leaves With a Given Value LeetCode Medium
+# https://leetcode.com/problems/delete-leaves-with-a-given-value/description/?envType=daily-question&envId=2024-05-17
+# : Given a binary tree root and an integer target, delete all the leaf nodes with value target.
+# : Note that once you delete a leaf node with value target, if its parent node becomes a leaf node and has the value target, it should also be deleted (you need to continue doing that until you cannot).
+# approach: do dfs and have a node return true if it is in the "deleted" state, i.e., deletd or non-existient
+# if a child's two children (if any) are deleted, then that node itself is also elligible for deletion if it matches the target
+# but regardless of whether or not it is to be deleted, if either child is returns True to indicate is is to be deleted, the relationship to the child is removed
+# TC: O(n), SC: O(1), beats 98% in runtime
+def removeLeafNodes(self, root: Optional[TreeNode], target: int) -> Optional[TreeNode]:
+    
+    def dfs(root):
+        if not root: return True
+
+        left_deleted = dfs(root.left)
+        right_deleted = dfs(root.right)
+        if left_deleted: root.left = None
+        if right_deleted: root.right = None
+        elligible_for_deletion = left_deleted and right_deleted
+
+        if elligible_for_deletion and root.val == target:
+            return True
+        return False
+    
+    delete_root = dfs(root)
+    return None if delete_root else root
+
 # Populating Next Right Pointers in Each Node
 # https://leetcode.com/problems/populating-next-right-pointers-in-each-node/description/
 # took 28 but I call it 25 becuase of stupid issues
@@ -1138,3 +1164,5 @@ def lowestCommonAncestor(self, root: 'TreeNode', nodes: 'List[TreeNode]') -> 'Tr
             return False, None
     
     return dfs(root)[1]
+
+# You are given a tree of n nodes where nodes are indexed from [1..n] and it is rooted at 1. You have to perform t swap operations on it, and after each swap operation print the in-order traversal of the current state of the tree.
