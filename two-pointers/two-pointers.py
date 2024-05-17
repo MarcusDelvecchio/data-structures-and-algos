@@ -240,3 +240,31 @@ def makePalindrome(self, s: str) -> bool:
         return True
 
     return checkForPalindrome(s, 2)
+
+# 4Sum LeetCode Medium
+# this solution requires 4-pointers
+# https://leetcode.com/problems/4sum/description/
+# : Given an array nums of n integers, return an array of all the unique quadruplets [nums[a], nums[b], nums[c], nums[d]] such that:
+# : 0 <= a, b, c, d < n
+# : a, b, c, and d are distinct.
+# : nums[a] + nums[b] + nums[c] + nums[d] == target
+# : You may return the answer in any order.
+# TC: O(n^3)
+def fourSum(self, nums: List[int], target: int) -> List[List[int]]:
+    nums.sort()
+
+    ans = set()
+    for p1 in range(len(nums)-3):
+        for p2 in range(p1+1, len(nums)-2):
+            p3, p4 = p2 + 1, len(nums)-1
+            
+            while p3 < p4:
+                if target < nums[p1] + nums[p2] + nums[p3] + nums[p4]:
+                    p4 -= 1
+                elif target > nums[p1] + nums[p2] + nums[p3] + nums[p4]:
+                    p3 += 1
+                else:
+                    ans.add((nums[p1], nums[p2], nums[p3], nums[p4]))
+                    p3 += 1
+                    p4 -= 1
+    return list(ans)
