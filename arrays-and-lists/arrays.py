@@ -589,3 +589,26 @@ def countSubstrings(self, s: str) -> int:
                 left -= 1
                 right += 1
     return palindromes
+
+# Remove Duplicates from Sorted Array II LeetCode Medium
+# https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/description/
+# : Given an integer array nums sorted in non-decreasing order, remove some duplicates in-place such that each unique element appears at most twice. The relative order of the elements should be kept the same.
+# : Return k after placing the final result in the first k slots of nums.
+# TC: O(n), SC: O(1)
+# this is actually a good question and struggled for a bit to find a simple way to do it
+def removeDuplicates(self, nums: List[int]) -> int:
+    
+    curr = 1
+    curr_occurance = 1
+
+    for i in range(1, len(nums)):
+        if nums[i] == nums[i-1]:
+            curr_occurance += 1
+        else:
+            curr_occurance = 1
+        
+        if curr_occurance <= 2:
+            nums[curr] = nums[i]
+            curr += 1
+    
+    return curr
