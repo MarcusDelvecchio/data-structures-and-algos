@@ -1166,3 +1166,34 @@ def lowestCommonAncestor(self, root: 'TreeNode', nodes: 'List[TreeNode]') -> 'Tr
     return dfs(root)[1]
 
 # You are given a tree of n nodes where nodes are indexed from [1..n] and it is rooted at 1. You have to perform t swap operations on it, and after each swap operation print the in-order traversal of the current state of the tree.
+
+
+# Distribute Coins in Binary Tree LeetCode Medium
+# https://leetcode.com/problems/distribute-coins-in-binary-tree/
+# : You are given the root of a binary tree with n nodes where each node in the tree has node.val coins. There are n coins in total throughout the whole tree.
+# : In one move, we may choose two adjacent nodes and move one coin from one node to another. A move may be from parent to child, or from child to parent.
+# : Return the minimum number of moves required to make every node have exactly one coin.
+# TC: O(n), SC: O(n)
+# pretty tough and not-intuitive. Definitely one of the hardest medium trees problems I've seen
+# notes: this is not a standard/simple recursive problem. The initial problem is to find the number of moves requires to re-distribute n coins in a tree with n nodes
+# but note that the sub problem (the left or right child of the current node) is not nessessarily n nodes and n coins.
+# So having nodes == coins is not a precondition to the problem
+# parameters and base case
+def distributeCoins(self, root: Optional[TreeNode]) -> int:
+    ans = [0]
+
+    def dfs(root):
+        if not root: return 0
+        
+        # check left and right subtrees for positive and negative vacancies
+        vacancies_left = dfs(root.left)
+        vacancies_right = dfs(root.right)
+        node_quantity = root.val - 1 # the vacancy value of the current node
+
+        # if we have positive or negative vacancies, these coins will need to be redistriobuted upwards (if pos) or downwards (if neg). So we acount for the moves in res
+        ans[0] += abs(vacancies_left + vacancies_right + node_quantity)
+
+        return vacancies_left + vacancies_right + node_quantity
+
+    dfs(root)
+    return ans[0]
