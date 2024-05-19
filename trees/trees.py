@@ -1169,15 +1169,23 @@ def lowestCommonAncestor(self, root: 'TreeNode', nodes: 'List[TreeNode]') -> 'Tr
 
 
 # Distribute Coins in Binary Tree LeetCode Medium
+# pretty tough and unintuitive. Definitely one of the hardest medium trees problems I've seen
 # https://leetcode.com/problems/distribute-coins-in-binary-tree/
+# this took like 40 mins
 # : You are given the root of a binary tree with n nodes where each node in the tree has node.val coins. There are n coins in total throughout the whole tree.
 # : In one move, we may choose two adjacent nodes and move one coin from one node to another. A move may be from parent to child, or from child to parent.
 # : Return the minimum number of moves required to make every node have exactly one coin.
 # TC: O(n), SC: O(n)
-# pretty tough and not-intuitive. Definitely one of the hardest medium trees problems I've seen
 # notes: this is not a standard/simple recursive problem. The initial problem is to find the number of moves requires to re-distribute n coins in a tree with n nodes
-# but note that the sub problem (the left or right child of the current node) is not nessessarily n nodes and n coins.
+# but note that the sub problem (the recursive call to the left or right child of a node) is not nessessarily n nodes and n coins.
 # So having nodes == coins is not a precondition to the problem
+# approach: we must see the problem through the perspective that since all nodes require a single coin, subtrees can end up with less or more coins that needed
+# we consider the lack/excess of coins in a subtree as 'positive or nagative' vancancies. Andfor every node, we consider it's 'vacancy' value (whether it has extra coins to pass along to childrent or up to parent)
+# and realize that for every vacancy, whether or positive or negative, the corresponding number of coins must be redistributed upwards (if pos) or downwards (if neg)
+# so for every node, we check determine the vacancy value based on it's two children and it's own value, and add that vacancy to the total ans
+# if my node is of value 4 and it has 2 child nodes (that have no further children), those two child nodes will have a vacancy value of -1, meaning that they require 1 coin to be sent downwards to them
+# those nodes will already add their vacnacy values (1 each) to the total ans, but our parent node will have a total vacancy value of -1 (left) + -1 (right) + (4-1) (self - 1 coin required for self) = 1
+# so that means this node must redictribute it's 1 excess coin upwards, so we add that 1 extra to the ans and return 1 upwards
 # parameters and base case
 def distributeCoins(self, root: Optional[TreeNode]) -> int:
     ans = [0]
@@ -1190,10 +1198,68 @@ def distributeCoins(self, root: Optional[TreeNode]) -> int:
         vacancies_right = dfs(root.right)
         node_quantity = root.val - 1 # the vacancy value of the current node
 
-        # if we have positive or negative vacancies, these coins will need to be redistriobuted upwards (if pos) or downwards (if neg). So we acount for the moves in res
+        # if we have positive or negative vacancies, these coins will need to be . So we acount for the moves in res
         ans[0] += abs(vacancies_left + vacancies_right + node_quantity)
 
         return vacancies_left + vacancies_right + node_quantity
 
     dfs(root)
     return ans[0]
+
+# ^^TODO this similar HARD problem https://leetcode.com/problems/sum-of-distances-in-tree/
+
+
+# Maximum Score After Applying Operations on a Tree LeetCode Medium
+# https://leetcode.com/problems/maximum-score-after-applying-operations-on-a-tree/description/
+# Pretty tough, not sure if it is just because I haven't been doing too many tree problems recently
+# : There is an undirected tree with n nodes labeled from 0 to n - 1, and rooted at node 0. You are given a 2D integer array edges of length n - 1, where edges[i] = [ai, bi] indicates that there is an edge between nodes ai and bi in the tree.
+# : You are also given a 0-indexed integer array values of length n, where values[i] is the value associated with the ith node.
+# : You start with a score of 0. In one operation, you can:
+# : Pick any node i.
+# : Add values[i] to your score.
+# : Set values[i] to 0.
+# : A tree is healthy if the sum of values on the path from the root to any leaf node is different than zero.
+# : Return the maximum score you can obtain after performing these operations on the tree any number of times so that it remains healthy.
+# approach: for every path from root to node, at least a single node value must be preserved and not used in the total
+# so for every node, we should traverse it's children (if any) and calculate the minimum nodes that can be preserved (see child_total_min_preserved) for each subtree such that the
+# property is maintained. We should then compare the SUM of these minimum preserved nodes in each subtree to the current node itself
+# if the node's value is less than all of the indivdual nodes summed, then we can simply preserve THIS node instead of the individual ones
+# since this node is a common ancestor to all the child trees, it will be sufficient for all subtree paths if this one is preserved
+# and we do this comparison for uevery node, gonig up the tree, and returning two calues 1. the tree accumulative total and 2. the sub of the minimum nodes ot preserve. 
+# we then subtract the minimum preserved from the total as our result
+# TC: O(n), SC: O(n)
+# a unrelatred complication that I faced here was the fact that the tree was assumed to be rooted at 0 and the edges array contained one-directionsl edges
+# so a case arose where, even though the tree was rooted at zero, the single edge away from zero was in the edges list like [[7,0]]
+# so initially I added 0 to children[7] but not the other way around. And we never traversed past the route
+# because of this, I had to account for edges both ways, and implement a second param called 'parent' to ensure we do not tarverse back up to the parent of a child
+# because it's parent will also exist in it's children
+def maximumScoreAfterOperations(self, edges: List[List[int]], values: List[int]) -> int:
+    children = collections.defaultdict(list)
+
+    for src, tar in edges:
+        children[src].append(tar)
+        children[tar].append(src)
+    
+    # returns: sum, min_deducible
+    def dfs(node_num, parent):
+        val = values[node_num]
+
+        subtree_sums = child_total_min_preserved = 0
+        for child in children[node_num]:
+            if child == parent: continue
+            child_sum, subtree_min = dfs(child, node_num)
+            subtree_sums += child_sum
+            child_total_min_preserved += subtree_min
+        
+        # if our node does not have any subtrees then the minimum node to preserve is this node itself
+        if not subtree_sums:
+            child_total_min_preserved = val
+
+        # if keeping this node is better than resetting the min node from every child tree than we should consider keeping this node now
+        if val < child_total_min_preserved:
+            return subtree_sums + val, val
+        else:
+            return subtree_sums + val, child_total_min_preserved
+
+    tree_sum, minimum_to_keep = dfs(0, None)
+    return tree_sum - minimum_to_keep

@@ -132,3 +132,7 @@ Size of Input -> Worst accepted algorithm
 when I see constraints in problem like N>10^4 immeditaly it rings me the bell that i need something at least O(n*logn) or O(n) even better.
 If i see n<1000 i am extra sure that my nested for loop solution is in right track.
 "
+
+XOR Notes
+(A XOR B) XOR B = A
+(A XOR B) XOR A = B
