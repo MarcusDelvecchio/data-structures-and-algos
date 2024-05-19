@@ -1305,3 +1305,80 @@ def maximumValueSum(self, nums: List[int], k: int, edges: List[List[int]]) -> in
         return total
     
     return total - min(min_flip_loss, min_unflip_loss)
+
+# Find Number of Coins to Place in Tree Nodes LeetCode Hard
+# https://leetcode.com/problems/find-number-of-coins-to-place-in-tree-nodes/description/
+# TC: O(n), SC: O(n)
+# : (see desc)
+# a subproblem here is finding the maximum product of positive and negative numbers of values in the subtrees
+# I initially oversimplified to returning the largest values, but large negative values can also be included such that they are multiplied together to get a large positive
+# solution is to maintain the two largest negatives as well as the 3 largest positives so the follwing combinations can be used to get the largest product from 3 of them:
+# a: 2 largest negative and one largest positive
+# b: 3 largest positives
+def placedCoins(self, edges: List[List[int]], cost: List[int]) -> List[int]:
+    children = collections.defaultdict(list)
+    for from_, to_ in edges:
+        children[from_].append(to_)
+        children[to_].append(from_)
+
+    ans = [0]*len(cost)
+
+    # we use this function to traverse the largest and smallest items returned froim the children. We traverse largest 3 times to get the 3 largest and smallest twice to get the 2 largest negatives
+    # these is an O(3n) and O(3n) runtimes = O(n)
+    # rather than sorting all of the largest and smallests returned by the children, which is O(nlogn) for both operations
+    def updateLargestAndSmallest(all_largest, all_smallest):
+        largest_3, smallest_2 = [-float('inf'), -float('inf'), -float('inf')], [float('inf'), float('inf')]
+        for num in all_largest:
+            if num > largest_3[0]:
+                largest_3[2] = largest_3[1]
+                largest_3[1] = largest_3[0]
+                largest_3[0] = num
+            elif num > largest_3[1]:
+                largest_3[2] = largest_3[1]
+                largest_3[1] = num
+            elif num > largest_3[2]:
+                largest_3[2] = num
+        
+        for num in all_smallest:
+            if num < smallest_2[0]:
+                smallest_2[1] = smallest_2[0]
+                smallest_2[0] = num
+            elif num < smallest_2[1]:
+                smallest_2[1] = num
+        
+        return [num for num in largest_3 if num != -float('inf')], [num for num in smallest_2 if num != float('inf')]
+
+
+    def dfs(node_num, parent):
+
+        # explore the children and determine the size of the subtrees
+        tree_size = 0
+        tree_largest_costs = [cost[node_num]]
+        tree_largest_neg_costs = [cost[node_num]]
+        for child in children[node_num]:
+            if child == parent: continue
+            subtree_size, subtree_largest_3_pos, subtree_largest_two_neg = dfs(child, node_num)
+            tree_size += subtree_size
+            tree_largest_costs += subtree_largest_3_pos
+            tree_largest_neg_costs += subtree_largest_two_neg
+
+
+        # sorts and trim the largest costs array
+        largest_pos, largest_neg = updateLargestAndSmallest(tree_largest_costs, tree_largest_neg_costs)
+
+        # note the above funciton call is equivalent to the following two lines
+        # largest_pos = sorted(tree_largest_costs, reverse=True)[:4]
+        # largest_neg = sorted(tree_largest_neg_costs)[:3]
+
+        # calculate the cost of the node and add it to ans
+        # note I have hbere if subtree > 1 (assuming that the curren't node is counted in it's own subtree)
+        node_coins = 1
+        if tree_size > 1:
+            node_coins = max(0, largest_pos[0]*largest_pos[1]*largest_pos[2], largest_pos[0]*largest_neg[0]*largest_neg[1])
+        ans[node_num] = node_coins
+
+        # return the number of nodes in this overall subtree and the 3 maximum cost values to the parent
+        return tree_size + 1, largest_pos, largest_neg
+
+    dfs(0, None)
+    return ans
