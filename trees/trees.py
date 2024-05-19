@@ -1228,6 +1228,7 @@ def distributeCoins(self, root: Optional[TreeNode]) -> int:
 # and we do this comparison for uevery node, gonig up the tree, and returning two calues 1. the tree accumulative total and 2. the sub of the minimum nodes ot preserve. 
 # we then subtract the minimum preserved from the total as our result
 # TC: O(n), SC: O(n)
+# beats 93% runtime
 # a unrelatred complication that I faced here was the fact that the tree was assumed to be rooted at 0 and the edges array contained one-directionsl edges
 # so a case arose where, even though the tree was rooted at zero, the single edge away from zero was in the edges list like [[7,0]]
 # so initially I added 0 to children[7] but not the other way around. And we never traversed past the route
@@ -1263,3 +1264,44 @@ def maximumScoreAfterOperations(self, edges: List[List[int]], values: List[int])
 
     tree_sum, minimum_to_keep = dfs(0, None)
     return tree_sum - minimum_to_keep
+
+# Find the Maximum Sum of Node Values LeetCode Hard
+# https://leetcode.com/problems/find-the-maximum-sum-of-node-values/description/
+# : (see entire description this is simplified) Given an undirected tree (not binary though) and an integer k. You can take any edge on the tree and XOR the node's values with k, that are attached to that edge.
+# : return the largest possible sum of tree nodes that can be achieved by applying this operation any number of times to any number of edges.
+# approach: tough question until w principles are understood
+# 1. (a XOR b) XOR b = a => XORing a single number with the same number twice returns back to the same number
+# 2. if we have a tree like: a -- b -- c -- d
+# and we XOR nodes on edge c-d, and then XOR nodes on edge b-c, then c node has returned to it's initial state
+# likewise, if we then XOR nodes on edge a-b, then a is flipped and b returns to it's initial state
+# so based on the abaility to reverse these operations, we can esentially XOR any two nodes in the tree *regardless* of whether or not they are adjacent
+# by applying those operations to 'propagate' the XOR operation through the tree while also resetting nodes as we do so
+# so any two nodes can be XORed at a time any number of times
+# so the question then boils down to: given a tree, what is the maximum total sum that can be made with the nodes of the tree, given that we cna XOR *any* two nodes at at time with k, any number of times
+# approach: for every node in the tree, XOR it with k and compare it's value to the original
+# if it is greater than the original, use that value and increment the number of "flips", otherwise keep the original
+# at the end, if the number of flips is even, return the sum of all nodes
+# else, we must either unflip one value that has been flipped or flip one value has not been flipped, as to take the smallest loss to the total
+# we keep track of these with variables min_flip_loss and min_unflip_loss, the minimum losses to take if unflipped on at the end we had wanted to flip or flipping one we didn't. Whichever is smaller
+# TC: O(n), SC: O(1)
+# beats 98% runtime
+def maximumValueSum(self, nums: List[int], k: int, edges: List[List[int]]) -> int:
+    # (A XOR B) XOR B = A
+    # (A XOR B) XOR A = B
+
+    flips = total = 0
+    min_flip_loss = min_unflip_loss = float('inf')
+    for i in range(len(nums)):
+        flipped = nums[i] ^ k
+        if flipped > nums[i]:
+            flips += 1
+            total += flipped
+            min_unflip_loss = min(min_unflip_loss, flipped - nums[i])
+        else:
+            total += nums[i]
+            min_flip_loss = min(min_flip_loss, nums[i] - flipped)
+
+    if flips % 2 == 0:
+        return total
+    
+    return total - min(min_flip_loss, min_unflip_loss)

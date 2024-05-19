@@ -136,3 +136,39 @@ If i see n<1000 i am extra sure that my nested for loop solution is in right tra
 XOR Notes
 (A XOR B) XOR B = A
 (A XOR B) XOR A = B
+
+xoring values can increase the value to larger than both values
+
+    2 XOR 1 = 3
+    in binary:
+    010 XOR 001 -=> 011
+
+anything XOR itself is zero
+
+    3 XOR 3 = 0
+    binary:
+    011 XOR 011 = 0
+
+zero XOR anything is that anything
+
+    0 XOR 48 = 48
+
+
+anything xor anything else can never equal either of the two operators
+
+    the following two are impossible:
+    a XOR a = a
+    a XOR b = b
+
+
+XOR 4
+
+0 XOR 4 = 4
+1 XOR 4 = 4 + 1 = 5 (because completely different bits)
+2 XOR 4 = 4 + 2 = 6 (because completely different bits)
+3 XOR 4 = 4 + 3 = 7 (because completely different bits)\
+4 XOR 4 = 0
+5 XOR 4 = 1
+6 XOR 4 = 2
+7 XOR 4 = 3
+8 XOR 4 = 12
