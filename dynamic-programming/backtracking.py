@@ -1,5 +1,20 @@
 # backtracking interview prep notes here https://leetcode.com/problems/letter-combinations-of-a-phone-number/solutions/780232/Backtracking-Python-problems+-solutions-interview-prep/
 
+# Sum of All Subset XOR Totals LeetCode Easy
+# https://leetcode.com/problems/sum-of-all-subset-xor-totals/description/
+# TC: O(2^n), SC: O(n)
+# : The XOR total of an array is defined as the bitwise XOR of all its elements, or 0 if the array is empty.
+# : Given an array nums, return the sum of all XOR totals for every subset of nums. Note that subsets with the same elements should be counted multiple times.
+def subsetXORSum(self, nums: List[int]) -> int:
+    if not nums: return 0
+    
+    def solve(idx, total):
+        if idx == len(nums): return total
+        with_curr = solve(idx + 1, total^nums[idx])
+        without_curr = solve(idx + 1, total)
+        return with_curr + without_curr
+
+    return solve(0, 0)
 
 # Binary Tree Paths
 # https://leetcode.com/problems/binary-tree-paths/description/
