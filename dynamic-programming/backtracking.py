@@ -111,6 +111,8 @@ def subsets(self, nums: List[int]) -> List[List[int]]:
     return list(res.keys())
 
 # much cleaner, simpler. Don't need has maps because indx prevents duplicates
+# isn't this basically O(n!) though becuase for every element we consider going to all next elements
+# another solution below this that uses 'use or don't use current element' approach
 def subsets(self, nums: List[int]) -> List[List[int]]:
     res = []
 
@@ -120,6 +122,28 @@ def subsets(self, nums: List[int]) -> List[List[int]]:
             sets(i+1, curr + [nums[i]])
     sets(0, [])
     return res
+
+# TC: O(2^n), SC: O: O(2^n)
+# took 8 mins
+# if elements being unique was not part of the problem note we would have to sort all entires before putting them in the set
+def subsets(self, nums: List[int]) -> List[List[int]]:
+    
+    ans = set()
+    def subsets(idx, subset):
+
+        # add solution (this can be done on every func call or at the end)
+        if idx == len(nums):
+            ans.add(tuple(subset))
+            return
+
+        # consider using
+        subsets(idx + 1, subset + [nums[idx]])
+
+        # consider not using
+        subsets(idx + 1, subset)
+
+    subsets(0, [])
+    return list(ans)
 
 # and again I found a better solution - one that is more backtrack like
 # is O(2^n+1) it seems 
