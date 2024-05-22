@@ -260,3 +260,85 @@ class Twitter:
             if tweet.creator != followeeId:
                 new_feed.append(tweet)
         follower.feed = new_feed
+
+
+class Data:
+
+    def __init__(self, key, val):
+        self.val = val
+        self.key = key # need the key so it can delete itself
+        self.next = None
+        self.prev = None
+
+# LRU Cache LeetCode Medium
+# https://leetcode.com/problems/lru-cache/description/
+# Design a data structure that follows the constraints of a Least Recently Used (LRU) cache.
+# : Implement the LRUCache class:
+# : LRUCache(int capacity) Initialize the LRU cache with positive size capacity.
+# : int get(int key) Return the value of the key if the key exists, otherwise return -1.
+# : void put(int key, int value) Update the value of the key if the key exists. Otherwise, add the key-value pair to the cache. If the number of keys exceeds the capacity from this operation, evict the least recently used key.
+# : The functions get and put must each run in O(1) average time complexity.
+# TC: O(1) for all operations and O(n) where n is capacity
+# so many edge cases and had issues because all of the relationships in the DLL
+class LRUCache:
+
+    def __init__(self, capacity: int):
+        self.capacity = capacity
+        self.keys = {}
+        self.head = None
+        self.tail = None
+
+    def get(self, key: int) -> int:
+        res = None
+        if key in self.keys:
+            self.moveToTop(key)
+            res = self.keys[key].val
+        else:
+            res = -1
+
+        return res
+
+    def moveToTop(self, key):
+        if self.head == self.keys[key]: return
+
+        # if the item is the tail, update the tail to the next item
+        if self.keys[key] == self.tail and self.tail.next:
+            self.tail.next.prev = None
+            self.tail = self.tail.next
+        
+        # update the item before this item point at this items next item
+        # and update the item after this item to point at the previous item
+        if self.keys[key].prev:
+            self.keys[key].prev.next = self.keys[key].next
+            self.keys[key].next.prev = self.keys[key].prev
+
+        # point old head to this node and set the node to the head
+        self.head.next = self.keys[key]   
+        self.keys[key].prev = self.head
+        self.head = self.keys[key]
+        self.head.next = None
+
+    def put(self, key: int, value: int) -> None:
+
+        if key in self.keys:
+            self.keys[key].val = value
+            self.moveToTop(key)
+        else:
+            # create a new item, point the head to it and set it to the head
+            self.keys[key] = Data(key, value)
+            if self.head:
+                self.head.next = self.keys[key]
+                self.keys[key].prev = self.head
+            self.head = self.keys[key]
+
+            # update the self.tail
+            if len(self.keys) == 1:
+                self.tail = self.head
+            elif len(self.keys) > self.capacity:
+                temp = self.tail.next
+
+                # 'remove' the data
+                del self.keys[self.tail.key]
+                del self.tail
+                self.tail = temp
+                self.tail.prev = None
