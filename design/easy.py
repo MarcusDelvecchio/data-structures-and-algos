@@ -129,4 +129,19 @@ class MyHashMap:
                 node = node.next
             if node.next and node.next.key == key:
                 node.next = node.next.next
-                # old node.next is garbage collected  
+                # old node.next is garbage collected
+
+# Logger Rate Limiter LeetCode Easy
+# https://leetcode.com/problems/logger-rate-limiter/description/
+# TC: O(1), SC: O(n) where n is the total number of operations
+# this design never deletes old message timestamps
+class Logger:
+
+    def __init__(self):
+        self.recent_prints = {}
+
+    def shouldPrintMessage(self, timestamp: int, message: str) -> bool:
+        if message in self.recent_prints and self.recent_prints[message] + 10 > timestamp:
+            return False
+        self.recent_prints[message] = timestamp
+        return True
