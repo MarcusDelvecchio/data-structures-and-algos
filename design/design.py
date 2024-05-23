@@ -72,6 +72,72 @@ class SnakeGame:
             self.grid[self.food[i][0]][self.food[i][1]] = 2
             self.food[i] = None
 
+# Moving Average from Data Stream LeetCode Easy
+# https://leetcode.com/problems/moving-average-from-data-stream/description/
+# uses chaining to handle collisions
+# much more interesting problem
+# we group keys in into hashkeys by dividing keys by 100 and putting them into a linked list at that index of the array
+# and then maintaining that linked list of nodes (keys and values) as we add, remove and update them
+# SC comes out to O(10,000), where the maximum number of collitions is 100
+# so SC is 100 times smaller for possible TC of O(100) for worset case operations (still O(n) and SC: O(1))
+class Node:
+
+    def __init__(self, key, val):
+        self.key = key
+        self.val = val
+        self.next = None
+
+# when doing this question I didn't realize keys were all integers, so was so confused how we would possible implement this
+# but since keys are ints we can simply use an array
+class MyHashMap:
+
+    def __init__(self):
+        self.map = [None]*(10000+1) # max 100 collisions (100*10,000 = 10^6 which is limit)
+
+    def put(self, key: int, value: int) -> None:
+        hashKey = key//100
+        # iterate through nodes with mapped to that key and look for node with exact key
+        if self.map[hashKey] != None:
+            node = self.map[hashKey]
+            while node.key != key and node.next:
+                node = node.next
+
+            # now we have either found the node or gone through all nodes mapped to this key, so either update the node value or create the node
+            if node.key == key:
+                node.val = value
+            else:
+                node.next = Node(key, value)
+        else:
+            self.map[hashKey] = Node(key, value)
+
+    def get(self, key: int) -> int:
+        hashKey = key//100
+        # iterate across keys mapped to the key and return the value associated with the specific key
+        if self.map[hashKey] != None:
+            node = self.map[hashKey]
+            while node.key != key and node.next:
+                node = node.next
+            if node.key == key:
+                return node.val
+        return -1
+
+    def remove(self, key: int) -> None:
+        hashKey = key//100
+        # iterate across keys mapped to the key and delete the node and update the relationship
+        if self.map[hashKey] != None:
+            node = self.map[hashKey]
+
+            # check if first node is the item
+            if node.key == key:
+                self.map[hashKey] = node.next
+
+            # else traverse forward until item may be found
+            while node.next and node.next.key != key:
+                node = node.next
+            if node.next and node.next.key == key:
+                node.next = node.next.next
+                # old node.next is garbage collected  
+
 # Design Hit Counter LeetCode Medium
 # https://leetcode.com/problems/design-hit-counter/description/
 # Design a hit counter which counts the number of hits received in the past 5 minutes (i.e., the past 300 seconds).
