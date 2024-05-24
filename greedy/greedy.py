@@ -71,10 +71,10 @@ def minimumSum(self, num: int) -> int:
 
 # Optimal Partition of String LeetCode Medium
 # https://leetcode.com/problems/optimal-partition-of-string/description/
-# Given a string s, partition the string into one or more substrings such that the characters in each substring are unique. 
-# That is, no letter appears in a single substring more than once.
-# Return the minimum number of substrings in such a partition.
-# agaiun, can't believe this is a medium. I actually struggles with a few greedy easys
+# : Given a string s, partition the string into one or more substrings such that the characters in each substring are unique. 
+# : That is, no letter appears in a single substring more than once.
+# : Return the minimum number of substrings in such a partition.
+# again, can't believe this is a medium. I actually struggles with a few greedy easys
 # TC: O(n), SC: O(n)
 # took 2:10
 def partitionString(self, s: str) -> int:
@@ -387,6 +387,7 @@ def validPalindrome(self, s: str) -> bool:
 
 # Maximum Subarray LeetCode Medium
 # https://leetcode.com/problems/maximum-subarray/description/
+# : Given an integer array nums, find the subarray with the largest sum, and return its sum.
 # TC: O(n), SC: O(1)
 # took like 10 mins to think about but 1 minute after realizing approach
 # one of those questions where when you realize the approach it is easy.
@@ -847,7 +848,7 @@ def partitionLabels(self, s: str) -> List[int]:
     for idx, c in enumerate(s):
         indices[c].append(idx)
     
-    # iterate forward through string expdnaing the minimum index we must traverse to so that all occurances of all of the characters in the substr can be covered
+    # iterate forward through string expanding the minimum index we must traverse to so that all occurances of all of the characters in the substr can be covered
     min_idx = substr_len = 0
     ans = []
     for idx, c in enumerate(s):

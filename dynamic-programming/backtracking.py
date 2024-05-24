@@ -88,7 +88,9 @@ def combine(self, n: int, k: int) -> List[List[int]]:
     return res
 
 # Subsets LeetCode Medium
-# https://leetcode.com/problems/subsets/submissions/
+# https://leetcode.com/problems/subsets/
+# : Given an integer array nums of unique elements, return all possible 
+# : subsets (the power set). The solution set must not contain duplicate subsets. Return the solution in any order.
 # took 13 mins nice. Ran second try. I just forgot a 'def' beside the function definition
 # interesting problem. Was just having issues thinking about the most efficient way to handle items being unique etc. and preventing duplicates
 # and after reviewing the solutions realized that again, the idx prop prevents duplicates etc so see better and new solution below this one. But left here for reference
@@ -110,7 +112,7 @@ def subsets(self, nums: List[int]) -> List[List[int]]:
     sets(0, 0, [], {})
     return list(res.keys())
 
-# much cleaner, simpler. Don't need has maps because indx prevents duplicates
+# much cleaner, simpler. Don't need hash maps because indx prevents duplicates
 # isn't this basically O(n!) though becuase for every element we consider going to all next elements
 # another solution below this that uses 'use or don't use current element' approach
 def subsets(self, nums: List[int]) -> List[List[int]]:

@@ -20,7 +20,7 @@ def minSubArrayLen(self, target: int, nums: List[int]) -> int:
 
 # Minimum Window Substring LeetCode Hard
 # https://leetcode.com/problems/minimum-window-substring/description/
-# took over 2 hours because tried DP trbulation at first but kept getting TLE (see invalid-solutions.py)
+# took over 2 hours because tried DP tabulation at first but kept getting TLE (see invalid-solutions.py)
 # after doing window though the solution took about 45 because of debugging issues but probably could have done in like 30
 # TC: O(n), SC: O(n)
 from collections import Counter
@@ -39,7 +39,7 @@ def minWindow(self, s: str, t: str) -> str:
         # move right pointer right until we find a valid solution
         if has_remaining(remaining):
             p2 += 1
-            if p2 < len(s) and s[p2] in remaining: 
+            if p2 < len(s) and s[p2] in remaining:
                 remaining[s[p2]] -= 1
         else:
             # if the left item cannot be be left behind, move the right forward until we find something to replace the item on the left

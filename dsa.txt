@@ -99,6 +99,8 @@ things to remember:
 - read the question thoroughly, read examples, and ask questions
 - realize and describe your assumptions
 - #permutations > #combinations
+- order doesn't matter in combos and does matter in perms so multiple permuations would map to the same combination
+    - how to remember: A "combination lock" should really be called a "permutation lock".
 - space complexity of say a counter of characters/numbers is actually O(1) because characters can only be a finite number of things!!
 - number of substrings in a string is n^2 / number of subsets in a list/array is n^2
 

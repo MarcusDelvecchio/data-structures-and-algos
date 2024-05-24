@@ -65,7 +65,7 @@ def timeRequiredToBuy(self, tickets: List[int], k: int) -> int:
 # Degree of an Array LeetCode Easy
 # https://leetcode.com/problems/degree-of-an-array/description/
 # TC: O(n), SC: O(n)
-#  Given a non-empty array of non-negative integers nums, the degree of this array is defined as the maximum frequency of any one of its elements.
+# : Given a non-empty array of non-negative integers nums, the degree of this array is defined as the maximum frequency of any one of its elements.
 # Your task is to find the smallest possible length of a (contiguous) subarray of nums, that has the same degree as nums.
 # misread the question and didn't realize edge case when multiple items can be the most common element, so we have to look for multiple subwarrays with those elements
 def findShortestSubArray(self, nums: List[int]) -> int:

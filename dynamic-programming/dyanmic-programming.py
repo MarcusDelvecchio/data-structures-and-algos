@@ -258,6 +258,11 @@ def longestPalindromeSubseq(self, s: str) -> int:
 
 # Edit Distance LeetCode "Medium"
 # https://leetcode.com/problems/edit-distance/
+# : Given two strings word1 and word2, return the minimum number of operations required to convert word1 to word2.
+# : You have the following three operations permitted on a word:
+# : Insert a character
+# : Delete a character
+# : Replace a character
 # TC: O(n^2), SC: O(n^2)
 # 2D DP Problem very similar to LCSS
 # took like 20 mins but has to look at hints but very very simlar to LCSS (and did right afer LCSS)
