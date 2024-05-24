@@ -549,6 +549,7 @@ class LFUCache:
 # this would have worked but would probably have to build heap from scratch
 # so used SortedList which provides same functionality as list that remains sorted but requires no shift when you add
 # TC: O(logn) for all operations except top() which is O(1)
+# also see this solution https://leetcode.com/problems/max-stack/solutions/309621/python-using-stack-heap-set-with-explanation-and-discussion-of-performance/
 from sortedcontainers import SortedList
 class Node:
     
