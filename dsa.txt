@@ -117,6 +117,24 @@ Solving Problems with the help of problem constraints
 see https://leetcode.com/discuss/interview-question/1105473/solving-problems-with-aid-of-problem-constraints
 how to determine for what input size each time complexity is suitable
 
+other Notes
+cam across SortedList from Python sortedcontainers collection, that basically provides a list data structure that maintains order and allows the following operations:
+- add O(logn)
+- find O(logn)
+    [removing items]
+    - discard value O(logn) (if value not a member, do nothing)
+    - remove value O(logn) (item must be a member)
+    - pop index O(logn)
+- but not seeing a constant time poplargest or popsmallest
+see https://grantjenks.com/docs/sortedcontainers/sortedlist.html#sortedcontainers.SortedList.pop
+
+why not use this data structure instead of a heap in general? becuase heap optimizations like pushpop?
+- its probably a little overkill for operations you can do with a heap
+- make heap is O(n), make SortedList is O(nlogn)
+
+also apparently the best way to sort a linked list is merge sort
+see https://stackoverflow.com/questions/70049647/why-is-it-not-recommended-to-use-a-heap-to-sort-a-linkedlist
+
 Size of Input -> Worst accepted algorithm
 <=[10....11] -> O(N!) ,O(n^6)
 <=[15......18] -> O(2^N*N^2)

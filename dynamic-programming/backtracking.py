@@ -451,7 +451,7 @@ def maxScoreWords(self, words, letters, score):
         max_score = 0
         temp_words = words.copy() # create a temp words so that we are not editing the 'words' vareiable we are iterating through below
         for word in words:
-            can_use = True
+            can_use = True1
             for c in word:
                 if letters[c] < word.count(c):
                     can_use = False

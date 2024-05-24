@@ -170,28 +170,28 @@ def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
 # Min Stack LeetCode Medium
 # https://leetcode.com/problems/min-stack/
 # took like 15 mins. Thought about monotonic stack but pop would be O(n), and realized you could do prefix-max second stack solution
-# approach: maintain a second stack, largest_before, in which we keep track of the largest value *before* each element in the primary stack, so that if that item is the largest and is popped, we know the largest value before that item
+# approach: maintain a second stack, smallest_before, in which we keep track of the largest value *before* each element in the primary stack, so that if that item is the largest and is popped, we know the largest value before that item
 # TC: O(1) for all operations, SC: O(n)
 class MinStack:
 
     def __init__(self):
         self.minimum = []
         self.stack = [] 
-        self.largest_before = []
+        self.smallest_before = []
 
     def push(self, val: int) -> None:
         self.stack.append(val)
-        self.largest_before.append(min(val, self.largest_before[-1] if self.largest_before else float('inf')))
+        self.smallest_before.append(min(val, self.smallest_before[-1] if self.smallest_before else float('inf')))
 
     def pop(self) -> None:
         self.stack.pop()
-        self.largest_before.pop()
+        self.smallest_before.pop()
 
     def top(self) -> int:
         return self.stack[-1]
 
     def getMin(self) -> int:
-        return self.largest_before[-1]
+        return self.smallest_before[-1]
 
 # Evaluate Reverse Polish Notation LeetCode Medium
 # https://leetcode.com/problems/evaluate-reverse-polish-notation/description/

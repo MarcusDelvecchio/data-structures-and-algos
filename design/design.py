@@ -425,6 +425,7 @@ class LRUCache:
 # I also made a terrible assumption that if cache is full and no nodes with freq = 1 then you can never add a new node. My assumption here was that basically you alsways * add the new item * and the pop the least frequently used
 # which in certain cases could end up always being the new item. This is not the case. If the cache is at capcity first we pop the LFU item and add the new one
 # also had to be careful with checking "if node.next" to check if the node was the head. often node.next is itself (if single node and wrapping around). same goes for node.prev
+# we also have to maintain the 'LFU' item (variable min_freq) at all times, so when a new node is added it will always be set to 1 and when a node in the min_frequency group is promoted to a higher frequency, if no more nodes exist in the old frequency, we increase the minimum as well
 class Node:
 
     def __init__(self, key, val):
@@ -457,6 +458,7 @@ class LFUCache:
                 del self.frequencies[node.freq]
         
         # update relationships
+        # this can be moved into a function in node called node.deleteSelf() but fine here
         if node.prev:
             node.prev.next = node.next
         if node.next:
@@ -517,3 +519,79 @@ class LFUCache:
             new_node = Node(key, value)
             self.__add(new_node)
             self.min_freq = 1 # min frequency will now be 1
+
+
+
+# Max Stack LeetCode Hard
+# https://leetcode.com/problems/max-stack/
+# design/implement a stack that allows you to maintain a stack you can push, pop, peek (as usual)
+# but you can also peekMax and popMax, which peeks and pops the maximum item in the stack. NOTE that a major constraing is O(logn) for all operations
+# this question is freaky and not much documentation / communicty solutions, many people creating solutions with sub O(logn) operation time
+# but came across Python SortedList data structure that lets you basically have a list that is sorted that you can add/remove items from in O(logn) time and it doesn't need to be shifted, causing O(n) worst case
+# it leverages trees under the hood. Very similar to heap but with heap (for this question) you cannot remove a specific index (without difficult logic)
+# :
+# also see notes in dsa.txt about the SortedList
+# below are other notes about this question I had as I was thinking
+# considered:
+# 1.
+# linked list representing stack and then doing binary search to find/remove max
+# but realized you can't do BS on a LL
+# :
+# 2.
+# LL stack + heap so we could use the heap to get the max at any time and pop the max at any time (heap val would have pointer to stack LL node) while also getting top value in the stack
+# but realized if we pop from the stack we cannot remove that item value from the heap
+# at this point binary search is out of the picture because an array would take O(n) time for shifting
+# and a LL cannot be indexed
+# so has to be something heap related
+# used a SortedList but apparently you can also find a way to remove items from a heap by keeping track of the indices of items and
+# every time any item is moved around, update it index in the index tracker (such as a dict), so that you can pop ANY item from the heap (not just min/max)
+# in O(logn) time
+# this would have worked but would probably have to build heap from scratch
+# so used SortedList which provides same functionality as list that remains sorted but requires no shift when you add
+# TC: O(logn) for all operations except top() which is O(1)
+from sortedcontainers import SortedList
+class Node:
+    
+    def __init__(self, val, prev):
+        self.val = val
+        self.prev = prev
+        self.next = None
+
+class MaxStack:
+
+    def __init__(self):
+        self.head = None
+        self.sortedItems = SortedList(key=lambda x: x.val)
+
+    def push(self, x: int) -> None:
+        node = Node(x, self.head)
+        if self.head:
+            self.head.next = node
+        self.head = node
+
+        # add item to the sorted list with pointer to original node
+        self.sortedItems.add(node)
+
+    def pop(self) -> int:
+        node = self.head
+        self.head = node.prev
+
+        # remove the item from the sorted list
+        self.sortedItems.remove(node)
+        return node.val
+
+    def top(self) -> int:
+        return self.head.val
+
+    def peekMax(self) -> int:
+        return self.sortedItems[-1].val
+
+    def popMax(self) -> int:
+        maxx = self.sortedItems.pop(-1)
+        if maxx.prev:
+            maxx.prev.next = maxx.next
+        if maxx.next:
+            maxx.next.prev = maxx.prev
+        if maxx == self.head:
+            self.head = maxx.prev
+        return maxx.val
