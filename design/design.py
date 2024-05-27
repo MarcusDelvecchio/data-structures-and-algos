@@ -596,3 +596,10 @@ class MaxStack:
         if maxx == self.head:
             self.head = maxx.prev
         return maxx.val
+            # contest notes
+            # put obstacle using binary search
+            # solution would be to do a sorted list but every time we add an item to thelist we maintaint the distances between all items (and the max distance between two items)
+            # if we add a new item we update the distances corresponding the removing the distance between the previous left <--> right by addingthe new itrm
+            # then when we query to place a block we cna just determine the max distance in O(1)
+            # but here we would have to use 2 heaps or somt or build sorted heap from scratch
+            # NVM ALSO sortedlist add is O(nlogn) so merked

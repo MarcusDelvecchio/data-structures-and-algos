@@ -101,9 +101,11 @@ things to remember:
 - #permutations > #combinations
 - order doesn't matter in combos and does matter in perms so multiple permuations would map to the same combination
     - how to remember: A "combination lock" should really be called a "permutation lock".
-- space complexity of say a counter of characters/numbers is actually O(1) because characters can only be a finite number of things!!
-- number of substrings in a string is n^2 / number of subsets in a list/array is n^2
-- numer of subsequences in a string is 2^n (you can delete items)
+- space complexity of say a counter of characters/numbers is actually O(1) because characters can only be a finite number of things
+- number of substrings in a string is n^2 / number of subarrays in a list/array is n^2
+    - n possible starting indices and n possible ending indices = O(n^2)
+- number of subsequences in a string / subarrays in an array is 2^n (you can delete items)
+- the time complexity of finding all subsequences of size k in a string is O(n^k). For example, finding all subsequences of size 3 is O(n^3), which is much more efficient than the O(2^n) counterpart for finding *all* subsequences.
 
 general learning priiples for getting better at DSA/LC:
 - try to avoid the "let me just change this and re-run the tests" mentality. When you change something you should train yourself to think about

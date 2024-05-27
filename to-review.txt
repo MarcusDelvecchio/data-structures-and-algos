@@ -10,3 +10,22 @@ https://leetcode.com/problems/minimum-height-trees/description/
 
 Number of Wonderful Substrings - Bitmask solution
 https://leetcode.com/problems/number-of-wonderful-substrings/submissions/1246054725/
+
+Word Break II (May 25th)
+https://leetcode.com/problems/word-break-ii/description/
+
+Student Attendance Record II
+https://leetcode.com/problems/student-attendance-record-ii/?envType=daily-question&envId=2024-05-26
+
+Length of the Longest Valid Substring
+https://leetcode.com/problems/length-of-the-longest-valid-substring/description/
+
+Median of Two Sorted Arrays
+https://leetcode.com/problems/median-of-two-sorted-arrays/description/
+
+Max Stack - SortedList insert turns out is O(nlogn) NOT O(n) so should redo this solution
+use the 2 heaps method
+https://leetcode.com/problems/max-stack/description/
+2 heaps: https://leetcode.com/problems/max-stack/solutions/309621/python-using-stack-heap-set-with-explanation-and-discussion-of-performance/
+
+

@@ -106,6 +106,46 @@ def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
     else:
         return new[-1] 
 
+# Analyze User Website Visit Pattern LeetCode Medium
+# https://leetcode.com/problems/analyze-user-website-visit-pattern/description/
+# : long description, problem is pretty tedious
+# was trying for a largest-common substring type approach but after reading the hint realized that you could simply find all possible patterns
+# for every user and then just compare them all. We can do this becuase a pattern is a fixed length fo 3 rather than being any size
+# becuase of this, this limits our time complexity
+# TC: O()
+def mostVisitedPattern(self, username: List[str], timestamp: List[int], website: List[str]) -> List[str]:
+    # find all access patterns for all users - O(n)
+    user_websites = collections.defaultdict(list)
+    for i in range(len(website)):
+        user_websites[username[i]].append([timestamp[i], website[i]])
+    
+    # sorts the items by access timestamp - O(users*log*timestamp/user) == O(nlogn)
+    for user in user_websites:
+        user_websites[user] = sorted(user_websites[user], key=lambda x: x[0])
+
+    # get all possible patterns for all users - O(n^3) where n is website acess data for all users or worst case all are associated with one user giving O(n^3)
+    user_patterns = collections.defaultdict(list)
+    for user in user_websites:
+        if len(user_websites[user]) < 3: continue
+        for first in range(len(user_websites[user])-2):
+            for second in range(first+1, len(user_websites[user])-1):
+                for third in range(second+1, len(user_websites[user])):
+                    user_patterns[user].append((user_websites[user][first][1], user_websites[user][second][1], user_websites[user][third][1]))
+    
+    # find lowest common pattern between all users O(n)
+    best = None
+    best_score = 0
+    for user in user_patterns:
+        for pattern in user_patterns[user]:
+            score = 0
+            for user in user_patterns:
+                if pattern in user_patterns[user]:
+                    score += 1
+            if score > best_score or score == best_score and pattern < best:
+                best_score = score
+                best = pattern
+    return best
+
 # Trapping Rain Water LeetCode Hard
 # https://leetcode.com/problems/trapping-rain-water/description/
 # took 34:00 mins
