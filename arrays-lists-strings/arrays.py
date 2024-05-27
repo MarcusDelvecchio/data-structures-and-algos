@@ -62,6 +62,49 @@ def timeRequiredToBuy(self, tickets: List[int], k: int) -> int:
             return time
         i += 1
 
+# Plates Between Candles LeetCode Medium
+# https://leetcode.com/problems/plates-between-candles/description/
+# given a string consisting of characters "*" and "|" representing plates and candles respecitvely, given a list of queries [from, to],
+# for each query, return the number of plates that exist betwen candles in the substring created by the query
+# For example, s = "||**||**|*", and a query [3, 8] denotes the substring "*||**|". The number of plates between candles in this substring is 2, as each of the two plates has at least one candle in the substring to its left and right.
+# TC: O(n) -> each query is O(1)
+# beats 99% runtime
+def platesBetweenCandles(self, s: str, queries: List[List[int]]) -> List[int]:
+    ans = []
+
+    # get the number of plates to the left of every candle
+    plates_to_left = [-1]*len(s)
+    next_candle_to_right = [-1]*len(s)
+    next_candle_to_left = [-1]*len(s)
+    plates_seen = 0
+    last_candle_to_left = -1
+    for i in range(len(s)):
+        if s[i] == "*":
+            plates_seen += 1
+            next_candle_to_left[i] = last_candle_to_left
+        else:
+            plates_to_left[i] = plates_seen
+            next_candle_to_left[i] = i
+            last_candle_to_left = i
+
+    # get next candle to the right for every candle
+    last_candle_to_right = -1
+    for i in range(len(s)-1, -1, -1):
+        if s[i] == "*":
+            next_candle_to_right[i] = last_candle_to_right
+        else:
+            next_candle_to_right[i] = i
+            last_candle_to_right = i
+
+    for from_, to_ in queries:
+        candle_right_of_left, candle_left_of_right  = next_candle_to_right[from_], next_candle_to_left[to_]
+        # count the number of plates in between
+        if candle_right_of_left == -1 or candle_left_of_right == -1 or candle_right_of_left >= candle_left_of_right:
+            ans.append(0)
+        else:
+            ans.append(plates_to_left[candle_left_of_right] - plates_to_left[candle_right_of_left])
+    return ans
+
 # Degree of an Array LeetCode Easy
 # https://leetcode.com/problems/degree-of-an-array/description/
 # TC: O(n), SC: O(n)
