@@ -217,3 +217,49 @@ def runningMedian(a):
         mid = len(items)//2
         ans.append(float(items[mid] if len(items) % 2 == 1 else (items[mid] + items[mid-1])/2))
     return ans
+
+
+# approach: calculate all possible substrings (2^n) and if any are in forbidden, mark that portion of the string as unusable
+# at the end we just find the largest space between all portions of the substring marked as unusable
+# NOTE that we do not need to do recursion for substrings and subarrays, only subsequences
+def longestValidSubstring(self, word: str, forbidden: List[str]) -> int:
+    forbidden = set(forbidden)
+
+    # find all intervals (substring indices) that contain forbidden words
+    forbidden_intervals = []
+    for start in range(len(word)):
+        for end in range(len(word)):
+            if word[start:end+1] in forbidden:
+                forbidden_intervals.append([start, end])
+    
+    # traverse our string and find the largest interval we can make without encapsulating an entire interval
+    # NOTE that our forbidden intervals are already sorted by start and if they have the start they are also sorted by end (increasing)
+    # so a sliding window expanding while adding the start of any interval to our interval
+    # but if ever hit the end of any interval that have included, we need to shrink until we remove that interval's start
+    # create a map of 'starts' end 'ends' that map index: intervalNumber
+    # when we hit an index that is the open index of a interval, we add it to our open intervals
+    # if we hit an index that closes an already open interval, we have to close our window
+    closes = collections.defaultdict(collections.deque)
+    for interval_number, interval in enumerate(forbidden_intervals):
+        closes[interval[1]].append(interval[0])
+
+
+    # do sliding window
+    right = 0
+    ans = 0
+    cur_interval = 0
+    left = 0
+    while right < len(word):
+        if left > right: continue
+        
+        # move left forward while we encapsulate an entire interval
+        while right in closes and closes[right] and closes[right][0] < left:
+            closes[right].popleft()
+
+        while right in closes and closes[right]:
+            left = closes[right][0] + 1
+            closes[right].popleft()
+        if right - left + 1 > ans:
+            ans = max(ans, right - left + 1)
+        right += 1
+    return ans     

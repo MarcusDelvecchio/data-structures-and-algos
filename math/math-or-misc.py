@@ -14,6 +14,25 @@ def pivotInteger(self, n: int) -> int:
         curr += 1
     return -1
 
+# Special Array With X Elements Greater Than or Equal X LeetCode Easy
+# https://leetcode.com/problems/special-array-with-x-elements-greater-than-or-equal-x/description
+# : a value x makes an array 'special' if there are x values in the array that are greater or equal to x
+# : given an array, return x if there is one, else -1
+# approach: sort the list in decreasing order and iterate forwards, keeping track of the count of numbers we've seen
+# at any point if we have 1. seen x numbers and 2. and the current number is also greater than x, but 3. the next is not, then x is a target number
+# also if we are at the end of the list, condition 3 does not need to be satisfied as there are no more numbers
+# TC: O(n), SC: O(1)
+def specialArray(self, nums: List[int]) -> int:
+    nums.sort(reverse=True)
+    for i in range(len(nums)):
+        count = i + 1
+        if i == len(nums) - 1:
+            if nums[i] >= count:
+                return count
+        elif nums[i] >= count and nums[i+1] < count:
+            return count
+    return -1
+
 # The kth Factor of n LeetCode Medium (this solution is Easy, see below fo medium in < O(n))
 # https://leetcode.com/problems/the-kth-factor-of-n/description/?envType=study-plan-v2&envId=amazon-spring-23-high-frequency
 # TC: O(n), SC: O(1)

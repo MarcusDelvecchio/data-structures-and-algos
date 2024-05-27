@@ -192,3 +192,7 @@ class PieceType:
     bishop = "b"
     knight = "k"
     pawn = 'p'
+
+
+# also see https://github.com/tssovi/grokking-the-object-oriented-design-interview/blob/master/object-oriented-design-case-studies/design-chess.md
+# but I only followed their requirements (this isn't finished)
