@@ -34,6 +34,32 @@ def openLock(self, deadends: List[str], target: str) -> int:
         depth += 1
     return -1
 
+# Word Ladder LeetCode Hard
+# https://leetcode.com/problems/word-ladder/description/
+# : Given two words, beginWord and endWord, and a dictionary wordList, return the number of words in the shortest transformation sequence from beginWord to endWord, or 0 if no such sequence exists.
+# took 5 mins because done before
+# TC: O(n), SC: O(n)
+def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+    word_list = set(wordList)
+
+    words = collections.deque([beginWord])
+    seq_len = 0
+    seen = set([beginWord])
+    while words:
+        size = len(words)
+        for _ in range(size):
+            word = words.popleft()
+            if word == endWord:
+                return seq_len + 1
+            for i in range(len(word)):
+                for c in string.ascii_lowercase:
+                    new_word = word[:i] + c + word[i+1:]
+                    if new_word in word_list and new_word not in seen:
+                        words.append(new_word)
+                        seen.add(new_word)
+        seq_len += 1
+    return 0
+
 # Freedom Trail LeetCode Hard
 # You are given a string 'ring' representing a circular ring lock/door and a target key. You want to spell out the key by rotating the ring counter/clockwise
 # letter by letter, where each turn counts as a step and you must also press a button to submit a letter, counting as a step
@@ -68,3 +94,4 @@ def findRotateSteps(self, ring: str, key: str) -> int:
             q.append((next_q[i], i))
         key_idx += 1
     return min(q)[0] + len(key)
+
