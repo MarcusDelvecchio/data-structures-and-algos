@@ -336,6 +336,107 @@ class Data:
         self.next = None
         self.prev = None
 
+
+
+# Design In-Memory File System LeetCode Hard
+# https://leetcode.com/problems/design-in-memory-file-system/description/
+# : Design a data structure that simulates an in-memory file system. Implement the FileSystem class:
+# : FileSystem() Initializes the object of the system.
+# : List<String> ls(String path)
+# :     - If path is a file path, returns a list that only contains this file's name.
+# :     - If path is a directory path, returns the list of file and directory names in this directory.
+# :     - The answer should in lexicographic order.
+# : void mkdir(String path) 
+# :     - Makes a new directory according to the given path. The given directory path does not exist. 
+# :     - If the middle directories in the path do not exist, you should create them as well.
+# : void addContentToFile(String filePath, String content)
+# :     - If filePath does not exist, creates that file containing given content.
+# :     - If filePath already exists, appends the given content to original content.
+# : String readContentFromFile(String filePath) 
+# :     - Returns the content in the file at filePath.
+# TC: O(n) for most operations (trie must be traversed). SC: O(n)
+# approach: using a Trie, where directories are nodes (Directory class) that have children (directories) and Files just have content
+class File:
+
+    def __init__(self, name):
+        self.name = name
+        self.content = ""
+
+    def addContent(self, content):
+        self.content += content
+
+class Directory:
+
+    def __init__(self, name):
+        self.name = name
+        self.children = {}
+        self.files = {}
+
+    def addChildDirectory(self, name):
+        self.children[name] = Directory(name)
+        return self.children[name]
+    
+class FileSystem:
+
+    def __init__(self):
+        self.root = Directory("/")
+
+    def ls(self, path: str) -> List[str]:
+        subPaths = self.parsePaths(path)
+        directory, path_idx = self.__getDeepestDirectoryInPath(subPaths)
+
+        # if we didn't get all the way to the end of the path it must not be a dir, so print the file
+        if path_idx < len(subPaths):
+            return [directory.files[subPaths[path_idx]].name]
+        else:
+            return sorted(list(directory.children.keys()) + list(directory.files.keys())) # else print the dir contents
+        
+
+    def mkdir(self, path: str) -> None:
+        subPaths = self.parsePaths(path)
+        directory, path_idx = self.__getDeepestDirectoryInPath(subPaths)
+
+        # create the new directories that don't yet exist
+        while path_idx < len(subPaths):
+            new_dir_name = subPaths[path_idx]
+            directory = directory.addChildDirectory(new_dir_name)
+            path_idx += 1
+
+    def addContentToFile(self, filePath: str, content: str) -> None:
+        subPaths = self.parsePaths(filePath)
+        directory, path_idx = self.__getDeepestDirectoryInPath(subPaths)
+
+        # here we assume we are already at the last level of the path
+        # but either have to create the file here or add to the file here
+        if subPaths[-1] in directory.files:
+            directory.files[subPaths[-1]].addContent(content)
+        else:
+            new_file = File(subPaths[-1])
+            new_file.addContent(content)
+            directory.files[subPaths[-1]] = new_file
+
+    def readContentFromFile(self, filePath: str) -> str:
+        subPaths = self.parsePaths(filePath)
+        directory, _ = self.__getDeepestDirectoryInPath(subPaths)
+
+        # assume the file is here and simply return it's contents
+        return directory.files[subPaths[-1]].content
+    
+    def __getDeepestDirectoryInPath(self, subPaths):
+        directory = self.root
+        if not subPaths: return directory, 0
+        path_idx = 0
+        
+        # traverse directories while they exist
+        while path_idx < len(subPaths) and subPaths[path_idx] and subPaths[path_idx] in directory.children and type(directory.children[subPaths[path_idx]]) is Directory:
+            directory = directory.children[subPaths[path_idx]]
+            path_idx += 1
+        
+        return directory, path_idx
+
+    def parsePaths(self, path):
+        return [subpath for subpath in path.split("/") if subpath]
+
 # LRU Cache LeetCode Medium
 # https://leetcode.com/problems/lru-cache/description/
 # Design a data structure that follows the constraints of a Least Recently Used (LRU) cache.
