@@ -1,5 +1,35 @@
 from types import List
 
+# Get Equal Substrings Within Budget LeetCode Medium
+# https://leetcode.com/problems/get-equal-substrings-within-budget/description/
+# : You are given two strings s and t of the same length and an integer maxCost.
+# : You want to change s to t. Changing the ith character of s to ith character of t costs |s[i] - t[i]| (i.e., the absolute difference between the ASCII values of the characters).
+# : Return the maximum length of a substring of s that can be changed to be the same as the corresponding substring of t with a cost less than or equal to maxCost. If there is no substring from s that can be changed to its corresponding substring from t, return 0.
+# TC: O(n), SC: O(n)
+# approach: create list of distances from each character in s to t (or t to s - no wrapping around)
+# perform sliding window to find the longest subarray in that list that's total is less than maxCost
+def equalSubstring(self, s: str, t: str, maxCost: int) -> int:
+
+    # create list of distances for t[i] to s[i]
+    s_distances = []
+    for i in range(len(t)):
+        s_distances.append(abs(ord(t[i]) - ord(s[i])))
+    
+    # perform sliding window to find the largest substring
+    total = left = 0
+    ans = 0
+    for right in range(len(s_distances)):
+        total += s_distances[right]
+
+        # move left forward if above the maxCost
+        while left < right and total > maxCost:
+            total -= s_distances[left]
+            left += 1
+
+        if total <= maxCost:
+            ans = max(ans, right - left + 1)
+    return ans
+
 # Minimum Size Subarray Sum LeetCode Medium
 # https://leetcode.com/problems/minimum-size-subarray-sum/description/
 # Given an array of positive integers nums and a positive integer target, return the minimal length of a subarray whose sum is greater than or equal to target. If there is no such subarray, return 0 instead.

@@ -1,0 +1,36 @@
+Abstract Base Classes or Protocols in Python
+
+- Abstract classes are classes that contain one or more abstract methods. 
+- An abstract method is a method that is declared, but contains no implementation.
+- Abstract classes cannot be instantiated, and require subclasses to provide implementations for the abstract methods.
+- When a subclass is created that inherits from the defined Abstract class, it must override any abstract methods decorated as an abstract method with the decorator "@abstractmethod". 
+- An abstract method can have an implementation in the abstract class itself however. Even if they are implemented in the abstract class, designers of subclasses will be forced to override the implementation. 
+
+great read: https://python-course.eu/oop/the-abc-of-abstract-base-classes.php
+https://stackoverflow.com/questions/3570796/why-use-abstract-base-classes-in-python
+
+
+example:
+
+from abc import ABC, abstractmethod
+ 
+class AbstractClassExample(ABC):
+    
+    @abstractmethod
+    def do_something(self):
+        print("Some implementation!")
+        
+class AnotherSubclass(AbstractClassExample):
+
+    def do_something(self):
+        super().do_something()
+        print("The enrichment from AnotherSubclass")
+        
+x = AnotherSubclass()
+x.do_something()
+
+
+=======
+Interfaces in Python
+nterfaces are not necessary in Python. This is because Python has proper multiple inheritance, and also ducktyping, which means that the places where you must have interfaces in Java, you don't have to have them in Python.
+That said, there are still several uses for interfaces. Some of them are covered by Pythons Abstract Base Classes, introduced in Python 2.6. They are useful, if you want to make base classes that cannot be instantiated, but provide a specific interface or part of an implementation.
