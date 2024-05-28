@@ -3,15 +3,15 @@ from collections import defaultdict, Counter
 
 # Kids With the Greatest Number of Candies LeetCode Easy
 # https://leetcode.com/problems/kids-with-the-greatest-number-of-candies/description/?envType=study-plan-v2&envId=amazon-spring-23-high-frequency
-# given an array of integers each representing a kid with that integer number of candies, return an array of boolean values representing whether or not each kid will have more candies than all of the other kids (or equal to the max)
+# : given an array of integers each representing a kid with that integer number of candies, return an array of boolean values representing whether or not each kid will have more candies than all of the other kids (or equal to the max)
 def kidsWithCandies(self, candies: List[int], extraCandies: int) -> List[bool]:
     maxx = max(candies)
     return [candies[i] + extraCandies >= maxx for i in range(len(candies))]
 
 # Relative Ranks LeetCode Easy
 # https://leetcode.com/problems/relative-ranks/description/?envType=daily-question&envId=2024-05-08
-# Given an integer array score of size n, where score[i] is the score of the ith athlete in a competition. All the scores are guaranteed to be unique.
-# return a list of representing the place of each score in the overall scores, and replace 1st, 2nd and 3rd rank with medal strings (see desc)
+# : Given an integer array score of size n, where score[i] is the score of the ith athlete in a competition. All the scores are guaranteed to be unique.
+# : return a list of representing the place of each score in the overall scores, and replace 1st, 2nd and 3rd rank with medal strings (see desc)
 # TC: O(nlogn), SC: O(n)
 # actually had some issues with this and trying to doit in 3 lines, took >15 mins
 def findRelativeRanks(self, score: List[int]) -> List[str]:
@@ -30,8 +30,14 @@ def twoSum(self, nums: List[int], target: int) -> List[int]:
         find[target - nums[i]] = i
 
 # Find the Town Judge LeetCode Easy
-# daily problem  feb 22
+# https://leetcode.com/problems/find-the-town-judge/description/
+# : In a town, there are n people labeled from 1 to n. There is a rumor that one of these people is secretly the town judge.
+# : If the town judge exists, then 1. The town judge trusts nobody and 2. Everybody (except for the town judge) trusts the town judge and 3. There is exactly one person that satisfies properties 1 and 2.
+# : You are given an array trust where trust[i] = [ai, bi] representing that the person labeled ai trusts the person labeled bi. If a trust relationship does not exist in trust array, then such a trust relationship does not exist.
+# : Return the label of the town judge if the town judge exists and can be identified, or return -1 otherwise.
+# daily problem feb 22
 # took like 5 mins
+# TC: O(n), SC: O(n)
 def findJudge(self, n: int, trust: List[List[int]]) -> int:
     if n == 1: return 1
     trusted_by, trusts, candidates = defaultdict(int), defaultdict(int), []
@@ -123,7 +129,9 @@ def findShortestSubArray(self, nums: List[int]) -> int:
             smallest_sub = min(smallest_sub, (max(num_indices[num]) - min(num_indices[num]) + 1))
     return smallest_sub
 
-# took about an hour but O(n+m) not not true Hard solution
+# Median of Two Sorted Arrays LeetCode Hard
+# https://leetcode.com/problems/median-of-two-sorted-arrays/description/
+# took about an hour but O(n+m) not true Hard solution
 def findMedianSortedArrays(self, nums1: List[int], nums2: List[int]) -> float:
     p1, p2 = 0, 0 
 
@@ -374,6 +382,51 @@ def rearrangeArray(self, nums: List[int]) -> List[int]:
             neg_p += 1
         pos = not pos
     return res
+
+# Reorganize String LeetCode Medium
+# https://leetcode.com/problems/reorganize-string/description/
+# : Given a string s, rearrange the characters of s so that any two adjacent characters are not the same.
+# : Return any possible rearrangement of s or return "" if not possible.
+# approach: calculate frequencies of all characters, sort them
+# populate even spaces with the most frequent character and then same for odd
+# we also do a check before to determine if it is invalid, which should be noted
+# TC: O(n), SC: O(1)
+def reorganizeString(self, s: str) -> str:
+    counts = {}
+    chars = []
+    for c in s:
+        if c in counts:
+            counts[c] += 1
+        else:
+            counts[c] = 1
+            chars.append(c)
+
+    # sort the counts
+    chars.sort(reverse=True, key=lambda c: counts[c])
+    chars = collections.deque(chars)
+
+    # check if valid
+    if counts[chars[0]] >= len(s)/2 + 1:
+        return ""
+
+    # continuously take the most frequent items spaced between each other
+    ans = [0]*len(s)
+    # populate all odd spaces
+    for i in range(0, len(s), 2):
+        ans[i] = chars[0]
+        counts[chars[0]] -= 1
+        if counts[chars[0]] == 0:
+            chars.popleft()
+    
+    # populate all even spaces
+    for i in range(1, len(s), 2):
+        ans[i] = chars[0]
+        counts[chars[0]] -= 1
+        if counts[chars[0]] == 0:
+            chars.popleft()
+    
+    return "".join(ans)
+
 
 # Minimum Length of String After Deleting Similar Ends LeetCode Medium
 # https://leetcode.com/problems/minimum-length-of-string-after-deleting-similar-ends/solutions/4824224/beat-100-00-full-explanation-with-pictures/?envType=daily-question&envId=2024-03-05
