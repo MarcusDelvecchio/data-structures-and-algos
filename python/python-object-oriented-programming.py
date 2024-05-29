@@ -66,3 +66,5 @@ class Bishop(ChessPiece):
         
 b = Bishop()
 b.move() # piece moved from c1 to b4 diagonally
+
+

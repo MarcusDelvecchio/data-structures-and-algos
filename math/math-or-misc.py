@@ -14,6 +14,23 @@ def pivotInteger(self, n: int) -> int:
         curr += 1
     return -1
 
+# Number of Steps to Reduce a Number in Binary Representation to One LeetCode Medium
+# https://leetcode.com/problems/number-of-steps-to-reduce-a-number-in-binary-representation-to-one/description/
+# TC: O(logn) -> constantly dividing, SC: (1)
+# very easy took 2 mins
+def numSteps(self, s: str) -> int:
+    num = int(s, 2)
+    steps = 0
+    while num != 1:
+        if num % 2 == 0:
+            num //= 2
+            steps += 1
+        else:
+            num  = (num+1)//2
+            steps += 2
+
+    return steps
+
 # Special Array With X Elements Greater Than or Equal X LeetCode Easy
 # https://leetcode.com/problems/special-array-with-x-elements-greater-than-or-equal-x/description
 # : a value x makes an array 'special' if there are x values in the array that are greater or equal to x
