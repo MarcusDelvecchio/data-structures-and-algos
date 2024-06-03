@@ -14,6 +14,20 @@ def isPalindrome(self, s: str) -> bool:
         last -= 1
     return True
 
+# Append Characters to String to Make Subsequence LeetCode Medium
+# https://leetcode.com/problems/append-characters-to-string-to-make-subsequence/description/
+# TC: O(n), SC: O(1)
+# : Given two strings s and t, find the minimum number of characters that need to be appended to the end of s so that t becomes a subsequence of s.
+# : A subsequence is a string that can be derived from another string by deleting some or no characters without changing the order of the remaining characters.
+# : subsequence is non-continuous.
+# approach: maintain a pointer for the current character we are looking for in t and iterate through s, progressing the pointer every time we find a desired character for t
+def appendCharacters(self, s: str, t: str) -> int:
+    t_pointer = 0
+    for i in range(len(s)):
+        if t_pointer < len(t) and s[i] == t[t_pointer]:
+            t_pointer += 1
+    return len(t) - t_pointer
+
 # Two Sum II - Input Array Is Sorted - LeetCode Medium
 # https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/description/
 # TC: O(n), SC: O(1)
