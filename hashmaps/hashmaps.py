@@ -11,6 +11,31 @@ def twoSum(self, nums: List[int], target: int) -> List[int]:
             return [find[nums[i]], i]
         find[target - nums[i]] = i
 
+# Find Common Characters LeetCode Easy
+# https://leetcode.com/problems/find-common-characters/description/
+# : Given a string array words, return an array of all characters that show up in all strings within the words (including duplicates). You may return the answer in any order.
+# TC: O(n), SC: O(n)
+def commonChars(self, words: List[str]) -> List[str]:
+    # create counter from first word characters
+    counts = collections.Counter(words[0])
+
+    # iterate through the rest of the words and if they are missing characters from the counter or have less, update the counter
+    for word in words:
+        chars = collections.Counter(word)
+        for c in counts:
+            if c not in chars:
+                counts[c] = -1
+            elif counts[c] > chars[c]:
+                counts[c] = chars[c]
+    ans = []
+    # create array from the counter (rather than string to avoid O(n^2) to constantly append to the end of the string
+    for c in counts:
+        if counts[c] == -1: continue
+        ans.extend([c]*counts[c])
+
+    # convetr the array to a string and return it
+    return "".join(ans)
+
 # Leetcode Roman to Integer Easy
 # https://leetcode.com/problems/roman-to-integer/description/
 # Given a roman numeral, convert it to an integer.
