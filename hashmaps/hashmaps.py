@@ -11,6 +11,21 @@ def twoSum(self, nums: List[int], target: int) -> List[int]:
             return [find[nums[i]], i]
         find[target - nums[i]] = i
 
+# Replace Words LeetCode Medium (Easy)
+# https://leetcode.com/problems/replace-words/description/
+# TC: O(n), SC: O(n)
+def replaceWords(self, dictionary: List[str], sentence: str) -> str:
+    dictionary = set(dictionary)
+    sentence = sentence.split()
+    ans = []
+    for word in sentence:
+        ans.append(word)
+        for i in range(len(word)):
+            if word[:i+1] in dictionary:
+                ans[-1] = word[:i+1]
+                break
+    return " ".join(ans)
+
 # Find Common Characters LeetCode Easy
 # https://leetcode.com/problems/find-common-characters/description/
 # : Given a string array words, return an array of all characters that show up in all strings within the words (including duplicates). You may return the answer in any order.
