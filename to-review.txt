@@ -29,3 +29,7 @@ https://leetcode.com/problems/max-stack/description/
 2 heaps: https://leetcode.com/problems/max-stack/solutions/309621/python-using-stack-heap-set-with-explanation-and-discussion-of-performance/
 
 
+Prefix Sum and Subarray Sum stuff from June 8th and 9th
+https://leetcode.com/problems/continuous-subarray-sum/description/
+https://leetcode.com/problems/subarray-sums-divisible-by-k/submissions/1283257207/
+

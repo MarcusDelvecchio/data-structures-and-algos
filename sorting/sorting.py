@@ -30,3 +30,23 @@ def sortColors(self, nums: List[int]) -> None:
                 nums[i] = temp
                 k = j
                 break
+
+# Relative Sort Array LeetCode Medium
+# https://leetcode.com/problems/relative-sort-array/description/
+# : Given two arrays arr1 and arr2, the elements of arr2 are distinct, and all elements in arr2 are also in arr1.
+# : Sort the elements of arr1 such that the relative ordering of items in arr1 are the same as in arr2. Elements that do not appear in arr2 should be placed at the end of arr1 in ascending order.
+# TC: O(n), SC: O(n)
+def relativeSortArray(self, arr1: List[int], arr2: List[int]) -> List[int]:
+    res = []
+    arr_1_counts = collections.Counter(arr1)
+    in_arr2 = collections.Counter(arr2)
+    not_in_arr2 = []
+    for num in arr2:
+        if num in arr_1_counts:
+            res.extend([num]*arr_1_counts[num])                
+
+    for num in arr1:
+        if num not in in_arr2:
+            not_in_arr2.append(num)
+
+    return res + sorted(not_in_arr2)
