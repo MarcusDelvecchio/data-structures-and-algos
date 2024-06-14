@@ -924,3 +924,32 @@ def mincostToHireWorkers(self, quality: List[int], wage: List[int], k: int) -> f
             res = min(res, total_quality*ratio)
     
     return res
+
+# Minimum Increment to Make Array Unique LeetCode Medium
+# https://leetcode.com/problems/minimum-increment-to-make-array-unique/description/?envType=daily-question&envId=2024-06-14
+# TC: O(nlogn) (sorting) SC: O(n)
+def minIncrementForUnique(self, nums: List[int]) -> int:
+    nums.sort()
+    nums.append(float('inf'))
+    seen = set()
+    moves = waiting = 0
+    prev = None
+    for i in range(len(nums)):
+        num = nums[i]
+        # increment any waiting numbers to the gaps between this num and the previous num
+        if prev != None and waiting > 0:
+            room = num - prev - 1
+            cur = prev + 1
+            while cur < num and waiting:
+                moves += waiting                    
+                waiting -= 1
+                cur += 1
+        
+        # add current num to seen if not already seen
+        if num not in seen:
+            seen.add(num)
+            prev = num
+            moves += waiting
+        else:
+            waiting += 1
+    return moves
