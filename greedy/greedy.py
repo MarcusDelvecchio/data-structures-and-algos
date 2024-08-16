@@ -953,3 +953,31 @@ def minIncrementForUnique(self, nums: List[int]) -> int:
         else:
             waiting += 1
     return moves
+
+# Maximum Distance in Arrays LeetCode Medium
+# https://leetcode.com/problems/maximum-distance-in-arrays/description/
+# TC: O(n) where n is the number of arrays
+# SC: O(n) where n is the number of arrays
+def maxDistance(self, arrays: List[List[int]]) -> int:
+    largest, second_largest, smallest, second_smallest = [-float('inf'), None], [-float('inf'), None], [float('inf'), None], [float('inf'), None]
+
+    # go through and find the largest, second largest, smallest, second smalllest values in out of all of the arrays
+    for idx, arr in enumerate(arrays):
+        if arr[-1] > largest[0]:
+            second_largest = largest
+            largest = [arr[-1], idx]
+        elif arr[-1] > second_largest[0]:
+            second_largest = [arr[-1], idx]
+        
+        if arr[0] < smallest[0]:
+            second_smallest = smallest
+            smallest = [arr[0], idx]
+        elif arr[0] < second_smallest[0]:
+            second_smallest = [arr[0], idx]
+
+    # return the dsiatnce between the two items that are not from the same array
+    # else, either use the largest and the second smallest, or the smallest and the second largest
+    if largest[1] != smallest[1]:
+        return largest[0] - smallest[0]
+    else:
+        return max(largest[0] - second_smallest[0], second_largest[0] - smallest[0])
