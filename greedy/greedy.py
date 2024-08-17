@@ -12,6 +12,17 @@ def largestOddNumber(self, num: str) -> str:
             return num[:i+1]
     return ""
 
+# Largest Perimeter Triangle LeetCode Easy
+# https://leetcode.com/problems/largest-perimeter-triangle/description/
+# Given an array of integers, return the largest triangle perimeter (if any) that can be produced from
+# any 3 numbers in the list
+def largestPerimeter(self, nums: List[int]) -> int:
+    nums.sort(reverse=True)
+    for largest in range(0, len(nums)-2):
+        if nums[largest] < nums[largest+1] + nums[largest+2]:
+            return nums[largest] + nums[largest+1] + nums[largest+2]
+    return 0
+
 # Boats to Save People LeetCode Medium
 # https://leetcode.com/problems/boats-to-save-people/description/
 # TC: O(nlogn)
