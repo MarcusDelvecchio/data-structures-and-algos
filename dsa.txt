@@ -140,6 +140,16 @@ why not use this data structure instead of a heap in general? becuase heap optim
 also apparently the best way to sort a linked list is merge sort
 see https://stackoverflow.com/questions/70049647/why-is-it-not-recommended-to-use-a-heap-to-sort-a-linkedlist
 
+Evaluating time complexity: does modifying the input count towards space complexity? yes:
+
+    Depending on the context, it's common to treat the input as read-only when analyzing auxiliary space.
+    A separate notion is that of an in-place algorithm. In an in-place algorithm, we treat the input as writeable, and count the amount of extra space beyond that.
+    If the context is not clear, I suggest that you specify explicitly whether you treat the input as writeable or not.
+    but often it is assumed that if you modify the input, the Space Complexity is O(n), however, the extra space you speak of aka: "Auxiliary Space" is O(1).
+
+    Space Complexity of an algorithm is the total space used by an algorithm at run time with respect to the input size.
+    Always remember: "If you use it, count it." – If your algorithm uses the space, you have to count it in your Space Complexity analysis.
+
 Size of Input -> Worst accepted algorithm
 <=[10....11] -> O(N!) ,O(n^6)
 <=[15......18] -> O(2^N*N^2)

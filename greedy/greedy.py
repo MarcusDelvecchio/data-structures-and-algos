@@ -60,6 +60,35 @@ def maxScoreSightseeingPair(self, values: List[int]) -> int:
         best_spot -= 1
     return max_score
 
+# Maximum Number of Points with Cost LeetCode Medium
+# https://leetcode.com/problems/maximum-number-of-points-with-cost/description/?envType=daily-question&envId=2024-08-17
+# Given a matrix of values, output the largest sum of values you can by selecting one cell from each row, but also subtracting the distance between the columns of the cells from the adjacent rows
+# i.e., you can use ANY other value in your "path sum", but you will lose points if you pick a cell too far from the cell that you picked in the previous row
+# REALLY good question. Went and did the above 'Best Sightseeing Pair' problem after not realizing the optimization and got it after easily
+# TC: O(n*m) -> each row is processed 3 times, once to find best score to the left and one from the right, and then to compare to the row below
+# SC: O(1), the initial array is updated in place
+def maxPoints(self, points: List[List[int]]) -> int:
+
+    for row in range(len(points)-2, -1, -1):
+
+        # create list of items representing the best score of all items to the left
+        best_score_left = [0]*len(points[0])
+        best_score_left[0] = points[row+1][0]
+        for col in range(1, len(points[0])):
+            best_score_left[col] = max(best_score_left[col-1]-1, points[row+1][col])
+
+        # create list of items representing the best score of all items to the right
+        best_score_right = [0]*len(points[0])
+        best_score_right[-1] = points[row+1][-1]
+        for col in range(len(points[0])-2, -1, -1):
+            best_score_right[col] = max(best_score_right[col+1]-1, points[row+1][col])
+
+        # apply the best score to each cell based on the best score to the left and right of the cell directly below it
+        for col in range(len(points[0])):
+            points[row][col] += max(best_score_right[col], best_score_left[col])
+
+    return max(points[0])
+
 # K Items With the Maximum Sum LeetCode Easy
 # https://leetcode.com/problems/k-items-with-the-maximum-sum/description/
 # TC: O(n), SC: O(1)
