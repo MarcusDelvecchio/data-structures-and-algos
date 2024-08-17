@@ -1382,3 +1382,20 @@ def placedCoins(self, edges: List[List[int]], cost: List[int]) -> List[int]:
 
     dfs(0, None)
     return ans
+
+# Unique Binary Search Trees LeetCode Medium
+# https://leetcode.com/problems/unique-binary-search-trees/description/
+# TC: O(n)
+# SC: O(n)
+class Solution:
+    memo = {}
+    def numTrees(self, n: int) -> int:
+        if n == 1 or n == 0:
+            return 1
+        if n in self.memo: return self.memo[n]
+
+        res = 0
+        for given_to_left in range(n):
+            res += self.numTrees(given_to_left) * self.numTrees(n-given_to_left-1)
+        self.memo[n] = res
+        return res  
