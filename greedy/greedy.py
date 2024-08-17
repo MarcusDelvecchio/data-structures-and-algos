@@ -132,6 +132,24 @@ def maxCoins(self, piles: List[int]) -> int:
         left += 1
     return ans
 
+# Partition Array Into Three Parts With Equal Sum LeetCode Easy
+# Given an array of integers arr, return true if we can partition the array into three non-empty parts with equal sums
+# https://leetcode.com/problems/partition-array-into-three-parts-with-equal-sum/description/
+# TC: O(n^2), SC: O(1)
+# harder than expected but returning to LC so idk
+def canThreePartsEqualSum(self, arr: List[int]) -> bool:
+    target = sum(arr)/3
+    left_sum = 0
+    for left in range(len(arr)):
+        left_sum += arr[left]
+        if left_sum == target:
+            mid_sum = 0
+            for right in range(left+1, len(arr)-1): # note the -1 at the end of edge cases blow up
+                mid_sum += arr[right]
+                if mid_sum == target:
+                    return True
+    return False
+
 # Minimum Number of Keypresses LeetCode Medium
 # https://leetcode.com/problems/minimum-number-of-keypresses/description/?envType=study-plan-v2&envId=amazon-spring-23-high-frequency
 # : You have a keypad with 9 buttons, numbered from 1 to 9, each mapped to lowercase English letters. You can choose which characters each button is matched to as long as:
