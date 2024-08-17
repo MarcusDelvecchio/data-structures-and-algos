@@ -44,6 +44,22 @@ def numRescueBoats(self, people: List[int], limit: int) -> int:
             largest -= 1
     return boats
 
+# Best Sightseeing Pair LeetCode Medium
+# https://leetcode.com/problems/best-sightseeing-pair/description/
+# Given an array of values, find the pair of values with the largest score
+# the score is calculated by: adding the values and subtracting the distance between them in the array
+# also included in DP section. Keeping here because it is relevant to the question below
+# TC: O(n), SC: O(1)
+def maxScoreSightseeingPair(self, values: List[int]) -> int:
+    
+    # iterate through the array and hold on to the highest value, but reduce it by one every time
+    max_score = best_spot = 0
+    for value in values:
+        max_score = max(max_score, value+best_spot)
+        best_spot = max(best_spot, value)
+        best_spot -= 1
+    return max_score
+
 # K Items With the Maximum Sum LeetCode Easy
 # https://leetcode.com/problems/k-items-with-the-maximum-sum/description/
 # TC: O(n), SC: O(1)

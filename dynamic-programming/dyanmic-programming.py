@@ -10,6 +10,23 @@ def climbStairs(self, n: int) -> int:
         dp[i] = dp[i-1] + dp[i-2]
     return dp[n-1]
 
+
+# Best Sightseeing Pair LeetCode Medium
+# https://leetcode.com/problems/best-sightseeing-pair/description/
+# Given an array of values, find the pair of values with the largest score
+# the score is calculated by: adding the values and subtracting the distance between them in the array
+# also included in greedy section. this question isn't very "dp" like, but has DP tag.
+# TC: O(n), SC: O(1)
+def maxScoreSightseeingPair(self, values: List[int]) -> int:
+    
+    # iterate through the array and hold on to the highest value, but reduce it by one every time
+    max_score = best_spot = 0
+    for value in values:
+        max_score = max(max_score, value+best_spot)
+        best_spot = max(best_spot, value)
+        best_spot -= 1
+    return max_score
+
 # House Robber LeetCode Medium
 # https://leetcode.com/problems/house-robber/
 # You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, but you cannot rob two houses thgat are directly beside each other.
