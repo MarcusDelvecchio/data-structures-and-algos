@@ -10,6 +10,18 @@ def climbStairs(self, n: int) -> int:
         dp[i] = dp[i-1] + dp[i-2]
     return dp[n-1]
 
+# Longest Arithmetic Subsequence of Given Difference LeetCode Medium
+# https://leetcode.com/problems/longest-arithmetic-subsequence-of-given-difference/
+# TC: O(n), SC: O(n)
+def longestSubsequence(self, arr: List[int], difference: int) -> int:
+    vals = defaultdict(int) # set of all values we have seen so far in the list iterating forward, where vals[i] = longest subsequence ending at i
+    best = 1
+    for i in range(len(arr)):
+        less = arr[i] - difference # the value we are looking for: current element minus difference
+        vals[arr[i]] = 1 if less not in vals else vals[less] + 1 # if we have seen the target previous value for the current value, our new subsequence will be that subsequence length = 1
+        best = max(best, vals[arr[i]])
+    return best
+
 
 # Best Sightseeing Pair LeetCode Medium
 # https://leetcode.com/problems/best-sightseeing-pair/description/
