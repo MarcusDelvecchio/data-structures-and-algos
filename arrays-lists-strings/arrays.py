@@ -1,6 +1,20 @@
 from types import List
 from collections import defaultdict, Counter
 
+# Flipping an Image LeetCode Easy
+# https://leetcode.com/problems/flipping-an-image/description/
+# TC:: O(n), SC: O(cols) auxillary O(n) total
+def flipAndInvertImage(self, image: List[List[int]]) -> List[List[int]]:
+    rows, cols = len(image), len(image[0])
+    
+    for row in range(rows):
+        new_row = [0]*cols
+        for col in range(cols):
+            new_row[col] = image[row][cols-col-1] ^ 1
+        image[row] = new_row
+    
+    return image
+
 # Kids With the Greatest Number of Candies LeetCode Easy
 # https://leetcode.com/problems/kids-with-the-greatest-number-of-candies/description/?envType=study-plan-v2&envId=amazon-spring-23-high-frequency
 # : given an array of integers each representing a kid with that integer number of candies, return an array of boolean values representing whether or not each kid will have more candies than all of the other kids (or equal to the max)
