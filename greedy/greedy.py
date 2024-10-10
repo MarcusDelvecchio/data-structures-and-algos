@@ -60,6 +60,37 @@ def maxScoreSightseeingPair(self, values: List[int]) -> int:
         best_spot -= 1
     return max_score
 
+# Pairs of Songs With Total Durations Divisible by 60 LeetCode Medium
+# https://leetcode.com/problems/pairs-of-songs-with-total-durations-divisible-by-60/
+# TC: O(n), SC: O(1)
+# Lot of edge cases with this problem.
+# This is a two-pass solution but there is a rather simple way to do a 1-pass solution and it is shorter.
+# todo redo and this is a good interview question because of edge case handling
+def numPairsDivisibleBy60(self, time: List[int]) -> int:
+    mods = defaultdict(int)
+
+    # count up the mods of all of the items mod 60
+    zeros = 0 # ignore zeros because 60s will be mapped to zero after modding and we don't want them to be confused
+    for t in time:
+        if t == 0: zeros += 1
+        else: mods[t % 60] += 1
+
+    # for each item, count the number of items with the corresponding matching mod
+    pairs = 0
+    for mod in mods.keys():
+        if mod == 0:
+            count = mods[0] * zeros + (mods[0]*(mods[0]-1))/2
+            pairs += int(count * 2)
+            continue
+        target = 60 - mod
+        if target in mods:
+            if mod == 30: pairs += mods[30]*(mods[30]-1)
+            else: pairs += mods[mod]*mods[target]
+
+    # return half of the pairs because we counted every pair twice
+    return pairs // 2
+
+
 # Maximum Number of Points with Cost LeetCode Medium
 # https://leetcode.com/problems/maximum-number-of-points-with-cost/description/?envType=daily-question&envId=2024-08-17
 # Given a matrix of values, output the largest sum of values you can by selecting one cell from each row, but also subtracting the distance between the columns of the cells from the adjacent rows

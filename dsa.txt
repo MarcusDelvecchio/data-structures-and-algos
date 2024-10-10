@@ -106,6 +106,8 @@ things to remember:
     - n possible starting indices and n possible ending indices = O(n^2)
 - number of subsequences in a string / subarrays in an array is 2^n (you can delete items)
 - the time complexity of finding all subsequences of size k in a string is O(n^k). For example, finding all subsequences of size 3 is O(n^3), which is much more efficient than the O(2^n) counterpart for finding *all* subsequences.
+- the number of pairs that can be made if I have n items (and each pair is counted once and no item is paired with itself) is (n(n-1))/2
+    - derivation: each item can be paired with n-1 different items. So that is n(n-1) pairs. But pairs would all be counted twice, hence the /2
 
 general learning priiples for getting better at DSA/LC:
 - try to avoid the "let me just change this and re-run the tests" mentality. When you change something you should train yourself to think about
