@@ -49,6 +49,30 @@ def searchRange(self, nums: List[int], target: int) -> List[int]:
             left = mid + 1
     return [earliest, latest] if latest != -1 else [-1, -1]
 
+# H-Index II LeetCode Medium
+# actually hard than I expected, few annoying edge cases
+# https://leetcode.com/problems/h-index-ii/
+# edge case skew 7/10
+# edge cases: zeros, empty list, the value returned will not always be one of the citation values ex: [11, 15]
+# approach: we want to find the largest element i, where citations[i] >= (i + 1)
+def hIndex(self, citations: List[int]) -> int:
+    if len(citations) == 1: return int(bool(citations[0]))
+    L = 0; R = len(citations) - 1; h = 0
+
+    def isValidH(idx):
+        count_with_score = len(citations) - idx
+        return count_with_score >= citations[idx]
+
+    while L <= R:
+        mid = (L + R)//2
+        if isValidH(mid):
+            h = max(h, citations[mid])
+            L = mid + 1
+        else:
+            h = max(h, len(citations) - mid)
+            R = mid - 1
+    return h
+
 # Search a 2D Matrix LeetCode Medium
 # https://leetcode.com/problems/search-a-2d-matrix
 # took 17 mins becuase off-by-one issues and dumb mistakes
