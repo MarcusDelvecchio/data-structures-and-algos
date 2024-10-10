@@ -56,6 +56,8 @@ def longestArithSeqLength(self, nums: List[int]) -> int:
     return best
 
 
+
+
 # Best Sightseeing Pair LeetCode Medium
 # https://leetcode.com/problems/best-sightseeing-pair/description/
 # Given an array of values, find the pair of values with the largest score

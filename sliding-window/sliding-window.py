@@ -1,5 +1,15 @@
 from types import List
 
+# Minimum Difference Between Highest and Lowest of K Scores LeetCode Medium
+# TC: O(nlogn), SC: O(1) aux O(n) total
+def minimumDifference(self, nums: List[int], k: int) -> int:
+    nums.sort()
+    best = float('inf')
+    for right in range(k - 1, len(nums)):
+        dif = nums[right] - nums[right - k + 1]
+        best = min(best, dif)
+    return best
+
 # Get Equal Substrings Within Budget LeetCode Medium
 # https://leetcode.com/problems/get-equal-substrings-within-budget/description/
 # : You are given two strings s and t of the same length and an integer maxCost.
