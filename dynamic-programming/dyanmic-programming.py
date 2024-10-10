@@ -22,6 +22,22 @@ def longestSubsequence(self, arr: List[int], difference: int) -> int:
         best = max(best, vals[arr[i]])
     return best
 
+# Destroy Sequential Targets LeetCode Medium
+# https://leetcode.com/problems/destroy-sequential-targets/description
+# TC: O(n)
+# similar to Longest Arithmetic Subsequence of Given Difference
+# given an integer array nums, return the integer that has the most other elements that are some multiple of space greater than it
+def destroyTargets(self, nums: List[int], space: int) -> int:
+    mod_vals, mod_counts = defaultdict(lambda:float('inf')), defaultdict(int)
+    best_mod = -1
+    for num in nums:
+        mod = num % space
+        mod_counts[mod] += 1
+        mod_vals[mod] = min(mod_vals[mod], num)
+        if mod_counts[mod] > mod_counts[best_mod] or (mod_counts[mod] == mod_counts[best_mod] and mod_vals[mod] < mod_vals[best_mod]):
+            best_mod = mod
+    return mod_vals[best_mod] if best_mod != -1 else min(nums)
+
 
 # Best Sightseeing Pair LeetCode Medium
 # https://leetcode.com/problems/best-sightseeing-pair/description/
