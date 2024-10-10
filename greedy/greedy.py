@@ -66,6 +66,7 @@ def maxScoreSightseeingPair(self, values: List[int]) -> int:
 # Lot of edge cases with this problem.
 # This is a two-pass solution but there is a rather simple way to do a 1-pass solution and it is shorter.
 # todo redo and this is a good interview question because of edge case handling
+# (solution here:) https://leetcode.com/problems/pairs-of-songs-with-total-durations-divisible-by-60/solutions/422213/python-o-n-6-lines-beats-86-time/
 def numPairsDivisibleBy60(self, time: List[int]) -> int:
     mods = defaultdict(int)
 

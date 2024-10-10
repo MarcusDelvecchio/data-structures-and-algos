@@ -38,6 +38,23 @@ def destroyTargets(self, nums: List[int], space: int) -> int:
             best_mod = mod
     return mod_vals[best_mod] if best_mod != -1 else min(nums)
 
+# Longest Arithmetic Subsequence LeetCode Medium
+# https://leetcode.com/problems/longest-arithmetic-subsequence/
+# O(n^2) space O(n^2) time
+def longestArithSeqLength(self, nums: List[int]) -> int:
+    dp = [defaultdict(int) for i in range(len(nums))] # dp[i] = a dict of all arithmetic sequences that end at i, where dp[i][space] = length
+    best = 0
+    for i in range(len(nums)):
+        for prev in range(i - 1, -1, -1):
+            dif = nums[i] - nums[prev]
+            if dif in dp[i]: continue # if we have already considered this difference with a later element,don't recalculate
+            if dif in dp[prev]:
+                dp[i][dif] = dp[prev][dif] + 1
+            else:
+                dp[i][dif] = 2
+            best = max(best, dp[i][dif])
+    return best
+
 
 # Best Sightseeing Pair LeetCode Medium
 # https://leetcode.com/problems/best-sightseeing-pair/description/
