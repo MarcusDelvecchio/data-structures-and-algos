@@ -1398,4 +1398,20 @@ class Solution:
         for given_to_left in range(n):
             res += self.numTrees(given_to_left) * self.numTrees(n-given_to_left-1)
         self.memo[n] = res
-        return res  
+        return res
+
+# Find Bottom Left Tree Value LeetCode Medium
+# https://leetcode.com/problems/find-bottom-left-tree-value/description/
+# TC: O(n), SC: O(n)
+def findBottomLeftValue(self, root: Optional[TreeNode]) -> int:
+    row = deque([root])
+    left = None
+
+    while row:
+        left = row[0].val
+        size = len(row)
+        for _ in range(size):
+            node = row.popleft()
+            if node.left: row.append(node.left)
+            if node.right: row.append(node.right)
+    return left 
