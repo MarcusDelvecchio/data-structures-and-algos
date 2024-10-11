@@ -10,6 +10,31 @@ def minimumDifference(self, nums: List[int], k: int) -> int:
         best = min(best, dif)
     return best
 
+# Maximum Points You Can Obtain from Cards LeetCode Medium
+# https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/description/
+# TC: O(n), SC: O(n)
+# also greedy but putting here. Definitely overthought it about some DP stuff and what not. But this is a very simple solution
+def maxScore(self, cardPoints: List[int], k: int) -> int:
+    if k == len(cardPoints): return sum(cardPoints)
+    R = len(cardPoints) - 1
+    score = 0; best = 0
+    
+    # move R backwards all the way to start as if we only take from the right
+    for _ in range(k):
+        score += cardPoints[R]
+        R -= 1
+
+    best = score
+
+    # one at a time, add cards back to the right as if we would instead be taking them from the left
+    for L in range(k):
+        R += 1
+        score += cardPoints[L]
+        score -= cardPoints[R]
+        best = max(best, score)
+    
+    return best
+
 # Get Equal Substrings Within Budget LeetCode Medium
 # https://leetcode.com/problems/get-equal-substrings-within-budget/description/
 # : You are given two strings s and t of the same length and an integer maxCost.
