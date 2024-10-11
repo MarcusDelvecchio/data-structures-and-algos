@@ -1,4 +1,8 @@
-DP = Recursion + Memoization
+https://leetcode.com/problems/target-sum/solutions/455024/dp-is-easy-5-steps-to-think-through-dp-questions/
+good read^
+
+
+DP = Tabulation or Recursion + Memoization
 
 "DP is an approach to solving complex problems which involves breaking the problem down into simpler problems 
     and solving those problems first"

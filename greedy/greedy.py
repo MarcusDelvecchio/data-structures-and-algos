@@ -1087,3 +1087,29 @@ def maxDistance(self, arrays: List[List[int]]) -> int:
         return largest[0] - smallest[0]
     else:
         return max(largest[0] - second_smallest[0], second_largest[0] - smallest[0])
+    
+
+# Shortest Unsorted Continuous Subarray LeetCode Medium 
+# https://leetcode.com/problems/shortest-unsorted-continuous-subarray/description/
+def findUnsortedSubarray(self, nums: List[int]) -> int:
+    invalid_start = invalid_end = None
+    lowest_inside_invalid_window = float('inf')
+    largest_inside_invalid_window = -float('inf')
+    for i in range(len(nums)):
+        if i > 0 and (nums[i-1] > nums[i] or invalid_end != None and nums[i] == nums[invalid_end]):
+            if invalid_start == None:
+                invalid_start = i - 1
+                lowest_inside_invalid_window = nums[i]
+                largest_inside_invalid_window = nums[i-1]
+            if invalid_end:
+                for val in range(invalid_end, i+1):
+                    lowest_inside_invalid_window = min(lowest_inside_invalid_window, nums[val])
+                    largest_inside_invalid_window = max(largest_inside_invalid_window, nums[val])
+            invalid_end = i
+    if invalid_start != None:
+        while invalid_start > 0 and (nums[invalid_start-1] > lowest_inside_invalid_window):
+            invalid_start -= 1
+        while invalid_end < len(nums) - 1 and (nums[invalid_end+1] < largest_inside_invalid_window):
+            invalid_end += 1
+        return invalid_end - invalid_start + 1
+    return 0
