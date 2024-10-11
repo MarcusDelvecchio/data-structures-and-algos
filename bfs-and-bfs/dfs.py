@@ -1,5 +1,22 @@
 from collections import defaultdict
 
+# Keys and Rooms LeetCode Medium
+# https://leetcode.com/problems/keys-and-rooms/description/
+# TC: O(n) SC: O(n)
+def canVisitAllRooms(self, rooms: List[List[int]]) -> bool:
+    seen = set()
+
+    def dfs(roomIdx):
+        if roomIdx in seen: return
+        seen.add(roomIdx)
+        for key in rooms[roomIdx]:
+            dfs(key)
+
+    dfs(0)
+    for i in range(len(rooms)):
+        if i not in seen: return False
+    return True
+
 # Detonate the Maximum Bombs LeetCode Medium
 # https://leetcode.com/problems/detonate-the-maximum-bombs/description/
 # TC: O(n^2) SC: O(n)
