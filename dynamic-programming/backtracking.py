@@ -1120,3 +1120,35 @@ def getMaximumGold(self, grid: List[List[int]]) -> int:
         for c in range(cols):
             best = max(dfs(r, c, set()), best)
     return best
+
+# Restore IP Addresses LeetCode Medium
+# https://leetcode.com/problems/restore-ip-addresses/
+def restoreIpAddresses(self, s: str) -> List[str]:
+    if len(s) > 12: return []
+
+    def dfs(idx, ip, octet_idx, recent_octet):
+        if idx == len(s):
+            if octet_idx == 3 and len(recent_octet) > 0:
+                return [ip]
+            return []
+        in_current_octet = in_next_octet = []
+        new_octet = recent_octet + s[idx]
+
+        # validation cases that must be satisfied
+        octet_not_full = len(recent_octet) < 3
+        octet_int_valid = int(new_octet) < 256 and (new_octet[0] != "0" or int(new_octet) == 0)
+        not_last_octet = octet_idx < 3
+        octet_not_empty = len(recent_octet)
+
+        # verify the cases when deciding if we can add the current value to the current or next octet
+        if octet_not_full and octet_int_valid and new_octet != "00":
+            in_current_octet = dfs(idx + 1, ip + s[idx], octet_idx, recent_octet + s[idx])
+        if not_last_octet and octet_not_empty:
+            in_next_octet = dfs(idx + 1, ip + '.' + s[idx], octet_idx + 1, s[idx])
+
+        # return all complete ips that come from (potentially) adding the value to the current and next octet
+        return in_current_octet + in_next_octet
+        
+
+    ans = dfs(0, "", 0, "")
+    return ans
