@@ -263,3 +263,67 @@ def longestValidSubstring(self, word: str, forbidden: List[str]) -> int:
             ans = max(ans, right - left + 1)
         right += 1
     return ans     
+
+
+# https://leetcode.com/problems/snakes-and-ladders/
+# invalid solution took over an hour when getting back into things
+# fell for the initial tempations to use tabulation, then tried DFS (why) and then realized BFS is best approach
+# todo another time do BFS
+class Solution:
+    # rememeber: why we cannot use tabulation for this question, even though you might think we can
+    def snakesAndLadders(self, board: List[List[int]]) -> int:
+        n = len(board)
+        total_cells = n*n
+
+        cell_coords = dict()
+        fwd = True
+        cell_num = 1
+        for r in range(n):
+            start = 0 if fwd else n - 1
+            end = n if fwd else - 1
+            step = 1 if fwd else - 1
+            for c in range(start, end, step): # 0, n, 1
+                cell_coords[cell_num] = (n-r-1, c)
+                cell_num += 1     
+            fwd = not fwd  
+        
+        memo = dict()
+
+        # flag cells where whether or not a snake / ladder was recently used doesn't matter because there are no further snakes / ladders in range
+        usedSnakeOrLadderDoesntMatter = set()
+        spaces_since_ladder_or_snake = float('inf')
+        for i in range(total_cells, 0, -1):
+            x, y = cell_coords[i]
+            if board[x][y] != -1:
+                spaces_since_ladder_or_snake = 0
+            else:
+                spaces_since_ladder_or_snake += 1
+            if spaces_since_ladder_or_snake > 6:
+                usedSnakeOrLadderDoesntMatter.add(i)
+
+        
+        def getShortestPath(cell, usedSnakeOrLadder, seen):
+            if cell >= total_cells: return 0
+            if cell in seen: return float('inf')
+            if (cell, usedSnakeOrLadder) in memo:
+                return memo[cell, usedSnakeOrLadder]
+            if abs(cell - total_cells) <= 6 and cell_coords[cell] == -1:
+                return 1
+            seen.add(cell)
+
+            # if this cell has a snake or ladder, we cannot stop on this cell
+            x, y = cell_coords[cell]
+            shortest = 1 if cell_coords[cell] == -1 and abs(cell - total_cells) <= 6 else float('inf')
+            if board[x][y] != -1 and not usedSnakeOrLadder:
+                shortest = min(shortest, getShortestPath(board[x][y], True, seen))
+            else:
+                # explore the next 6 cells
+                for i in range(1, 7):
+                    shortest = min(shortest, getShortestPath(cell + i, False, seen) + 1)
+            memo[cell, usedSnakeOrLadder] = shortest
+            seen.remove(cell)
+            return shortest
+
+        
+        ans = getShortestPath(1, False, set())
+        return ans if ans != float('inf') else -1
