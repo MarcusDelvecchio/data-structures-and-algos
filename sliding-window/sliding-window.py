@@ -267,6 +267,37 @@ def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
         res.append(q[0])
     return res
 
+# Maximize the Confusion of an Exam LeetCode Medium
+# https://leetcode.com/problems/maximize-the-confusion-of-an-exam/description/
+# TC: O(n), SC: O(1)
+# given an array answerKey and where answerKey[i] is either 'T' or 'F',
+# we want to maximize the number of consecutive Ts OR Fs (whichever we can produce a larger consecutive subarray of)
+# when only being able to change K answers in answerKey
+#
+# approach: like a 'doubule sliding window' where we track two possible windows and counts at the same time
+def maxConsecutiveAnswers(self, answerKey: str, k: int) -> int:
+    False_L = False_R = True_L = True_R = True_Count = False_Count = largest = 0
+    
+    while True_R < len(answerKey) and False_R < len(answerKey):
+        if True_R < len(answerKey) and answerKey[True_R] == "T": True_Count += 1
+        if False_R < len(answerKey) and answerKey[False_R] == "F": False_Count += 1
+
+        while True_Count > k:
+            if answerKey[True_L] == "T":
+                True_Count -= 1
+            True_L += 1
+
+        while False_Count > k:
+            if answerKey[False_L] == "F":
+                False_Count -= 1
+            False_L += 1
+
+        largest = max(largest, True_R - True_L + 1, False_R - False_L + 1)
+        True_R = True_R + 1
+        False_R = False_R + 1
+    
+    return largest 
+
 # Length of Longest Subarray With at Most K Frequency LeetCode Medium
 # https://leetcode.com/problems/length-of-longest-subarray-with-at-most-k-frequency/description/?envType=daily-question&envId=2024-03-28
 # TC: O(n), SC: O(n)
