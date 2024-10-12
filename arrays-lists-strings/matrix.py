@@ -1,3 +1,35 @@
+
+# Search a 2D Matrix LeetCode Medium
+# https://leetcode.com/problems/search-a-2d-matrix/
+# TC: O(logn), SC: O(1) (zero auxillary)
+def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+    T, B = 0, len(matrix) - 1
+
+    # find the target row using BS within the rows
+    target_row = 0
+    while T <= B:
+        mid = (T + B) // 2
+        if target > matrix[mid][-1]:
+            T = mid + 1
+        elif target < matrix[mid][0]:
+            B = mid - 1
+        else:
+            target_row = mid
+            break
+    
+    # find the target in the target row
+    L, R = 0, len(matrix[0]) - 1
+    while L <= R:
+        mid = (L + R) // 2
+        if matrix[target_row][mid] > target:
+            R = mid - 1
+        elif matrix[target_row][mid] < target:
+            L = mid + 1
+        else:
+            return True
+    return False
+
+
 # Game of Life LeetCode Medium
 # https://leetcode.com/problems/game-of-life/description/
 # TC: O(n), SC: O(1)
