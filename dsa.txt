@@ -96,6 +96,8 @@ On "Representation Invariant" ("Rep Invariant"):
             "In general, you should carefully inspect the argument types and return types of all your ADT operations. If any of the types are mutable, make sure your implementation doesn’t return direct references to its representation. Doing that creates rep exposure"
 
 things to remember:
+- subsets > subsequence > subarray
+    - subsets take any in any order, subsequence take any as long as in order, subarray takes contiguous in order 
 - read the question thoroughly, read examples, and ask questions
 - realize and describe your assumptions
 - #permutations > #combinations
@@ -104,10 +106,14 @@ things to remember:
 - space complexity of say a counter of characters/numbers is actually O(1) because characters can only be a finite number of things
 - number of substrings in a string is n^2 / number of subarrays in a list/array is n^2
     - n possible starting indices and n possible ending indices = O(n^2)
-- number of subsequences in a string / subarrays in an array is 2^n (you can delete items)
+- number of subsequences in a string / subarrays in an array is 2^n (you can delete items, so you chose to take or not take each item for all n items = 2^n)
 - the time complexity of finding all subsequences of size k in a string is O(n^k). For example, finding all subsequences of size 3 is O(n^3), which is much more efficient than the O(2^n) counterpart for finding *all* subsequences.
 - the number of pairs that can be made if I have n items (and each pair is counted once and no item is paired with itself) is (n(n-1))/2
     - derivation: each item can be paired with n-1 different items. So that is n(n-1) pairs. But pairs would all be counted twice, hence the /2
+
+bitwise:
+- when OR'ing all items in an array, the OR bits tend towards 1 and can never return to 0 after (1 OR 0 is still 1, so once a bit is 1, it cannot return to 0)
+- when AND'ing all items in an array, the AND bits tend towards 0 and can never return to 1 after (1 AND 0 is 0, so once a bit is 0, it cannot return to 1)
 
 general learning priiples for getting better at DSA/LC:
 - try to avoid the "let me just change this and re-run the tests" mentality. When you change something you should train yourself to think about

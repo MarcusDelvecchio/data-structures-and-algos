@@ -1,0 +1,12 @@
+EDGE CASES TO KEEP IN MIND FOR VARIOUS PROBLEM TYPES
+
+
+matrix problems
+- be cautious of the counter-intuitive matrix direction (top left is matrix[0][0] and indices increase going down the matrix)
+- be cautious of single-cell matrices
+
+general:
+- careful checking for Nonetypes in if statemenets if values can also be zero
+
+binary and bitwise:
+- binary nums digit zero is on the right so careful when comparingbinary nums, num1[i] != num2[i] but num1[-i] == num2[-i]

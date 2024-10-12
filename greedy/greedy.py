@@ -506,7 +506,7 @@ def maxSubArray(self, nums: List[int]) -> int:
     for num in nums:
         curr += num
         maxx = max(maxx, curr)
-        if curr < 0:
+        if curr < 0: # the trick
             curr = 0
     return maxx
 

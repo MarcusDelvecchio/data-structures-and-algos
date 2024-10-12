@@ -2,7 +2,25 @@ https://leetcode.com/problems/target-sum/solutions/455024/dp-is-easy-5-steps-to-
 good read^
 
 
-DP = Tabulation or Recursion + Memoization
+types of dynamic programming problems:
+1. 0/1 Knapsack
+2. Unbounded Knapsack
+3. Shortest Path (eg: Unique Paths I/II)
+4. Fibonacci Sequence (eg: House Thief, Jump Game)
+    (^aka 'linear DB' ?)
+5. Longest Common Substring/Subsequeunce
+
+notes on problem type classifications
+- snakes and ladders NOTE you CANNOT use tabulation and cannot use DFS
+    - so it is therefor NOT a DP problem, just a BFS problem it seems (top down BFS)
+    - this is a SHORTEST PATH problem (did I confuse it with a 0/1 napsack problem?)
+    - if it was only ladders, it would be (or could be solved as?) a 0/1 knapsack right?
+
+DP has TWO main approaches:
+    - bottom-up (tabulation, iterative)
+    - top-down (recursive, memoization)
+
+    - note we can also have 
 
 "DP is an approach to solving complex problems which involves breaking the problem down into simpler problems 
     and solving those problems first"
