@@ -104,7 +104,7 @@ def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
 # Koko Eating Bananas LeetCode Medium
 # 'Allocated Books' problem type
 # : Koko loves to eat bananas. There are n piles of bananas, the ith pile has piles[i] bananas. The guards have gone and will come back in h hours.
-# : 
+# : Return the minimum integer k such that she can eat all the bananas within h hours.
 # https://leetcode.com/problems/koko-eating-bananas/description/
 # TC: O(nlogn) SC: O(1)
 def minEatingSpeed(self, piles: List[int], h: int) -> int:
@@ -129,6 +129,8 @@ def minEatingSpeed(self, piles: List[int], h: int) -> int:
     return best
 
 # Find Minimum in Rotated Sorted Array LeetCode Medium
+# observations: 1. a 'rotated' array will still have two sorted subarrays (1 if it is rotated by n)
+# 2. so given an L, an R, and a mid, we can determine if the mid is in the lower or higher subarray, and move the L or R accordingly
 # https://leetcode.com/problems/find-minimum-in-rotated-sorted-array
 # TC: O(n), SC: O(1)
 # took 17 mins
@@ -175,3 +177,37 @@ def findPeakElement(self, nums: List[int]) -> int:
         # else is a peak
         else:
             return mid_idx
+        
+# Search in Rotated Sorted Array LeetCode Medium
+# : Given a rotated array, return the index of the given target element, if it is included, else -1 (in logarithmic time)
+# https://leetcode.com/problems/search-in-rotated-sorted-array/description/
+# TC: O(logn), SC: O(1)
+# observations: 1. the 'rotated' array will still have two sorted subarrays (1 if it is rotated by n)
+# imagine the rotated array as a graph: see https://miro.medium.com/v2/resize:fit:517/1*1yRrcA1ge6AhezTwE3qjlw.png
+# just break the quesiton into discrete cases
+# 2 cases situations (midpoint in upper vs lower) x 4 subcases cases each (target greater / less than mid and is/is not in same portion)
+def search(self, nums: List[int], target: int) -> int:
+    L, R = 0, len(nums) -1
+
+    while L <= R:
+        mid = (L + R) // 2
+        if nums[mid] == target: return mid
+        elif nums[R] == target: return R
+        elif nums[L] == target: return L
+        elif target < nums[mid]:
+            if nums[mid] > nums[L]:
+                if target < nums[L]:
+                    L = mid + 1
+                else:
+                    R = mid - 1 
+            else:
+                R = mid - 1          
+        else:
+            if nums[mid] > nums[L]:
+                L = mid + 1
+            else:
+                if target > nums[L]:
+                    R = mid - 1
+                else:
+                    L = mid + 1
+    return -1
