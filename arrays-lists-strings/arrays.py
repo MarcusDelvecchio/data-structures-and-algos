@@ -3,7 +3,7 @@ from collections import defaultdict, Counter
 
 # Flipping an Image LeetCode Easy
 # https://leetcode.com/problems/flipping-an-image/description/
-# TC:: O(n), SC: O(cols) auxillary O(n) total
+# TC: O(n), SC: O(cols) auxillary O(n) total
 def flipAndInvertImage(self, image: List[List[int]]) -> List[List[int]]:
     rows, cols = len(image), len(image[0])
     

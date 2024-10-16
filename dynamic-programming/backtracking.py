@@ -3,6 +3,7 @@
 # Sum of All Subset XOR Totals LeetCode Easy
 # https://leetcode.com/problems/sum-of-all-subset-xor-totals/description/
 # TC: O(2^n), SC: O(n)
+# ALSO see the non-iterative version in bitwise (O(n^2) time but O(n^2) space)
 # : The XOR total of an array is defined as the bitwise XOR of all its elements, or 0 if the array is empty.
 # : Given an array nums, return the sum of all XOR totals for every subset of nums. Note that subsets with the same elements should be counted multiple times.
 def subsetXORSum(self, nums: List[int]) -> int:

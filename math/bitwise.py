@@ -65,6 +65,22 @@ def subarrayBitwiseORs(self, arr: List[int]) -> int:
         ans |= possibilitiesEndingAt # add all not yet included ORs to ans (take union of the two)
     return len(ans)
 
+# Sum of All Subset XOR Totals LeetCode Easy
+# observations: unlike above, compounded XORs do NOT tend towards values, so we cannot simply disregard old XOR values (cannot replace the list every time, we add to it)
+# https://leetcode.com/problems/sum-of-all-subset-xor-totals/description/
+# TC: O(n^2), SC: O(n^2)
+# ALSO see the recursive version in bitwise (O(2^n) ?)
+# : The XOR total of an array is defined as the bitwise XOR of all its elements, or 0 if the array is empty.
+# : Given an array nums, return the sum of all XOR totals for every subset of nums. Note that subsets with the same elements should be counted multiple times.
+def subsetXORSum(self, nums: List[int]) -> int:
+    subsetXORs = [0] # start with zero so that when we do num^0 every time, it will just add num
+    total = 0
+    for num in nums:
+        newXORs = [val ^ num for val in subsetXORs]
+        total += sum(newXORs)
+        subsetXORs.extend(newXORs)
+    return total
+
 
 #
 #

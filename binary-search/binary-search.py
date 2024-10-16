@@ -51,6 +51,8 @@ def searchRange(self, nums: List[int], target: int) -> List[int]:
 
 # H-Index II LeetCode Medium
 # actually hard than I expected, few annoying edge cases
+# : Given an array of integers citations where citations[i] is the number of citations a researcher received for their ith paper and citations is sorted in ascending order, return the researcher's h-index.
+# : The h-index is defined as the maximum value of h such that the given researcher has published at least h papers that have each been cited at least h times.
 # https://leetcode.com/problems/h-index-ii/
 # edge case skew 7/10
 # edge cases: zeros, empty list, the value returned will not always be one of the citation values ex: [11, 15]
@@ -75,6 +77,10 @@ def hIndex(self, citations: List[int]) -> int:
 
 # Search a 2D Matrix LeetCode Medium
 # https://leetcode.com/problems/search-a-2d-matrix
+# : You are given an m x n integer matrix matrix with the following two properties:
+# 1. Each row is sorted in non-decreasing order.
+# 2. The first integer of each row is greater than the last integer of the previous row.
+# Given an integer target, return true if target is in matrix or false otherwise.
 # took 17 mins becuase off-by-one issues and dumb mistakes
 # approach: approach the problem as a singular list where R and L point to indices in a normal 1D list, but every time we access a value, convert that value to the actual row/col value in the matrix
 # TC: O(logn), SC: O(1)
@@ -97,6 +103,8 @@ def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
 
 # Koko Eating Bananas LeetCode Medium
 # 'Allocated Books' problem type
+# : Koko loves to eat bananas. There are n piles of bananas, the ith pile has piles[i] bananas. The guards have gone and will come back in h hours.
+# : 
 # https://leetcode.com/problems/koko-eating-bananas/description/
 # TC: O(nlogn) SC: O(1)
 def minEatingSpeed(self, piles: List[int], h: int) -> int:
