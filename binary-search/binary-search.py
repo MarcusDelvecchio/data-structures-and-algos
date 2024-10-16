@@ -211,3 +211,29 @@ def search(self, nums: List[int], target: int) -> int:
                 else:
                     L = mid + 1
     return -1
+
+# Search in Rotated Sorted Array II LeetCode Medium
+# https://leetcode.com/problems/search-in-rotated-sorted-array-ii/description/
+# because we have a non-decreasing ordered list, we can no longer safely determine what portion of the rotated list (left or right) the mid point is in
+# so for the edge case when L == mid == R, we have to do BS on left and right sides. Otherwise, we can handle it accordingly
+# TC: O(n), SC: O(n) -> can probably improve this to not use recursion though, but leaving it
+def search(self, nums: List[int], target: int) -> bool:
+    L, R = 0, len(nums) - 1
+
+    # find the largest value
+    def binarySearch(L, R):
+        if R < L: return False
+        mid = (L + R) // 2
+        if nums[mid] == target:
+            return True
+        if nums[mid] == nums[L] and nums[L] == nums[R]:
+            return binarySearch(mid+1, R-1) or binarySearch(L+1, mid - 1) # we can also shift the end point inwards by 1 because we also know it is not the target (since all equal and mid isn't the target)
+        elif nums[mid] >= nums[L]: # in the left portion
+            if nums[L] <= target <= nums[mid]:
+                return binarySearch(L, mid-1)
+            return binarySearch(mid+1, R)
+        else: # nums[mid] <= nums[L]: # in the right portion
+            if nums[mid] <= target <= nums[R]:
+                return binarySearch(mid+1, R)
+            return binarySearch(L, mid-1)
+    return binarySearch(L, R)
