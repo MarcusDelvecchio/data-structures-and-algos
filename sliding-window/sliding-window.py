@@ -1,4 +1,20 @@
 from types import List
+from collections import Counter
+
+# Maximum Length Substring With Two Occurrences LeetCode Easy
+# https://leetcode.com/problems/maximum-length-substring-with-two-occurrences/submissions/1425701766/
+# TC: O(n), SC: O(n)
+def maximumLengthSubstring(self, s: str) -> int:
+    counter = Counter()
+    L = 0
+    best = 0
+    for R in range(len(s)):
+        counter[s[R]] += 1
+        while counter[s[R]] > 2:
+            counter[s[L]] -= 1
+            L += 1
+        best = max(best, R-L+1)
+    return best
 
 # Minimum Difference Between Highest and Lowest of K Scores LeetCode Medium
 # TC: O(nlogn), SC: O(1) aux O(n) total
