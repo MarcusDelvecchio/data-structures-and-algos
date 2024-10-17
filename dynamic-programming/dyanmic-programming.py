@@ -1,4 +1,6 @@
 # Climbing Stairs LeetCode Easy
+# : You are climbing a staircase. It takes n steps to reach the top.
+# : Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
 # https://leetcode.com/problems/climbing-stairs/description/
 # You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
 # TC: O(n), SC: O(n)
@@ -12,6 +14,8 @@ def climbStairs(self, n: int) -> int:
 
 # Longest Arithmetic Subsequence of Given Difference LeetCode Medium
 # https://leetcode.com/problems/longest-arithmetic-subsequence-of-given-difference/
+# : Given an integer array arr and an integer difference, return the length of the longest subsequence in arr
+# : which is an arithmetic sequence such that the difference between adjacent elements in the subsequence equals difference.
 # TC: O(n), SC: O(n)
 def longestSubsequence(self, arr: List[int], difference: int) -> int:
     vals = defaultdict(int) # set of all values we have seen so far in the list iterating forward, where vals[i] = longest subsequence ending at i

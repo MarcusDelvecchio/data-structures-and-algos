@@ -1,4 +1,5 @@
 from typing import Optional, List
+from collections import deque
 
 # Definition for a binary tree node.
 class TreeNode:
@@ -198,6 +199,7 @@ def closestValue(self, root: Optional[TreeNode], target: float) -> int:
             return closest
 
 # Path Sum 2 LeetCode Medium
+# (shorter below)
 # https://leetcode.com/problems/path-sum-ii/submissions/
 # took almost 40 but still picking up the tree ideas
 # this one was just weird bc needing to pass data back up the tree
@@ -227,6 +229,19 @@ def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
         res.append(sol) 
     return res
 
+# (shorter than above)
+def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
+    if not root: return []
+    
+    ans = []
+    def findPaths(root, remaining, path):
+        if not root.left and not root.right and remaining == 0: ans.append(path)
+        if root.left: findPaths(root.left, remaining - root.left.val, path + [root.left.val])
+        if root.right: findPaths(root.right, remaining - root.right.val, path + [root.right.val])
+
+    findPaths(root, targetSum - root.val, [root.val])
+    return ans
+
 # Binary Tree Sum Root to Leaf Numbers
 # https://leetcode.com/problems/sum-root-to-leaf-numbers/description/
 # took 11 mins
@@ -241,6 +256,14 @@ def sumNumbers(self, root: Optional[TreeNode]) -> int:
     
     get_sum(root, "")
     return self.res
+
+# (shorter than above)
+def sumNumbers(self, root: Optional[TreeNode]) -> int:
+    def getTotals(root, digits):
+        if not root: return 0
+        if not root.left and not root.right: return int("".join(digits + [str(root.val)]))
+        return getTotals(root.left, digits + [str(root.val)]) + getTotals(root.right, digits + [str(root.val)])
+    return getTotals(root, [])
 
 # Delete Leaves With a Given Value LeetCode Medium
 # https://leetcode.com/problems/delete-leaves-with-a-given-value/description/?envType=daily-question&envId=2024-05-17
@@ -401,25 +424,20 @@ def addOneRow(self, root, val, depth):
         d += 1
     return root
 
-# sombody else's BFS solution for Add One Row. Adding here because I it makes a lot of sense
-# also follows that pattern of filling queue level-by-level with nested loop
-# https://leetcode.com/problems/add-one-row-to-tree/solutions/2664284/python-two-solutions-using-dfs-and-bfs/
-def addOneRow(self, root, val, depth):
+# BFS solution and shorter (but dfs seems cleaner tbh)
+def addOneRow(self, root: Optional[TreeNode], val: int, depth: int) -> Optional[TreeNode]:
     if depth == 1: return TreeNode(val, root)
-    
-    queue = deque([root])
-    while depth - 1 != 1:
-        for _ in range(len(queue)):
-            node = queue.popleft()
-            if node.left:  queue.append(node.left)
-            if node.right: queue.append(node.right)
-        depth -= 1
-            
-    while queue:
-        node = queue.popleft()
-        node.left  = TreeNode(val, left  = node.left)
-        node.right = TreeNode(val, right = node.right)
-        
+    level = deque([root])
+    dep = 1
+    while level:
+        for _ in range(len(level)):
+            node = level.popleft()
+            if not node: continue
+            if dep + 1 == depth:
+                node.left = TreeNode(val, node.left, None)
+                node.right = TreeNode(val, None, node.right)
+            level.extend([node.left, node.right])
+        dep += 1
     return root
 
 # recursive solution (depth first rather then breadth first) for above
@@ -480,6 +498,27 @@ def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNod
         return TreeNode(current, left, right)
 
     return construct(preorder_glo, inorder)
+
+# 1 year later done in 20 mins
+# (but old and even more simple but equivalent solution below)
+# observations: we can use the preorder and inorder traversals to find the pre-order and in-order traversals of the left and right subtrees
+# 1. preorder[0] will always be root
+# 2. indorder[:index of root] will be the left tree
+# using these two rules we can extract the left tree pre-order and in-order, and then recursively build the left and right subtrees
+def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
+    if not preorder: return None
+
+    # get left tree pre-order / in-order
+    leftTreeInorderEndIndex = 0
+    for leftTreeInorderEndIndex in range(len(inorder)):
+        if inorder[leftTreeInorderEndIndex] == preorder[0]: break
+    leftTreeInorder = inorder[:leftTreeInorderEndIndex]
+    leftTreePreorder = preorder[1:len(leftTreeInorder) + 1]
+
+    # the remaining elements after the left tree and root (in both pre-order and in-order) will be the right tree
+    rightTreeInorder = inorder[leftTreeInorderEndIndex + 1:]
+    rightTreePreorder = preorder[leftTreeInorderEndIndex + 1:]
+    return TreeNode(preorder[0], self.buildTree(leftTreePreorder, leftTreeInorder), self.buildTree(rightTreePreorder, rightTreeInorder))
 
 
 # yet again, another vastly simpler solution done in 6 lines from some other guy
@@ -556,7 +595,24 @@ def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
     find_paths(root, [targetSum])
     return self.res
 
-# note that at 4. targets.copy() is no longer needed to be used because the targets array is duplicated/copied in the above line anyways
+# took 5:40
+# TC: O(n^2) -> since the total number of paths that can be formed across the tree is O(n^2) this puts a limit on the TC
+# SC: O(n^2)
+def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
+    
+    paths = 0
+    def dfs(root, targets):
+        if not root: return
+        nonlocal paths
+        updated_targets = [targetSum]
+        for target in targets: # one pass here to generate updated targets unlike below where it is two
+            if target == root.val: paths += 1
+            updated_targets.append(target - root.val)
+        dfs(root.left, updated_targets)
+        dfs(root.right, updated_targets)
+
+    dfs(root, [targetSum])
+    return paths
 
 # Most Frequent Subtree Sum LeetCode Medium
 # https://leetcode.com/problems/most-frequent-subtree-sum/submissions/

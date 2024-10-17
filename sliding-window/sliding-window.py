@@ -10,6 +10,18 @@ def minimumDifference(self, nums: List[int], k: int) -> int:
         best = min(best, dif)
     return best
 
+# Contains Duplicate II LeetCode Easy
+# https://leetcode.com/problems/contains-duplicate-ii/description/
+# TC: O(n), SC: O(n)
+# more like a 'sliding forward window'
+def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
+    indices = collections.defaultdict(list)
+    for idx, num in enumerate(nums):
+        if num in indices and abs(indices[num][-1] - idx) <= k:
+            return True
+        indices[num].append(idx)
+    return False
+
 # Maximum Points You Can Obtain from Cards LeetCode Medium
 # https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/description/
 # TC: O(n), SC: O(n)
