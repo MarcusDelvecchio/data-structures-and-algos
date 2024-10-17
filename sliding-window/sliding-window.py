@@ -16,6 +16,40 @@ def maximumLengthSubstring(self, s: str) -> int:
         best = max(best, R-L+1)
     return best
 
+# Shortest Subarray With OR at Least K I LeetCode Easy
+# https://leetcode.com/problems/shortest-subarray-with-or-at-least-k-i/
+# observations: as we compound OR values in an array, bits tend towards 1
+# however, when we want to close our window, we cannot simply remove the bits that the leftmost value contributed to the OR
+# because other values in the window could have contributed the same bits. So we must use a counter to keep track.
+# TC: O(n), SC: O(n)
+def minimumSubarrayLength(self, nums: List[int], k: int) -> int:
+    shortest = float('inf')
+    bitCounts = Counter()
+    L = OR = 0
+    for R in range(len(nums)):
+        OR |= nums[R]
+
+        # update the bit counts
+        binaryR = bin(nums[R])[2:]
+        for i in range(len(binaryR)):
+            idx = -(i+1)
+            if binaryR[idx] == "1":
+                bitCounts[i] += 1
+
+        while L <= R and OR >= k:
+            shortest = min(shortest, R-L+1)
+            binaryL = bin(nums[L])[2:]
+            for i in range(len(binaryL)):
+                idx = -(i+1)
+                if binaryL[idx] == "1":
+                    bitCounts[i] -= 1
+                    if bitCounts[i] == 0:
+                        val = int(math.pow(2, i))
+                        OR -= val
+            L += 1
+
+    return shortest if shortest != float('inf') else -1
+
 # Minimum Difference Between Highest and Lowest of K Scores LeetCode Medium
 # TC: O(nlogn), SC: O(1) aux O(n) total
 def minimumDifference(self, nums: List[int], k: int) -> int:
