@@ -22,6 +22,19 @@ def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
         indices[num].append(idx)
     return False
 
+# Repeated DNA Sequences LeetCode Medium
+# https://leetcode.com/problems/repeated-dna-sequences/description/
+# TC: O(n), SC: O(n)
+def findRepeatedDnaSequences(self, s: str) -> List[str]:
+    if len(s) < 10: return []
+    counts = collections.defaultdict(int)
+    ans = []
+    for L in range(len(s)-9):
+        counts[s[L:L+10]] += 1
+        if counts[s[L:L+10]] > 1:
+            ans.append(s[L:L+10])
+    return set(ans)
+
 # Maximum Points You Can Obtain from Cards LeetCode Medium
 # https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/description/
 # TC: O(n), SC: O(n)

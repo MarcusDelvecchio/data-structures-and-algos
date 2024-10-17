@@ -166,9 +166,16 @@ Size of Input -> Worst accepted algorithm
 <=100 -> O(N^4)
 <=400 -> O(N^3)
 <=2K -> O(N^2*logN)
-<=10K -> O(N^2)
+<=10K -> O(N^2) 
 <=1M -> O(N*logN)
 <=100M -> O(N),O(logN)
+
+https://leetcode.com/problems/contains-duplicate-iii/description/
+input size here is <= 10^5 but the following N^2 solution is not accepted:
+for idx, num in enumerate(nums):
+    for idx2 in range(idx-1, max(idx-indexDiff-1, -1), -1):
+        if abs(num - nums[idx2]) <= valueDiff: return True
+return False
 
 "
 when I see constraints in problem like N>10^4 immeditaly it rings me the bell that i need something at least O(n*logn) or O(n) even better.
