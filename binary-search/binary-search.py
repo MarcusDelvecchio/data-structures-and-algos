@@ -217,6 +217,14 @@ def search(self, nums: List[int], target: int) -> int:
 # because we have a non-decreasing ordered list, we can no longer safely determine what portion of the rotated list (left or right) the mid point is in
 # so for the edge case when L == mid == R, we have to do BS on left and right sides. Otherwise, we can handle it accordingly
 # TC: O(n), SC: O(n) -> can probably improve this to not use recursion though, but leaving it
+# test cases to be aware of:
+# 2, 2, 2, 2, 2, 2, 4, 5, 2, 2, 2, 2
+# here, L = 2, mid = 2, R = 2, mid is in LEFT portion
+#
+# 2, 2, 3, 4, 5, 6, 2, 2, 2, 2, 2, 2, 2
+# here, L = 2, mid = 2, R = 2, mid is in RIGHT portion
+#
+# so if L == mid == R, we cannot tell
 def search(self, nums: List[int], target: int) -> bool:
     L, R = 0, len(nums) - 1
 
@@ -237,3 +245,34 @@ def search(self, nums: List[int], target: int) -> bool:
                 return binarySearch(mid+1, R)
             return binarySearch(L, mid-1)
     return binarySearch(L, R)
+
+# Find Minimum in Rotated Sorted Array II LeetCode Hard (find minimum, with non-decreasing)
+# https://leetcode.com/problems/find-minimum-in-rotated-sorted-array-ii/description/
+# observations: same as above (if L == R == mid, we cannot tell what portfion we are in, so have to do BS on both left and right)
+# same as above except now trying to find the min rather than the target
+# again, visualizing as a graph (see https://miro.medium.com/v2/resize:fit:517/1*1yRrcA1ge6AhezTwE3qjlw.png)
+# TC: O(n), SC: O(n) -> again, todo, find a way to make non-recursive without being ugly
+def findMin(self, nums: List[int]) -> int:
+    L, R = 0, len(nums) - 1
+    
+    minn = float('inf')
+    def binarySearch(L, R):
+        if L > R: return 0
+        nonlocal minn
+        mid = (L + R) // 2
+        minn = min(minn, nums[mid])
+        if nums[L] == nums[mid] and nums[mid] == nums[R]:
+            binarySearch(L+1, mid-1)
+            binarySearch(mid+1, R-1)
+        elif nums[mid] >= nums[L]: # in left portion
+            if nums[L] < nums[R]:
+                binarySearch(L, mid-1)
+            else:
+                binarySearch(mid+1, R)
+        else: # nums[mid] < nums[L]: -> in right portion
+            if nums[R] <= nums[L]:
+                binarySearch(L, mid-1)
+            else:
+                binarySearch(mid+1, R)                    
+    binarySearch(L, R)           
+    return minn
