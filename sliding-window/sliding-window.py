@@ -16,12 +16,16 @@ def maximumLengthSubstring(self, s: str) -> int:
         best = max(best, R-L+1)
     return best
 
-# Shortest Subarray With OR at Least K I LeetCode Easy
+# Shortest Subarray With OR at Least K I LeetCode Medium
 # https://leetcode.com/problems/shortest-subarray-with-or-at-least-k-i/
 # observations: as we compound OR values in an array, bits tend towards 1
 # however, when we want to close our window, we cannot simply remove the bits that the leftmost value contributed to the OR
 # because other values in the window could have contributed the same bits. So we must use a counter to keep track.
 # TC: O(n), SC: O(n)
+# NOTE that the max of nums[i] is 50 (from constraints), so our space complexity will actually be O(1) becuase there will be at most 6 bits in our counter
+# NOTE also that there is a further optimization where instead of counting the total count of each bit usage, we can just keep the last position of each bit and then
+# when we remove an item on the left, for each of it's bit, check if they are the last ocurrence of the bit and if so remove them.
+# see this solution https://leetcode.com/problems/shortest-subarray-with-or-at-least-k-ii/solutions/4947412/python3-sliding-window-simple/
 def minimumSubarrayLength(self, nums: List[int], k: int) -> int:
     shortest = float('inf')
     bitCounts = Counter()
@@ -417,3 +421,22 @@ def minSwaps(self, data: List[int]) -> int:
             left += 1
 
     return best if total_ones != 0 else 0
+
+# Count Substrings That Satisfy K-Constraint I LeetCode Easy
+# more like a medium todo review
+# https://leetcode.com/problems/count-substrings-that-satisfy-k-constraint-i/description/
+# TC: O(n), SC: O(n)
+def countKConstraintSubstrings(self, s: str, k: int) -> int:
+    count = zeros = ones = L = 0
+    prevStop = None
+    for R in range(len(s)):
+        if s[R] == "0": zeros += 1
+        else: ones += 1
+
+        while zeros > k and ones > k:
+            if s[L] == "0": zeros -= 1
+            else: ones -= 1
+            L += 1
+
+        count += R - L + 1    
+    return count
