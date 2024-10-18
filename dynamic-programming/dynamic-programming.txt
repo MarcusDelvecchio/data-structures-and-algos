@@ -9,6 +9,8 @@ types of dynamic programming problems:
 4. Fibonacci Sequence (eg: House Thief, Jump Game)
     (^aka 'linear DB' ?)
 5. Longest Common Substring/Subsequeunce
+    ^ also can be solved with sliding window
+    ^ this is a 2D DP problem
 
 notes on problem type classifications
 - snakes and ladders NOTE you CANNOT use tabulation and cannot use DFS

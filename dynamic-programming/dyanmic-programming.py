@@ -305,9 +305,48 @@ def longestCommonSubsequence(self, text1: str, text2: str) -> int:
                 dp[i][j] = max(dp[i+1][j], dp[i][j+1])
     return dp[0][0]
 
+# LCS again Oct 13th
+# took like 17 mins no help rusty on 2D DP but got it after some thought
+def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+    # dp[r][c] = the LCS between text1[:c] and text2[:r]
+    dp = [[0 for _ in range(len(text1) + 1)] for _ in range(len(text2) + 1)]
+
+    for r in range(len(text2)-1, -1, -1):
+        for c in range(len(text1)-1, -1, -1):
+            if text1[c] == text2[r]:
+                dp[r][c] = 1 + dp[r+1][c+1]
+                # dp[r][c] = max(1 + dp[r+1][c+1], dp[r+1][c], dp[r][c+1]) # we DON'T do this because if we have a mutual character for some subproblem, the LCS (for that subproblem) will ALWAYS include that character
+            else:
+                dp[r][c] = max(dp[r+1][c], dp[r][c+1])
+    
+    return dp[0][0]
+
+    # text1 = "bbcdf", text2 = "acdc"
+    # 
+
+# how to (generally) identify the subproblem     
+# decision: skip a letter in one, the other, or neither
+# that is, find the (subsolution) LCS of of the three things:
+# LCS(s1, s2) = max(
+#   (
+#       LCS(s1[1:], s2),
+#       LCS(s1, s2[1:])
+#   ) 
+#   if s1[0] != s2[0] else 
+#   (
+#       LCS(s2[1:], s2[1:] + 1
+#   )
+# )
+
+# subsolution 'overlap' / mutual exclusion:
+# note that we only calculate the suibproblem after 'taking both' 
+# IFF the characters at the beginning of the strings are the same
+# because [...]
+
 # Longest Palindromic Subsequence LeetCode Medium
 # https://leetcode.com/problems/longest-palindromic-subsequence
 # Given a string s, find the longest palindromic subsequence's length in s.
+# observations:
 # NOTE the subsequence does not need to be CONTIGUOUS
 # TC: O(n^2), SC: O(n)
 # took 5 mins after I figured out the trick but that was also after studying LCS
@@ -323,6 +362,29 @@ def longestPalindromeSubseq(self, s: str) -> int:
             else:
                 dp[i][j] = max(dp[i+1][j], dp[i][j+1])
     return dp[0][0]
+
+# Maximum Length of Repeated Subarray LeetCode Medium
+# Aka longest common CONTIGUOUS subsequence
+# https://leetcode.com/problems/maximum-length-of-repeated-subarray/description/
+# took 10 mins after doing LCS and few others
+# what is the difference between LCS and LCCS?
+# observations: same as LCS, but if the two characters being compared int he subproblem
+#   : are not the same, we cannot skip one or the other
+#   : so we do NOT look down or the right, we only look diagonally
+#   : if the characters are the same, see see if the below subproblem's charcaters were the same
+# TC: O(n^2), SC: O(n^2)
+def findLength(self, nums1: List[int], nums2: List[int]) -> int:
+    dp = [[0 for _ in range(len(nums2)+1)] for _ in range(len(nums1)+ 1)]
+
+    best = 0
+    for r in range(len(nums1)-1, -1, -1):
+        for c in range(len(nums2)-1, -1, -1):
+            if nums1[r] == nums2[c]:
+                dp[r][c] = 1 + dp[r+1][c+1]
+            # else: dp[r][c] = 0
+            best = max(best, dp[r][c])
+
+    return best
 
 # Edit Distance LeetCode "Medium"
 # https://leetcode.com/problems/edit-distance/
