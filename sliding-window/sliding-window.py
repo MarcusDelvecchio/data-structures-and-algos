@@ -400,6 +400,36 @@ def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:
         res.append(q[0])
     return res
 
+# Find All Anagrams in a String LeetCode Medium
+# pretty hard for a medium, didn't see any solutions as short as mine
+# but took a while to get it and cover the cases
+# https://leetcode.com/problems/find-all-anagrams-in-a-string/description/
+# TC: O(n), SC: O(n)
+# : Given two strings s and p, return an array of all the start indices of p's anagrams in s. You may return the answer in any order.
+# solution: https://leetcode.com/problems/find-all-anagrams-in-a-string/solutions/5929526/python-simple-sliding-window-15-lines-o-n-beats-90/
+def findAnagrams(self, s: str, p: str) -> List[int]:
+    pChars = set([c for c in p]) # to reference the initial chars in p
+    counts = Counter(p) # counter with the number of each char we still need
+    ans = []
+    L = 0
+    for R in range(len(s)):
+        # shrink the window while it is invalid (R not in target or already used)
+        while not counts[s[R]] and L <= R:
+            if s[L] in pChars:
+                counts[s[L]] += 1
+            L += 1
+        
+        # account for use of R
+        if s[R] in pChars:
+            counts[s[R]] -= 1
+        
+        # if not more items needed account for subarray
+        if sum(counts.values()) == 0:
+            ans.append(L)
+            counts[s[L]] += 1
+            L += 1
+    return ans
+
 # Maximize the Confusion of an Exam LeetCode Medium
 # https://leetcode.com/problems/maximize-the-confusion-of-an-exam/description/
 # TC: O(n), SC: O(1)

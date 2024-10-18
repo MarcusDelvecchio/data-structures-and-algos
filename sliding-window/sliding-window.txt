@@ -1,0 +1,3 @@
+Sliding Window is very common in interviews and many questions that look like "(Longest/Shortest/Number of) (Substrings/Subarrays) with (At most/Exactly) K elements that fit (some condition)" have a common pattern. They are usually O(n).
+
+https://leetcode.com/discuss/general-discussion/1122776/summary-of-sliding-window-patterns-for-subarray-substring
