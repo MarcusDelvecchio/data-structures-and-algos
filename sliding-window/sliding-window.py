@@ -199,6 +199,7 @@ def equalSubstring(self, s: str, t: str, maxCost: int) -> int:
     return ans
 
 # Minimum Size Subarray Sum LeetCode Medium
+# (simpler below)
 # https://leetcode.com/problems/minimum-size-subarray-sum/description/
 # Given an array of positive integers nums and a positive integer target, return the minimal length of a subarray whose sum is greater than or equal to target. If there is no such subarray, return 0 instead.
 # TC: O(n), SC: O(1)
@@ -214,6 +215,19 @@ def minSubArrayLen(self, target: int, nums: List[int]) -> int:
             min_len = min(min_len, right - left + 1)           
         summ -= nums[left]
     return 0 if min_len == float('inf') else min_len
+
+# Minimum Size Subarray Sum LeetCode Medium
+# 3 mins but doing a bunch of similar problems rn
+def minSubArrayLen(self, target: int, nums: List[int]) -> int:
+    L = 0
+    smallest = float('inf')
+    for R in range(len(nums)):
+        target -= nums[R]
+        while target <= 0:
+            smallest = min(smallest, R-L+1)
+            target += nums[L]
+            L += 1
+    return smallest if smallest != float('inf') else 0
 
 
 # Minimum Window Substring LeetCode Hard
