@@ -16,6 +16,24 @@ def maximumLengthSubstring(self, s: str) -> int:
         best = max(best, R-L+1)
     return best
 
+# Fruit Into Baskets LeetCode Medium (Easy)
+# https://leetcode.com/problems/fruit-into-baskets/description/
+# simplified: "given an array of integers, find the longest subarray containing only two unique numbers"
+# 6 mins and submitted first try. This is easier than some of the other easy questions in this file
+# TC: O(n), SC: (1)
+def totalFruit(self, fruits: List[int]) -> int:
+    nums = Counter()
+    largest = L = 0
+    for R in range(len(fruits)):
+        nums[fruits[R]] += 1
+        while len(nums) > 2:
+            nums[fruits[L]] -= 1
+            if not nums[fruits[L]]:
+                del nums[fruits[L]]
+            L += 1
+        largest = max(largest, R-L+1)
+    return largest
+
 # Defuse the Bomb LeetCode "Easy"
 # https://leetcode.com/problems/defuse-the-bomb/submissions/1425952036/
 # off-by-one hell
