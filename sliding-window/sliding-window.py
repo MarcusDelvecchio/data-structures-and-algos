@@ -102,7 +102,7 @@ def minimumDifference(self, nums: List[int], k: int) -> int:
         best = min(best, dif)
     return best
 
-# Contains Duplicate II LeetCode Easy
+# Contains Duplicate II LeetCode Easy (medium?)
 # https://leetcode.com/problems/contains-duplicate-ii/description/
 # TC: O(n), SC: O(n)
 # more like a 'sliding forward window'
@@ -126,6 +126,22 @@ def findRepeatedDnaSequences(self, s: str) -> List[str]:
         if counts[s[L:L+10]] > 1:
             ans.append(s[L:L+10])
     return set(ans)
+
+# Arithmetic Slices LeetCode Medium
+# https://leetcode.com/problems/arithmetic-slices/description/
+# TC: O(n), SC: O(n)
+# : An integer array is called arithmetic if it consists of at least three elements and if the difference between any two consecutive elements is the same.
+# : Given an integer array nums, return the number of arithmetic subarrays of nums.
+def numberOfArithmeticSlices(self, nums: List[int]) -> int:
+    count = L = 0
+    for R in range(len(nums)):
+        if R < 2 or R - L + 1 < 3: continue
+        if nums[R] - nums[R-1] != nums[R-1] - nums[R-2]:
+            L = R - 1
+
+        # calculate number of possible subarrays from the size of the streak.
+        count += R - L + 1 - 2
+    return count
 
 # Maximum Points You Can Obtain from Cards LeetCode Medium
 # https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/description/
@@ -463,6 +479,11 @@ def minSwaps(self, data: List[int]) -> int:
 # Count Substrings That Satisfy K-Constraint I LeetCode Easy
 # more like a medium todo review
 # https://leetcode.com/problems/count-substrings-that-satisfy-k-constraint-i/description/
+# : You are given a binary string s and an integer k.
+# : A binary string satisfies the k-constraint if either of the following conditions holds:
+# : The number of 0's in the string is at most k.
+# : The number of 1's in the string is at most k.
+# : Return an integer denoting the number of substrings of s that satisfy the k-constraint.
 # TC: O(n), SC: O(n)
 # be careful with the 'substring' aspect of this question
 # I initially thought when the R was moved all the way, we had to add all possible substrings
@@ -479,5 +500,5 @@ def countKConstraintSubstrings(self, s: str, k: int) -> int:
             else: ones -= 1
             L += 1
 
-        count += R - L + 1    
+        count += R - L + 1
     return count
