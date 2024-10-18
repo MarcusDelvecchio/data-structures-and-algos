@@ -711,6 +711,7 @@ def firstMissingPositive(self, nums: List[int]) -> int:
     return i+2
 
 # Palindromic Substrings LeetCode Medium
+# (cleaner solutioun below this one)
 # Given a string s, return the number of palindromic substrings in it.
 # https://leetcode.com/problems/palindromic-substrings/description/
 # took like 10 mins
@@ -720,7 +721,6 @@ def countSubstrings(self, s: str) -> int:
     palindromes = 0
     for idx, char in enumerate(s):
         left = right = idx
-        pal_len = 0
         while left >= 0 and right <= len(s) - 1:
             if s[left] != s[right]:
                 break
@@ -739,6 +739,30 @@ def countSubstrings(self, s: str) -> int:
                 left -= 1
                 right += 1
     return palindromes
+
+# Palindromic Substrings LeetCode Medium
+# same as above but with a reusable function
+# https://leetcode.com/problems/palindromic-substrings/
+# TC: O(n^2), SC: O(1)
+# note here that for every n, we expore a maximum of n to the left and n to the right cells
+# but also we do it again, so basically the TC is O(2*n^2) (because we do it twice)
+# there might be a further optimization to cut the TC in half, but the same over TC regardless (n^2)
+def countSubstrings(self, s: str) -> int:
+    count = 0
+
+    # checks if a string is a palindrome. L and R indicate start indices (to cover case where 'root' of the palindrome can be 2 items rather than one)
+    def checkPalindrome(L, R):
+        nonlocal count
+        for dif in range(len(s)):
+            if L - dif < 0 or R + dif > len(s) - 1 or s[R+dif] != s[L-dif]:
+                break
+            count += 1
+
+    for i in range(len(s)):
+        checkPalindrome(i, i) # account for palindromes rooted at i
+        if i < len(s) - 1 and s[i] == s[i+1]:
+            checkPalindrome(i, i+1) # account for palindrome rooted at i and the char to the right (if the same)
+    return count
 
 # Remove Duplicates from Sorted Array II LeetCode Medium
 # https://leetcode.com/problems/remove-duplicates-from-sorted-array-ii/description/
