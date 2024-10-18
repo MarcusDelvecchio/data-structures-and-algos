@@ -16,6 +16,26 @@ def maximumLengthSubstring(self, s: str) -> int:
         best = max(best, R-L+1)
     return best
 
+# Defuse the Bomb LeetCode "Easy"
+# https://leetcode.com/problems/defuse-the-bomb/submissions/1425952036/
+# off-by-one hell
+# TC: O(n), SC: O(n)
+# beats 100% TC
+def decrypt(self, code: List[int], k: int) -> List[int]:
+    result = [0 for _ in code]
+    if k > 0:
+        total = sum(code[1:k+1])
+        for R in range(len(code)):
+            result[R] = total
+            if R < len(code) - 1:
+                total = total - code[R+1] + code[(R+k+1) % len(code)]
+    elif k < 0:
+        total = sum(code[len(code)+k:])
+        for R in range(len(code)):
+            result[R] = total
+            total = total - code[R+k] + code[R]
+    return result
+
 # Shortest Subarray With OR at Least K I LeetCode Medium
 # https://leetcode.com/problems/shortest-subarray-with-or-at-least-k-i/
 # observations: as we compound OR values in an array, bits tend towards 1
@@ -426,6 +446,9 @@ def minSwaps(self, data: List[int]) -> int:
 # more like a medium todo review
 # https://leetcode.com/problems/count-substrings-that-satisfy-k-constraint-i/description/
 # TC: O(n), SC: O(n)
+# be careful with the 'substring' aspect of this question
+# I initially thought when the R was moved all the way, we had to add all possible substrings
+# within L and R, but this is not the case
 def countKConstraintSubstrings(self, s: str, k: int) -> int:
     count = zeros = ones = L = 0
     prevStop = None
