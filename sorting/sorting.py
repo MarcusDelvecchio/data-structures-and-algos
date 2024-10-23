@@ -50,3 +50,46 @@ def relativeSortArray(self, arr1: List[int], arr2: List[int]) -> List[int]:
             not_in_arr2.append(num)
 
     return res + sorted(not_in_arr2)
+
+# Maximum Gap LeetCode Medium
+# https://leetcode.com/problems/maximum-gap/?envType=problem-list-v2&envId=bucket-sort
+# TC: O(n*d) where n is the array size and d is the number of digits in the largest number (maximum 10,. so worst case is O(10*n))
+# SC: O(n)
+# simplify: given an array of nums, return the min difference between two elements if it were to be sorted, without sorting it
+# approach: perform radix sort and for every radix (digit place) perform counting sort to count sort the counts of the 10 possible items those digit values can be
+#
+# had to learn radix sort and counting sort for this
+def maximumGap(self, nums: List[int]) -> int:
+    
+    def countingSort(arr, radix):
+        output = [0] * len(arr)
+        counts = [0] * 10 # count of all of all possible values for the current digit (radix)
+
+        for num in nums:
+            counts[(num // radix) % 10] += 1
+
+        # create the cumulative array
+        for i in range(1, 10):
+            counts[i] += counts[i-1]
+
+        # fill the output array
+        i = len(arr) - 1
+        while i >= 0:
+            index = arr[i] // radix
+            output[counts[index % 10] - 1] = arr[i]
+            counts[index % 10] -= 1
+            i -= 1
+        
+        for i in range(len(arr)):
+            arr[i] = output[i]
+    
+    max_val = max(nums)
+    radix = 1
+    while max_val // radix > 0:
+        countingSort(nums, radix)
+        radix *= 10
+    
+    max_dif = 0
+    for i in range(1, len(nums)):
+        max_dif = max(max_dif, abs(nums[i] - nums[i-1]))
+    return max_dif

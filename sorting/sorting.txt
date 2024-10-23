@@ -1,0 +1,46 @@
+non-comparison based sorting techniques are not nlogn: counting sort, radix sort, bucket sort
+
+counting sort:
+- works best when the range of values that numbers can have is limited (i.e., the lesser the number of unique values the better)
+- counting sort is a "stable" sorting algorithm, that is, elements with the same value will appear in the resulting array in the same order that they appear in the original
+- the time complexity of counting sort is O(n + k) where k is the RANGE of possible values (NOT the number of unique items) and n is the number of items.
+- the (auxillary) space complexity is O(n+k) because we have to store counters for all of the unique elements and we need to store indermediate array states in a separate array
+- Distinction between range of values elements can take and the unique values: k is the range because the sort algo needs to allocate space for every possible value in the range, not just for the unique values that actually appear in the input.
+- So for example, even if we only have three unique values (0, 2, and 10), counting sort would still allocate space for all values from 0 to 10, which is why k is the range rather than the number of unique values.
+- see 2 min video https://www.youtube.com/watch?v=7zuGmKfUt7s
+
+Counting sort goes:
+1. count the number of elements associated with all of the distict values
+2. perform some arithmetic to calculate the position of each object in the output subsequence
+
+counting sort vs bucket sort: counting sort stores a single number (the count of items) per bucket, while bucket sort stores sets (lists, LLs, etc) of all (multiple) items in each bucket
+
+Note that when you use bucket sort but find a way to uniqauely place elements into their index or position in the array (without there being multiple items in said buckets) this is more like counting sort or key index counting
+
+Bucket Sort:
+Bucket sort is a non-comparison based sorting algorithm that assumes it's possible to create an array of buckets and distribute the items to be sorted into those buckets by index. Therefore, as a prerequisite for even using bucket sort in the first place, you need to have some way of obtaining an index for each item. Those indices can't just be from a hash function; they need to satisfy the property that if any object x comes before any object y, then x's bucket index must be no greater than y's bucket index. Many objects have this property - you can sort integers this way by looking at some of the bits of the number, and you can sort strings this way by looking at the first few characters - but many do not.
+
+The advantage of bucket sort is that once the elements are distributed into buckets, each bucket can be processed independently of the others. This means that you often need to sort much smaller arrays as a follow-up step than the original array. It also means that you can sort all of the buckets in parallel with one another. The disadvantage is that if you get a bad distribution into the buckets, you may end up doing a huge amount of extra work for no benefit or a minimal benefit. As a result, bucket sort works best when the data are more or less uniformly distributed or where there is an intelligent way to choose the buckets given a quick set of heuristics based on the input array. Bucket sort also works well if you have a large degree of parallelism available.
+
+Another advantage of bucket sort is that you can use it as an external sorting algorithm. If you need to sort a list that is so huge you can't fit it into memory, you can stream the list through RAM, distribute the items into buckets stored in external files, then sort each file in RAM independently.
+
+Here are a few disadvantages of bucket sort:
+
+- As mentioned above, you can't apply it to all data types because you need a good bucketing scheme.
+Bucket sort's efficiency is sensitive to the distribution of the input values, so if you have tightly-clustered values, it's not worth it.
+- In many cases where you could use bucket sort, you could also use another specialized sorting algorithm like radix sort, counting sort, or burstsort instead and get better performance.
+- The performance of bucket sort depends on the number of buckets chosen, which might require some extra performance tuning compared to other algorithms.
+
+I hope this helps give you a sense of the relative advantages and disadvantages of bucket sort. Ultimately, the best way to figure out whether it's a good fit is to compare it against other algorithms and see how it actually does, though the above criteria might help you avoid spending your time comparing it in cases where it's unlikely to work well.
+
+
+Radix Sort:
+- used only to sort numbers
+- we sort numbers from least significant digit to most significant digit
+- we use counting sort as a subroutine to sort
+- given these 3 things, you should already have an idea of what is going on, if not, relearn counting sort first:
+    - we know that a given digit will only take 10 (or whatever the radix is) number of values, so we can then use counting sort to sort items. Because of the radix, the number of unique values are bounded, and thus, counting sort will do well here (this is one of it's properties - it does well when the range of values is limited)
+- the time complexity is O(n*d), where n is the size of the array and d is the number of digits in the largest number
+
+"radix" aka "base" definition:
+In a positional numeral system, the radix (pl.: radices) or base is the number of unique digits, including the digit zero, used to represent numbers. For example, for the decimal system (the most common system in use today) the radix is ten, because it uses the ten digits from 0 through 9, and in binary, the radix is 2 (digits can be zero or one).
