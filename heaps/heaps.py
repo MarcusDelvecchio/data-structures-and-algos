@@ -234,6 +234,31 @@ def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         res.append(heappop(first_k)[1])
     return res
 
+# a shorter version of above
+# TC: O(nlogk)
+# follow up: is it better to 1. heappush the first k items before beginning to heappushpop or 2. just add the first k and then heapify them?
+# option 1 is O(klogk) and 2 is O(k), so it is in fact better to heapify the first k, however, this operation will not effect the overall time compelxity
+# as it will still be O(nlogk)
+def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+    frequencies = Counter(nums)
+    top_k = []
+    for num in frequencies.keys():
+        if len(top_k) < k:
+            heappush(top_k, (frequencies[num], num)) # this is NOT as effective as heapifying the first k elements
+        elif len(top_k) == k and frequencies[num] > top_k[0][0]:
+            heappushpop(top_k, (frequencies[num], num))
+    return [heappop(top_k)[1] for _ in range(k)]
+
+# Top K Frequent Elements LeetCode Medium
+# better than above: first k are heapified rather than heappushed
+def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+    frequencies = Counter(nums)
+    top_k = heapify([(frequencies[num], num) for num in frequencies.keys()[:k]]) # heapify first k elements in O(k)
+    for num in frequencies.keys()[k:]: # heappushpop the last n-k elements in O(nlogk)
+        if frequencies[num] > top_k[0][0]:
+            heappushpop(top_k, (frequencies[num], num))
+    return [heappop(top_k)[1] for _ in range(k)]
+
 # the above solution can also be simplified using pythons nlargest function just to clean things up
 # this nlargest function does exactly what we have done above. Creating a heap of k (where k = n in 'nlargest') elements and then pushpoping the remaining items to maintain the n/k largest
 def topKFrequent(self, nums: List[int], k: int) -> List[int]:

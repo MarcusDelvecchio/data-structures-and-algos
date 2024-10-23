@@ -110,6 +110,7 @@ things to remember:
 - the time complexity of finding all subsequences of size k in a string is O(n^k). For example, finding all subsequences of size 3 is O(n^3), which is much more efficient than the O(2^n) counterpart for finding *all* subsequences.
 - the number of pairs that can be made if I have n items (and each pair is counted once and no item is paired with itself) is (n(n-1))/2
     - derivation: each item can be paired with n-1 different items. So that is n(n-1) pairs. But pairs would all be counted twice, hence the /2
+- when sorting tuples in Python, if the first elements of two tuples are the same, the next elements in the tuple will then be compared. This continues element-by-element until it finds a difference. If all elements are the same, the tuples are considered equal
 
 bitwise:
 - when OR'ing all items in an array, the OR bits tend towards 1 and can never return to 0 after (1 OR 0 is still 1, so once a bit is 1, it cannot return to 0)

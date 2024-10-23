@@ -412,11 +412,9 @@ def minDistance(self, word1: str, word2: str) -> int:
     for i in range(len(word1)-1, -1, -1):
         for j in range(len(word2)-1, -1, -1):
             if word1[i] == word2[j]:
-                # dp[i][j] = 1 + dp[i+1][j+1]
                 dp[i][j] = dp[i+1][j+1]
             else:
                 dp[i][j] = 1 + min(dp[i][j+1], dp[i+1][j], dp[i+1][j+1])
-                # dp[i][j] = max(dp[i][j+1], dp[i+1][j])
     return  dp[0][0]
 
 # One Edit Distance LeetCode Medium
@@ -489,6 +487,8 @@ def minimumDeleteSum(self, s1: str, s2: str) -> int:
         for j in range(len(s2)-1, -1, -1):
             if s1[i] == s2[j]:
                 dp[i][j] = dp[i+1][j+1]
+                # note that doing min(dp[r+1][c+1], ord(s1[r]) + dp[r+1][c], ord(s2[c]) + dp[r][c+1])
+                # will still ALWAYS result in dp[r+1][c+1] because if we have the option to delete, doing so will ALWAYS produce a lesser score
             else:
                 dp[i][j] = min(dp[i+1][j] + ord(s1[i]), dp[i][j+1] + ord(s2[j]))
     return dp[0][0]
@@ -497,6 +497,7 @@ def minimumDeleteSum(self, s1: str, s2: str) -> int:
 # You are given two integer arrays nums1 and nums2. We write the integers of nums1 and nums2 (in the order they are given) on two separate horizontal lines.
 # We may draw connecting lines: a straight line connecting two numbers nums1[i] and nums2[j] such that: nums1[i] == nums2[j], and the line we draw does not intersect any other connecting (non-horizontal) line. Note that a connecting line cannot intersect even at the endpoints (i.e., each number can only belong to one connecting line).
 # Return the maximum number of connecting lines we can draw in this way.
+# simplify: given two integer arrays, returns the longest common subarray
 # https://leetcode.com/problems/uncrossed-lines/description/
 # this question is exact same thing as Longest Common Subsequence (LCS)
 # TC: O(nums1*nums2) = O(n^2), SC: O(nums1*nums2)
@@ -520,6 +521,7 @@ def maxUncrossedLines(self, nums1: List[int], nums2: List[int]) -> int:
 # took 40 mins
 # nice, this seems like the most efficient approach and cannot be optimized further. see this exact solution to mine https://leetcode.com/problems/shortest-common-supersequence/solutions/3501177/day-403-easy-lcs-0ms-100-python-java-c-explained-approach/
 # note that we don't use O(n^3) here because we handle the 2D DP tabulation matrix two rows at a time
+# oct 19 / 2024 done in 17 mins (after doing LCS related problems above)
 def shortestCommonSupersequence(self, str1: str, str2: str) -> str:
     # find LCS between strings - this is O(n^3) because for every index we in 2D DP matrix we store the array
     dp = [[] for _ in range(len(str2)+1)]
