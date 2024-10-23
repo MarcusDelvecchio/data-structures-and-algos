@@ -111,6 +111,44 @@ things to remember:
 - the number of pairs that can be made if I have n items (and each pair is counted once and no item is paired with itself) is (n(n-1))/2
     - derivation: each item can be paired with n-1 different items. So that is n(n-1) pairs. But pairs would all be counted twice, hence the /2
 - when sorting tuples in Python, if the first elements of two tuples are the same, the next elements in the tuple will then be compared. This continues element-by-element until it finds a difference. If all elements are the same, the tuples are considered equal
+- O(nlogn) is called "Linearithmic time", O(n^2) is quadratic time, O(n^3) is cubic, O(2^n) is exponential, 
+
+time complexities:
+When we think about nlogk, klogn etc, we should remember that k is a constant, and thus, so is logk (an even lesser one).
+- for k <= n:
+    - 1. nlogk >= klogn
+    - 2. O(n) >= O(klogn)
+    - 3. O(nlogk) >= O(n)
+    - thus, O(n + klogn) ≡ O(n) becuase O(n) is the dominant term (as per 2.)
+    - so in order, we have:
+
+        O(logk) < O(logn) < O(k) < O(klogk) < O(klogn) < O(n) < O(nlogk) < O(nlogn) < O(nk) < O(k*k) < O(n*n)
+        
+        key points:
+        - O(n) < O(nlogk) (remember, logk is a constant, so n*C will be greater than n)
+        - O(klogn) < O(n)
+        - O(logn) < O(k)
+
+        - you should understand these four in isolation: klogk < klogn < nlogk < nlogn
+        - and after understanding O(klogn) < O(n)
+        - we can add in the linear time complexities we have: k < klogk < klogn < n < nlogk < nlogn
+
+        understand the following reductions:
+        O(k + nlogn) => O(nlogn) (easy)
+        O(n + nlogn) => O(nlogn) (easy)
+        O(k + nlogk) => O(nlogk) (easy)
+        O(n + nlogk) => O(nlogk) (easy)
+        O(k + klogn) => O(klogn)
+        O(n + klogn) => O(n)
+        O(k + klogk) => O(klogk)
+        O(n + klogk) => O(n)     (review)
+        
+    see Desmos:
+    https://www.desmos.com/calculator/i83h3sokcu
+
+    other notes:
+    - O(k + nlogk) ≡ O(nlogk) because n >= k
+    - O(n + klogn) ≡ O(n) because n >= k
 
 bitwise:
 - when OR'ing all items in an array, the OR bits tend towards 1 and can never return to 0 after (1 OR 0 is still 1, so once a bit is 1, it cannot return to 0)
