@@ -271,6 +271,7 @@ def topKFrequent(self, nums: List[int], k: int) -> List[int]:
 # Better solution that above
 # O(n) time: count the frequency of each element, add elements to a list where array[i] = [list of elements with that frequency]
 # then return the k largest from that array
+# observation that allows us to do this: the largest possible frquency is n: the frequencies of elements are bounded by n
 # TC: O(n), SC: O(n)
 def topKFrequent(self, nums: List[int], k: int) -> List[int]:
     frequencies = Counter(nums) # frequencies of all elements

@@ -102,7 +102,10 @@ def minimumDifference(self, nums: List[int], k: int) -> int:
         best = min(best, dif)
     return best
 
-# Contains Duplicate II LeetCode Easy (medium?)
+# Contains Duplicate II LeetCode Easy
+# Given an integer array nums and an integer k, return true if there are two distinct 
+# indices i and j in the array such that nums[i] == nums[j] and abs(i - j) <= k.
+# simplify: given an array of nums, determine if the same two elements exist within a window of size k
 # https://leetcode.com/problems/contains-duplicate-ii/description/
 # TC: O(n), SC: O(n)
 # more like a 'sliding forward window'
@@ -546,3 +549,63 @@ def countKConstraintSubstrings(self, s: str, k: int) -> int:
 
         count += R - L + 1
     return count
+
+
+# simplify: given an array of elements, return true if within a window size w, there exists two elements with k or less absolute difference
+# approach 1: sliding window, in every window compare every element with one another to search for abs.
+# O(n*k^2)
+# TLE
+# TODO
+
+# approach 2: sliding window, in every window, sort the elements and look for difference less than abs.
+# O(n*klogk)
+# TLE
+def containsNearbyAlmostDuplicate(self, nums: List[int], indexDiff: int, valueDiff: int) -> bool:
+    end = min(indexDiff, len(nums)-1)
+    while end < len(nums):
+        start = max(0, end-indexDiff)
+        sorted_window = sorted(nums[start:end+1])
+        for idx in range(len(sorted_window)-1):
+            if abs(sorted_window[idx+1] - sorted_window[idx]) <= valueDiff:
+                return True
+        end += 1
+    return False
+
+# approach 3 (optimization): instead of re-sorting every time, when we slide the window over by 1, remove the element on the left and add the one on the right. TC: O(klogk + nlogk)
+# not implemented, see bucket sort solution below
+
+# this works but does not account for window size (indexDiff)
+def containsNearbyAlmostDuplicate(self, nums: List[int], indexDiff: int, valueDiff: int) -> bool:
+    M = max(nums) + 1
+    buckets = [False for _ in range(len(nums))]
+    for num in nums:
+        bucket = math.floor(num * len(nums) / M)
+        if buckets[bucket]:
+            return True
+        buckets[bucket] = True
+    return False
+
+# Contains Duplicate III LeetCode Hard
+# https://leetcode.com/problems/contains-duplicate-iii/description/
+# simplified: given an array of elements, return true if within a window size w, there exists two elements with k or less absolute difference
+# TC: O(n), SC: O(n)
+def containsNearbyAlmostDuplicate(self, nums: List[int], indexDiff: int, valueDiff: int) -> bool:
+    bucketDivisor = valueDiff + 1 # max(nums) + 1
+    buckets = {}
+    for idx, num in enumerate(nums):
+        bucket = num // bucketDivisor # math.floor(num * len(nums) / bucketDivisor)
+        if bucket in buckets:
+            return True
+
+        # add R to it's bucket and ensure there is not already a value there
+        if bucket+1 in buckets and abs(buckets[bucket+1] - num) <= valueDiff:
+            return True
+        if bucket-1 in buckets and abs(buckets[bucket-1] - num) <= valueDiff:
+            return True
+        buckets[bucket] = num
+            
+        # if needed, remove the element at L from it's bucket before moving R forward
+        if idx >= indexDiff:
+            L_bucket = nums[idx - indexDiff] // bucketDivisor # math.floor(nums[R - indexDiff] * len(nums) / bucketDivisor)
+            del buckets[L_bucket]
+    return False      
