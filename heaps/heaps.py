@@ -241,11 +241,10 @@ def topKFrequent(self, nums: List[int], k: int) -> List[int]:
 # as it will still be O(nlogk)
 def topKFrequent(self, nums: List[int], k: int) -> List[int]:
     frequencies = Counter(nums)
-    top_k = []
-    for num in frequencies.keys():
-        if len(top_k) < k:
-            heappush(top_k, (frequencies[num], num)) # this is NOT as effective as heapifying the first k elements
-        elif len(top_k) == k and frequencies[num] > top_k[0][0]:
+    top_k = [(frequencies[num], num) for num in list(frequencies.keys())[:k]]
+    heapify(top_k) # heapify first k elements in O(k)
+    for num in list(frequencies.keys())[k:]: # heappushpop the last n-k elements in O(nlogk)
+        if frequencies[num] > top_k[0][0]:
             heappushpop(top_k, (frequencies[num], num))
     return [heappop(top_k)[1] for _ in range(k)]
 
@@ -267,6 +266,26 @@ def topKFrequent(self, nums: List[int], k: int) -> List[int]:
     # get nlargest values using heapq function. O(nlogk)
     largest = nlargest(k, [(freq[num], num) for num in freq.keys()])
     return [item[1] for item in largest]
+
+# Top K Frequent Elements LeetCode Medium
+# Better solution that above
+# O(n) time: count the frequency of each element, add elements to a list where array[i] = [list of elements with that frequency]
+# then return the k largest from that array
+# TC: O(n), SC: O(n)
+def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+    frequencies = Counter(nums) # frequencies of all elements
+    numsByCount = [[] for _ in range(len(nums))] # numsByCount[i] = list of elements with count i
+
+    # add each to numsByCount at whatever it's frequency is
+    for num in frequencies.keys():
+        numsByCount[frequencies[num]-1].append(num)
+
+    # iterate from largest to smallest in the counts array and add items until we have the k with the largest counts
+    ans = []; idx = -1
+    while len(ans) < k:
+        ans.extend(numsByCount[idx])
+        idx -= 1
+    return ans
 
 # greedy solution
 # adds k pairs to a tree and then attempts to pushpop all remaining possible items into the tree

@@ -146,10 +146,6 @@ When we think about nlogk, klogn etc, we should remember that k is a constant, a
     see Desmos:
     https://www.desmos.com/calculator/i83h3sokcu
 
-    other notes:
-    - O(k + nlogk) ≡ O(nlogk) because n >= k
-    - O(n + klogn) ≡ O(n) because n >= k
-
 bitwise:
 - when OR'ing all items in an array, the OR bits tend towards 1 and can never return to 0 after (1 OR 0 is still 1, so once a bit is 1, it cannot return to 0)
 - when AND'ing all items in an array, the AND bits tend towards 0 and can never return to 1 after (1 AND 0 is 0, so once a bit is 0, it cannot return to 1)
