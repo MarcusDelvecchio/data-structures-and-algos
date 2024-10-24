@@ -1,5 +1,16 @@
 from types import List
 
+# Sort Array LeetCode Medium
+# Bubble sort: TLE
+def sortArray(self, nums: List[int]) -> List[int]:
+    for i in range(len(nums)):
+        for j in range(len(nums)-i-1):
+            if nums[j] > nums[j + 1]:
+                temp = nums[j+1]
+                nums[j+1] = nums[j]
+                nums[j] = temp
+    return nums
+
 # Sort Colors LeetCode Medium
 # https://leetcode.com/problems/sort-colors/description/
 # TC: O(n), SC: O(1)

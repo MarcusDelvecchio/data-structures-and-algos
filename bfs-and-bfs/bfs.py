@@ -95,3 +95,24 @@ def findRotateSteps(self, ring: str, key: str) -> int:
         key_idx += 1
     return min(q)[0] + len(key)
 
+# Binary Tree Level Order Traversal II LeetCode Medium (Easy)
+# : Given the root of a binary tree, return the bottom-up level order traversal of its nodes' values. (i.e., from left to right, level by level from leaf to root).
+# https://leetcode.com/problems/binary-tree-level-order-traversal-ii/description/
+# TC: O(n), SC: O(n)
+# approach: perform BFS top down right to left and then reverse it
+def levelOrderBottom(self, root: Optional[TreeNode]) -> List[List[int]]:
+    if not root: return []
+    level = deque([root])
+    ans = []
+
+    while level:
+        size = len(level)
+        curr = []
+        for _ in range(size):
+            node = level.popleft()
+            curr.append(node.val)
+            if node.left: level.append(node.left)
+            if node.right: level.append(node.right)
+        ans.append(curr)
+    ans.reverse()
+    return ans
