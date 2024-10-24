@@ -1,4 +1,17 @@
 
+# Maximum Consecutive Floors Without Special Floors LeetCode Medium
+# https://leetcode.com/problems/maximum-consecutive-floors-without-special-floors/description/
+# takeaways: careful of ierating over inputs that may be extreamly large.
+# idk how much this is intervals but
+# TC: O(special) -> note that O(top-bottom) / O(n) was TLE
+def maxConsecutive(self, bottom: int, top: int, special: List[int]) -> int:
+    special.sort()
+    best = special[0] - bottom
+    for idx, floor in enumerate(special):
+        if idx < len(special) - 1:
+            best = max(best, special[idx + 1] - floor - 1)
+    return max(best, top - special[-1])
+
 # given a list of SORTED intervals, this function returns whether or not there are overlapping intervals
 def canAttendMeetings(self, intervals: List[Interval]) -> bool:
     prevEnd = intervals[0].end
