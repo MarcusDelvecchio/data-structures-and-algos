@@ -561,6 +561,54 @@ def shortestCommonSupersequence(self, str1: str, str2: str) -> str:
         s2_idx += 1
     return res
 
+# 
+# MLE
+# SEE SOLUTION BELOW
+#
+def numDistinct(self, s: str, t: str) -> int:
+    dp = [[[len(t)] for _ in range(len(t)+1)] for _ in range(len(s)+1)]
+
+    # base cases: 
+    # dp[i][j] is an array indexes of the t string for possible strings that could have been built between s[i:] and t[j:]
+    # we can go down in the matrix since we have the option to skip elements of s
+    # but we cannot look right in the matrix, because we cannot skip characters in t
+
+    for r in range(len(s)-1, -1, -1):
+        for c in range(len(t)-1, -1, -1):
+            if s[r] == t[c]: # if we take the current character
+                dp[r][c].extend([c if idx == c + 1 else idx for idx in dp[r+1][c+1]]) # take down right subsequences (progress t and s)
+            
+            dp[r][c] += dp[r+1][c] # take down subsequences since we can continue them
+    return len([val for val in dp[r][c] if val == 0])
+
+# Distinct Subsequences LeetCode Hard
+# : Given two strings s and t, return the number of distinct subsequences of s which equals t.
+# : The test cases are generated so that the answer fits on a 32-bit signed integer.
+# https://leetcode.com/problems/distinct-subsequences/description/
+# TC: O(N*M) = O(n^2), SC: O(N*m) = O(n^2)
+# the major optimization here to avoid the TLE above was not initializing the entire matrix with base case values, and only doing the edge base cases
+# I thought that "a subsequence could start anywhere in s (since any char in t could be s[-1]), so initialize every box to len(t) by default and move backwards, decreasing the values as we find more and more chars of t. BUT"
+# NOTE that this can also be done with 1D DP
+# TODO do this and add notes on determining when 1D DP can can be used versus two
+# this is especially important and interetsing because of this problem's similarities to LCS, so why is 1D DP an option here?
+# probably something to do with the fact that we cannot progress one of the two strings (since we cannot skip characters in t), as a result:
+# in LCS: to find the LCS between s and t, we find the longest subsequence common between two subsequences
+# in THIS problem: to find the number of distinct (sub)sequences of t in s, we find the number of distinct (sub)sequences of t in subsequences of s ONLY (NOT subsequences of t though)
+# TODO if one direction is completely limited in 2D DP, does that mean it can/should be done with 1D DP?
+def numDistinct(self, s: str, t: str) -> int:
+    dp = [[0] * (len(t)+1) for _ in range(len(s)+1)] # dp[r][c] = the number of subsequences that can be built between s[:r+1] and t[:c+1]
+
+    # initalize base cases, empty string t can be a subsequence of any string s (giving 1 possible subsequence)
+    for i in range(len(s)+1):
+        dp[i][-1] = 1
+
+    for r in range(len(s)-1, -1, -1):
+        for c in range(len(t)-1, -1, -1):
+            dp[r][c] += dp[r+1][c] # take down subsequences since we can continue them
+            if s[r] == t[c]: # if we take the current characters
+                dp[r][c] += dp[r+1][c+1] # take down right subsequences (progress t and s)
+    return dp[0][0]
+
 # Maximize Number of Subsequences in a String LeetCode Medium
 # https://leetcode.com/problems/maximize-number-of-subsequences-in-a-string/
 # Given a text string and a two character string "pattern", where you can insert pattern[0] or pattern[1] into text once (not both, only one, once), return the maximum number of times pattern could
