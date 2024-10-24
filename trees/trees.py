@@ -614,6 +614,41 @@ def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
     dfs(root, [targetSum])
     return paths
 
+# Flatten Binary Tree to Linked List LeetCode Medium
+# : Given the root of a binary tree, flatten the tree into a "linked list":
+# The "linked list" should use the same TreeNode class where the right child pointer points to the next node in the list and the left child pointer is always null.
+# The "linked list" should be in the same order as a pre-order traversal of the binary tree.
+# https://leetcode.com/problems/flatten-binary-tree-to-linked-list/description/
+# note could have just done an pre-order traversal and created a LL from it. 
+# would have been much simpler
+# TC: O(n), SC: O(n)
+# took 17 mins
+def flatten(self, root: Optional[TreeNode]) -> None:
+    if not root: return []
+    def modify(root):
+        if not root.left and not root.right: return root
+
+        # flatten left and right subtrees and have them return their largest values
+        largest_left = largest_right = None
+        if root.left: largest_left = modify(root.left)
+        if root.right: largest_right = modify(root.right)
+
+        # re-arrange left and right subtrees. Largest element from the left should point to the root.right
+        if root.left and root.right:
+            largest_left.right = root.right
+            root.right = root.left
+            root.left = None
+        elif root.left: # if left and no right, move left subtree to right
+            root.right = root.left
+            root.left = None
+            return largest_left
+        
+        # return the largest element from this subtree for the next to use
+        return largest_right or root
+
+    modify(root)
+    return root
+
 # Most Frequent Subtree Sum LeetCode Medium
 # https://leetcode.com/problems/most-frequent-subtree-sum/submissions/
 # took 12 mins
