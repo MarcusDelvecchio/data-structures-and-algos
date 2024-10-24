@@ -728,3 +728,21 @@ class MedianFinder:
             return float(self.more[0])
         else:
             return -float(self.less[0])
+
+# Top K Frequent Words LeetCode Medium
+# https://leetcode.com/problems/top-k-frequent-words/description/?envType=problem-list-v2&envId=bucket-sort
+# : Given an array of strings words and an integer k, return the k most frequent strings.
+# : Return the answer sorted by the frequency from highest to lowest. Sort the words with the same frequency by their lexicographical order.
+# spent so long here because I tried something with bucket sorting because I was coming from the radix sort tags
+# TC: O(n + klogn) = O(n) (n is dominant)
+# SC: O(n)
+def topKFrequent(self, words: List[str], k: int) -> List[str]:
+    frequencies = Counter(words)
+    minHeap = []
+
+    for word in frequencies.keys():
+        minHeap.append((-frequencies[word], word))
+    heapify(minHeap) # heapify the items in O(n) time
+
+    ans = [heappop(minHeap)[1] for _ in range(k)] # return the k most frequent in O(klogn)
+    return ans

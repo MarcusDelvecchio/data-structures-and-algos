@@ -112,6 +112,7 @@ things to remember:
     - derivation: each item can be paired with n-1 different items. So that is n(n-1) pairs. But pairs would all be counted twice, hence the /2
 - when sorting tuples in Python, if the first elements of two tuples are the same, the next elements in the tuple will then be compared. This continues element-by-element until it finds a difference. If all elements are the same, the tuples are considered equal
 - O(nlogn) is called "Linearithmic time", O(n^2) is quadratic time, O(n^3) is cubic, O(2^n) is exponential, 
+- when you have n elements, making a heap from n elements by pushing them one by one is O(nlogn) but if we heapify them all at once it is O(n)
 
 time complexities:
 When we think about nlogk, klogn etc, we should remember that k is a constant, and thus, so is logk (an even lesser one).
