@@ -1,0 +1,3 @@
+- todo add notes on 'surfing' the similar problems tab
+- note also when you approach a problem knowing the category, you should force yourself to try to think about considering other possible approaches as if you didn't know the problem class / category, as to ensure you still force yourself to understand why using that approach is best.
+    - for example when I'm doing DP problems that I knowe are tabulation, I should still think about why

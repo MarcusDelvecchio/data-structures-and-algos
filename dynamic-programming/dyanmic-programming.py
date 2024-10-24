@@ -609,6 +609,75 @@ def numDistinct(self, s: str, t: str) -> int:
                 dp[r][c] += dp[r+1][c+1] # take down right subsequences (progress t and s)
     return dp[0][0]
 
+# Number of Unique Good Subsequences LeetCode Hard
+# MLE INVALID SOLUTION
+# https://leetcode.com/problems/number-of-unique-good-subsequences/description/
+# TC: O(n), SC: O(2^n)
+# test cases passing but MLE
+# how can we ensure uniqueness without keeping track of all possible solutions?
+# if subsequences to the right (starting with 1 or with 0, aka fulfilled/unfulfilled) are unique, then 1+x for x in fulfilled and 0+x for x in unfulfilled are also unique
+# the key here is once we have some x and add 1+x and 0+x, we should REMOVE that x so that we do not add 1+x/0+x again, enforcing the uniqueness constraint
+# a similar problem involving unique substrings is below
+# NOTE we should have never even considered doing a 2^n space solution in the first place
+def numberOfUniqueGoodSubsequences(self, binary: str) -> int:
+    unfulfilled = set([(0, 1)] if binary[-1] == "0" else [])
+    fulfilled = set([int(binary[-1])])
+
+    for i in range(len(binary) - 2, -1, -1):
+        if binary[i] == "1":
+            fulfilled.update({ n | (1 << n.bit_length()) for n in fulfilled }) # add 1 to the end of all fulfilled items
+            fulfilled.update({ n | (1 << (n.bit_length() + leading)) for n, leading in unfulfilled }) # add 1 to the end of all fulfilled items
+        else:
+            unfulfilled = ({(n, leading + 1) for n, leading in unfulfilled })
+            unfulfilled.update({ (n, 1) for n in fulfilled })
+            if 0 not in fulfilled:
+                unfulfilled.add((0,1))
+                fulfilled.add(0)
+    return len(fulfilled) % (10 ** 9 + 7)
+
+
+# NOTE see this solution and comment. https://leetcode.com/problems/number-of-unique-good-subsequences/solutions/3111000/the-easier-way-dp-o-n-backward-iteration/
+# NOTE pasting the comment here as well because it is really good
+# Came up with the same solution basically. But DP formula needs to be proven, it's not that obvious. So leaving this proof here in case useful:
+# Explanation of formula: for each subsequence starting with 0/1 (which is dp[0] and dp[1]) we prepend bit and add bit as separate subsequence. We need to prove two things: uniqueness (no repetitions by such construct) and fullness (every possible unique subsequence is included).
+# Let's prove that after transition from i+1 to i we still keep all possible unique subsequences.
+# Without loss of generality, let's say bit is 1.
+# Proof of uniqueness:
+# Since both dp[0] and dp[1] represented unique subsequences, then 1+x for x in dp[0] and 1+x for x in dp[1] are unique itself. And their combination is unique too, since those groups have different prefixes: 10* and 11*. So we showed we included all possible unique new subsequences that start with 1 at index i+1. Let's show we did not loose those from previous step i.
+# Proof of fullness:
+# Key invariant here is next: at each step every subsequence in dp[0] is either 00* or 01* or 0. Same for dp[1]: 10* or 11* or 1.
+# Let's consider all cases for old dp[1] when doing transition from step i+1 to step i:
+# x=10*, then x[1:]=0* is included in old dp[0], and it would be covered by doing +dp[0] in transition. So new dp[1] would include such x.
+# x=11*, then x[1:]=1* is included in old dp[1] and it would be covered by doing +dp[1] in transition. So new dp[1] would include such x.
+# x=1 would be covered by doing +1 in transition. So new dp[1] would include such x.
+# So everything is covered, nothing is lost.
+# NOTE read the comment in the LC solution if possible
+# NOTE also see relation to below solution, very similar
+# NOTE not my solution, TODO do this later but also see below
+def numberOfUniqueGoodSubsequences(self, binary: str) -> int:
+    dp = [0, 0]
+    mod = int(1e9 + 7)
+    for bit in [int(b) for b in binary][::-1]:
+        dp[bit] = (1 + sum(dp)) % mod
+    return (dp[1] + int('0' in binary)) % mod
+
+# Distinct Subsequences II LeetCode Hard
+# : Given a string s, return the number of distinct non-empty subsequences of s. Since the answer may be very large, return it modulo 109 + 7.
+# https://leetcode.com/problems/distinct-subsequences-ii/description/
+# my solution: https://leetcode.com/problems/distinct-subsequences-ii/solutions/5964578/python-simple-5-line-solution-o-n-beats-99-backwards-iteration/
+# TC: O(n), SC: O(1)
+# took 5 mins after understanding the above
+# rather different DP approach
+# approach: iterating backwards in the string calculating the cumulative sum of all unique subsequences from i until the end
+# if s[i] is some character, for all unique subsequences, we call them x, s[i]+x will be unique
+def distinctSubseqII(self, s: str) -> int:
+    mod = 10 ** 9 + 7
+    dp = [0]*26 # dp[i] = the number of unique subsequences starting with a letter
+    for charIdx in [ord(s[idx])-97 for idx in range(len(s)-1, -1, -1)]:
+        dp[charIdx] = (1 + sum(dp)) % mod
+    return sum(dp) % mod
+
+
 # Maximize Number of Subsequences in a String LeetCode Medium
 # https://leetcode.com/problems/maximize-number-of-subsequences-in-a-string/
 # Given a text string and a two character string "pattern", where you can insert pattern[0] or pattern[1] into text once (not both, only one, once), return the maximum number of times pattern could
